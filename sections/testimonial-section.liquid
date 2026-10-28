@@ -1,0 +1,217 @@
+
+<style>
+   .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+.testimonial-section {
+  background: {{ section.settings.background_color }};
+}
+.testimonial-title {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.testimonial-card {
+  padding: 2rem;
+  border-radius: 1.5rem;
+  text-align: center;
+}
+.testimonial-image {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin: 0 auto 1rem;
+}
+.testimonial-rating {
+  width: 100px;
+  margin: 0 auto 1rem;
+  height: auto;
+  display: flex;
+}
+.testimonial-name {
+  font-weight: bold;
+  margin-top: 1rem;
+}
+.testimonial-designation {
+  color: #666;
+  font-size: 12px;
+}
+.swiper-button-next,
+.swiper-button-prev {
+  color: #000;
+}
+.testimonial-review-section .swiper .swiper-slide{
+  background: #ffffff;
+}
+</style>
+<div class="testimonial-section-with-image  color-{{ section.settings.color_scheme }} {{ section.settings.custom_class }}">
+<div class="testimonial-section section-{{ section.id }}-padding page-width">
+  <h2 class="testimonial-title title h1">{{ section.settings.heading }}</h2>
+  <div class="swiper testimonial-swiper testimonialSwiper-{{ section.id }}">
+    <div class="swiper-wrapper">
+      {% for block in section.blocks %}
+        <div class="swiper-slide">
+          <div class="testimonial-card">
+            {% if block.settings.image %}
+              <img src="{{ block.settings.image | image_url: width: 160 }}" alt="{{ block.settings.name }}" class="testimonial-image" width="100%" height="100%">
+            {% endif %}
+            
+            {% if block.settings.rating_image %}
+              <img src="{{ block.settings.rating_image | image_url: width: 100 }}" alt="Rating" class="testimonial-rating" width="100%" height="100%">
+            {% endif %}
+            
+            <p>{{ block.settings.text }}</p>
+            <div class="testimonial-name">{{ block.settings.name }}</div>
+            <div class="testimonial-designation">{{ block.settings.designation }}</div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Swiper Navigation Arrows -->
+     {% if section.settings.show_navigation_arrows %}
+      <div class="swiper-button-prev swiper-button-prev-{{ section.id }}"></div>
+      <div class="swiper-button-next swiper-button-next-{{ section.id }}"></div>
+     {% endif %}
+  </div>
+</div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    setTimeout(function () {
+     const swiper = new Swiper('.testimonialSwiper-{{ section.id }}', {
+        slidesPerView: 1,
+        spaceBetween: 20,
+        speed: 500,
+        loop: false,      
+        rewind: true,     
+        autoplay: {
+          delay: 3500,     
+          disableOnInteraction: false,
+          pauseOnMouseEnter: true
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+        breakpoints: {
+          750: {
+            slidesPerView: 2,
+          },
+          1024: {
+            slidesPerView: 3,
+          },
+        },
+      });
+    }, 300);
+  });
+</script>
+
+
+
+
+{% schema %}
+{
+  "name": "Testimonial Slider",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "What Our Customers Say"
+    },
+     {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "info": "t:sections.all.colors.has_cards_info",
+      "default": "scheme-1"
+    },
+     {
+      "type": "checkbox",
+      "id": "show_navigation_arrows",
+      "label": "Show navigation arrows",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 40
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "t:sections.slideshow.settings.custom_class.label",
+      "info": "t:sections.slideshow.settings.custom_class.info"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Customer Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "rating_image",
+          "label": "Rating Image"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Testimonial Text",
+          "default": "This is a great product! Highly recommend it to anyone."
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Customer Name",
+          "default": "John Doe"
+        },
+        {
+          "type": "text",
+          "id": "designation",
+          "label": "Designation",
+          "default": "Founder, Example Co."
+        }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "presets": [
+    {
+      "name": "Testimonial Slider",
+      "category": "Custom"
+    }
+  ]
+}
+
+{% endschema %}

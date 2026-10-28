@@ -1,0 +1,567 @@
+{%- liquid
+  assign fs_details = section.blocks | where: 'type', 'detail'
+  assign fs_logos = section.blocks | where: 'type', 'logo'
+  assign fs_has_logos = false
+  for block in fs_logos
+    if block.settings.image != blank
+      assign fs_has_logos = true
+      break
+    endif
+  endfor
+  assign fs_has_buttons = false
+  if section.settings.button_1_label != blank or section.settings.button_2_label != blank
+    assign fs_has_buttons = true
+  endif
+-%}
+
+{%- style -%}
+  .fs-{{ section.id }} {
+    --fs-bg: {{ section.settings.background_color | default: '#231a12' }};
+    --fs-text: {{ section.settings.text_color | default: '#ffffff' }};
+    --fs-muted: {{ section.settings.muted_color | default: '#c9a07a' }};
+    --fs-divider: {{ section.settings.text_color | default: '#ffffff' | color_modify: 'alpha', 0.14 }};
+    --fs-logo-h: {{ section.settings.logo_height | default: 36 }}px;
+    background-color: var(--fs-bg);
+    color: var(--fs-text);
+    padding-top: {{ section.settings.padding_top | times: 0.7 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.7 | round: 0 }}px;
+  }
+
+  .fs-{{ section.id }} .fs__head {
+    margin: 0 auto 2.8rem;
+    max-width: 80rem;
+    text-align: center;
+  }
+
+  .fs-{{ section.id }} .fs__heading {
+    color: var(--fs-text);
+    font-size: clamp(2.8rem, 2.2rem + 1.6vw, 4.2rem);
+    font-family: var(--font-fourth-family, var(--font-body-family));
+    font-weight: 800;
+    line-height: 1.1;
+    margin: 0;
+    text-transform: none;
+  }
+
+  .fs-{{ section.id }} .fs__subheading {
+    color: var(--fs-muted);
+    font-size: 1.4rem;
+    line-height: 1.5;
+    margin: 1rem 0 0;
+  }
+
+  .fs-{{ section.id }} .fs__body {
+    display: grid;
+    gap: 3.2rem;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .fs-{{ section.id }} .fs__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .fs-{{ section.id }} .fs__row {
+    align-items: baseline;
+    border-bottom: 0.1rem solid var(--fs-divider);
+    display: flex;
+    gap: 1.6rem;
+    justify-content: space-between;
+    padding: 1.4rem 0;
+  }
+
+  .fs-{{ section.id }} .fs__label {
+    color: var(--fs-muted);
+    flex-shrink: 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .fs-{{ section.id }} .fs__value {
+    color: var(--fs-text);
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-align: right;
+  }
+
+  /* ── Logos row ─────────────────────────────────────────────────────── */
+  .fs-{{ section.id }} .fs__logos {
+    margin-top: 2.4rem;
+  }
+
+  .fs-{{ section.id }} .fs__logos-heading {
+    color: var(--fs-muted);
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    margin: 0 0 1.2rem;
+    text-transform: uppercase;
+  }
+
+  .fs-{{ section.id }} .fs__logos-list {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .fs-{{ section.id }} .fs__logo {
+    align-items: center;
+    display: flex;
+  }
+
+  .fs-{{ section.id }} .fs__logo a {
+    display: flex;
+    transition: opacity 0.15s ease;
+  }
+
+  .fs-{{ section.id }} .fs__logo a:hover {
+    opacity: 0.8;
+  }
+
+  .fs-{{ section.id }} .fs__logo img {
+    display: block;
+    height: var(--fs-logo-h);
+    max-width: 100%;
+    object-fit: contain;
+    width: auto;
+    {%- if section.settings.logos_white %}
+    filter: brightness(0) invert(1);
+    {%- endif %}
+  }
+
+  .fs-{{ section.id }} .fs__buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    margin-top: 2.4rem;
+  }
+
+  .fs-{{ section.id }} .fs__button {
+    align-items: center;
+    border: 0.1rem solid transparent;
+    border-radius: 8px;
+    box-sizing: border-box;
+    display: inline-flex;
+    font-size: 1.4rem;
+    font-weight: 700;
+    gap: 0.8rem;
+    justify-content: center;
+    min-height: 5rem;
+    padding: 0.8rem 1.8rem;
+    text-decoration: none;
+    transition: opacity 0.15s ease;
+  }
+
+  .fs-{{ section.id }} .fs__button:hover {
+    opacity: 0.85;
+  }
+
+  .fs-{{ section.id }} .fs__button svg {
+    flex-shrink: 0;
+    height: 1.6rem;
+    width: 1.6rem;
+  }
+
+  .fs-{{ section.id }} .fs__button--outline {
+    background: {{ section.settings.text_color | default: '#ffffff' | color_modify: 'alpha', 0.08 }};
+    border-color: var(--fs-divider);
+    color: var(--fs-text);
+  }
+
+  .fs-{{ section.id }} .fs__button--solid {
+    background: var(--fs-text);
+    color: var(--fs-bg);
+  }
+
+  .fs-{{ section.id }} .fs__media img {
+    border-radius: 8px;
+    display: block;
+    height: auto;
+    margin: 0 auto;
+    max-width: 100%;
+  }
+
+  @media screen and (min-width: 750px) {
+    .fs-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+
+    .fs-{{ section.id }} .fs__head {
+      margin-bottom: 4.8rem;
+    }
+
+    .fs-{{ section.id }} .fs__subheading {
+      font-size: 1.6rem;
+    }
+
+    .fs-{{ section.id }} .fs__body--has-media {
+      align-items: center;
+      gap: 6rem;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .fs-{{ section.id }} .fs__body--media-left .fs__media {
+      order: -1;
+    }
+
+    .fs-{{ section.id }} .fs__row {
+      padding: 1.6rem 0;
+    }
+
+    .fs-{{ section.id }} .fs__label {
+      font-size: 1.3rem;
+    }
+
+    .fs-{{ section.id }} .fs__value {
+      font-size: 1.4rem;
+    }
+
+    .fs-{{ section.id }} .fs__logos {
+      margin-top: 3.2rem;
+    }
+
+    .fs-{{ section.id }} .fs__logos-heading {
+      font-size: 1.3rem;
+    }
+
+    .fs-{{ section.id }} .fs__buttons {
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+  }
+{%- endstyle -%}
+
+<div class="fs-{{ section.id }}">
+  <div class="page-width">
+    {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
+      <div class="fs__head">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="fs__heading">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <p class="fs__subheading">{{ section.settings.subheading | escape }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="fs__body{% if section.settings.image != blank %} fs__body--has-media fs__body--media-{{ section.settings.image_position }}{% endif %}">
+      <div class="fs__content">
+        {%- if fs_details.size > 0 -%}
+          <dl class="fs__list">
+            {%- for block in fs_details -%}
+              <div class="fs__row" {{ block.shopify_attributes }}>
+                <dt class="fs__label">{{ block.settings.label | escape }}</dt>
+                <dd class="fs__value">{{ block.settings.value | escape }}</dd>
+              </div>
+            {%- endfor -%}
+          </dl>
+        {%- endif -%}
+
+        {%- if fs_has_logos -%}
+          <div class="fs__logos">
+            {%- if section.settings.logos_heading != blank -%}
+              <p class="fs__logos-heading">{{ section.settings.logos_heading | escape }}</p>
+            {%- endif -%}
+            <ul class="fs__logos-list" role="list">
+              {%- for block in fs_logos -%}
+                {%- if block.settings.image != blank -%}
+                  <li class="fs__logo" {{ block.shopify_attributes }}>
+                    {%- capture fs_logo_img -%}
+                      {{
+                        block.settings.image
+                        | image_url: height: 160
+                        | image_tag: loading: 'lazy', alt: block.settings.name
+                      }}
+                    {%- endcapture -%}
+                    {%- if block.settings.link != blank -%}
+                      <a href="{{ block.settings.link }}" target="_blank" rel="noopener">{{ fs_logo_img }}</a>
+                    {%- else -%}
+                      {{ fs_logo_img }}
+                    {%- endif -%}
+                  </li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+
+        {%- if fs_has_buttons -%}
+          <div class="fs__buttons">
+            {%- if section.settings.button_1_label != blank -%}
+              <a
+                class="fs__button fs__button--outline"
+                {% if section.settings.button_1_link != blank %}
+                  href="{{ section.settings.button_1_link }}"
+                {% else %}
+                  href="#" aria-disabled="true"
+                {% endif %}
+              >
+                {{ section.settings.button_1_label | escape }}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <path d="M5 12h14M13 6l6 6-6 6"/>
+                </svg>
+              </a>
+            {%- endif -%}
+            {%- if section.settings.button_2_label != blank -%}
+              <a
+                class="fs__button fs__button--solid"
+                {% if section.settings.button_2_link != blank %}
+                  href="{{ section.settings.button_2_link }}"
+                  {% if section.settings.button_2_new_tab %}target="_blank" rel="noopener"{% endif %}
+                {% else %}
+                  href="#" aria-disabled="true"
+                {% endif %}
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/>
+                </svg>
+                {{ section.settings.button_2_label | escape }}
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.image != blank -%}
+        <div class="fs__media">
+          {{
+            section.settings.image
+            | image_url: width: 1200
+            | image_tag: widths: '400, 600, 800, 1000, 1200', sizes: '(min-width: 1200px) 560px, (min-width: 750px) 45vw, 100vw', loading: 'lazy'
+          }}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Facility Spotlight",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Text and image fields can be bound to a metafield with their \"…\" menu → Connect dynamic source."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Made In Our Own Facility"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Not white-labelled. Developed and produced by our own team."
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "Recommended 1000 × 1000 px (square). Never cropped. Shown below the details on mobile."
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position (desktop)",
+      "options": [
+        { "value": "right", "label": "Right" },
+        { "value": "left", "label": "Left" }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "header",
+      "content": "Logos row"
+    },
+    {
+      "type": "paragraph",
+      "content": "Add \"Logo\" blocks to show a row of logos under the detail rows."
+    },
+    {
+      "type": "text",
+      "id": "logos_heading",
+      "label": "Logos heading",
+      "info": "Optional small label above the logos, e.g. Certified by. Leave empty to hide."
+    },
+    {
+      "type": "range",
+      "id": "logo_height",
+      "label": "Logo height",
+      "min": 20,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "checkbox",
+      "id": "logos_white",
+      "label": "Show logos in white",
+      "info": "Turns every logo white so dark logos stay visible on the dark background.",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Button 1 (outline)"
+    },
+    {
+      "type": "text",
+      "id": "button_1_label",
+      "label": "Label",
+      "info": "Leave empty to hide.",
+      "default": "Inside our manufacturing"
+    },
+    {
+      "type": "url",
+      "id": "button_1_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Button 2 (solid)"
+    },
+    {
+      "type": "text",
+      "id": "button_2_label",
+      "label": "Label",
+      "info": "Leave empty to hide.",
+      "default": "View third-party lab reports"
+    },
+    {
+      "type": "url",
+      "id": "button_2_link",
+      "label": "Link",
+      "info": "Link to a page, or to an uploaded PDF (Content → Files)."
+    },
+    {
+      "type": "checkbox",
+      "id": "button_2_new_tab",
+      "label": "Open button 2 in a new tab",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#231a12"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Heading and value text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Subheading and label text",
+      "default": "#c9a07a"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "detail",
+      "name": "Detail row",
+      "limit": 10,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Manufactured by"
+        },
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Value",
+          "default": "Alphacentric Healthcare"
+        }
+      ]
+    },
+    {
+      "type": "logo",
+      "name": "Logo",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Logo",
+          "info": "Transparent PNG or SVG, at least 300 px tall for sharp display. Shown at the logo height set in the section."
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name (alt text)",
+          "info": "Read by screen readers, e.g. ISO 9001 certified.",
+          "default": "Certification logo"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link",
+          "info": "Optional. Opens in a new tab."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Facility Spotlight",
+      "blocks": [
+        { "type": "detail", "settings": { "label": "Manufactured by", "value": "Alphacentric Healthcare" } },
+        { "type": "detail", "settings": { "label": "Location", "value": "Bangalore, India" } },
+        { "type": "detail", "settings": { "label": "Patent", "value": "Indian Patent No. 552175" } },
+        { "type": "detail", "settings": { "label": "Testing", "value": "Third-party lab, every batch" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

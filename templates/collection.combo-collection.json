@@ -1,0 +1,196 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "image_banner_YhCmme": {
+      "type": "image-banner",
+      "name": "t:sections.image-banner.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/Everything_You_Need.webp",
+        "mobile_image": "shopify://shop_images/Everything_You_Need.webp",
+        "image_overlay_opacity": 0,
+        "image_height": "adapt",
+        "image_behavior": "none",
+        "desktop_content_position": "middle-center",
+        "desktop_content_alignment": "center",
+        "show_text_box": true,
+        "color_scheme": "",
+        "stack_images_on_mobile": true,
+        "mobile_content_alignment": "center",
+        "show_text_below": true,
+        "custom_class": ""
+      }
+    },
+    "1766995100baf560e5": {
+      "type": "apps",
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "product-grid": {
+      "type": "main-collection-product-grid",
+      "settings": {
+        "products_per_page": 64,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "standard",
+        "enable_filtering": false,
+        "filter_type": "horizontal",
+        "enable_sorting": false,
+        "padding_top": 0,
+        "padding_bottom": 36
+      }
+    },
+    "banner": {
+      "type": "main-collection-banner",
+      "settings": {
+        "show_collection_description": true,
+        "show_collection_image": false,
+        "color_scheme": "scheme-1"
+      }
+    },
+    "faq_section_878UqU": {
+      "type": "faq-section",
+      "blocks": {
+        "collapsible_row_LVrLYV": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Which Protyze combo is best for fat loss?",
+            "icon": "none",
+            "row_content": "<p>The best Protyze combo for fat loss includes <a href=\"https://www.protyze.com/collections/diet-clear-protein\" target=\"_blank\" title=\"https://www.protyze.com/collections/diet-clear-protein\">Protyze Diet Clear Whey Protein</a>, as it supports metabolism, controls hunger, and improves digestion with added probiotics and L-Carnitine.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_A49LYj": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What is included in Protyze clear protein combo offers?",
+            "icon": "none",
+            "row_content": "<p>Protyze clear protein combo offers include a mix of products like <a href=\"https://www.protyze.com/collections/anytime-clear-whey-protein\" target=\"_blank\" title=\"https://www.protyze.com/collections/anytime-clear-whey-protein\">Anytime Clear Whey</a>, <a href=\"https://www.protyze.com/collections/diet-clear-protein\" target=\"_blank\" title=\"https://www.protyze.com/collections/diet-clear-protein\">Diet Clear Whey</a>, <a href=\"https://www.protyze.com/collections/nitro-clear-whey-protein\" target=\"_blank\" title=\"https://www.protyze.com/collections/nitro-clear-whey-protein\">Nitro Clear Whey</a>, and hydration-focused variants, designed to support different fitness goals in one package.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_3Eh9yj": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Are Protyze combo offers worth buying?",
+            "icon": "none",
+            "row_content": "<p>Yes, <a href=\"https://www.protyze.com/collections/clear-protein-combo-offers\" target=\"_blank\" title=\"https://www.protyze.com/collections/clear-protein-combo-offers\">Protyze combo</a> offers provide better value compared to buying individual products, helping you save money while getting a complete protein solution for fat loss, muscle recovery, and daily nutrition.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_iFaB4B": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Which Protyze combo is best for beginners?",
+            "icon": "none",
+            "row_content": "<p>Beginners can start with <a href=\"https://www.protyze.com/collections/clear-protein-combo-offers\" target=\"_blank\" title=\"https://www.protyze.com/collections/clear-protein-combo-offers\">Protyze combo offers</a> that include <a href=\"https://www.protyze.com/collections/anytime-clear-whey-protein\" target=\"_blank\" title=\"https://www.protyze.com/collections/anytime-clear-whey-protein\">Anytime Clear Whey Protein</a> and <a href=\"https://www.protyze.com/collections/diet-clear-protein\" target=\"_blank\" title=\"https://www.protyze.com/collections/diet-clear-protein\">Diet Clear Whey Protein</a>, as they are easy to consume and support basic fitness and weight management goals.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_MgaAHg": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Can I use multiple Protyze products in a combo daily?",
+            "icon": "none",
+            "row_content": "<p>Yes, <a href=\"https://www.protyze.com/collections/clear-protein-combo-offers\" target=\"_blank\" title=\"https://www.protyze.com/collections/clear-protein-combo-offers\">Protyze combo</a> products are designed to be used together based on your routine, such as post-workout recovery, daily protein intake, and hydration support.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_CbfQpz": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What makes Protyze combo offers different from regular protein bundles?",
+            "icon": "none",
+            "row_content": "<p><a href=\"https://www.protyze.com/collections/clear-protein-combo-offers\" target=\"_blank\" title=\"https://www.protyze.com/collections/clear-protein-combo-offers\">Protyze combo</a> offers are designed as a complete fitness solution, combining protein, digestion support, fat metabolism, and performance benefits in one bundle instead of just offering basic protein products.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_dBdjCQ": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Do Protyze combo offers help in muscle gain and recovery?",
+            "icon": "none",
+            "row_content": "<p>Yes, <a href=\"https://www.protyze.com/collections/clear-protein-combo-offers\" target=\"_blank\" title=\"https://www.protyze.com/collections/clear-protein-combo-offers\">Protyze combo offers</a> include high-quality protein options that support muscle recovery, strength, and overall performance when used consistently with training.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_yUidTR": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Are Protyze clear protein combos easy to digest?",
+            "icon": "none",
+            "row_content": "<p>Yes, <a href=\"https://www.protyze.com/collections/clear-protein-combo-offers\" target=\"_blank\" title=\"https://www.protyze.com/collections/clear-protein-combo-offers\">Protyze clear protein combos</a> are formulated to be light and easy to digest, with selected variants containing probiotics to support gut health and reduce bloating.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_VMXUKw": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "When is the best time to use Protyze combo products?",
+            "icon": "none",
+            "row_content": "<p><a href=\"https://www.protyze.com/collections/clear-protein-combo-offers\" target=\"_blank\" title=\"https://www.protyze.com/collections/clear-protein-combo-offers\">Protyze combo</a> products can be used post-workout for recovery, between meals for protein intake, and anytime during the day for convenience and consistency.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_iaJTUC": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Why should I choose Protyze clear protein combo offers?",
+            "icon": "none",
+            "row_content": "<p>You should choose <a href=\"https://www.protyze.com/collections/clear-protein-combo-offers\" target=\"_blank\" title=\"https://www.protyze.com/collections/clear-protein-combo-offers\">Protyze clear protein combo</a> offers because they provide a complete, cost-effective solution for fat loss, muscle recovery, and daily protein needs in one convenient package.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_LVrLYV",
+        "collapsible_row_A49LYj",
+        "collapsible_row_3Eh9yj",
+        "collapsible_row_iFaB4B",
+        "collapsible_row_MgaAHg",
+        "collapsible_row_CbfQpz",
+        "collapsible_row_dBdjCQ",
+        "collapsible_row_yUidTR",
+        "collapsible_row_VMXUKw",
+        "collapsible_row_iaJTUC"
+      ],
+      "name": "faq-section",
+      "settings": {
+        "caption": "",
+        "heading": "FAQ's",
+        "heading_size": "h1",
+        "span_text": "",
+        "heading_alignment": "center",
+        "layout": "none",
+        "color_scheme": "",
+        "container_color_scheme": "",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "image_banner_YhCmme",
+    "1766995100baf560e5",
+    "product-grid",
+    "banner",
+    "faq_section_878UqU"
+  ]
+}

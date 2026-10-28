@@ -1,0 +1,257 @@
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .trust-pills-{{ section.id }} {
+    {%- if section.settings.background_color != blank -%}
+      --tp-bg: {{ section.settings.background_color }};
+    {%- endif -%}
+    {%- if section.settings.heading_color != blank -%}
+      --tp-heading-color: {{ section.settings.heading_color }};
+    {%- endif -%}
+    {%- if section.settings.pill_background_color != blank -%}
+      --tp-pill-bg: {{ section.settings.pill_background_color }};
+    {%- endif -%}
+    {%- if section.settings.pill_border_color != blank -%}
+      --tp-pill-border: {{ section.settings.pill_border_color }};
+    {%- endif -%}
+    {%- if section.settings.pill_text_color != blank -%}
+      --tp-pill-text: {{ section.settings.pill_text_color }};
+    {%- endif -%}
+    {%- if section.settings.check_color != blank -%}
+      --tp-check-color: {{ section.settings.check_color }};
+    {%- endif -%}
+    {%- if section.settings.subtitle_color != blank -%}
+      --tp-subtitle-color: {{ section.settings.subtitle_color }};
+    {%- endif -%}
+  }
+
+  .trust-pills__wrapper {
+    background-color: var(--tp-bg, rgb(var(--color-background)));
+  }
+
+  .trust-pills__heading {
+    color: var(--tp-heading-color, rgb(var(--color-foreground)));
+    margin: 0 0 2.8rem;
+    text-align: center;
+    text-transform: none;
+  }
+
+  .trust-pills__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .trust-pills__pill {
+    align-items: center;
+    background-color: var(--tp-pill-bg, transparent);
+    border: 0.1rem solid var(--tp-pill-border, rgba(var(--color-foreground), 0.2));
+    border-radius: 0.8rem;
+    color: var(--tp-pill-text, rgb(var(--color-foreground)));
+    display: flex;
+    font-size: 1.3rem;
+    font-weight: 500;
+    gap: 0.8rem;
+    padding: 1rem 1.6rem;
+  }
+
+  @media screen and (min-width: 750px) {
+    .trust-pills__pill {
+      font-size: 1.4rem;
+    }
+  }
+
+  .trust-pills__check {
+    color: var(--tp-check-color, #2ea05a);
+    flex-shrink: 0;
+    height: 1.6rem;
+    width: 1.6rem;
+  }
+
+  .trust-pills__subtitle {
+    color: var(--tp-subtitle-color, rgba(var(--color-foreground), 0.65));
+    margin: 3.2rem auto 0;
+    max-width: 60rem;
+    text-align: center;
+  }
+{% endstyle %}
+
+<div class="trust-pills-{{ section.id }} color-{{ section.settings.color_scheme }} gradient {{ section.settings.custom_class }}">
+  <div class="trust-pills__wrapper">
+    <div class="page-width section-{{ section.id }}-padding">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="trust-pills__heading h1">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+
+      {%- if section.blocks.size > 0 -%}
+        <ul class="trust-pills__list">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'pill' and block.settings.text != blank -%}
+              <li class="trust-pills__pill" {{ block.shopify_attributes }}>
+                <svg class="trust-pills__check" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M4 12.5L9.5 18L20 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                {{- block.settings.text | escape -}}
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+
+      {%- if section.settings.subtitle != blank -%}
+        <div class="trust-pills__subtitle rte">{{ section.settings.subtitle }}</div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Trust pills",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Why customers choose Protyze"
+    },
+    {
+      "type": "richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "<p>At Protyze, our goal is simple: combine science, quality and great taste to create protein products that people genuinely enjoy drinking every day.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "info": "Sets the default background and text colors. Use the overrides below to fine-tune individual elements.",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Main background color"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle text color"
+    },
+    {
+      "type": "header",
+      "content": "Pill colors"
+    },
+    {
+      "type": "color",
+      "id": "pill_background_color",
+      "label": "Pill background color"
+    },
+    {
+      "type": "color",
+      "id": "pill_border_color",
+      "label": "Pill border color"
+    },
+    {
+      "type": "color",
+      "id": "pill_text_color",
+      "label": "Pill text color"
+    },
+    {
+      "type": "color",
+      "id": "check_color",
+      "label": "Checkmark color"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pill",
+      "name": "Pill",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Manufactured in our own facility"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust pills",
+      "category": "Custom",
+      "blocks": [
+        { "type": "pill", "settings": { "text": "Manufactured in our own facility" } },
+        { "type": "pill", "settings": { "text": "Patented innovation (Indian Patent No. 552175)" } },
+        { "type": "pill", "settings": { "text": "FSSAI licensed manufacturing facility" } },
+        { "type": "pill", "settings": { "text": "GMP certified manufacturing" } },
+        { "type": "pill", "settings": { "text": "ISO 9001:2015 certified quality management" } },
+        { "type": "pill", "settings": { "text": "HACCP certified food safety system" } },
+        { "type": "pill", "settings": { "text": "Premium whey protein isolate" } },
+        { "type": "pill", "settings": { "text": "Refreshing fruit-inspired protein experience" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

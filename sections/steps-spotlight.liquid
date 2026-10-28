@@ -1,0 +1,731 @@
+{%- liquid
+  assign ss_steps = section.blocks | where: 'type', 'step'
+  assign ss_bg = section.settings.background_color
+  if ss_bg == blank and product
+    assign ss_bg = product.metafields.custom.product_bg_color.value
+  endif
+  assign ss_num_bg = section.settings.number_color | default: '#1a1a1a'
+  assign ss_last_bg = section.settings.last_number_color | default: '#f07c23'
+  assign ss_line = section.settings.line_color | default: '#f07c23'
+
+  # Product metafield (list of images): image 1 → step 1, image 2 → step 2 …
+  assign ss_mf_images = nil
+  if product
+    assign ss_mf_images = product.metafields.custom.how_to_use_images.value
+  endif
+-%}
+
+{%- style -%}
+  .ss-{{ section.id }} {
+    --ss-num-bg: {{ ss_num_bg }};
+    --ss-last-bg: {{ ss_last_bg }};
+    --ss-line: {{ ss_line }};
+    --ss-num-size: 4.8rem;
+    --ss-step-gap: 2rem;
+    {% if ss_bg != blank %}background-color: {{ ss_bg }};{% endif %}
+    padding-top: {{ section.settings.padding_top | times: 0.7 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.7 | round: 0 }}px;
+  }
+
+  .ss-{{ section.id }} .ss__body {
+    display: grid;
+    gap: 3.2rem;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* ── Heading ─────────────────────────────────────────────────────── */
+  .ss-{{ section.id }} .ss__head {
+    margin-bottom: 2.8rem;
+    text-align: center;
+  }
+
+  /* Same style as the product title. */
+  .ss-{{ section.id }} .ss__heading {
+    font-family: var(--font-fourth-family, var(--font-body-family));
+    font-size: clamp(2.8rem, 2.2rem + 1.6vw, 4.2rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin: 0;
+    text-transform: none;
+  }
+
+  .ss-{{ section.id }} .ss__subheading {
+    color: rgba(var(--color-foreground), 0.7);
+    font-size: 1.6rem;
+    margin: 1rem 0 0;
+  }
+
+  /* ── Timeline of steps ───────────────────────────────────────────── */
+  .ss-{{ section.id }} .ss__steps {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ss-step-gap);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .ss-{{ section.id }} .ss__step {
+    align-items: center;
+    display: flex;
+    gap: 1.4rem;
+    position: relative;
+  }
+
+  /* Dashed line joining each number to the next one. */
+  .ss-{{ section.id }} .ss__step:not(:last-child)::after {
+    border-left: 0.2rem dashed var(--ss-line);
+    bottom: calc(var(--ss-step-gap) * -1);
+    content: '';
+    left: calc(var(--ss-num-size) / 2 - 0.1rem);
+    position: absolute;
+    top: calc(50% + var(--ss-num-size) / 2);
+  }
+
+  .ss-{{ section.id }} .ss__step:not(:first-child)::before {
+    border-left: 0.2rem dashed var(--ss-line);
+    bottom: calc(50% + var(--ss-num-size) / 2);
+    content: '';
+    left: calc(var(--ss-num-size) / 2 - 0.1rem);
+    position: absolute;
+    top: 0;
+  }
+
+  .ss-{{ section.id }} .ss__number {
+    align-items: center;
+    background: var(--ss-step-bg, var(--ss-num-bg));
+    border-radius: 50%;
+    color: #ffffff;
+    display: flex;
+    flex-shrink: 0;
+    font-size: 1.8rem;
+    font-weight: 800;
+    height: var(--ss-num-size);
+    justify-content: center;
+    line-height: 1;
+    position: relative;
+    width: var(--ss-num-size);
+    z-index: 1;
+  }
+
+  .ss-{{ section.id }} .ss__step:last-child .ss__number {
+    background: var(--ss-step-bg, var(--ss-last-bg));
+  }
+
+  /* Large step image; the whole shaker stays visible (contain, not cropped). */
+  .ss-{{ section.id }} .ss__thumb {
+   
+    border-radius: 12px;
+    flex-shrink: 0;
+    height: 11.2rem;
+    overflow: hidden;
+    width: 11.2rem;
+  }
+
+  .ss-{{ section.id }} .ss__thumb img {
+    display: block;
+    height: 100%;
+    object-fit: contain;
+    width: 100%;
+  }
+
+  .ss-{{ section.id }} .ss__copy {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .ss-{{ section.id }} .ss__title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin: 0 0 0.2rem;
+  }
+
+  .ss-{{ section.id }} .ss__text {
+    color: rgba(var(--color-foreground), 0.75);
+    font-size: 1.3rem;
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  /* ── Button ──────────────────────────────────────────────────────── */
+  .ss-{{ section.id }} .ss__cta {
+    align-items: center;
+    background: {{ section.settings.button_bg_color | default: 'transparent' }};
+    border: 0.2rem solid {{ section.settings.button_bg_color | default: 'rgb(var(--color-foreground))' }};
+    border-radius: 999px;
+    color: {{ section.settings.button_text_color | default: 'rgb(var(--color-foreground))' }};
+    display: inline-flex;
+    font-size: 1.5rem;
+    font-weight: 700;
+    gap: 0.8rem;
+    margin-top: 3.2rem;
+    min-height: 5.2rem;
+    padding: 0 2.8rem;
+    text-decoration: none;
+    transition: opacity 0.15s ease;
+  }
+
+  .ss-{{ section.id }} .ss__cta:hover {
+    opacity: 0.8;
+  }
+
+  .ss-{{ section.id }} .ss__media img {
+    display: block;
+    height: auto;
+    margin: 0 auto;
+    max-width: 100%;
+  }
+
+  {%- if section.settings.media_panel %}
+    /* Gradient panel behind the photo, with the photo set on it like a
+       printed card (same treatment as the nutrition label). */
+    .ss-{{ section.id }} .ss__media {
+      background: linear-gradient(160deg, {{ section.settings.panel_start_color | default: '#e6f5d8' }} 0%, {{ section.settings.panel_end_color | default: '#8fcf7e' }} 100%);
+      border-radius: 8px;
+      padding: 3.2rem 2.4rem 4rem;
+    }
+
+    .ss-{{ section.id }} .ss__media img {
+      background: {{ section.settings.frame_color | default: '#ffffff' }};
+      border-radius: 8px;
+      box-shadow: 1.2rem 1.2rem 0 rgba(0, 0, 0, 0.16);
+      padding: 0.8rem;
+      transform: rotate({{ section.settings.image_tilt }}deg);
+    }
+
+    @media screen and (min-width: 750px) {
+      .ss-{{ section.id }} .ss__media {
+        padding: 4.8rem 4rem 5.6rem;
+      }
+    }
+  {%- endif %}
+
+  @media screen and (max-width: 749px) {
+    /* Roomier mobile layout: smaller number circles, more space between
+       steps and a clearer title / text hierarchy. */
+    .ss-{{ section.id }} {
+      --ss-num-size: 3rem;
+      --ss-step-gap: 1.6rem;
+    }
+
+    .ss-{{ section.id }} .ss__head {
+      margin-bottom: 2.4rem;
+    }
+
+    .ss-{{ section.id }} .ss__step {
+      gap: 1.2rem;
+    }
+
+    .ss-{{ section.id }} .ss__number {
+      font-size: 1.3rem;
+    }
+
+    .ss-{{ section.id }} .ss__thumb {
+      height: 11.2rem;
+      width: 11.2rem;
+    }
+
+    .ss-{{ section.id }} .ss__title {
+      font-size: 1.5rem;
+    }
+
+    .ss-{{ section.id }} .ss__text {
+      font-size: 1.3rem;
+      line-height: 1.4;
+    }
+
+    .ss-{{ section.id }} .ss__cta {
+      margin-top: 4rem;
+    }
+
+    .ss-{{ section.id }} .ss__cta-wrap {
+      text-align: center;
+    }
+  }
+
+  /* ── Timeline layout: numbers in a row joined by a dashed line, ──
+     image and text under each number. Desktop: one row. Mobile: 3 + 2. */
+  .ss-{{ section.id }} .ss__steps--timeline {
+    --ss-num-size: 3rem;
+    --ss-col-gap: 1rem;
+    --ss-cols: 3;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 2rem var(--ss-col-gap);
+    justify-content: center;
+  }
+
+  .ss-{{ section.id }} .ss__steps--timeline .ss__step {
+    align-items: center;
+    flex-direction: column;
+    gap: 0.8rem;
+    text-align: center;
+    width: calc((100% - (var(--ss-cols) - 1) * var(--ss-col-gap)) / var(--ss-cols));
+  }
+
+  .ss-{{ section.id }} .ss__steps--timeline .ss__step::before {
+    content: none;
+  }
+
+  /* Dashed line from this number to the next one on the same row. */
+  .ss-{{ section.id }} .ss__steps--timeline .ss__step:not(:last-child)::after {
+    border-left: 0;
+    border-top: 0.2rem dashed var(--ss-line);
+    bottom: auto;
+    content: '';
+    left: calc(50% + var(--ss-num-size) / 2 + 0.4rem);
+    top: calc(var(--ss-num-size) / 2 - 0.1rem);
+    width: calc(100% + var(--ss-col-gap) - var(--ss-num-size) - 0.8rem);
+  }
+
+  /* Mobile rows end after every 3rd step — no line into the next row. */
+  .ss-{{ section.id }} .ss__steps--timeline .ss__step:nth-child(3n)::after {
+    content: none;
+  }
+
+  .ss-{{ section.id }} .ss__steps--timeline .ss__number {
+    font-size: 1.3rem;
+  }
+
+  .ss-{{ section.id }} .ss__steps--timeline .ss__thumb {
+    aspect-ratio: 1 / 1;
+    height: auto;
+    width: 100%;
+  }
+
+  .ss-{{ section.id }} .ss__steps--timeline .ss__copy {
+    max-width: none;
+    width: 100%;
+  }
+
+  .ss-{{ section.id }} .ss__steps--timeline .ss__title {
+    font-size: 1.4rem;
+  }
+
+  .ss-{{ section.id }} .ss__steps--timeline .ss__text {
+    font-size: 1.2rem;
+    line-height: 1.35;
+  }
+
+  @media screen and (min-width: 750px) {
+    /* All steps in one row. */
+    .ss-{{ section.id }} .ss__steps--timeline {
+      --ss-num-size: 3.6rem;
+      --ss-col-gap: 1.6rem;
+      --ss-cols: {{ ss_steps.size | at_least: 1 }};
+      flex-wrap: nowrap;
+    }
+
+    .ss-{{ section.id }} .ss__steps--timeline .ss__step:nth-child(3n):not(:last-child)::after {
+      content: '';
+    }
+
+    .ss-{{ section.id }} .ss__body--timeline.ss__body--has-media {
+      grid-template-columns: minmax(0, 1.6fr) minmax(0, 0.7fr);
+    }
+
+    .ss-{{ section.id }} .ss__steps--timeline .ss__number {
+      font-size: 1.5rem;
+    }
+
+    .ss-{{ section.id }} .ss__steps--timeline .ss__title {
+      font-size: 1.6rem;
+    }
+
+    .ss-{{ section.id }} .ss__steps--timeline .ss__text {
+      font-size: 1.3rem;
+    }
+  }
+
+  @media screen and (min-width: 750px) {
+    .ss-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+
+    .ss-{{ section.id }} .ss__head {
+      margin-bottom: 4rem;
+      text-align: center;
+    }
+
+    .ss-{{ section.id }} .ss__body--has-media {
+      align-items: center;
+      gap: 5.6rem;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    }
+
+    .ss-{{ section.id }} .ss__body--media-left .ss__media {
+      order: -1;
+    }
+
+    .ss-{{ section.id }} .ss__step {
+      gap: 2rem;
+    }
+
+    .ss-{{ section.id }} .ss__thumb {
+      height: 16rem;
+      width: 16rem;
+    }
+
+    .ss-{{ section.id }} .ss__copy {
+      max-width: 28rem;
+    }
+
+    .ss-{{ section.id }} .ss__title {
+      font-size: 1.8rem;
+    }
+
+    .ss-{{ section.id }} .ss__text {
+      font-size: 1.4rem;
+    }
+  }
+{%- endstyle -%}
+
+<div class="ss-{{ section.id }} color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width">
+    <div class="ss__body ss__body--{{ section.settings.layout }}{% if section.settings.side_image != blank %} ss__body--has-media ss__body--media-{{ section.settings.image_position }}{% endif %}">
+      <div class="ss__main">
+        {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
+          <div class="ss__head">
+            {%- if section.settings.heading != blank -%}
+              <h2 class="ss__heading">{{ section.settings.heading | escape }}</h2>
+            {%- endif -%}
+            {%- if section.settings.subheading != blank -%}
+              <p class="ss__subheading">{{ section.settings.subheading | escape }}</p>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        <ol class="ss__steps ss__steps--{{ section.settings.layout }}" role="list" data-mf-images="{{ ss_mf_images.size | default: 0 }}">
+          {%- for block in ss_steps -%}
+            {%- liquid
+              assign step_image = block.settings.image
+              assign step_offset = forloop.index0
+              for mf_img in ss_mf_images offset: step_offset limit: 1
+                assign step_image = mf_img.preview_image | default: mf_img
+              endfor
+              assign step_color = nil
+              if section.settings.per_step_colors
+                assign step_color = block.settings.number_color
+              endif
+              render 'steps-spotlight-item', index: forloop.index, title: block.settings.title, text: block.settings.text, image: step_image, color: step_color, attributes: block.shopify_attributes
+            -%}
+          {%- endfor -%}
+        </ol>
+
+        {%- if section.settings.button_label != blank -%}
+          <div class="ss__cta-wrap">
+            <a
+              class="ss__cta"
+              {% if section.settings.button_link != blank %}
+                href="{{ section.settings.button_link }}"
+              {% else %}
+                href="#" aria-disabled="true"
+              {% endif %}
+            >
+              {{ section.settings.button_label | escape }}
+              <span aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.side_image != blank -%}
+        <div class="ss__media">
+          {{
+            section.settings.side_image
+            | image_url: width: 1200
+            | image_tag: widths: '400, 600, 800, 1000, 1200', sizes: '(min-width: 1200px) 520px, (min-width: 750px) 40vw, 100vw', loading: 'lazy'
+          }}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Steps Spotlight",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Every image can be picked manually, or bound to an image metafield with the field's \"…\" menu → Connect dynamic source."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "How to Use"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Quick. Easy. Refreshing."
+    },
+    {
+      "type": "header",
+      "content": "Steps"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Steps layout",
+      "info": "Timeline: numbered steps side by side with image and text underneath — one row on desktop, 3 + 2 on mobile. List: one step per row.",
+      "options": [
+        {
+          "value": "timeline",
+          "label": "Timeline (compact)"
+        },
+        {
+          "value": "list",
+          "label": "List"
+        }
+      ],
+      "default": "timeline"
+    },
+    {
+      "type": "paragraph",
+      "content": "Step images are read automatically from the product metafield custom.how_to_use_images (File → List of files). Image 1 is used for step 1, image 2 for step 2, and so on. Nothing to connect here. Steps without a metafield image use their block thumbnail."
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "info": "Rounded outline button below the steps. Leave empty to hide.",
+      "default": "See the full preparation guide"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button background",
+      "info": "Leave empty to match the card background."
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text",
+      "info": "Leave empty to use the section text colour."
+    },
+    {
+      "type": "header",
+      "content": "Side image"
+    },
+    {
+      "type": "image_picker",
+      "id": "side_image",
+      "label": "Side image",
+      "info": "Include any headline text (e.g. \"Sip. Recover. Repeat.\") in the image. Upload at least 1000px wide; transparent PNG works well. Never cropped."
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position (desktop)",
+      "info": "On mobile the image always sits below the steps.",
+      "options": [
+        {
+          "value": "right",
+          "label": "Right"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "checkbox",
+      "id": "media_panel",
+      "label": "Show background card behind the image",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "panel_start_color",
+      "label": "Background card gradient — top",
+      "default": "#e6f5d8"
+    },
+    {
+      "type": "color",
+      "id": "panel_end_color",
+      "label": "Background card gradient — bottom",
+      "default": "#8fcf7e"
+    },
+    {
+      "type": "color",
+      "id": "frame_color",
+      "label": "Photo frame",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "image_tilt",
+      "label": "Photo tilt",
+      "min": -6,
+      "max": 6,
+      "step": 1,
+      "unit": "°",
+      "default": 2
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "number_color",
+      "label": "Number circles",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "last_number_color",
+      "label": "Last number circle",
+      "info": "Highlights the final step.",
+      "default": "#f07c23"
+    },
+    {
+      "type": "color",
+      "id": "line_color",
+      "label": "Dashed line",
+      "default": "#f07c23"
+    },
+    {
+      "type": "checkbox",
+      "id": "per_step_colors",
+      "label": "Use each step's own number colour",
+      "info": "Off: all numbers use the colours above. On: each step's Number circle colour is used.",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background",
+      "info": "Leave empty to use the product's custom.product_bg_color metafield automatically."
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 56
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Add water"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "Pour 300–400 ml water into a shaker."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Thumbnail",
+          "info": "Recommended 300 × 250 px. Cropped to fit."
+        },
+        {
+          "type": "color",
+          "id": "number_color",
+          "label": "Number circle color",
+          "info": "Only used when \"Use each step's own number colour\" is on."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Steps Spotlight",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "title": "Add water",
+            "text": "Pour 300–400 ml water into a shaker.",
+            "number_color": "#6c5ce7"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Add one scoop",
+            "text": "Add 1 scoop or sachet of Protyze Clear Whey Protein.",
+            "number_color": "#e8336d"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Shake",
+            "text": "Shake well for 30–40 seconds.",
+            "number_color": "#1a8a63"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Wait",
+            "text": "Let it rest for more than 1 minute for the foam to settle.",
+            "number_color": "#c98a1e"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Sip",
+            "text": "Sip and enjoy your refreshing protein drink.",
+            "number_color": "#e07b28"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,1352 @@
+{%- liquid
+  assign hs_slides = section.blocks | where: 'type', 'slide'
+  assign hs_first_bg = '#e4f5d9'
+  if hs_slides.size > 0
+    assign hs_first_bg = hs_slides[0].settings.bg_color | default: '#e4f5d9'
+  endif
+  assign hs_show_nav = false
+  if section.settings.show_tabs or section.settings.show_arrows
+    assign hs_show_nav = true
+  endif
+  assign hs_multi = false
+  if hs_slides.size > 1
+    assign hs_multi = true
+  endif
+-%}
+
+{%- if section.settings.load_fonts -%}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@400;700;800&family=Sacramento&display=swap"
+    rel="stylesheet"
+    media="print"
+    onload="this.media='all'"
+  >
+{%- endif -%}
+
+{%- style -%}
+  .hs-{{ section.id }} {
+    --hs-bg: {{ hs_first_bg }};
+    --hs-min-h: {{ section.settings.min_height }}px;
+    --hs-prev: {{ section.settings.arrow_prev_color | default: '#1b0a14' }};
+    --hs-next-bg: {{ section.settings.arrow_next_bg | default: '#1b0a14' }};
+    --hs-next-icon: {{ section.settings.arrow_next_icon | default: '#ffffff' }};
+    background-color: var(--hs-bg);
+    display: block;
+    font-family: 'Outfit', var(--font-body-family), system-ui, sans-serif;
+    overflow: hidden;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.7 | round: 0 }}px;
+    padding-top: {{ section.settings.padding_top | times: 0.7 | round: 0 }}px;
+    position: relative;
+    transition: background-color 0.5s ease;
+  }
+
+  .hs-{{ section.id }} .hs__slides {
+    display: grid;
+  }
+
+  /* All slides sit in the same grid cell; only the active one is visible. */
+  .hs-{{ section.id }} .hs__slide {
+    grid-area: 1 / 1;
+    opacity: 0;
+    position: relative;
+    transition: opacity 0.6s ease, visibility 0s linear 0.6s;
+    visibility: hidden;
+  }
+
+  .hs-{{ section.id }} .hs__slide.is-active {
+    opacity: 1;
+    transition-delay: 0s;
+    visibility: visible;
+    z-index: 1;
+  }
+
+  .hs-{{ section.id }} .hs__inner {
+    align-items: center;
+    display: grid;
+    gap: 3rem;
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
+    position: relative;
+  }
+
+  /* Big faded word behind the content (e.g. DIET) */
+  .hs-{{ section.id }} .hs__watermark {
+    bottom: 2%;
+    color: var(--wm-color);
+    font-family: 'Anton', var(--font-heading-family), sans-serif;
+    font-size: clamp(14rem, 44vw, 20rem);
+    left: -2%;
+    line-height: 0.8;
+    opacity: var(--wm-opacity);
+    pointer-events: none;
+    position: absolute;
+    text-transform: uppercase;
+    user-select: none;
+    z-index: 0;
+  }
+
+  .hs-{{ section.id }} .hs__text {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hs-{{ section.id }} .hs__pill {
+    align-items: center;
+    background: var(--pill-bg);
+    border-radius: 999px;
+    color: var(--accent);
+    display: inline-flex;
+    font-size: 1.2rem;
+    font-weight: 800;
+    gap: 0.8rem;
+    letter-spacing: 0.08em;
+    padding: 0.9rem 1.8rem;
+    text-transform: uppercase;
+  }
+
+  .hs-{{ section.id }} .hs__pill::before {
+    background: currentColor;
+    border-radius: 50%;
+    content: '';
+    height: 0.8rem;
+    width: 0.8rem;
+  }
+
+  .hs-{{ section.id }} .hs__eyebrow {
+    color: var(--accent);
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    margin: 1.4rem 0 0.4rem;
+    text-transform: uppercase;
+  }
+
+  .hs-{{ section.id }} .hs__heading {
+    color: var(--heading);
+    font-family: 'Anton', var(--font-heading-family), sans-serif;
+    font-size: clamp(4.4rem, 12vw, 9.6rem);
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 0.98;
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  .hs-{{ section.id }} .hs__script {
+    color: var(--accent);
+    display: inline-block;
+    font-family: 'Sacramento', cursive;
+    font-size: 1.3em;
+    line-height: 0.8;
+    margin: 0 0.1em;
+    text-transform: none;
+  }
+
+  .hs-{{ section.id }} .hs__desc {
+    color: var(--text);
+    font-size: 1.6rem;
+    line-height: 1.6;
+    margin: 2rem 0 0;
+    max-width: 52rem;
+  }
+
+  .hs-{{ section.id }} .hs__cta {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.6rem 2.4rem;
+    margin-top: 2.4rem;
+  }
+
+  .hs-{{ section.id }} .hs__btn {
+    align-items: center;
+    background: var(--btn-bg);
+    border-radius: 999px;
+    color: var(--btn-text);
+    display: inline-flex;
+    font-size: 1.6rem;
+    font-weight: 800;
+    gap: 1rem;
+    min-height: 5.4rem;
+    padding: 0 3rem;
+    text-decoration: none;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+  }
+
+  .hs-{{ section.id }} .hs__btn:hover {
+    opacity: 0.9;
+    transform: translateY(-0.2rem);
+  }
+
+  .hs-{{ section.id }} .hs__btn svg {
+    height: 1.6rem;
+    width: 1.6rem;
+  }
+
+  .hs-{{ section.id }} .hs__meta {
+    color: var(--heading);
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+
+  /* Circle image, with dashed ring, badge and floating label */
+  .hs-{{ section.id }} .hs__media {
+    aspect-ratio: 1;
+    justify-self: center;
+    position: relative;
+    width: min(74vw, 34rem);
+    z-index: 1;
+  }
+
+  .hs-{{ section.id }} .hs__ring {
+    border: 0.2rem dashed var(--accent);
+    border-radius: 50%;
+    inset: -5%;
+    opacity: 0.6;
+    pointer-events: none;
+    position: absolute;
+    {%- if section.settings.ring_speed > 0 %}
+    animation: hs-ring-spin-{{ section.id }} {{ section.settings.ring_speed }}s linear infinite;
+    {%- endif %}
+  }
+
+  @keyframes hs-ring-spin-{{ section.id }} {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .hs-{{ section.id }} .hs__circle {
+    background: var(--pill-bg);
+    border: clamp(0.6rem, 1.1vw, 1rem) solid var(--circle-border);
+    border-radius: 50%;
+    box-shadow: 0 2rem 5rem rgba(0, 0, 0, 0.14);
+    inset: 0;
+    overflow: hidden;
+    position: absolute;
+  }
+
+  .hs-{{ section.id }} .hs__circle img,
+  .hs-{{ section.id }} .hs__circle svg {
+    display: block;
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .hs-{{ section.id }} .hs__badge {
+    align-items: center;
+    aspect-ratio: 1;
+    background: var(--badge-bg);
+    border-radius: 50%;
+    color: var(--badge-text);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    left: -6%;
+    line-height: 1;
+    position: absolute;
+    text-align: center;
+    top: 4%;
+    width: 27%;
+    z-index: 2;
+  }
+
+  .hs-{{ section.id }} .hs__badge-big {
+    font-family: 'Anton', var(--font-heading-family), sans-serif;
+    font-size: clamp(2.6rem, 5vw, 4.4rem);
+    text-transform: uppercase;
+  }
+
+  .hs-{{ section.id }} .hs__badge-small {
+    font-size: clamp(0.9rem, 1.1vw, 1.2rem);
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    margin-top: 0.3rem;
+    text-transform: uppercase;
+  }
+
+  .hs-{{ section.id }} .hs__float {
+    background: var(--float-bg);
+    border-radius: 999px;
+    bottom: 14%;
+    box-shadow: 0 1rem 2.4rem rgba(0, 0, 0, 0.12);
+    color: var(--float-text);
+    font-size: 1.3rem;
+    font-weight: 800;
+    padding: 1rem 1.8rem;
+    position: absolute;
+    right: -4%;
+    white-space: nowrap;
+    z-index: 2;
+  }
+
+  /* Category tabs + arrows */
+  .hs-{{ section.id }} .hs__nav {
+    align-items: center;
+    display: flex;
+    gap: 1rem;
+    padding-bottom: 0.4rem;
+    padding-top: 2.4rem;
+  }
+
+  .hs-{{ section.id }} .hs__arrow {
+    align-items: center;
+    background: transparent;
+    border: 0.1rem solid var(--hs-prev);
+    border-radius: 50%;
+    color: var(--hs-prev);
+    cursor: pointer;
+    display: flex;
+    flex-shrink: 0;
+    height: 4.4rem;
+    justify-content: center;
+    padding: 0;
+    width: 4.4rem;
+  }
+
+  .hs-{{ section.id }} .hs__arrow--next {
+    background: var(--hs-next-bg);
+    border-color: var(--hs-next-bg);
+    color: var(--hs-next-icon);
+  }
+
+  .hs-{{ section.id }} .hs__arrow svg {
+    height: 1.6rem;
+    width: 1.6rem;
+  }
+
+  .hs-{{ section.id }} .hs__tabs {
+    display: flex;
+    flex: 1 1 auto;
+    gap: 1rem;
+    min-width: 0;
+    overflow-x: auto;
+    padding: 0.4rem 0.4rem 0.8rem;
+    scrollbar-width: none;
+  }
+
+  .hs-{{ section.id }} .hs__tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .hs-{{ section.id }} .hs__tab {
+    background: var(--t-bg);
+    border: 0.2rem solid transparent;
+    border-radius: 1.2rem;
+    box-shadow: 0 0.2rem 0.8rem rgba(0, 0, 0, 0.06);
+    color: var(--t-title);
+    cursor: pointer;
+    flex: 1 0 13rem;
+    font-family: inherit;
+    padding: 1.2rem 1.6rem;
+    position: relative;
+    text-align: left;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .hs-{{ section.id }} .hs__tab[aria-selected='true'] {
+    background: #ffffff;
+    border-color: var(--t-accent);
+  }
+
+  /* Progress line: fills left to right on the active tab, then the next slide opens */
+  .hs-{{ section.id }} .hs__tab-bar {
+    background: var(--t-accent);
+    border-radius: 0 0 1rem 1rem;
+    bottom: -0.2rem;
+    display: none;
+    height: 0.3rem;
+    left: 0;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    transform-origin: left center;
+  }
+
+  .hs-{{ section.id }} .hs__tab[aria-selected='true'] .hs__tab-bar {
+    display: block;
+  }
+
+  .hs-{{ section.id }}[data-playing='true'] .hs__tab[aria-selected='true'] .hs__tab-bar {
+    animation: hs-progress-{{ section.id }} var(--hs-interval, 5000ms) linear forwards;
+  }
+
+  .hs-{{ section.id }}.is-paused .hs__tab-bar {
+    animation-play-state: paused;
+  }
+
+  @keyframes hs-progress-{{ section.id }} {
+    from {
+      transform: scaleX(0);
+    }
+
+    to {
+      transform: scaleX(1);
+    }
+  }
+  /* .hs-{{ section.id }} .hs__tab[aria-selected='true']::after {
+    background: var(--t-accent);
+    border-radius: 0 0 1.2rem 1.2rem;
+    bottom: -0.2rem;
+    content: '';
+    height: 0.4rem;
+    left: 0;
+    position: absolute;
+    right: 0;
+  } */
+
+  
+
+  .hs-{{ section.id }} .hs__tab:focus-visible,
+  .hs-{{ section.id }} .hs__arrow:focus-visible,
+  .hs-{{ section.id }} .hs__btn:focus-visible {
+    outline: 0.2rem solid var(--hs-prev);
+    outline-offset: 0.2rem;
+  }
+
+  .hs-{{ section.id }} .hs__tab-title {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 800;
+    line-height: 1.2;
+  }
+
+  .hs-{{ section.id }} .hs__tab-sub {
+    color: var(--t-sub);
+    display: block;
+    font-size: 1.2rem;
+    line-height: 1.3;
+    margin-top: 0.3rem;
+  }
+
+  .hs-{{ section.id }} .hs__tab-img {
+    display: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .hs-{{ section.id }} .hs__arrow {
+      height: 3.6rem;
+      width: 3.6rem;
+    }
+
+    /* Mobile: centred slide text. */
+    .hs-{{ section.id }} .hs__text {
+      text-align: center;
+    }
+
+    .hs-{{ section.id }} .hs__desc {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hs-{{ section.id }} .hs__cta {
+      justify-content: center;
+    }
+
+    /* Mobile tabs: round image icons with the name below, 4 per row (swipe if more). */
+    .hs-{{ section.id }} .hs__nav--tabs .hs__arrow {
+      display: none;
+    }
+
+    .hs-{{ section.id }} .hs__nav--tabs {
+      padding-top: 1.6rem;
+    }
+
+    .hs-{{ section.id }} .hs__tabs {
+      display: grid;
+      gap: 0.8rem;
+      grid-auto-columns: calc((100% - 3 * 0.8rem) / 4);
+      grid-auto-flow: column;
+      padding: 0.4rem 0 1rem;
+    }
+
+    .hs-{{ section.id }} .hs__tab,
+    .hs-{{ section.id }} .hs__tab[aria-selected='true'] {
+      align-items: center;
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      padding: 0;
+      text-align: center;
+    }
+
+    .hs-{{ section.id }} .hs__tab-img {
+      aspect-ratio: 1;
+      background: var(--t-bg);
+      border: 0.25rem solid transparent;
+      border-radius: 50%;
+      display: block;
+      overflow: hidden;
+      padding: 0.25rem;
+      transition: border-color 0.2s ease;
+      width: min(100%, 7.2rem);
+    }
+
+    .hs-{{ section.id }} .hs__tab-img img {
+      border-radius: 50%;
+      display: block;
+      height: 100%;
+      object-fit: cover;
+      width: 100%;
+    }
+
+    .hs-{{ section.id }} .hs__tab[aria-selected='true'] .hs__tab-img {
+      border-color: var(--t-accent);
+    }
+
+    .hs-{{ section.id }} .hs__tab-title {
+      font-size: 1.3rem;
+      opacity: 0.7;
+    }
+
+    .hs-{{ section.id }} .hs__tab[aria-selected='true'] .hs__tab-title {
+      opacity: 1;
+    }
+
+    .hs-{{ section.id }} .hs__tab-sub {
+      display: none;
+    }
+
+    /* Progress line sits under the active name. */
+    .hs-{{ section.id }} .hs__tab-bar {
+      border-radius: 99rem;
+      bottom: -0.6rem;
+      left: 25%;
+      right: 25%;
+    }
+
+    .hs-{{ section.id }} .hs__media {
+      margin-bottom: 1.6rem;
+    }
+
+    .hs-{{ section.id }} .hs__badge-big {
+      font-size: 2.6rem;
+    }
+
+    .hs-{{ section.id }} .hs__float {
+      right: -2%;
+    }
+  }
+
+  @media screen and (min-width: 750px) {
+    .hs-{{ section.id }} {
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+      padding-top: {{ section.settings.padding_top }}px;
+    }
+
+    /* Slide + tabs fit in one screen: sizes follow the screen height as well as width. */
+    .hs-{{ section.id }} .hs__inner {
+      gap: 4rem;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      min-height: min(var(--hs-min-h), 62vh);
+    }
+
+    .hs-{{ section.id }} .hs__watermark {
+      bottom: -6%;
+      font-size: clamp(18rem, min(30vw, 46vh), 36rem);
+      left: 26%;
+    }
+
+    .hs-{{ section.id }} .hs__pill {
+      font-size: 1.2rem;
+      padding: 0.7rem 1.6rem;
+    }
+
+    .hs-{{ section.id }} .hs__eyebrow {
+      font-size: 1.5rem;
+      margin: 1.2rem 0 0.4rem;
+    }
+
+    .hs-{{ section.id }} .hs__heading {
+      font-size: clamp(4.8rem, min(5.6vw, 9.5vh), 8.8rem);
+    }
+
+    .hs-{{ section.id }} .hs__desc {
+      font-size: 1.7rem;
+      margin-top: 1.4rem;
+    }
+
+    .hs-{{ section.id }} .hs__cta {
+      margin-top: 2rem;
+    }
+
+    .hs-{{ section.id }} .hs__media {
+      width: clamp(28rem, min(34vw, 56vh), 48rem);
+    }
+
+    .hs-{{ section.id }} .hs__float {
+      font-size: 1.5rem;
+      right: -8%;
+    }
+
+    .hs-{{ section.id }} .hs__arrow {
+      height: 4.8rem;
+      width: 4.8rem;
+    }
+
+    .hs-{{ section.id }} .hs__nav {
+      gap: 1.6rem;
+      padding-top: 1.6rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hs-{{ section.id }} .hs__ring {
+      animation: none;
+    }
+
+    .hs-{{ section.id }},
+    .hs-{{ section.id }} .hs__slide,
+    .hs-{{ section.id }} .hs__tab,
+    .hs-{{ section.id }} .hs__btn {
+      transition: none;
+    }
+  }
+{%- endstyle -%}
+
+{%- if hs_slides.size > 0 -%}
+  <hero-showcase
+    class="hs-{{ section.id }}"
+    data-autoplay="{{ section.settings.autoplay }}"
+    data-interval="{{ section.settings.autoplay_interval }}"
+    aria-roledescription="carousel"
+    aria-label="{{ section.settings.aria_label | default: 'Flavour categories' | escape }}"
+  >
+    <div class="page-width">
+      <div class="hs__slides">
+        {%- for block in hs_slides -%}
+          {%- liquid
+            assign s = block.settings
+            assign hs_loading = 'lazy'
+            assign hs_priority = 'auto'
+            if forloop.first
+              assign hs_loading = 'eager'
+              # Top of the page: fetch the first slide image first (LCP).
+              if section.index == 1
+                assign hs_priority = 'high'
+              endif
+            endif
+            assign v_accent = s.accent_color | default: '#2e7d32'
+            assign v_heading = s.heading_color | default: '#1b0a14'
+            assign v_text = s.text_color | default: '#3d1f2e'
+            assign v_wm = s.watermark_color | default: '#2e7d32'
+            assign v_wm_op = s.watermark_opacity | default: 12 | divided_by: 100.0
+            assign v_pill = s.pill_bg_color | default: '#ffffff'
+            assign v_badge_bg = s.badge_bg_color | default: '#2e7d32'
+            assign v_badge_tx = s.badge_text_color | default: '#ffffff'
+            assign v_btn_bg = s.button_bg_color | default: '#2e7d32'
+            assign v_btn_tx = s.button_text_color | default: '#ffffff'
+            assign v_float_bg = s.float_bg_color | default: '#ffffff'
+            assign v_float_tx = s.float_text_color | default: '#1b0a14'
+            assign v_circle = s.circle_border_color | default: '#ffffff'
+          -%}
+          {%- capture hs_vars -%}
+            --accent:{{ v_accent }};--heading:{{ v_heading }};--text:{{ v_text }};--wm-color:{{ v_wm }};--wm-opacity:{{ v_wm_op }};--pill-bg:{{ v_pill }};--badge-bg:{{ v_badge_bg }};--badge-text:{{ v_badge_tx }};--btn-bg:{{ v_btn_bg }};--btn-text:{{ v_btn_tx }};--float-bg:{{ v_float_bg }};--float-text:{{ v_float_tx }};--circle-border:{{ v_circle }};
+          {%- endcapture -%}
+          <div
+            class="hs__slide{% if forloop.first %} is-active{% endif %}"
+            id="hs-slide-{{ block.id }}"
+            role="tabpanel"
+            aria-roledescription="slide"
+            aria-label="{{ s.tab_title | escape }}"
+            data-bg="{{ s.bg_color | default: '#e4f5d9' }}"
+            data-block-id="{{ block.id }}"
+            style="{{ hs_vars }}"
+            {{ block.shopify_attributes }}
+          >
+            {%- if s.watermark_text != blank -%}
+              <span class="hs__watermark" aria-hidden="true">{{ s.watermark_text | escape }}</span>
+            {%- endif -%}
+            <div class="hs__inner">
+              <div class="hs__text">
+                {%- if s.pill_text != blank -%}
+                  <span class="hs__pill">{{ s.pill_text | escape }}</span>
+                {%- endif -%}
+                {%- if s.eyebrow != blank -%}
+                  <p class="hs__eyebrow">{{ s.eyebrow | escape }}</p>
+                {%- endif -%}
+                {%- if s.heading_before != blank or s.heading_script != blank or s.heading_after != blank -%}
+                  <h2 class="hs__heading">
+                    {{- s.heading_before | escape }}
+                    {% if s.heading_script != blank %}<span class="hs__script">{{ s.heading_script | escape }}</span>{% endif %}
+                    {{ s.heading_after | escape -}}
+                  </h2>
+                {%- endif -%}
+                {%- if s.description != blank -%}
+                  <p class="hs__desc">{{ s.description | escape }}</p>
+                {%- endif -%}
+                {%- if s.button_label != blank or s.meta_text != blank -%}
+                  <div class="hs__cta">
+                    {%- if s.button_label != blank -%}
+                      <a class="hs__btn" href="{{ s.button_link | default: '#' }}">
+                        {{ s.button_label | escape }}
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                      </a>
+                    {%- endif -%}
+                    {%- if s.meta_text != blank -%}
+                      <span class="hs__meta">{{ s.meta_text | escape }}</span>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+              </div>
+
+              <div class="hs__media">
+                <span class="hs__ring" aria-hidden="true"></span>
+                <div class="hs__circle">
+                  {%- if s.image != blank -%}
+                    {{
+                      s.image
+                      | image_url: width: 1000
+                      | image_tag: widths: '400, 600, 800, 1000', sizes: '(min-width: 750px) 40vw, 74vw', loading: hs_loading, fetchpriority: hs_priority, alt: s.image_alt | default: s.tab_title
+                    }}
+                  {%- else -%}
+                    {{ 'product-1' | placeholder_svg_tag }}
+                  {%- endif -%}
+                </div>
+                {%- if s.badge_big != blank or s.badge_small != blank -%}
+                  <div class="hs__badge">
+                    <span class="hs__badge-big">{{ s.badge_big | escape }}</span>
+                    <span class="hs__badge-small">{{ s.badge_small | escape }}</span>
+                  </div>
+                {%- endif -%}
+                {%- if s.float_label != blank -%}
+                  <span class="hs__float">{{ s.float_label | escape }}</span>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      {%- if hs_show_nav and hs_multi -%}
+        <div class="hs__nav{% if section.settings.show_tabs %} hs__nav--tabs{% endif %}">
+          {%- if section.settings.show_arrows -%}
+            <button type="button" class="hs__arrow hs__arrow--prev" data-dir="-1" aria-label="Previous slide">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m15 5-7 7 7 7"/></svg>
+            </button>
+          {%- endif -%}
+
+          {%- if section.settings.show_tabs -%}
+            <div class="hs__tabs" role="tablist" aria-label="Categories">
+              {%- for block in hs_slides -%}
+                {%- liquid
+                  assign s = block.settings
+                  assign t_accent = s.accent_color | default: '#2e7d32'
+                  assign t_bg = s.tab_bg_color | default: '#f3faee'
+                  assign t_title = s.heading_color | default: '#1b0a14'
+                  assign t_sub = s.text_color | default: '#3d1f2e'
+                -%}
+                {%- capture hs_tab_vars -%}
+                  --t-accent:{{ t_accent }};--t-bg:{{ t_bg }};--t-title:{{ t_title }};--t-sub:{{ t_sub }};
+                {%- endcapture -%}
+                <button
+                  type="button"
+                  class="hs__tab"
+                  role="tab"
+                  aria-controls="hs-slide-{{ block.id }}"
+                  aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+                  tabindex="{% if forloop.first %}0{% else %}-1{% endif %}"
+                  data-index="{{ forloop.index0 }}"
+                  style="{{ hs_tab_vars }}"
+                >
+                  {%- comment -%} Round image, shown on mobile only. {%- endcomment -%}
+                  {%- assign t_image = s.tab_image | default: s.image -%}
+                  <span class="hs__tab-img" aria-hidden="true">
+                    {%- if t_image != blank -%}
+                      {{ t_image | image_url: width: 180 | image_tag: widths: '90, 180', sizes: '72px', loading: 'lazy', alt: '' }}
+                    {%- endif -%}
+                  </span>
+                  <span class="hs__tab-title">{{ s.tab_title | escape }}</span>
+                  {%- if s.tab_subtitle != blank -%}
+                    <span class="hs__tab-sub">{{ s.tab_subtitle | escape }}</span>
+                  {%- endif -%}
+                  <span class="hs__tab-bar" aria-hidden="true"></span>
+
+                </button>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.show_arrows -%}
+            <button type="button" class="hs__arrow hs__arrow--next" data-dir="1" aria-label="Next slide">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 5 7 7-7 7"/></svg>
+            </button>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </hero-showcase>
+
+  <script>
+    if (!customElements.get('hero-showcase')) {
+      customElements.define(
+        'hero-showcase',
+        class HeroShowcase extends HTMLElement {
+          connectedCallback() {
+            this.slides = [...this.querySelectorAll('.hs__slide')];
+            this.tabs = [...this.querySelectorAll('.hs__tab')];
+            this.tabList = this.querySelector('.hs__tabs');
+            this.index = Math.max(0, this.slides.findIndex((s) => s.classList.contains('is-active')));
+            this.autoplay = this.dataset.autoplay === 'true' && this.slides.length > 1;
+            this.delay = (parseInt(this.dataset.interval, 10) || 5) * 1000;
+            this.reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            this.tabs.forEach((tab) => {
+              tab.addEventListener('click', () => this.goTo(parseInt(tab.dataset.index, 10), true));
+              tab.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight') { e.preventDefault(); this.goTo(this.index + 1, true, true); }
+                if (e.key === 'ArrowLeft') { e.preventDefault(); this.goTo(this.index - 1, true, true); }
+              });
+            });
+
+            this.querySelectorAll('.hs__arrow').forEach((btn) => {
+              btn.addEventListener('click', () => this.goTo(this.index + parseInt(btn.dataset.dir, 10), true));
+            });
+            // When tabs are shown, the progress line drives autoplay: when it
+            // reaches the end of the tab, the next slide opens. Without tabs we
+            // fall back to a plain timer.
+            this.designMode = !!(window.Shopify && window.Shopify.designMode);
+            this.useBar = this.autoplay && this.tabs.length > 0 && !this.reduceMotion && !this.designMode;
+            this.style.setProperty('--hs-interval', this.delay + 'ms');
+            this.dataset.playing = this.useBar ? 'true' : 'false';
+
+            this.addEventListener('animationend', (e) => {
+              if (this.useBar && e.target.classList.contains('hs__tab-bar')) this.show(this.index + 1);
+            });
+
+            this.addEventListener('mouseenter', () => this.stop());
+            this.addEventListener('mouseleave', () => this.start());
+            this.addEventListener('focusin', () => this.stop());
+            // Only resume once focus leaves the carousel, not when moving between tabs.
+            this.addEventListener('focusout', (e) => {
+              if (!this.contains(e.relatedTarget)) this.start();
+            });
+
+            this.onVisibility = () => (document.hidden ? this.stop() : this.start());
+            document.addEventListener('visibilitychange', this.onVisibility);
+
+            // Theme editor: jump to the slide being edited and stop autoplay.
+            this.onBlockSelect = (e) => {
+              const i = this.slides.findIndex((s) => s.dataset.blockId === e.detail.blockId);
+              if (i > -1) this.goTo(i, false);
+            };
+            document.addEventListener('shopify:block:select', this.onBlockSelect);
+
+            this.show(this.index);
+            this.start();
+          }
+
+          disconnectedCallback() {
+            this.stop();
+            document.removeEventListener('visibilitychange', this.onVisibility);
+            document.removeEventListener('shopify:block:select', this.onBlockSelect);
+          }
+
+          goTo(n, restart, focusTab) {
+            this.show(n);
+            if (focusTab && this.tabs[this.index]) this.tabs[this.index].focus();
+            if (restart) this.start();
+          }
+
+          show(n) {
+            const total = this.slides.length;
+            this.index = ((n % total) + total) % total;
+
+            this.slides.forEach((slide, i) => {
+              const on = i === this.index;
+              slide.classList.toggle('is-active', on);
+              slide.setAttribute('aria-hidden', on ? 'false' : 'true');
+              slide.inert = !on;
+            });
+
+            this.tabs.forEach((tab, i) => {
+              const on = i === this.index;
+              tab.setAttribute('aria-selected', on ? 'true' : 'false');
+              tab.tabIndex = on ? 0 : -1;
+            });
+
+            this.style.setProperty('--hs-bg', this.slides[this.index].dataset.bg);
+
+            // Keep the active tab in view inside the tab strip (no page scroll).
+            const tab = this.tabs[this.index];
+            if (tab && this.tabList) {
+              const left = tab.offsetLeft - (this.tabList.clientWidth - tab.offsetWidth) / 2;
+              this.tabList.scrollTo({ left, behavior: this.reduceMotion ? 'auto' : 'smooth' });
+            }
+          }
+
+          start() {
+            this.stop();
+            const designMode = window.Shopify && window.Shopify.designMode;
+            if (!this.autoplay || this.reduceMotion || designMode || document.hidden) return;
+            // With tabs, the progress line's animationend moves the slide; a timer would double-advance.
+            if (this.useBar) {
+              this.classList.remove('is-paused');
+              return;
+            }
+            this.timer = setInterval(() => this.show(this.index + 1), this.delay);
+          }
+
+          stop() {
+            clearInterval(this.timer);
+            this.classList.add('is-paused');
+          }
+        }
+      );
+    }
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Flavour hero carousel",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Each slide is a block. Only the circle image is an image; everything else is text with its own colour option. Text fields can be bound to metafields with their \"…\" menu."
+    },
+    {
+      "type": "header",
+      "content": "Slider"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Auto-slide",
+      "info": "Pauses on hover, when a tab is focused, and in the theme editor. Off for visitors who prefer reduced motion.",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "autoplay_interval",
+      "label": "Seconds per slide",
+      "min": 3,
+      "max": 12,
+      "step": 1,
+      "unit": "s",
+      "default": 5
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tabs",
+      "label": "Show category tabs",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "Show previous / next arrows",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "aria_label",
+      "label": "Accessibility label",
+      "default": "Flavour categories"
+    },
+    {
+      "type": "range",
+      "id": "ring_speed",
+      "label": "Dotted circle rotation (seconds per turn)",
+      "info": "Lower = faster. Set to 0 to keep the circle still.",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "s",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Arrow colours"
+    },
+    {
+      "type": "color",
+      "id": "arrow_prev_color",
+      "label": "Previous arrow (outline and icon)",
+      "default": "#1b0a14"
+    },
+    {
+      "type": "color",
+      "id": "arrow_next_bg",
+      "label": "Next arrow background",
+      "default": "#1b0a14"
+    },
+    {
+      "type": "color",
+      "id": "arrow_next_icon",
+      "label": "Next arrow icon",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "min_height",
+      "label": "Slide minimum height (desktop)",
+      "min": 400,
+      "max": 800,
+      "step": 20,
+      "unit": "px",
+      "default": 440
+    },
+    {
+      "type": "checkbox",
+      "id": "load_fonts",
+      "label": "Load Google fonts",
+      "info": "Anton (headings), Outfit (text) and Sacramento (script word). Untick if your theme already loads them.",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 24
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Category tab"
+        },
+        {
+          "type": "text",
+          "id": "tab_title",
+          "label": "Tab title",
+          "default": "Diet"
+        },
+        {
+          "type": "text",
+          "id": "tab_subtitle",
+          "label": "Tab subtitle",
+          "default": "Gut & weight"
+        },
+        {
+          "type": "image_picker",
+          "id": "tab_image",
+          "label": "Tab image (mobile)",
+          "info": "Round icon used for this tab on mobile. Square, at least 180 × 180 px. Leave empty to use the circle image."
+        },
+        {
+          "type": "color",
+          "id": "tab_bg_color",
+          "label": "Tab background (inactive)",
+          "default": "#f3faee"
+        },
+        {
+          "type": "header",
+          "content": "Text"
+        },
+        {
+          "type": "text",
+          "id": "pill_text",
+          "label": "Small pill label",
+          "default": "Diet Clear Protein"
+        },
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "Line above heading",
+          "default": "Clear whey protein with probiotics"
+        },
+        {
+          "type": "text",
+          "id": "heading_before",
+          "label": "Heading — first part",
+          "default": "Protein +"
+        },
+        {
+          "type": "text",
+          "id": "heading_script",
+          "label": "Heading — script word",
+          "info": "Shown in a handwritten style. Leave empty to skip.",
+          "default": "probiotics"
+        },
+        {
+          "type": "text",
+          "id": "heading_after",
+          "label": "Heading — last part",
+          "default": "for a happy gut"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "15g protein with 4.5bn CFU probiotics, 500mg L-carnitine and fibre — light enough for every day."
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Shop Diet"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "text",
+          "id": "meta_text",
+          "label": "Text next to button",
+          "info": "e.g. price and rating.",
+          "default": "From ₹799 · ★ 4.5"
+        },
+        {
+          "type": "text",
+          "id": "watermark_text",
+          "label": "Big background word",
+          "default": "Diet"
+        },
+        {
+          "type": "header",
+          "content": "Circle image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image (inside the circle)",
+          "info": "Square image, at least 1000 × 1000 px. The only image in the slide."
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Image description (alt text)"
+        },
+        {
+          "type": "text",
+          "id": "badge_big",
+          "label": "Badge — amount",
+          "default": "15g"
+        },
+        {
+          "type": "text",
+          "id": "badge_small",
+          "label": "Badge — small text",
+          "default": "Protein"
+        },
+        {
+          "type": "text",
+          "id": "float_label",
+          "label": "Floating label",
+          "default": "4.5bn CFU probiotics"
+        },
+        {
+          "type": "header",
+          "content": "Colours"
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Background",
+          "default": "#e4f5d9"
+        },
+        {
+          "type": "color",
+          "id": "accent_color",
+          "label": "Accent (label, script word, dashed ring, active tab)",
+          "default": "#2e7d32"
+        },
+        {
+          "type": "color",
+          "id": "heading_color",
+          "label": "Heading text",
+          "default": "#1b0a14"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Description and tab subtitle text",
+          "default": "#3d1f2e"
+        },
+        {
+          "type": "color",
+          "id": "watermark_color",
+          "label": "Big background word",
+          "default": "#2e7d32"
+        },
+        {
+          "type": "range",
+          "id": "watermark_opacity",
+          "label": "Big background word strength",
+          "min": 0,
+          "max": 40,
+          "step": 1,
+          "unit": "%",
+          "default": 12
+        },
+        {
+          "type": "color",
+          "id": "pill_bg_color",
+          "label": "Small pill background",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "button_bg_color",
+          "label": "Button background",
+          "default": "#2e7d32"
+        },
+        {
+          "type": "color",
+          "id": "button_text_color",
+          "label": "Button text",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "badge_bg_color",
+          "label": "Badge background",
+          "default": "#2e7d32"
+        },
+        {
+          "type": "color",
+          "id": "badge_text_color",
+          "label": "Badge text (amount and small text)",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "float_bg_color",
+          "label": "Floating label background",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "float_text_color",
+          "label": "Floating label text",
+          "default": "#1b0a14"
+        },
+        {
+          "type": "color",
+          "id": "circle_border_color",
+          "label": "Circle border",
+          "default": "#ffffff"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Flavour hero carousel",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "slide",
+          "settings": {
+            "tab_title": "Anytime",
+            "tab_subtitle": "Everyday protein",
+            "pill_text": "Anytime Clear Protein",
+            "eyebrow": "Clear whey protein isolate",
+            "heading_before": "Protein that",
+            "heading_script": "feels",
+            "heading_after": "like juice",
+            "description": "24g protein per scoop. Light, refreshing and easy to drink any time of day.",
+            "button_label": "Shop Anytime",
+            "meta_text": "From ₹999 · ★ 4.6",
+            "watermark_text": "Anytime",
+            "badge_big": "24g",
+            "badge_small": "Protein",
+            "float_label": "0g added sugar",
+            "bg_color": "#ffe9dc",
+            "accent_color": "#e8590c",
+            "watermark_color": "#e8590c",
+            "button_bg_color": "#e8590c",
+            "badge_bg_color": "#e8590c",
+            "tab_bg_color": "#fff5ef"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {}
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "tab_title": "Nitro",
+            "tab_subtitle": "Strength",
+            "pill_text": "Nitro Clear Protein",
+            "eyebrow": "Clear whey with creatine",
+            "heading_before": "Power up with",
+            "heading_script": "nitro",
+            "heading_after": "strength",
+            "description": "Protein with creatine and BCAAs for stronger, faster recovery.",
+            "button_label": "Shop Nitro",
+            "meta_text": "From ₹1,099 · ★ 4.7",
+            "watermark_text": "Nitro",
+            "badge_big": "25g",
+            "badge_small": "Protein",
+            "float_label": "3g creatine",
+            "bg_color": "#ffe3cc",
+            "accent_color": "#d9480f",
+            "watermark_color": "#d9480f",
+            "button_bg_color": "#d9480f",
+            "badge_bg_color": "#d9480f",
+            "tab_bg_color": "#fff3e8"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "tab_title": "Hydra",
+            "tab_subtitle": "Hydration",
+            "pill_text": "Hydra Clear Protein",
+            "eyebrow": "Clear whey with electrolytes",
+            "heading_before": "Protein that",
+            "heading_script": "hydrates",
+            "heading_after": "as you train",
+            "description": "Protein and electrolytes in one refreshing, easy-to-sip drink.",
+            "button_label": "Shop Hydra",
+            "meta_text": "From ₹1,199 · ★ 4.5",
+            "watermark_text": "Hydra",
+            "badge_big": "20g",
+            "badge_small": "Protein",
+            "float_label": "Electrolytes",
+            "bg_color": "#ffe1e0",
+            "accent_color": "#c92a2a",
+            "watermark_color": "#c92a2a",
+            "button_bg_color": "#c92a2a",
+            "badge_bg_color": "#c92a2a",
+            "tab_bg_color": "#fff1f0"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

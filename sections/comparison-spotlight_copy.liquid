@@ -1,0 +1,791 @@
+{%- liquid
+  assign cs_accent = section.settings.accent_color
+  if cs_accent == blank and product
+    assign cs_accent = product.metafields.custom.flavour_color.value
+  endif
+  if cs_accent == blank
+    assign cs_accent = '#e07b28'
+  endif
+
+  assign cs_bg = section.settings.background_color
+  if cs_bg == blank and product
+    assign cs_bg = product.metafields.custom.product_bg_color.value
+  endif
+  assign cs_cards = section.blocks | where: 'type', 'card'
+-%}
+
+{%- style -%}
+  .cs-{{ section.id }} {
+    --cs-accent: {{ cs_accent }};
+    --cs-card-bg: {{ section.settings.card_bg_color | default: '#ffffff' }};
+    --cs-card-border: {{ section.settings.card_border_color | default: '#e6e2d6' }};
+    {% if cs_bg != blank %}background-color: {{ cs_bg }};{% endif %}
+    padding-top: {{ section.settings.padding_top | times: 0.7 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.7 | round: 0 }}px;
+  }
+
+  .cs-{{ section.id }} .cs__head {
+    margin: 0 auto 3rem;
+    max-width: 70rem;
+    text-align: center;
+  }
+
+  .cs-{{ section.id }} .cs__heading {
+    font-size: clamp(2.6rem, 1.8rem + 2.2vw, 4.4rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin: 0;
+    text-transform: none;
+  }
+
+  .cs-{{ section.id }} .cs__subheading {
+    color: rgba(var(--color-foreground), 0.7);
+    font-size: 1.6rem;
+    margin: 1rem 0 0;
+  }
+
+  .cs-{{ section.id }} .cs__body {
+    display: grid;
+    gap: 3rem;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .cs-{{ section.id }} .cs__cards {
+    display: grid;
+    gap: 1.6rem;
+    grid-template-columns: repeat({{ cs_cards.size | at_least: 1 }}, minmax(0, 1fr));
+  }
+
+  .cs-{{ section.id }} .cs__card {
+    background: var(--cs-card-bg);
+    border: 0.1rem solid var(--cs-card-border);
+    border-radius: 8px;
+    box-sizing: border-box;
+    padding: 2rem 1.6rem;
+  }
+
+  .cs-{{ section.id }} .cs__card--highlight {
+    border-color: var(--cs-accent);
+  }
+
+  .cs-{{ section.id }} .cs__card-media {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.6rem;
+  }
+
+  .cs-{{ section.id }} .cs__card-media img {
+    display: block;
+    height: {{ section.settings.card_image_height | times: 0.8 | round: 0 }}px;
+    max-width: 100%;
+    object-fit: contain;
+    width: auto;
+  }
+
+  .cs-{{ section.id }} .cs__card-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 0 0 1.4rem;
+    text-align: center;
+  }
+
+  .cs-{{ section.id }} .cs__card--highlight .cs__card-title {
+    color: var(--cs-accent);
+  }
+
+  .cs-{{ section.id }} .cs__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .cs-{{ section.id }} .cs__list-item {
+    align-items: center;
+    display: flex;
+    font-size: 1.2rem;
+    gap: 0.9rem;
+    line-height: 1.3;
+  }
+
+  .cs-{{ section.id }} .cs__icon {
+    flex-shrink: 0;
+    height: 1.4rem;
+    width: 1.4rem;
+  }
+
+  .cs-{{ section.id }} .cs__card--highlight .cs__icon {
+    color: var(--cs-accent);
+  }
+
+  .cs-{{ section.id }} .cs__card:not(.cs__card--highlight) .cs__icon {
+    color: rgba(var(--color-foreground), 0.45);
+  }
+
+  .cs-{{ section.id }} .cs__card:not(.cs__card--highlight) .cs__list-item,
+  .cs-{{ section.id }} .cs__card:not(.cs__card--highlight) .cs__card-title {
+    color: rgba(var(--color-foreground), 0.45);
+  }
+
+  .cs-{{ section.id }} .cs__button {
+    align-items: center;
+    background: {{ section.settings.button_bg_color | default: 'var(--cs-card-bg)' }};
+    border: 0.1rem solid {{ section.settings.button_bg_color | default: 'var(--cs-card-border)' }};
+    border-radius: 8px;
+    color: {{ section.settings.button_text_color | default: 'rgb(var(--color-foreground))' }};
+    display: flex;
+    font-size: 1.5rem;
+    font-weight: 700;
+    gap: 0.8rem;
+    justify-content: center;
+    margin-top: 1.6rem;
+    min-height: 5.2rem;
+    padding: 0.8rem 2rem;
+    text-decoration: none;
+    transition: border-color 0.15s ease;
+  }
+
+  .cs-{{ section.id }} .cs__button:hover {
+    border-color: var(--cs-accent);
+    opacity: 0.9;
+  }
+
+  .cs-{{ section.id }} .cs__aside {
+    text-align: center;
+  }
+
+  .cs-{{ section.id }} .cs__media-img {
+    border-radius: 8px;
+    display: block;
+    height: auto;
+    margin: 0 auto;
+    max-width: 100%;
+  }
+
+  /* ── Before / after slider ─────────────────────────────────────── */
+  .cs-{{ section.id }} .cs__compare {
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    user-select: none;
+  }
+
+  .cs-{{ section.id }} .cs__compare-img {
+    display: block;
+    height: auto;
+    width: 100%;
+  }
+
+  .cs-{{ section.id }} .cs__compare-before {
+    clip-path: inset(0 calc(100% - var(--cs-pos, 50%)) 0 0);
+    inset: 0;
+    position: absolute;
+  }
+
+  .cs-{{ section.id }} .cs__compare-before .cs__compare-img {
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .cs-{{ section.id }} .cs__compare-line {
+    background: #ffffff;
+    bottom: 0;
+    left: var(--cs-pos, 50%);
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    width: 0.2rem;
+  }
+
+  .cs-{{ section.id }} .cs__compare-handle {
+    align-items: center;
+    background: rgba(0, 0, 0, 0.25);
+    border: 0.2rem solid #ffffff;
+    border-radius: 50%;
+    color: #ffffff;
+    display: flex;
+    height: 4.4rem;
+    justify-content: center;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 4.4rem;
+  }
+
+  .cs-{{ section.id }} .cs__compare-handle svg {
+    height: 2rem;
+    width: 2rem;
+  }
+
+  .cs-{{ section.id }} .cs__compare-label {
+    background: rgba(0, 0, 0, 0.55);
+    border-radius: 999px;
+    color: #ffffff;
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding: 0.4rem 1.2rem;
+    pointer-events: none;
+    position: absolute;
+    top: 1.2rem;
+  }
+
+  .cs-{{ section.id }} .cs__compare-label--before {
+    left: 1.2rem;
+  }
+
+  .cs-{{ section.id }} .cs__compare-label--after {
+    right: 1.2rem;
+  }
+
+  /* The range input sits invisibly over the whole image, so dragging or
+     tapping anywhere moves the divider (and it works with a keyboard). */
+  .cs-{{ section.id }} .cs__compare-range {
+    appearance: none;
+    background: transparent;
+    cursor: ew-resize;
+    height: 100%;
+    inset: 0;
+    margin: 0;
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+  }
+
+  .cs-{{ section.id }} .cs__compare-range::-webkit-slider-thumb {
+    appearance: none;
+    height: 100%;
+    width: 4.4rem;
+  }
+
+  .cs-{{ section.id }} .cs__compare:has(.cs__compare-range:focus-visible) .cs__compare-handle {
+    outline: 0.2rem solid #ffffff;
+    outline-offset: 0.3rem;
+  }
+
+  @media screen and (min-width: 750px) {
+    .cs-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+
+    .cs-{{ section.id }} .cs__head {
+      margin-bottom: 4rem;
+    }
+
+    .cs-{{ section.id }} .cs__body {
+      align-items: start;
+      gap: 4rem;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    }
+
+    .cs-{{ section.id }} .cs__card {
+      padding: 2.4rem 2rem;
+    }
+
+    .cs-{{ section.id }} .cs__card-media img {
+      height: {{ section.settings.card_image_height }}px;
+    }
+
+    .cs-{{ section.id }} .cs__card-title,
+    .cs-{{ section.id }} .cs__list-item {
+      font-size: 1.5rem;
+    }
+
+    .cs-{{ section.id }} .cs__button {
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 40rem;
+    }
+  }
+{%- endstyle -%}
+
+<div class="cs-{{ section.id }} color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width">
+    {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
+      <div class="cs__head">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="cs__heading">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <p class="cs__subheading">{{ section.settings.subheading | escape }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="cs__body">
+      <div class="cs__main">
+        <div class="cs__cards">
+          {%- for block in cs_cards -%}
+            <div
+              class="cs__card{% if block.settings.highlight %} cs__card--highlight{% endif %}"
+              {{ block.shopify_attributes }}
+            >
+              {%- if block.settings.image != blank -%}
+                <div class="cs__card-media">
+                  <img
+                    src="{{ block.settings.image | image_url: height: 300 }}"
+                    alt="{{ block.settings.image.alt | escape }}"
+                    width="{{ block.settings.image.width }}"
+                    height="{{ block.settings.image.height }}"
+                    loading="lazy"
+                  >
+                </div>
+              {%- endif -%}
+
+              {%- if block.settings.title != blank -%}
+                <p class="cs__card-title">{{ block.settings.title | escape }}</p>
+              {%- endif -%}
+
+              <ul class="cs__list">
+                {%- for i in (1..5) -%}
+                  {%- assign item_key = 'item_' | append: i -%}
+                  {%- assign item = block.settings[item_key] -%}
+                  {%- if item != blank -%}
+                    <li class="cs__list-item">
+                      <svg
+                        class="cs__icon"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="3"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+                        {%- if block.settings.highlight -%}
+                          <path d="M4 12.5 9.5 18 20 6" />
+                        {%- else -%}
+                          <path d="M6 6l12 12M18 6L6 18" />
+                        {%- endif -%}
+                      </svg>
+                      <span>{{ item | escape }}</span>
+                    </li>
+                  {%- endif -%}
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        {%- if section.settings.button_label != blank -%}
+          <a
+            class="cs__button"
+            {% if section.settings.button_link != blank %}
+              href="{{ section.settings.button_link }}"
+            {% else %}
+              href="#" aria-disabled="true"
+            {% endif %}
+          >
+            {{ section.settings.button_label | escape }}
+            <span aria-hidden="true">&rarr;</span>
+          </a>
+        {%- endif -%}
+      </div>
+
+      {%- liquid
+        assign cs_compare = false
+        if section.settings.side_media == 'compare' and section.settings.side_image != blank and section.settings.compare_before_image != blank
+          assign cs_compare = true
+        endif
+      -%}
+
+      {%- if cs_compare -%}
+        {%- liquid
+          assign cs_cmp_sizes = '(min-width: 1200px) 520px, (min-width: 750px) 40vw, 100vw'
+          assign cs_after_img = section.settings.side_image | image_url: width: 1200 | image_tag: loading: 'lazy', class: 'cs__compare-img', widths: '400, 600, 800, 1000, 1200', sizes: cs_cmp_sizes, draggable: 'false'
+          assign cs_before_img = section.settings.compare_before_image | image_url: width: 1200 | image_tag: loading: 'lazy', class: 'cs__compare-img', widths: '400, 600, 800, 1000, 1200', sizes: cs_cmp_sizes, draggable: 'false'
+        -%}
+        <div class="cs__aside">
+          <div
+            class="cs__compare"
+            id="CsCompare-{{ section.id }}"
+            style="--cs-pos: {{ section.settings.compare_start }}%;"
+            data-start="{{ section.settings.compare_start }}"
+            {% if section.settings.compare_animate %}
+              data-animate
+            {% endif %}
+          >
+            {{ cs_after_img }}
+            <div class="cs__compare-before">{{ cs_before_img }}</div>
+
+            {%- if section.settings.compare_before_label != blank -%}
+              <span class="cs__compare-label cs__compare-label--before">{{ section.settings.compare_before_label | escape }}</span>
+            {%- endif -%}
+            {%- if section.settings.compare_after_label != blank -%}
+              <span class="cs__compare-label cs__compare-label--after">{{ section.settings.compare_after_label | escape }}</span>
+            {%- endif -%}
+
+            <span class="cs__compare-line" aria-hidden="true">
+              <span class="cs__compare-handle">
+                <svg viewBox="0 0 24 24" fill="currentColor" focusable="false"><path d="M9 7l-5 5 5 5V7zm6 0v10l5-5-5-5z"/></svg>
+              </span>
+            </span>
+
+            <input
+              class="cs__compare-range"
+              type="range"
+              min="0"
+              max="100"
+              step="1"
+              value="{{ section.settings.compare_start }}"
+              aria-label="{{ section.settings.compare_before_label | default: 'Before' | escape }} / {{ section.settings.compare_after_label | default: 'After' | escape }} comparison"
+            >
+          </div>
+        </div>
+
+        <script>
+          (function () {
+            var root = document.getElementById('CsCompare-{{ section.id }}');
+            if (!root) return;
+            var range = root.querySelector('.cs__compare-range');
+            var start = parseFloat(root.dataset.start) || 50;
+
+            function setPos(value) {
+              root.style.setProperty('--cs-pos', value + '%');
+            }
+
+            range.addEventListener('input', function () {
+              root.dataset.touched = '1';
+              setPos(range.value);
+            });
+
+            // Optional one-time sweep when the slider first scrolls into view.
+            if (!root.hasAttribute('data-animate') || !('IntersectionObserver' in window)) return;
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+            var io = new IntersectionObserver(function (entries) {
+              if (!entries[0].isIntersecting) return;
+              io.disconnect();
+              if (root.dataset.touched) return;
+
+              var from = 100;
+              var duration = 1400;
+              var t0 = null;
+              function step(ts) {
+                if (root.dataset.touched) return;
+                if (t0 === null) t0 = ts;
+                var p = Math.min((ts - t0) / duration, 1);
+                var eased = 1 - Math.pow(1 - p, 3);
+                var value = from + (start - from) * eased;
+                setPos(value);
+                range.value = value;
+                if (p < 1) requestAnimationFrame(step);
+              }
+              setPos(from);
+              requestAnimationFrame(step);
+            }, { threshold: 0.4 });
+            io.observe(root);
+          })();
+        </script>
+      {%- elsif section.settings.side_image != blank -%}
+        <div class="cs__aside">
+          {%- if section.settings.side_image != blank -%}
+            {%- liquid
+              assign cs_side_sizes = '(min-width: 1200px) 520px, (min-width: 750px) 40vw, 100vw'
+              assign cs_side_img = section.settings.side_image | image_url: width: 1200 | image_tag: loading: 'lazy', class: 'cs__media-img', widths: '400, 600, 800, 1000, 1200', sizes: cs_side_sizes
+            -%}
+            {%- if section.settings.side_image_mobile != blank -%}
+              {%- assign cs_mob = section.settings.side_image_mobile -%}
+              <picture>
+                <source
+                  media="(max-width: 749px)"
+                  srcset="{{ cs_mob | image_url: width: 400 }} 400w, {{ cs_mob | image_url: width: 600 }} 600w, {{ cs_mob | image_url: width: 800 }} 800w"
+                  sizes="100vw"
+                  width="{{ cs_mob.width }}"
+                  height="{{ cs_mob.height }}"
+                >
+                {{ cs_side_img }}
+              </picture>
+            {%- else -%}
+              {{ cs_side_img }}
+            {%- endif -%}
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Comparison Spotlight",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Every image field can be picked manually, or bound to an image metafield with the field's \"…\" menu → Connect dynamic source."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The Clear Difference"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Same protein. A completely different experience."
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Read the full comparison"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button background",
+      "info": "Leave empty to match the card background."
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text",
+      "info": "Leave empty to use the section text colour."
+    },
+    {
+      "type": "header",
+      "content": "Side column"
+    },
+    {
+      "type": "select",
+      "id": "side_media",
+      "label": "Side content",
+      "options": [
+        {
+          "value": "image",
+          "label": "Single image"
+        },
+        {
+          "value": "compare",
+          "label": "Before / after slider"
+        }
+      ],
+      "default": "image"
+    },
+    {
+      "type": "image_picker",
+      "id": "side_image",
+      "label": "Side image (the \"after\" image for the slider)",
+      "info": "Include any headline text in the image itself. Upload at least 1000px wide. The image is never cropped, so any aspect ratio works."
+    },
+    {
+      "type": "image_picker",
+      "id": "side_image_mobile",
+      "label": "Side image — mobile",
+      "info": "Optional. Only needed if you want a differently-framed image on phones. Upload at least 760px wide. Leave empty to reuse the side image. Not used by the slider."
+    },
+    {
+      "type": "header",
+      "content": "Before / after slider"
+    },
+    {
+      "type": "image_picker",
+      "id": "compare_before_image",
+      "label": "\"Before\" image",
+      "info": "Shown on the left of the divider. Use exactly the same size as the side image (e.g. both 1000 × 1000 px) so they line up."
+    },
+    {
+      "type": "text",
+      "id": "compare_before_label",
+      "label": "\"Before\" label",
+      "info": "Optional tag on the left, e.g. \"Regular whey\"."
+    },
+    {
+      "type": "text",
+      "id": "compare_after_label",
+      "label": "\"After\" label",
+      "info": "Optional tag on the right, e.g. \"Clear whey\"."
+    },
+    {
+      "type": "range",
+      "id": "compare_start",
+      "label": "Divider start position",
+      "min": 10,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "default": 50
+    },
+    {
+      "type": "checkbox",
+      "id": "compare_animate",
+      "label": "Sweep across when scrolled into view",
+      "info": "The divider slides from right to its start position once, then visitors can drag it.",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "card_image_height",
+      "label": "Card image height",
+      "info": "Desktop height. Phones use 80% of this.",
+      "min": 60,
+      "max": 180,
+      "step": 10,
+      "unit": "px",
+      "default": 110
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "info": "Highlighted card border, title and tick marks. Leave empty to use the product's custom.flavour_color metafield automatically, or use \"…\" → Connect dynamic source to pick a different metafield."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background",
+      "info": "Leave empty to use the product's custom.product_bg_color metafield automatically."
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card border",
+      "default": "#e6e2d6"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 56
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Comparison card",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Regular Whey"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Recommended 300 × 300 px (square, transparent PNG). Never cropped."
+        },
+        {
+          "type": "checkbox",
+          "id": "highlight",
+          "label": "Highlight this card",
+          "info": "Adds the accent border and switches the list icons from crosses to ticks.",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "item_1",
+          "label": "Item 1",
+          "default": "Thick & creamy"
+        },
+        {
+          "type": "text",
+          "id": "item_2",
+          "label": "Item 2",
+          "default": "Feels heavy"
+        },
+        {
+          "type": "text",
+          "id": "item_3",
+          "label": "Item 3",
+          "default": "Milky taste"
+        },
+        {
+          "type": "text",
+          "id": "item_4",
+          "label": "Item 4",
+          "default": "Can cause bloating"
+        },
+        {
+          "type": "text",
+          "id": "item_5",
+          "label": "Item 5"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Comparison Spotlight",
+      "blocks": [
+        {
+          "type": "card",
+          "settings": {
+            "title": "Regular Whey",
+            "highlight": false,
+            "item_1": "Thick & creamy",
+            "item_2": "Feels heavy",
+            "item_3": "Milky taste",
+            "item_4": "Can cause bloating"
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "title": "Protyze Clear Whey",
+            "highlight": true,
+            "item_1": "Light & refreshing",
+            "item_2": "Easy to drink",
+            "item_3": "No milky taste",
+            "item_4": "Gentle on stomach"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,352 @@
+{%- comment -%}
+  Section: Find Your Flavour
+  - Cards come from the shared 'product-card' snippet (layout: flavour)
+  - Layout: grid (max 4 per row) or Swiper slider with optional autoplay
+  - Flavour heading -> product metafield (default: custom.flavour)
+  - Promo banner: video takes priority over image; button links to a chosen collection
+{%- endcomment -%}
+
+{%- liquid
+  assign cols_d = section.settings.columns_desktop
+  assign cols_m = section.settings.columns_mobile
+  assign flavour_key = section.settings.flavour_metafield | strip | split: '.'
+  assign card_color_key = section.settings.card_color_metafield | strip | split: '.'
+  assign slider = false
+  if section.settings.layout == 'slider'
+    assign slider = true
+  endif
+  assign title_lines = 0
+  if section.settings.truncate_title
+    assign title_lines = section.settings.title_lines
+  endif
+  assign pv_mobile = 1.15
+  if cols_m == '2'
+    assign pv_mobile = 2.1
+  endif
+  assign pv_tablet = 2.1
+  if cols_d < 2
+    assign pv_tablet = 1.15
+  endif
+-%}
+
+{% style %}
+  {{ section.settings.heading_font | font_face: font_display: 'swap' }}
+  {{ section.settings.script_font | font_face: font_display: 'swap' }}
+  {{ section.settings.body_font | font_face: font_display: 'swap' }}
+
+  #FYF-{{ section.id }} {
+    --fyf-bg: {{ section.settings.bg_color }};
+    --fyf-heading: {{ section.settings.heading_color }};
+    --fyf-accent: {{ section.settings.accent_color }};
+    --fyf-text: {{ section.settings.text_color }};
+    --fyf-gap: {{ section.settings.card_gap }}px;
+    --fyf-cols: {{ cols_d }};
+    --fyf-cols-m: {{ cols_m }};
+    --fyf-heading-font: {{ section.settings.heading_font.family }}, {{ section.settings.heading_font.fallback_families }};
+    --fyf-script-font: {{ section.settings.script_font.family }}, {{ section.settings.script_font.fallback_families }};
+    --fyf-body-font: {{ section.settings.body_font.family }}, {{ section.settings.body_font.fallback_families }};
+
+    /* variables used by the shared product-card snippet */
+    --pc-heading: {{ section.settings.heading_color }};
+    --pc-btn-bg: {{ section.settings.button_bg }};
+    --pc-btn-text: {{ section.settings.button_text }};
+    --pc-radius: {{ section.settings.card_radius }}px;
+    --pc-heading-font: var(--fyf-heading-font);
+    --pc-star: {{ section.settings.star_color }};
+    --pc-name-size: {{ section.settings.product_title_size }}px;
+
+    background: var(--fyf-bg);
+    padding: {{ section.settings.padding_top }}px 20px {{ section.settings.padding_bottom }}px;
+    font-family: var(--fyf-body-font);
+    color: var(--fyf-text);
+  }
+  #FYF-{{ section.id }} * { box-sizing: border-box; }
+  #FYF-{{ section.id }} .fyf__wrap { max-width: {{ section.settings.max_width }}px; margin: 0 auto; }
+
+  /* Header */
+  #FYF-{{ section.id }} .fyf__head { text-align: center; margin-bottom: 40px; }
+  #FYF-{{ section.id }} .fyf__eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: {{ section.settings.eyebrow_bg }}; color: {{ section.settings.eyebrow_color }};
+    font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    padding: 8px 16px; border-radius: 999px; margin-bottom: 18px;
+  }
+  #FYF-{{ section.id }} .fyf__eyebrow::before {
+    content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--fyf-accent);
+  }
+  #FYF-{{ section.id }} .fyf__title {
+    font-family: var(--fyf-heading-font); color: var(--fyf-heading);
+    font-size: 60px; line-height: 1; margin: 0; text-transform: uppercase; font-weight: 400;
+  }
+  #FYF-{{ section.id }} .fyf__title-accent {
+    font-family: var(--fyf-script-font); color: var(--fyf-accent);
+    text-transform: none; font-size: 1.05em; margin-left: .15em;
+  }
+  #FYF-{{ section.id }} .fyf__sub { max-width: 620px; margin: 16px auto 0; font-size: 15px; line-height: 1.6; }
+
+  /* Grid: never more than 4 per row */
+  #FYF-{{ section.id }} .fyf__grid {
+    display: grid; gap: var(--fyf-gap);
+    grid-template-columns: repeat(var(--fyf-cols), minmax(0, 1fr));
+  }
+
+  /* Promo banner */
+  #FYF-{{ section.id }} .fyf-promo {
+    margin-top:10px; border-radius: {{ section.settings.card_radius }}px; background: {{ section.settings.promo_bg }};
+    color: {{ section.settings.promo_text }}; display: flex; align-items: center; gap: 24px; overflow: hidden; padding: 10px 20px 10px 10px;
+  }
+  #FYF-{{ section.id }} .fyf-promo__img { width: 150px; align-self: stretch; flex-shrink: 0; min-height: 110px; }
+  #FYF-{{ section.id }} .fyf-promo__img img,
+  #FYF-{{ section.id }} .fyf-promo__img video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  #FYF-{{ section.id }} .fyf-promo__body { flex: 1; padding: 18px 0; }
+  #FYF-{{ section.id }} .fyf-promo__script { font-family: var(--fyf-script-font); font-size: 30px; line-height: 1.1; margin: 0 0 6px; }
+  #FYF-{{ section.id }} .fyf-promo__text { margin: 0; font-size: 14px; line-height: 1.5; }
+  #FYF-{{ section.id }} .fyf-promo__btn {
+    background: {{ section.settings.promo_btn_bg }}; color: {{ section.settings.promo_btn_text }};
+    padding: 14px 26px; border-radius: 999px; font-weight: 700; font-size: 14px; text-decoration: none; white-space: nowrap;
+  }
+
+  @media (max-width: 989px) {
+    #FYF-{{ section.id }} .fyf__grid { grid-template-columns: repeat({% if cols_d > 2 %}2{% else %}{{ cols_d }}{% endif %}, minmax(0, 1fr)); }
+  }
+  @media (max-width: 599px) {
+    #FYF-{{ section.id }} { padding-left: 14px; padding-right: 14px; }
+    #FYF-{{ section.id }} .fyf__title { font-size: 40px; }
+    #FYF-{{ section.id }} .fyf__grid { grid-template-columns: repeat(var(--fyf-cols-m), minmax(0, 1fr)); gap: 12px; }
+    #FYF-{{ section.id }} .fyf-promo { flex-direction: column; align-items: stretch; padding: 20px 0; text-align: center; gap: 12px; }
+    #FYF-{{ section.id }} .fyf-promo__img { width: 120px; height: 120px; display: flex; margin: 0 auto; }
+    #FYF-{{ section.id }} .fyf-promo__body { padding: 0 20px; }
+    #FYF-{{ section.id }} .fyf-promo__btn { margin: 0 20px; text-align: center; }
+  }
+{% endstyle %}
+
+<section id="FYF-{{ section.id }}" class="fyf">
+  <div class="fyf__wrap">
+
+    <div class="fyf__head">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="fyf__eyebrow">{{ section.settings.eyebrow }}</span>
+      {%- endif -%}
+      <h2 class="fyf__title">
+        {{ section.settings.heading }}
+        {%- if section.settings.heading_accent != blank -%}
+          <span class="fyf__title-accent">{{ section.settings.heading_accent }}</span>
+        {%- endif -%}
+      </h2>
+      {%- if section.settings.subheading != blank -%}
+        <p class="fyf__sub">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- if slider -%}
+      <div class="fy-swiper swiper"><div class="swiper-wrapper">
+    {%- else -%}
+      <div class="fyf__grid">
+    {%- endif -%}
+
+    {%- for block in section.blocks -%}
+       {%- liquid
+        assign product = block.settings.product
+        assign flavour_mf = product.metafields[flavour_key[0]][flavour_key[1]]
+        assign card_color_mf = product.metafields[card_color_key[0]][card_color_key[1]]
+      -%}
+      <div class="fy-slot{% if slider %} swiper-slide{% endif %}" {{ block.shopify_attributes }}>
+        {%- render 'product-card-main',
+          product: product,
+          layout: 'flavour',
+          card_color: card_color_mf.value,
+          image: block.settings.image,
+          placeholder_text: block.settings.placeholder_text,
+          flavour_text: flavour_mf.value,
+          show_title: section.settings.show_product_title,
+          title_lines: title_lines,
+          show_price: section.settings.show_price,
+          show_reviews: section.settings.show_judgeme,
+          show_atc: section.settings.show_atc,
+          atc_label: section.settings.atc_label,
+          show_arrow: section.settings.show_arrow,
+          show_image_badge: section.settings.show_image_badge,
+          image_badge_text: section.settings.image_badge_text,
+          image_badge_position: section.settings.image_badge_position,
+          offer_text: section.settings.offer_text,
+          offer_percent: section.settings.offer_percent,
+          form_id: block.id
+        -%}
+      </div>
+    {%- endfor -%}
+
+    {%- if slider -%}
+      </div></div>
+      {%- assign fyf_root_id = 'FYF-' | append: section.id -%}
+      {%- render 'fy-swiper-init',
+        root_id: fyf_root_id,
+        per_view_desktop: cols_d,
+        per_view_tablet: pv_tablet,
+        per_view_mobile: pv_mobile,
+        gap: section.settings.card_gap,
+        autoplay: section.settings.autoplay,
+        delay: section.settings.autoplay_delay,
+        speed: section.settings.slide_speed,
+        pause_on_hover: section.settings.pause_on_hover,
+        show_arrows: section.settings.show_arrows,
+        show_dots: section.settings.show_dots
+      -%}
+    {%- else -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.show_promo -%}
+      <div class="fyf-promo">
+        {%- if section.settings.promo_video != blank -%}
+          <div class="fyf-promo__img">
+            {{ section.settings.promo_video | video_tag: image_size: '600x', autoplay: true, loop: true, muted: true, controls: false, playsinline: true }}
+          </div>
+        {%- elsif section.settings.promo_image != blank -%}
+          <div class="fyf-promo__img">
+            {{ section.settings.promo_image | image_url: width: 400 | image_tag: loading: 'lazy' }}
+          </div>
+        {%- endif -%}
+        <div class="fyf-promo__body">
+          <p class="fyf-promo__script">{{ section.settings.promo_script }}</p>
+          <p class="fyf-promo__text">{{ section.settings.promo_text_body }}</p>
+        </div>
+        {%- if section.settings.promo_btn_label != blank and section.settings.promo_collection != blank -%}
+          <a href="{{ section.settings.promo_collection.url }}" class="fyf-promo__btn">{{ section.settings.promo_btn_label }} &rarr;</a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Find your flavour",
+  "tag": "div",
+  "class": "section-find-flavour",
+  "max_blocks": 12,
+  "settings": [
+    { "type": "header", "content": "Heading" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow pill", "default": "Anytime Clear Whey Isolate" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Find your" },
+    { "type": "text", "id": "heading_accent", "label": "Script accent word", "default": "flavour" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Every scoop: 24g whey protein isolate, 5.2g BCAA and 0g added sugar. Four flavours — the only hard part is picking one." },
+    { "type": "header", "content": "Image badge" },
+    { "type": "checkbox", "id": "show_image_badge", "label": "Show badge on product images", "default": true },
+    { "type": "text", "id": "image_badge_text", "label": "Badge text", "default": "26g protein", "info": "The first word is shown large and the rest smaller, e.g. 26g / protein." },
+    {
+      "type": "select", "id": "image_badge_position", "label": "Badge position",
+      "options": [
+        { "value": "left", "label": "Top left" },
+        { "value": "right", "label": "Top right" }
+      ],
+      "default": "left"
+    },
+    { "type": "range", "id": "image_badge_size", "label": "Badge size", "min": 60, "max": 120, "step": 4, "unit": "px", "default": 84 },
+    { "type": "color", "id": "image_badge_bg", "label": "Badge background", "default": "#6BAA2B" },
+    { "type": "color", "id": "image_badge_color", "label": "Badge text colour", "default": "#FFFFFF" },
+
+    { "type": "header", "content": "Layout" },
+    {
+      "type": "select", "id": "layout", "label": "Card layout",
+      "options": [
+        { "value": "slider", "label": "Slider (Swiper)" },
+        { "value": "grid", "label": "Grid" }
+      ],
+      "default": "slider"
+    },
+    { "type": "range", "id": "columns_desktop", "label": "Cards per row (desktop)", "min": 1, "max": 4, "step": 1, "default": 4, "info": "Capped at 4. In grid mode extra cards wrap; in slider mode this is the number visible." },
+    {
+      "type": "select", "id": "columns_mobile", "label": "Cards per row (mobile)",
+      "options": [ { "value": "1", "label": "1" }, { "value": "2", "label": "2" } ],
+      "default": "1"
+    },
+    { "type": "range", "id": "card_gap", "label": "Gap between cards", "min": 8, "max": 40, "step": 2, "unit": "px", "default": 20 },
+    { "type": "range", "id": "card_radius", "label": "Card corner radius", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 20 },
+    { "type": "range", "id": "max_width", "label": "Max section width", "min": 900, "max": 1600, "step": 20, "unit": "px", "default": 1240 },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 56 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 56 },
+
+    { "type": "header", "content": "Slider" },
+    { "type": "checkbox", "id": "autoplay", "label": "Auto slide", "default": true },
+    { "type": "range", "id": "autoplay_delay", "label": "Seconds between slides", "min": 2, "max": 10, "step": 1, "unit": "s", "default": 4 },
+    { "type": "range", "id": "slide_speed", "label": "Transition speed", "min": 200, "max": 1500, "step": 100, "unit": "ms", "default": 600 },
+    { "type": "checkbox", "id": "pause_on_hover", "label": "Pause on hover", "default": true },
+    { "type": "checkbox", "id": "show_arrows", "label": "Show arrows", "default": true },
+    { "type": "checkbox", "id": "show_dots", "label": "Show dots", "default": true },
+
+    { "type": "header", "content": "Colours" },
+    { "type": "color", "id": "bg_color", "label": "Section background", "default": "#FFF5EE" },
+    { "type": "color", "id": "heading_color", "label": "Heading / card text", "default": "#3B0A2F" },
+    { "type": "color", "id": "accent_color", "label": "Accent (script word, pill dot)", "default": "#E5195E" },
+    { "type": "color", "id": "text_color", "label": "Body text", "default": "#3B0A2F" },
+    { "type": "color", "id": "eyebrow_bg", "label": "Eyebrow pill background", "default": "#FFE0D6" },
+    { "type": "color", "id": "eyebrow_color", "label": "Eyebrow pill text", "default": "#3B0A2F" },
+    { "type": "color", "id": "button_bg", "label": "Add to cart background", "default": "#3B0A2F" },
+    { "type": "color", "id": "button_text", "label": "Add to cart text", "default": "#FFFFFF" },
+
+    { "type": "header", "content": "Typography" },
+    { "type": "font_picker", "id": "heading_font", "label": "Heading font", "default": "oswald_n7" },
+    { "type": "font_picker", "id": "script_font", "label": "Script font", "default": "pacifico_n4" },
+    { "type": "font_picker", "id": "body_font", "label": "Body font", "default": "assistant_n4" },
+
+    { "type": "header", "content": "Product metafields" },
+    { "type": "paragraph", "content": "Enter the metafield as namespace.key (as shown in Settings → Custom data → Products)." },
+    { "type": "text", "id": "flavour_metafield", "label": "Flavour (card heading)", "default": "custom.flavour" },
+        { "type": "text", "id": "card_color_metafield", "label": "Card colour", "default": "custom.card_color", "info": "Colour metafield. Cards without a value use a white background." },
+
+    { "type": "header", "content": "Product title (below image)" },
+    { "type": "checkbox", "id": "show_product_title", "label": "Show product title", "default": true },
+    { "type": "range", "id": "product_title_size", "label": "Font size", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 15 },
+    { "type": "checkbox", "id": "truncate_title", "label": "Truncate long titles", "default": true },
+    {
+      "type": "select", "id": "title_lines", "label": "Max lines before truncating",
+      "options": [
+        { "value": "1", "label": "1 line" },
+        { "value": "2", "label": "2 lines" },
+        { "value": "3", "label": "3 lines" }
+      ],
+      "default": "2"
+    },
+
+    { "type": "header", "content": "Card content" },
+    { "type": "checkbox", "id": "show_price", "label": "Show price", "default": true },
+    { "type": "checkbox", "id": "show_judgeme", "label": "Show Judge.me rating", "default": true, "info": "Requires the Judge.me app embed to be enabled in Theme settings → App embeds." },
+    { "type": "color", "id": "star_color", "label": "Judge.me star colour", "default": "#F5A623" },
+    { "type": "checkbox", "id": "show_atc", "label": "Show Add to cart", "default": true },
+    { "type": "text", "id": "atc_label", "label": "Add to cart label", "default": "Add to cart" },
+    { "type": "checkbox", "id": "show_arrow", "label": "Show arrow link button", "default": true },
+    { "type": "range", "id": "offer_percent", "label": "Extra discount from code (%)", "min": 0, "max": 30, "step": 1, "default": 1, "info": "Set to 0 to hide the code line." },
+    { "type": "text", "id": "offer_text", "label": "Code line text", "default": "Get it at {price} · code auto-applies", "info": "{price} is replaced with the price after the extra discount." },
+
+    { "type": "header", "content": "Promo banner" },
+    { "type": "checkbox", "id": "show_promo", "label": "Show promo banner", "default": true },
+    { "type": "video", "id": "promo_video", "label": "Video", "info": "Shopify-hosted video. If both a video and an image are added, the video is shown." },
+    { "type": "image_picker", "id": "promo_image", "label": "Image (used if no video)" },
+    { "type": "text", "id": "promo_script", "label": "Script heading", "default": "Make it a mocktail" },
+    { "type": "textarea", "id": "promo_text_body", "label": "Text", "default": "One scoop + chilled soda + ice + a squeeze of lime. Protein that feels like a party drink." },
+    { "type": "text", "id": "promo_btn_label", "label": "Button label", "default": "Get the recipes" },
+    { "type": "collection", "id": "promo_collection", "label": "Button links to collection", "info": "The button is hidden until a collection is chosen." },
+    { "type": "color", "id": "promo_bg", "label": "Background", "default": "#3B0A2F" },
+    { "type": "color", "id": "promo_text", "label": "Text", "default": "#FFFFFF" },
+    { "type": "color", "id": "promo_btn_bg", "label": "Button background", "default": "#FF8FB1" },
+    { "type": "color", "id": "promo_btn_text", "label": "Button text", "default": "#3B0A2F" }
+  ],
+  "blocks": [
+    {
+      "type": "flavour_card",
+      "name": "Flavour card",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product" },
+        { "type": "image_picker", "id": "image", "label": "Image override", "info": "Defaults to the product's featured image." },
+        { "type": "text", "id": "placeholder_text", "label": "Placeholder text (no image)", "default": "[Product photo]" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Find your flavour",
+    }
+  ]
+}
+{% endschema %}

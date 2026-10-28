@@ -1,0 +1,300 @@
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'component-slider.css' | asset_url | stylesheet_tag }}
+{{ 'template-collection.css' | asset_url | stylesheet_tag }}
+
+{% if section.settings.image_shape == 'blob' %}
+  {{ 'mask-blobs.css' | asset_url | stylesheet_tag }}
+{% endif %}
+
+{% if section.settings.enable_quick_add %}
+  {{ 'quick-add.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+{% endif %}
+
+{% style %}
+.section-{{ section.id }}-padding {
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+}
+.custom-featured-collection-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2rem;
+}
+.media-wrapper {
+  flex: 1 1 45%;
+  max-width: 450px;
+}
+.carousel-wrapper {
+  flex: 1 1 50%;
+  min-width: 0;
+  position: relative;
+}
+
+.media-wrapper img,
+.media-wrapper video,
+.media-wrapper iframe {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+}
+
+.featured-swiper .swiper-slide {
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.featured-swiper .swiper-slide img {
+  width: 100%;
+  height: auto;
+  max-height: 450px;
+  object-fit: cover;
+}
+
+.media-right .media-wrapper { order: 2; }
+.media-right .carousel-wrapper { order: 1; }
+
+.swiper {
+  width: 100%;
+  padding-bottom: 3rem;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: #000;
+  bottom: 0;
+  top: auto;
+  position: absolute;
+}
+
+.swiper-button-prev { left: 0; }
+.swiper-button-next { right: 0; }
+
+.custom-collection-image .swiper-button-prev,
+.custom-collection-image .swiper-button-next {
+  transform: translateY(0);
+  background-color: #000;
+  color: #fff;
+  padding: 15px 15px;
+  border-radius: 50%;
+  z-index: 2;
+  transition: all 0.3s ease;
+  display: flex;
+}
+
+.custom-collection-image .swiper-button-prev:hover,
+.custom-collection-image .swiper-button-next:hover {
+  background-color: #333;
+}
+
+.custom-collection-image .swiper-button-prev {
+  left: calc(50% - 45px);
+}
+
+.custom-collection-image .swiper-button-next {
+  left: calc(50% + 0px);
+}
+
+.custom-featured-button {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+@media screen and (max-width: 749px) {
+  .custom-featured-collection-wrapper { flex-direction: column; }
+  .custom-featured-collection-wrapper.media-right { flex-direction: column-reverse; }
+  .media-wrapper, .carousel-wrapper { width: 100%; }
+}
+
+{% if section.settings.bg_image != blank %}
+.image-with-featured-collection-bg-image-{{ section.id }} {
+  background-image: url('{{ section.settings.bg_image | image_url }}');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+{% endif %}
+{% endstyle %}
+
+<div class="color-{{ section.settings.color_scheme }} isolate gradient {{ section.settings.custom_class }} image-with-featured-collection-bg-image-{{ section.id }}">
+  <div class="custom-collection-image page-width section-{{ section.id }}-padding">
+
+    <h2 class="text-center h1">{{ section.settings.heading }}</h2>
+
+    <div class="custom-featured-collection-wrapper {% if section.settings.media_on_right %}media-right{% endif %}">
+
+      <!-- MEDIA WRAPPER -->
+      <div class="media-wrapper">
+
+       {% assign poster = section.settings.poster_image | default: section.settings.media_image %}
+
+      {% if section.settings.media_video_upload != blank %}
+        <video
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="auto"
+          poster="{{ poster | image_url: width: 1200 }}"
+          style="width:100%; height:auto; object-fit:cover; border-radius:12px;"
+        >
+          {% if section.settings.media_video_upload.sources[1] %}
+            <source src="{{ section.settings.media_video_upload.sources[1].url }}" type="video/webm">
+          {% endif %}
+          <source src="{{ section.settings.media_video_upload.sources[0].url }}" type="video/mp4">
+        </video>
+
+      {% elsif section.settings.enable_video and section.settings.media_video_file != blank %}
+        <video
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="auto"
+          poster="{{ poster | image_url: width: 1200 }}"
+          style="width:100%; height:auto; object-fit:cover; border-radius:12px;"
+        >
+          <source src="{{ section.settings.media_video_file }}" type="video/mp4">
+        </video>
+
+      {% elsif poster != blank %}
+        <a href="{{ collections[section.settings.collection].url }}">
+          <img src="{{ poster | image_url: width: 1000 }}" alt="Featured Image" width="100%" height="100%" style="width:100%; border-radius:12px;">
+        </a>
+      {% endif %}
+      </div>
+
+      <!-- PRODUCTS SLIDER -->
+      <div class="carousel-wrapper">
+        {% if section.settings.collection != blank %}
+          <div class="swiper featured-swiper featuredSwiper-{{ section.id }}">
+            <div class="swiper-wrapper">
+              {% for product in collections[section.settings.collection].products limit: 4 %}
+                <div class="swiper-slide">
+                  {% render 'card-product',
+                    card_product: product,
+                    media_aspect_ratio: section.settings.image_ratio,
+                    image_shape: section.settings.image_shape,
+                    show_secondary_image: section.settings.show_secondary_image,
+                    show_vendor: section.settings.show_vendor,
+                    show_rating: section.settings.show_rating,
+                    section_id: section.id,
+                    quick_add: section.settings.quick_add
+                  %}
+                </div>
+              {% endfor %}
+            </div>
+
+            {% if section.settings.show_navigation_arrows %}
+              <div class="swiper-button-prev swiper-button-prev-{{ section.id }}"></div>
+              <div class="swiper-button-next swiper-button-next-{{ section.id }}"></div>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if section.settings.show_view_all_button %}
+      <div class="text-center mt-4 custom-featured-button">
+        <a href="{{ collections[section.settings.collection].url }}" class="button">View All</a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  setTimeout(function () {
+    const swiper = new Swiper('.featuredSwiper-{{ section.id }}', {
+      slidesPerView: {{ section.settings.columns_desktop }},
+      spaceBetween: 10,
+      speed: 500,
+      loop: false,      
+      rewind: true,     
+      autoplay: {
+        delay: 3500,     
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true
+      },
+      navigation: {
+        nextEl: '.swiper-button-next-{{ section.id }}',
+        prevEl: '.swiper-button-prev-{{ section.id }}'
+      },
+      breakpoints: {
+        0: { slidesPerView: {{ section.settings.columns_mobile | default: 2 }} },
+        1140: { slidesPerView: {{ section.settings.columns_desktop | default: 3 }} }
+      }
+    });
+
+    window.addEventListener('load', () => swiper.update());
+  }, 300);
+});
+</script>
+
+{% schema %}
+{
+  "name": "Collection With Video",
+  "tag": "section",
+  "class": "section section-featured-collection",
+
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color Scheme", "default": "scheme-1" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Featured Collection" },
+
+    { "type": "checkbox", "id": "media_on_right", "label": "Show image/video on right side", "default": false },
+
+    { "type": "video", "id": "media_video_upload", "label": "Upload Video (autoplay muted)" },
+
+    { "type": "checkbox", "id": "enable_video", "label": "Enable video via URL", "default": false },
+    { "type": "url", "id": "media_video_file", "label": "Video URL (.mp4)" },
+
+    { "type": "image_picker", "id": "poster_image", "label": "Video Poster Image" },  
+    { "type": "image_picker", "id": "media_image", "label": "Fallback Image" },
+
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "number", "id": "columns_desktop", "label": "Products per row on desktop", "default": 3 },
+    { "type": "number", "id": "columns_mobile", "label": "Products per row on mobile", "default": 1 },
+
+    { "type": "checkbox", "id": "show_navigation_arrows", "label": "Show navigation arrows", "default": true },
+    { "type": "checkbox", "id": "show_view_all_button", "label": "Show View All button", "default": true },
+
+     {
+      "type": "select",
+      "id": "quick_add",
+      "default": "none",
+      "label": "t:sections.main-collection-product-grid.settings.quick_add.label",
+      "options": [
+        {
+          "value": "none",
+          "label": "t:sections.main-collection-product-grid.settings.quick_add.options.option_1"
+        },
+        {
+          "value": "standard",
+          "label": "t:sections.main-collection-product-grid.settings.quick_add.options.option_2"
+        },
+        {
+          "value": "bulk",
+          "label": "t:sections.main-collection-product-grid.settings.quick_add.options.option_3"
+        }
+      ]
+    },
+
+    { "type": "number", "id": "padding_top", "label": "Top padding", "default": 36 },
+    { "type": "number", "id": "padding_bottom", "label": "Bottom padding", "default": 36 },
+
+    { "type": "image_picker", "id": "bg_image", "label": "Background image" },
+    { "type": "text", "id": "custom_class", "label": "Custom class" }
+  ],
+
+  "presets": [
+    { "name": "Collection With Video", "category": "Custom" }
+  ]
+}
+{% endschema %}

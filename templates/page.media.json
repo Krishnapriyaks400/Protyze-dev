@@ -1,0 +1,838 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "grid_banner_4JFmUw": {
+      "type": "grid-banner",
+      "blocks": {
+        "text_FhB6EF": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/Artboard_1.png",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_4KWCkj": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/Artboard_2.png",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_xY69HD": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/Artboard_10.png",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_KYxTJR": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/Artboard_7.png",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_6y6zmC": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/Artboard_11.png",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_NwFyiD": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/Artboard_3.png",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_NmyW3k": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/w_logo.png",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_ynFGzx": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/Artboard_4.png",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_W6AARw": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/Artboard_9.png",
+            "show_content": true,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_kxWBcB": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/Artboard_5.png",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_98X3tW": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/stacked_logo.png",
+            "show_content": true,
+            "block_title": "",
+            "enable_title_link": true,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "https://www.stack3d.com/?s=Protyze",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_7Mxdrk": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/Artboard_6.png",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_ntkEYq": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/Artboard_8.png",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_K48pAz": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/Artboard_12.png",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_hckFWx": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/Artboard_20.png",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_jbnag4": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/Artboard_19.png",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_g3iAgE": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/Artboard_18.png",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_jtAXaW": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/Artboard_17.png",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_x49kC8": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/Artboard_15.png",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_MYi7Aj": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/Artboard_23.png",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_cxtxyU": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/Artboard_22.png",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_3GUYRd": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/Artboard_21.png",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_UKQwin": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/Artboard_16.png",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_NkqUC7": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/FrstIndia.png",
+            "show_content": true,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_HfgC7Y": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/Sangri.png",
+            "show_content": true,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_nbjAQw": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/TNC.png",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_KqyT99": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/StartupNews.png",
+            "show_content": true,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_7qCqEC": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/Loktej.png",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_C3Eywg": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/MIDDAY.png",
+            "show_content": true,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_QHdKEH": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/BLunttimes.png",
+            "show_content": true,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_ceKfwB": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/REpublic.png",
+            "show_content": true,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_Lb6RrP": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/Asian_News.png",
+            "show_content": true,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_ckeNhJ": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/up18.png",
+            "show_content": true,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_WXixRp": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/Ahmedabad_Mirror.png",
+            "show_content": true,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_JYkcC3": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/UNI.png",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_xNdkWy": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/JioNews.png",
+            "show_content": true,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        }
+      },
+      "block_order": [
+        "text_FhB6EF",
+        "text_4KWCkj",
+        "text_xY69HD",
+        "text_KYxTJR",
+        "text_6y6zmC",
+        "text_NwFyiD",
+        "text_NmyW3k",
+        "text_ynFGzx",
+        "text_W6AARw",
+        "text_kxWBcB",
+        "text_98X3tW",
+        "text_7Mxdrk",
+        "text_ntkEYq",
+        "text_K48pAz",
+        "text_hckFWx",
+        "text_jbnag4",
+        "text_g3iAgE",
+        "text_jtAXaW",
+        "text_x49kC8",
+        "text_MYi7Aj",
+        "text_cxtxyU",
+        "text_3GUYRd",
+        "text_UKQwin",
+        "text_NkqUC7",
+        "text_HfgC7Y",
+        "text_nbjAQw",
+        "text_KqyT99",
+        "text_7qCqEC",
+        "text_C3Eywg",
+        "text_QHdKEH",
+        "text_ceKfwB",
+        "text_Lb6RrP",
+        "text_ckeNhJ",
+        "text_WXixRp",
+        "text_JYkcC3",
+        "text_xNdkWy"
+      ],
+      "name": "t:sections.grid-banner.presets.name",
+      "settings": {
+        "title": "",
+        "heading_size": "h1",
+        "span_text": "",
+        "image_width": "full",
+        "button_label": "",
+        "button_link": "",
+        "column_alignment": "center",
+        "background_style": "none",
+        "grid-column": "5",
+        "column_gap": "30",
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "custom_class": "grid-banner-media-block",
+        "swiper_enable": false,
+        "desktop_column": 4,
+        "laptop_column": 4,
+        "tablet_column": 3,
+        "mobile_column": 1,
+        "centered_slide": false,
+        "swiper_pagination": false,
+        "swiper_navigation": false
+      }
+    },
+    "rich_text_WFFdJD": {
+      "type": "rich-text",
+      "blocks": {
+        "text_KV7R6y": {
+          "type": "text",
+          "settings": {
+            "text": "<p>At <strong>Protyze</strong>, we're proud to be recognized as pioneers in the protein supplement space—and the media is taking notice. Our revolutionary <a href=\"/collections/all-products\" title=\"All Products\"><strong>Clear Whey Protein</strong></a><strong> </strong>has been featured in leading health, fitness, and lifestyle publications across India. From in-depth articles on clean nutrition to expert reviews on protein innovations, the spotlight is on Protyze for a reason: we’re redefining how India sees and sips its protein.</p><p><strong>Why the Buzz Around Protyze Clear Whey?</strong></p><p>Unlike traditional milky protein shakes, <a href=\"/collections/anytime-clear-whey-protein\" title=\"Buy India's Best Clear Whey Protein Isolates – Anytime, Anywhere!\"><strong>Protyze Clear Whey Protein</strong></a><strong> </strong>is light, refreshing, and crystal-clear. It mixes like a fruit drink, absorbs fast, and is perfect for anyone who wants high-quality protein without the heaviness.Fitness coaches, athletes, and nutritionists are recommending it. Publications are calling it <strong>“</strong><a href=\"/collections/all-products\" title=\"All Products\"><strong>the best clear whey protein in India</strong></a><strong>”</strong>— and we couldn’t agree more. </p><p><strong>What Makes Us Stand Out</strong></p><ol><li>Made with premium <strong>Whey Protein Isolate</strong></li><li>Refreshing fruit-based flavors</li><li>Zero Added Sugar, No Bloating Technology</li><li>Fast absorption, light on the stomach</li><li>Patented formulation – <strong>India’s first Patented Clear Protein</strong></li></ol><p>We’re not just part of the conversation—we’re leading it.<br/><br/></p>"
+          }
+        }
+      },
+      "block_order": [
+        "text_KV7R6y"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "left",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 0,
+        "padding_bottom": 32,
+        "custom_class": "rich-text-media-block"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "grid_banner_4JFmUw",
+    "rich_text_WFFdJD"
+  ]
+}

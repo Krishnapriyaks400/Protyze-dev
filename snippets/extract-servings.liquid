@@ -1,0 +1,20 @@
+{% comment %}
+  Extracts the servings label from a Protyze-style product title, e.g.
+  "...Low Carb -Nimbu Pani (30 Servings)" -> "30 Servings"
+  Outputs an empty string if the title doesn't match the expected pattern.
+
+  Usage:
+  {% render 'extract-servings', title: product.title %}
+{% endcomment %}
+{%- liquid
+  assign dash_split = title | split: ' -'
+  assign servings = ''
+  if dash_split.size > 1
+    assign flavor_and_servings = dash_split | last
+    assign paren_split = flavor_and_servings | split: ' ('
+    if paren_split.size > 1
+      assign servings = paren_split.last | remove: ')' | strip
+    endif
+  endif
+-%}
+{{- servings -}}

@@ -1,0 +1,925 @@
+{% comment %}
+  Shop by goal: goal tabs, each opening a panel with a hero image and a product card.
+
+  Per goal (block), content falls back in this order:
+    - Title:       block title → collection title → first pack product title
+    - Description: block description → collection description
+    - Image:       block image → collection image → first pack product image
+    - Packs:       products picked in the block (name = custom.flavour_name or title,
+                   detail = custom.serving_size / custom.size_name, price = product price)
+    - Starts at:   block text → lowest pack price
+    - Button link: collection → first pack product
+{% endcomment %}
+
+{%- liquid
+  assign sg_goals = section.blocks | where: 'type', 'goal'
+  # Tab that is open when the page loads (1 = first).
+  assign sg_open = section.settings.open_goal | at_most: sg_goals.size | at_least: 1
+-%}
+
+{%- if section.settings.load_fonts -%}
+  {%- comment -%} Same fonts as the Flavour hero carousel; the browser reuses them if both load. {%- endcomment -%}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@400;700;800&family=Sacramento&display=swap"
+    rel="stylesheet"
+    media="print"
+    onload="this.media='all'"
+  >
+{%- endif -%}
+
+{{ 'combo-deal-card.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  /* Element + class beats the theme's "body .color-scheme-x" background/text rule. */
+  shop-by-goal.sg-{{ section.id }} {
+    --sg-bg: {{ section.settings.background_color }};
+    --sg-card: {{ section.settings.card_color }};
+    --sg-text: {{ section.settings.text_color }};
+    --sg-muted: {{ section.settings.text_color | color_modify: 'alpha', 0.72 }};
+    --sg-line: {{ section.settings.text_color | color_modify: 'alpha', 0.14 }};
+    --sg-display: 'Anton', var(--font-heading-family), sans-serif;
+    --sg-script: 'Sacramento', cursive;
+    background: var(--sg-bg);
+    color: var(--sg-text);
+    display: block; /* custom elements are inline by default, which ignores vertical padding */
+    font-family: 'Outfit', var(--font-body-family), system-ui, sans-serif;
+    padding-top: {{ section.settings.padding_top | times: 0.7 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.7 | round: 0 }}px;
+  }
+
+  /* ── Heading ─────────────────────────────────────────────────────── */
+  .sg-{{ section.id }} .sg__head {
+    margin: 0 auto 2.8rem;
+    max-width: 72rem;
+    text-align: center;
+  }
+  .sg-{{ section.id }} .sg__eyebrow {
+    align-items: center;
+    background: {{ section.settings.eyebrow_bg_color }};
+    border-radius: 99rem;
+    color: var(--sg-text);
+    display: inline-flex;
+    font-size: 1.1rem;
+    font-weight: 700;
+    gap: 0.6rem;
+    letter-spacing: 0.08em;
+    margin-bottom: 1.4rem;
+    padding: 0.5rem 1.2rem;
+    text-transform: uppercase;
+  }
+  .sg-{{ section.id }} .sg__eyebrow::before {
+    background: {{ section.settings.script_color }};
+    border-radius: 50%;
+    content: '';
+    height: 0.6rem;
+    width: 0.6rem;
+  }
+  .sg-{{ section.id }} .sg__heading {
+    color: var(--sg-text);
+    font-family: var(--sg-display);
+    font-weight: 400;
+    font-size: clamp(3rem, 2rem + 3.4vw, 6rem);
+    line-height: 1;
+    margin: 0;
+    text-transform: uppercase;
+  }
+  .sg-{{ section.id }} .sg__heading-script {
+    color: {{ section.settings.script_color }};
+    font-family: var(--sg-script);
+    font-size: 1.3em;
+    font-weight: 400;
+    line-height: 0.8;
+    text-transform: none;
+  }
+  .sg-{{ section.id }} .sg__subheading {
+    color: var(--sg-muted);
+    font-size: 1.5rem;
+    line-height: 1.5;
+    margin: 1.4rem auto 0;
+    max-width: 52rem;
+  }
+
+  /* ── Goal tabs: pills in one row; the active one is filled and points at the panel. ── */
+  .sg-{{ section.id }} .sg__tabs {
+    display: flex;
+    gap: 0.8rem;
+    justify-content: center;
+    margin: 0 0 2.8rem;
+  }
+  .sg-{{ section.id }} .sg__tab {
+    align-items: center;
+    background: var(--sg-card);
+    border: 1px solid var(--sg-line);
+    border-radius: 99rem;
+    color: var(--sg-text);
+    cursor: pointer;
+    display: flex;
+    flex: 1 1 0;
+    font-family: inherit;
+    gap: 0.6rem;
+    justify-content: center;
+    min-width: 0;
+    padding: 0.9rem 1.2rem;
+    position: relative;
+    text-align: center;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+  }
+  .sg-{{ section.id }} .sg__tab:hover {
+    border-color: var(--sg-accent);
+  }
+  .sg-{{ section.id }} .sg__tab[aria-selected='true'] {
+    background: var(--sg-accent);
+    border-color: var(--sg-accent);
+    color: var(--sg-accent-text);
+  }
+  /* Small pointer under the active tab. */
+  .sg-{{ section.id }} .sg__tab[aria-selected='true']::after {
+    border-left: 0.8rem solid transparent;
+    border-right: 0.8rem solid transparent;
+    border-top: 0.8rem solid var(--sg-accent);
+    bottom: -0.8rem;
+    content: '';
+    left: 50%;
+    position: absolute;
+    transform: translateX(-50%);
+  }
+  .sg-{{ section.id }} .sg__tab-icon {
+    display: flex;
+    flex-shrink: 0;
+  }
+  .sg-{{ section.id }} .sg__tab-icon svg {
+    height: 2.2rem;
+    width: 2.2rem;
+  }
+  .sg-{{ section.id }} .sg__tab-text {
+    min-width: 0;
+  }
+  .sg-{{ section.id }} .sg__tab-title {
+    display: block;
+    font-size: 1.3rem;
+    font-weight: 700;
+    line-height: 1.15;
+  }
+  .sg-{{ section.id }} .sg__tab-sub {
+    display: block;
+    font-size: 1.1rem;
+    line-height: 1.3;
+    margin-top: 0.2rem;
+    opacity: 0.75;
+  }
+
+  @media screen and (max-width: 749px) {
+    .sg-{{ section.id }} .sg__head {
+      margin-bottom: 2.4rem;
+    }
+    .sg-{{ section.id }} .sg__subheading {
+      font-size: 1.4rem;
+      margin-top: 1rem;
+    }
+    /* Mobile tabs: text only. */
+    .sg-{{ section.id }} .sg__tab-icon {
+      display: none;
+    }
+    .sg-{{ section.id }} .sg__tab {
+      padding: 1rem 0.8rem;
+    }
+  }
+
+  /* ── Panel ───────────────────────────────────────────────────────── */
+  .sg-{{ section.id }} .sg__panel {
+    display: grid;
+    gap: 1.6rem;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .sg-{{ section.id }} .sg__panel[hidden] {
+    display: none;
+  }
+
+  .sg-{{ section.id }} .sg__media {
+    aspect-ratio: 4 / 3;
+    border: 0.3rem solid var(--sg-accent);
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+  }
+  .sg-{{ section.id }} .sg__media img,
+  .sg-{{ section.id }} .sg__media .placeholder-svg {
+    display: block;
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+  }
+  .sg-{{ section.id }} .sg__media .placeholder-svg {
+    background: var(--sg-card);
+    fill: var(--sg-muted);
+  }
+  .sg-{{ section.id }} .sg__badge {
+    align-items: center;
+    background: var(--sg-accent);
+    border-radius: 50%;
+    color: var(--sg-accent-text);
+    display: flex;
+    flex-direction: column;
+    height: 9rem;
+    justify-content: center;
+    left: 1.4rem;
+    position: absolute;
+    top: 1.4rem;
+    width: 9rem;
+  }
+  /* Dotted ring around the badge, like the Flavour hero circle. */
+  .sg-{{ section.id }} .sg__badge::before {
+    border: 0.2rem dashed var(--sg-accent);
+    border-radius: 50%;
+    content: '';
+    inset: -0.7rem;
+    pointer-events: none;
+    position: absolute;
+  }
+  .sg-{{ section.id }} .sg__badge-value {
+    font-family: var(--sg-display);
+    font-weight: 400;
+    font-size: 3.2rem;
+    line-height: 1;
+  }
+  .sg-{{ section.id }} .sg__badge-label {
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .sg-{{ section.id }} .sg__info {
+    align-items: center;
+    background: var(--sg-card);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    padding: 2.4rem 1.6rem;
+    text-align: center;
+  }
+  .sg-{{ section.id }} .sg__best-for {
+    color: var(--sg-accent);
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    margin: 0 0 0.8rem;
+    text-transform: uppercase;
+  }
+  .sg-{{ section.id }} .sg__title {
+    color: var(--sg-text);
+    font-family: var(--sg-display);
+    font-weight: 400;
+    font-size: clamp(2.6rem, 2rem + 1.6vw, 3.8rem);
+    line-height: 1.05;
+    margin: 0;
+    text-transform: uppercase;
+    /* At most two lines; longer titles end with an ellipsis. */
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+  }
+  .sg-{{ section.id }} .sg__desc {
+    color: var(--sg-muted);
+    font-size: 1.4rem;
+    line-height: 1.55;
+    margin: 1rem 0 0;
+  }
+  /* Stats: compact inline pills. */
+  .sg-{{ section.id }} .sg__stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    justify-content: center;
+    margin: 1.4rem 0 0;
+  }
+  .sg-{{ section.id }} .sg__stat {
+    align-items: baseline;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    display: inline-flex;
+    gap: 0.5rem;
+    padding: 0.5rem 1.2rem;
+  }
+  .sg-{{ section.id }} .sg__stat-value {
+    color: var(--sg-accent);
+    font-family: var(--sg-display);
+    font-size: 1.8rem;
+    font-weight: 400;
+    line-height: 1.1;
+  }
+  .sg-{{ section.id }} .sg__stat-label {
+    color: var(--sg-muted);
+    font-size: 1.1rem;
+  }
+
+  /* Highlights: what makes this goal's product different. */
+  .sg-{{ section.id }} .sg__highlights {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    justify-content: center;
+    margin: 1rem 0 0;
+  }
+  .sg-{{ section.id }} .sg__highlight {
+    align-items: center;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--sg-line);
+    border-radius: 8px;
+    display: inline-flex;
+    font-size: 1.2rem;
+    font-weight: 700;
+    gap: 0.6rem;
+    padding: 0.7rem 1.2rem;
+  }
+  .sg-{{ section.id }} .sg__highlight svg {
+    color: var(--sg-accent);
+    flex-shrink: 0;
+    height: 1.4rem;
+    width: 1.4rem;
+  }
+
+  /* Packs: product cards side by side. */
+  .sg-{{ section.id }} .sg__packs-label {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 2rem 0 1rem;
+  }
+  .sg-{{ section.id }} .sg__packs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin: 0;
+    width: 100%;
+  }
+  /* Pack cards: the shared product card (assets/combo-deal-card.css), in this section's colours. */
+  .sg-{{ section.id }} .sg__packs {
+    --card-bg: rgba(255, 255, 255, 0.06);
+    --card-border: var(--sg-line);
+    --card-text: var(--sg-text);
+    --card-muted: var(--sg-muted);
+    --card-media-bg: #111111;
+    --card-badge-bg: var(--sg-accent);
+    --card-badge-text: var(--sg-accent-text);
+    --card-save: #3ccf7a;
+    --card-note-bg: {{ section.settings.note_bg_color }};
+    --card-note-text: {{ section.settings.note_text_color }};
+    --card-btn-bg: var(--sg-accent);
+    --card-btn-text: var(--sg-accent-text);
+    --card-display: var(--sg-display);
+  }
+  .sg-{{ section.id }} .sg__packs > .cd__card {
+    flex: 0 0 100%;
+  }
+  .sg-{{ section.id }} .sg__packs > .cd__card:hover {
+    border-color: var(--sg-accent);
+  }
+
+  /* Starts-at price on the left, Shop all on the right. */
+  .sg-{{ section.id }} .sg__footer {
+    align-items: flex-end;
+    display: flex;
+    gap: 1.6rem;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: 2rem;
+    text-align: left;
+    width: 100%;
+  }
+  .sg-{{ section.id }} .sg__starts-label {
+    color: var(--sg-muted);
+    display: block;
+    font-size: 1.2rem;
+  }
+  .sg-{{ section.id }} .sg__starts-price {
+    font-family: var(--sg-display);
+    font-weight: 400;
+    font-size: 2.8rem;
+    line-height: 1.1;
+  }
+  .sg-{{ section.id }} .sg__starts-note {
+    color: var(--sg-muted);
+    font-size: 1.2rem;
+  }
+  .sg-{{ section.id }} .sg__button {
+    align-items: center;
+    background: var(--sg-accent);
+    border-radius: 8px;
+    color: var(--sg-accent-text);
+    display: inline-flex;
+    font-size: 1.5rem;
+    font-weight: 700;
+    gap: 0.8rem;
+    margin-left: auto;
+    padding: 1.3rem 2.4rem;
+    text-decoration: none;
+    transition: filter 0.2s, transform 0.2s;
+    white-space: nowrap;
+  }
+  .sg-{{ section.id }} .sg__button:hover {
+    filter: brightness(0.95);
+    transform: translateY(-1px);
+  }
+
+  @media screen and (min-width: 750px) {
+    shop-by-goal.sg-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+    /* Desktop: roomier pills, kept to a comfortable width. */
+    .sg-{{ section.id }} .sg__tabs {
+      gap: 1.2rem;
+      margin: 0 0 3.6rem;
+    }
+    .sg-{{ section.id }} .sg__tab {
+      flex: 0 1 28rem;
+      gap: 1rem;
+      padding: 1.2rem 2rem;
+    }
+    .sg-{{ section.id }} .sg__tab-icon svg {
+      height: 2.6rem;
+      width: 2.6rem;
+    }
+    .sg-{{ section.id }} .sg__tab-title {
+      font-size: 1.6rem;
+    }
+    .sg-{{ section.id }} .sg__tab-sub {
+      font-size: 1.2rem;
+    }
+    /* Image column a little narrower than the product card. */
+    .sg-{{ section.id }} .sg__panel {
+      gap: 2rem;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+    }
+    /* Image fills the height of the info card next to it. */
+    .sg-{{ section.id }} .sg__media {
+      aspect-ratio: auto;
+      min-height: 36rem;
+    }
+    /* Desktop pack cards: vertical (image on top), up to 3 per row. */
+    .sg-{{ section.id }} .sg__packs > .cd__card {
+      flex-basis: calc((100% - 2rem) / 3);
+    }
+    .sg-{{ section.id }} .sg__media > img,
+    .sg-{{ section.id }} .sg__media > .placeholder-svg {
+      inset: 0;
+      position: absolute;
+    }
+    .sg-{{ section.id }} .sg__info {
+      padding: 3.2rem;
+    }
+    .sg-{{ section.id }} .sg__badge {
+      height: 11rem;
+      width: 11rem;
+    }
+    .sg-{{ section.id }} .sg__badge-value {
+      font-size: 4rem;
+    }
+  }
+{%- endstyle -%}
+
+<shop-by-goal class="sg-{{ section.id }} color-{{ section.settings.color_scheme }}">
+  <div class="page-width">
+    <div class="sg__head">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="sg__eyebrow">{{ section.settings.eyebrow | escape }}</span>
+      {%- endif -%}
+      {%- if section.settings.heading != blank or section.settings.heading_script != blank -%}
+        <h2 class="sg__heading">
+          {{ section.settings.heading | escape }}
+          {%- if section.settings.heading_script != blank %}
+            <span class="sg__heading-script">{{ section.settings.heading_script | escape }}</span>
+          {%- endif -%}
+        </h2>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="sg__subheading">{{ section.settings.subheading | escape }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- if sg_goals.size > 0 -%}
+      <div class="sg__tabs" role="tablist" aria-label="{{ section.settings.eyebrow | default: 'Shop by goal' | escape }}">
+        {%- for block in sg_goals -%}
+          {%- assign tab_sub = block.settings.tab_subtitle -%}
+          <button
+            type="button"
+            class="sg__tab"
+            id="SgTab-{{ block.id }}"
+            role="tab"
+            aria-selected="{% if forloop.index == sg_open %}true{% else %}false{% endif %}"
+            aria-controls="SgPanel-{{ block.id }}"
+            tabindex="{% if forloop.index == sg_open %}0{% else %}-1{% endif %}"
+            data-block-id="{{ block.id }}"
+            style="--sg-accent: {{ block.settings.accent_color }}; --sg-accent-text: {{ block.settings.accent_text_color }};"
+            {{ block.shopify_attributes }}
+          >
+            <span class="sg__tab-icon" aria-hidden="true">
+              {%- render 'shop-by-goal-icon', icon: block.settings.icon -%}
+            </span>
+            <span class="sg__tab-text">
+              <span class="sg__tab-title">{{ block.settings.tab_title | escape }}</span>
+              {%- if tab_sub != blank -%}
+                <span class="sg__tab-sub">{{ tab_sub | escape }}</span>
+              {%- endif -%}
+            </span>
+          </button>
+        {%- endfor -%}
+      </div>
+
+      {%- for block in sg_goals -%}
+        {%- liquid
+          assign col = block.settings.collection
+          assign packs = block.settings.packs
+          assign first_pack = packs | first
+
+          assign sg_title = block.settings.title | default: col.title | default: first_pack.title
+          assign sg_desc = block.settings.description
+
+          assign sg_image = block.settings.image
+          if sg_image == blank
+            assign sg_image = col.image | default: col.featured_image
+          endif
+          if sg_image == blank
+            assign sg_image = first_pack.featured_image
+          endif
+
+          assign sg_min_price = nil
+          for p in packs
+            if sg_min_price == nil or p.price < sg_min_price
+              assign sg_min_price = p.price
+            endif
+          endfor
+          assign sg_starts = block.settings.starts_at
+          if sg_starts == blank and sg_min_price != nil
+            assign sg_starts = sg_min_price | money_without_trailing_zeros
+          endif
+
+          assign sg_url = col.url | default: first_pack.url
+          assign sg_button = block.settings.button_label
+          if sg_button == blank
+            assign sg_button = 'Shop all ' | append: sg_title
+          endif
+        -%}
+        <div
+          class="sg__panel"
+          id="SgPanel-{{ block.id }}"
+          role="tabpanel"
+          aria-labelledby="SgTab-{{ block.id }}"
+          style="--sg-accent: {{ block.settings.accent_color }}; --sg-accent-text: {{ block.settings.accent_text_color }};"
+          {% unless forloop.index == sg_open %}
+            hidden
+          {% endunless %}
+        >
+          <div class="sg__media">
+            {%- if sg_image != blank -%}
+              {{
+                sg_image
+                | image_url: width: 1200
+                | image_tag: widths: '400, 600, 800, 1000, 1200', sizes: '(min-width: 750px) 50vw, 100vw', loading: 'lazy', alt: sg_title
+              }}
+            {%- else -%}
+              {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            {%- endif -%}
+
+            {%- if block.settings.badge_value != blank -%}
+              <span class="sg__badge">
+                <span class="sg__badge-value">{{ block.settings.badge_value | escape }}</span>
+                {%- if block.settings.badge_label != blank -%}
+                  <span class="sg__badge-label">{{ block.settings.badge_label | escape }}</span>
+                {%- endif -%}
+              </span>
+            {%- endif -%}
+
+          </div>
+
+          <div class="sg__info">
+            {%- if block.settings.best_for != blank -%}
+              <p class="sg__best-for">{{ block.settings.best_for | escape }}</p>
+            {%- endif -%}
+            <h3 class="sg__title">{{ sg_title | escape }}</h3>
+            {%- if sg_desc != blank -%}
+              <p class="sg__desc">{{ sg_desc | escape }}</p>
+            {%- endif -%}
+
+            {%- if block.settings.stat_1_value != blank -%}
+              <div class="sg__stats">
+                {%- for i in (1..3) -%}
+                  {%- liquid
+                    assign stat_value_key = 'stat_' | append: i | append: '_value'
+                    assign stat_label_key = 'stat_' | append: i | append: '_label'
+                  -%}
+                  {%- if block.settings[stat_value_key] != blank -%}
+                    <div class="sg__stat">
+                      <span class="sg__stat-value">{{ block.settings[stat_value_key] | escape }}</span>
+                      <span class="sg__stat-label">{{ block.settings[stat_label_key] | escape }}</span>
+                    </div>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+
+            {%- if block.settings.chip_1 != blank or block.settings.chip_2 != blank or block.settings.chip_3 != blank -%}
+              <ul class="sg__highlights list-unstyled" role="list">
+                {%- for i in (1..3) -%}
+                  {%- assign chip_key = 'chip_' | append: i -%}
+                  {%- if block.settings[chip_key] != blank -%}
+                    <li class="sg__highlight">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 12.5 9.5 18 20 6"/></svg>
+                      {{ block.settings[chip_key] | escape }}
+                    </li>
+                  {%- endif -%}
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+
+            {%- if packs.count > 0 -%}
+              {%- if block.settings.packs_label != blank -%}
+                <p class="sg__packs-label">{{ block.settings.packs_label | escape }}</p>
+              {%- endif -%}
+              <ul class="sg__packs list-unstyled" role="list">
+                {%- for p in packs -%}
+                  {%- render 'combo-deal-card',
+                    product: p,
+                    autoapply_percent: section.settings.autoapply_percent,
+                    autoapply_label: section.settings.autoapply_label
+                  -%}
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+
+            <div class="sg__footer">
+              {%- if sg_starts != blank -%}
+                <div>
+                  <span class="sg__starts-label">{{ block.settings.starts_label | escape }}</span>
+                  <span class="sg__starts-price">{{ sg_starts }}</span>
+                  {%- if block.settings.starts_note != blank %}
+                    <span class="sg__starts-note">· {{ block.settings.starts_note | escape }}</span>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+              {%- if sg_url != blank -%}
+                <a class="sg__button" href="{{ sg_url }}">
+                  {{ sg_button | escape }}
+                  <span aria-hidden="true">→</span>
+                </a>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+</shop-by-goal>
+
+<script>
+  if (!customElements.get('shop-by-goal')) {
+    customElements.define(
+      'shop-by-goal',
+      class ShopByGoal extends HTMLElement {
+        connectedCallback() {
+          this.tabs = [...this.querySelectorAll('[role="tab"]')];
+          this.tabs.forEach((tab, index) => {
+            tab.addEventListener('click', () => this.select(tab));
+            tab.addEventListener('keydown', (event) => {
+              const step = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[event.key];
+              if (!step) return;
+              event.preventDefault();
+              const next = this.tabs[(index + step + this.tabs.length) % this.tabs.length];
+              this.select(next);
+              next.focus();
+            });
+          });
+
+          // Theme editor: open the goal whose block is selected.
+          this.onBlockSelect = (event) => {
+            const tab = this.tabs.find((t) => t.dataset.blockId === event.detail.blockId);
+            if (tab) this.select(tab);
+          };
+          document.addEventListener('shopify:block:select', this.onBlockSelect);
+
+          // Add to cart: add and open the cart drawer. Without a drawer the form posts normally.
+          this.addEventListener('submit', (event) => {
+            const form = event.target.closest('.cd__add');
+            const drawer = document.querySelector('cart-drawer');
+            if (!form || !drawer || typeof drawer.renderContents !== 'function') return;
+            event.preventDefault();
+            this.addToCart(form, drawer);
+          });
+        }
+
+        async addToCart(form, drawer) {
+          const button = form.querySelector('button');
+          const label = button.textContent;
+          button.setAttribute('aria-busy', 'true');
+          button.disabled = true;
+
+          const body = new FormData(form);
+          body.append('sections', drawer.getSectionsToRender().map((section) => section.id));
+          body.append('sections_url', window.location.pathname);
+
+          try {
+            const response = await fetch(routes.cart_add_url, {
+              method: 'POST',
+              headers: { 'X-Requested-With': 'XMLHttpRequest', Accept: 'application/javascript' },
+              body,
+            });
+            const state = await response.json();
+            if (state.status) throw new Error(state.description || state.message);
+            drawer.classList.remove('is-empty');
+            drawer.renderContents(state);
+          } catch (error) {
+            console.error(error);
+            button.textContent = 'Try again';
+            setTimeout(() => (button.textContent = label), 2000);
+          } finally {
+            button.removeAttribute('aria-busy');
+            button.disabled = false;
+          }
+        }
+
+        disconnectedCallback() {
+          document.removeEventListener('shopify:block:select', this.onBlockSelect);
+        }
+
+        select(activeTab) {
+          this.tabs.forEach((tab) => {
+            const active = tab === activeTab;
+            tab.setAttribute('aria-selected', active);
+            tab.tabIndex = active ? 0 : -1;
+            const panel = document.getElementById(tab.getAttribute('aria-controls'));
+            if (panel) panel.hidden = !active;
+          });
+        }
+      }
+    );
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Shop by goal",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 4,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Shop by goal" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "A clear protein for every" },
+    { "type": "text", "id": "heading_script", "label": "Heading script word", "info": "Shown after the heading in the script font.", "default": "goal" },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Gut health, peak strength or all-day hydration — pick your goal and meet the clear whey made for it."
+    },
+    {
+      "type": "checkbox",
+      "id": "load_fonts",
+      "label": "Load Google fonts",
+      "info": "Anton (headings), Outfit (text) and Sacramento (script words). Untick if the theme already loads them.",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "open_goal",
+      "label": "Goal open on page load",
+      "info": "1 = first goal. Nitro is goal 2 in the default setup.",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 2
+    },
+    { "type": "header", "content": "Pack cards" },
+    {
+      "type": "range",
+      "id": "autoapply_percent",
+      "label": "Auto-applied discount note",
+      "info": "Shows \"Get it at …\" on each pack card with this % off. Set to 0 to hide it.",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "%",
+      "default": 1
+    },
+    {
+      "type": "text",
+      "id": "autoapply_label",
+      "label": "Discount note text",
+      "info": "[price] is replaced with the discounted price.",
+      "default": "Get it at [price] · code auto-applies"
+    },
+    { "type": "color", "id": "note_bg_color", "label": "Discount note background", "default": "#fff1d6" },
+    { "type": "color", "id": "note_text_color", "label": "Discount note text", "default": "#2b0a1c" },
+    { "type": "header", "content": "Colours" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "color", "id": "background_color", "label": "Section background", "default": "#2b0a1c" },
+    { "type": "color", "id": "card_color", "label": "Card and tab background", "default": "#3e1028" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#fbeee4" },
+    { "type": "color", "id": "script_color", "label": "Script word", "default": "#f37aa8" },
+    { "type": "color", "id": "eyebrow_bg_color", "label": "Eyebrow background", "default": "#5a1a3a" },
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Top padding", "default": 64 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Bottom padding", "default": 40 }
+  ],
+  "blocks": [
+    {
+      "type": "goal",
+      "name": "Goal",
+      "settings": [
+        { "type": "header", "content": "Tab" },
+        { "type": "text", "id": "tab_title", "label": "Tab title", "default": "Build muscle" },
+        { "type": "text", "id": "tab_subtitle", "label": "Tab subtitle", "info": "Optional. Leave empty to show only the tab title." },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Tab icon",
+          "options": [
+            { "value": "shield", "label": "Shield" },
+            { "value": "dumbbell", "label": "Dumbbell" },
+            { "value": "drop", "label": "Drop" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "bolt", "label": "Bolt" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "star", "label": "Star" }
+          ],
+          "default": "dumbbell"
+        },
+        { "type": "color", "id": "accent_color", "label": "Accent colour", "default": "#ffb36b" },
+        { "type": "color", "id": "accent_text_color", "label": "Text on accent", "default": "#2b0a1c" },
+        { "type": "header", "content": "Product" },
+        { "type": "collection", "id": "collection", "label": "Collection", "info": "Used for the title, description, image and button link when the fields below are empty." },
+        { "type": "product_list", "id": "packs", "label": "Packs", "limit": 4, "info": "Name from custom.flavour_name, detail from custom.serving_size or custom.size_name." },
+        { "type": "text", "id": "packs_label", "label": "Packs heading", "default": "Pick your pack" },
+        { "type": "text", "id": "best_for", "label": "Best for", "default": "Best for · Strength & muscle growth" },
+        { "type": "text", "id": "title", "label": "Title", "info": "Leave empty to use the collection title." },
+        { "type": "textarea", "id": "description", "label": "Description", "info": "Optional short text under the title." },
+        { "type": "text", "id": "stat_1_value", "label": "Stat 1 value", "default": "30g" },
+        { "type": "text", "id": "stat_1_label", "label": "Stat 1 label", "default": "Protein" },
+        { "type": "text", "id": "stat_2_value", "label": "Stat 2 value", "default": "3g" },
+        { "type": "text", "id": "stat_2_label", "label": "Stat 2 label", "default": "Creatine" },
+        { "type": "text", "id": "stat_3_value", "label": "Stat 3 value", "default": "5g" },
+        { "type": "text", "id": "stat_3_label", "label": "Stat 3 label", "default": "Glutamine" },
+        { "type": "text", "id": "starts_label", "label": "Starts at label", "default": "Starts at" },
+        { "type": "text", "id": "starts_at", "label": "Starts at price", "info": "Leave empty to use the lowest pack price." },
+        { "type": "text", "id": "starts_note", "label": "Starts at note", "info": "e.g. assorted pack of 6" },
+        { "type": "text", "id": "button_label", "label": "Button label", "info": "Leave empty for \"Shop all <title>\"." },
+        { "type": "header", "content": "Image" },
+        { "type": "image_picker", "id": "image", "label": "Image", "info": "Leave empty to use the collection image." },
+        { "type": "text", "id": "badge_value", "label": "Badge value", "default": "30g" },
+        { "type": "text", "id": "badge_label", "label": "Badge label", "default": "Protein" },
+        { "type": "header", "content": "Highlights", "info": "Shown in the product card, under the stats." },
+        { "type": "text", "id": "chip_1", "label": "Highlight 1", "default": "3g Creatine Monohydrate" },
+        { "type": "text", "id": "chip_2", "label": "Highlight 2", "default": "5g Glutamine" },
+        { "type": "text", "id": "chip_3", "label": "Highlight 3", "default": "0g Added sugar" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop by goal",
+      "blocks": [
+        {
+          "type": "goal",
+          "settings": {
+            "tab_title": "Gut health & weight",
+            "icon": "shield",
+            "accent_color": "#7fd6b5",
+            "best_for": "Best for · Gut health & weight management",
+            "stat_1_value": "15g",
+            "stat_2_value": "4.5bn",
+            "stat_2_label": "Probiotics",
+            "stat_3_value": "500mg",
+            "stat_3_label": "L-carnitine",
+            "badge_value": "15g",
+            "chip_1": "4.5bn CFU Probiotics",
+            "chip_2": "500mg L-carnitine",
+            "chip_3": "Added fibre"
+          }
+        },
+        { "type": "goal" },
+        {
+          "type": "goal",
+          "settings": {
+            "tab_title": "Stay hydrated",
+            "icon": "drop",
+            "accent_color": "#ff8a7a",
+            "best_for": "Best for · Hydration & endurance",
+            "stat_1_value": "20g",
+            "stat_2_value": "810mg",
+            "stat_2_label": "Electrolytes",
+            "stat_3_value": "7.6g",
+            "stat_3_label": "BCAA",
+            "badge_value": "20g",
+            "chip_1": "810mg Electrolytes",
+            "chip_2": "7.6g BCAA",
+            "chip_3": "0g Added sugar"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,280 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "rich_text_VpPTek": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_z4FW8w": {
+          "type": "heading",
+          "settings": {
+            "heading": "Protyze Clear Whey Protein Lab Test Reports",
+            "heading_size": "h1"
+          }
+        },
+        "text_nxD6Bt": {
+          "type": "text",
+          "settings": {
+            "text": "<p>At Protyze, we prioritize quality, safety, and transparency in every product we create. Our lab reports provide detailed insights into the rigorous testing processes we follow to ensure the highest standards. From <strong>Protein Content Analysis </strong>to verify the accuracy of nutritional values to <strong>Heavy Metal Testing </strong>that ensures our products are free from harmful contaminants, we leave no room for compromise when it comes to delivering clean and effective supplements.<br/></p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_z4FW8w",
+        "text_nxD6Bt"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 16,
+        "custom_class": ""
+      }
+    },
+    "report_table_XFYfxy": {
+      "type": "report-table",
+      "blocks": {
+        "rows_DnDpPM": {
+          "type": "rows",
+          "settings": {
+            "col1": "Nitro Protein Test Report",
+            "col2": "VLL/BLRU/25/01230/001",
+            "col3": "February 23 2026",
+            "col4": "https://cdn.shopify.com/s/files/1/0293/5291/9093/files/VLL-BLRU-25-01230-001-736401.pdf?v=1772016103"
+          }
+        },
+        "rows_gENcXp": {
+          "type": "rows",
+          "settings": {
+            "col1": "Nitro Heavy Metal Report",
+            "col2": "VLL/BLRU/25/01230/001",
+            "col3": "February 25 2026",
+            "col4": "https://cdn.shopify.com/s/files/1/0293/5291/9093/files/VLL-BLRU-25-01230-001-737290-HM.pdf?v=1772083944"
+          }
+        },
+        "rows_wDBWj9": {
+          "type": "rows",
+          "settings": {
+            "col1": "Nitro Microbial Report",
+            "col2": "VLL/BLRU/25/01231/001",
+            "col3": "February 25 2026",
+            "col4": "https://cdn.shopify.com/s/files/1/0293/5291/9093/files/VLL-BLRU-25-01231-001-737314-Micro.pdf?v=1772083944"
+          }
+        },
+        "rows_MP3TCm": {
+          "type": "rows",
+          "settings": {
+            "col1": "Anytime Protein Test Report",
+            "col2": "VLL/BLRU/25/00959/001",
+            "col3": "December 08 2025",
+            "col4": "https://cdn.shopify.com/s/files/1/0293/5291/9093/files/VLL-BLRU-25-00959-001-713652_-_APT.pdf?v=1765542984"
+          }
+        },
+        "rows_kHK4KA": {
+          "type": "rows",
+          "settings": {
+            "col1": "Anytime Heavy Metal Report",
+            "col2": "VLL/BLRU/25/00959/001",
+            "col3": "December 08 2025",
+            "col4": "https://cdn.shopify.com/s/files/1/0293/5291/9093/files/VLL-BLRU-25-00959-001-713655_-_AHM.pdf?v=1765542982"
+          }
+        },
+        "rows_LQbnkd": {
+          "type": "rows",
+          "settings": {
+            "col1": "Anytime Microbial Report",
+            "col2": "VLL/BLRU/25/00959/001",
+            "col3": "December 08 2025",
+            "col4": "https://cdn.shopify.com/s/files/1/0293/5291/9093/files/VLL-BLRU-25-00959-001-713653-_AT_Micro_Combined.pdf?v=1765542983"
+          }
+        },
+        "rows_m74tBK": {
+          "type": "rows",
+          "settings": {
+            "col1": "Anytime Protein Test Report",
+            "col2": "VLL/BLRU/25/00451/010",
+            "col3": "August 20 2025",
+            "col4": "https://cdn.shopify.com/s/files/1/0293/5291/9093/files/anytime_test_report.pdf?v=1763456495"
+          }
+        },
+        "rows_aXFczR": {
+          "type": "rows",
+          "settings": {
+            "col1": "Anytime Heavy Metal Report",
+            "col2": "BLR/F(C/M)/25/003170/4-5",
+            "col3": "January 31 2025",
+            "col4": "https://cdn.shopify.com/s/files/1/0293/5291/9093/files/BLR_F_C_M__25_003170_P4_ALPHACENTRIC_HEALTHCARE_PRIVATE_LIMITED_-_Atc_HM.pdf?v=1738330580"
+          }
+        },
+        "rows_bhgtJE": {
+          "type": "rows",
+          "settings": {
+            "col1": "Anytime Microbial Report",
+            "col2": "BLR/F(C/M)/25/003170/5-5",
+            "col3": "January 31 2025",
+            "col4": "https://cdn.shopify.com/s/files/1/0293/5291/9093/files/BLR_F_C_M__25_003170_P5_ALPHACENTRIC_HEALTHCARE_PRIVATE_LIMITED_-_ATC_MB.pdf?v=1738330581"
+          }
+        },
+        "rows_MnxPJt": {
+          "type": "rows",
+          "settings": {
+            "col1": "Diet Protein Test Report",
+            "col2": "VLL/BLRU/25/00958/001",
+            "col3": "December 08 2025",
+            "col4": "https://cdn.shopify.com/s/files/1/0293/5291/9093/files/VLL-BLRU-25-00958-001-713650-DPT.pdf?v=1765542983"
+          }
+        },
+        "rows_pjz6pe": {
+          "type": "rows",
+          "settings": {
+            "col1": "Diet Protein Heavy Metal Report",
+            "col2": "VLL/BLRU/25/00958/001",
+            "col3": "December 08 2025",
+            "col4": "https://cdn.shopify.com/s/files/1/0293/5291/9093/files/VLL-BLRU-25-00958-001-713649_-_DHM.pdf?v=1765542983"
+          }
+        },
+        "rows_836kj4": {
+          "type": "rows",
+          "settings": {
+            "col1": "Diet Protein Microbial Report",
+            "col2": "VLL/BLRU/25/00958/001",
+            "col3": "December 08 2025",
+            "col4": "https://cdn.shopify.com/s/files/1/0293/5291/9093/files/VLL-BLRU-25-00958-001-713647-D_Micro_Combined.pdf?v=1765542983"
+          }
+        },
+        "rows_nnEpGT": {
+          "type": "rows",
+          "settings": {
+            "col1": "Diet Protein Test Report",
+            "col2": "VLL/BLRU/25/00451/012",
+            "col3": "August 23 2025",
+            "col4": "https://cdn.shopify.com/s/files/1/0293/5291/9093/files/diet_test_report.pdf?v=1763456495"
+          }
+        },
+        "rows_nREP7T": {
+          "type": "rows",
+          "settings": {
+            "col1": "Diet Protein Heavy Metal Report",
+            "col2": "BLR/F(C/M)/25/003167/2-3",
+            "col3": "January 31 2025",
+            "col4": "https://cdn.shopify.com/s/files/1/0293/5291/9093/files/BLR_F_C_M__25_003167_P2_ALPHACENTRIC_HEALTHCARE_PRIVATE_LIMITED_-_Diet_HM.pdf?v=1738330581"
+          }
+        },
+        "rows_LXD3b6": {
+          "type": "rows",
+          "settings": {
+            "col1": "Diet Protein Microbial Report",
+            "col2": "BLR_F(C_M)_25_003167/1-3",
+            "col3": "January 31 2025",
+            "col4": "https://cdn.shopify.com/s/files/1/0293/5291/9093/files/BLR_F_C_M__25_003167_P1_ALPHACENTRIC_HEALTHCARE_PRIVATE_LIMITED_-_Microbial_Diet.pdf?v=1738330581"
+          }
+        },
+        "rows_YpyYf9": {
+          "type": "rows",
+          "settings": {
+            "col1": "Nitro Protein Test Report",
+            "col2": "VLL/BLRU/25/00149/001",
+            "col3": "May 09 2025",
+            "col4": "https://cdn.shopify.com/s/files/1/0293/5291/9093/files/nitro_protein_test_report.pdf?v=1747890603"
+          }
+        },
+        "rows_BKx8KE": {
+          "type": "rows",
+          "settings": {
+            "col1": "Hydra Heavy Metal Report",
+            "col2": "VLL/BLRU/25/00451/002",
+            "col3": "August 20 2025",
+            "col4": "https://cdn.shopify.com/s/files/1/0293/5291/9093/files/Hydra_Heavy_metal.pdf?v=1759739605"
+          }
+        },
+        "rows_MtnMmT": {
+          "type": "rows",
+          "settings": {
+            "col1": "Hydra Heavy Protein Report",
+            "col2": "VLL/BLRU/25/00451/009",
+            "col3": "August 20 2025",
+            "col4": "https://cdn.shopify.com/s/files/1/0293/5291/9093/files/Hydra_Protein.pdf?v=1759739606"
+          }
+        },
+        "rows_jBDEYy": {
+          "type": "rows",
+          "settings": {
+            "col1": "Hydra Microbial Report",
+            "col2": "VLL/BLRU/25/00458/001",
+            "col3": "August 20 2025",
+            "col4": "https://cdn.shopify.com/s/files/1/0293/5291/9093/files/Hydra_Microbyl.pdf?v=1759739606"
+          }
+        },
+        "rows_tTthMz": {
+          "type": "rows",
+          "settings": {
+            "col1": "Hydra-X Heavy Protein Report",
+            "col2": "VLL/BLRU/25/00451/008",
+            "col3": "August 20 2025",
+            "col4": "https://cdn.shopify.com/s/files/1/0293/5291/9093/files/Hydra-X_Protein.pdf?v=1759739606"
+          }
+        }
+      },
+      "block_order": [
+        "rows_DnDpPM",
+        "rows_gENcXp",
+        "rows_wDBWj9",
+        "rows_MP3TCm",
+        "rows_kHK4KA",
+        "rows_LQbnkd",
+        "rows_m74tBK",
+        "rows_aXFczR",
+        "rows_bhgtJE",
+        "rows_MnxPJt",
+        "rows_pjz6pe",
+        "rows_836kj4",
+        "rows_nnEpGT",
+        "rows_nREP7T",
+        "rows_LXD3b6",
+        "rows_YpyYf9",
+        "rows_BKx8KE",
+        "rows_MtnMmT",
+        "rows_jBDEYy",
+        "rows_tTthMz"
+      ],
+      "settings": {
+        "th1": "Report Name",
+        "th2": "Ref No",
+        "th3": "Testing Date",
+        "th4": "View Report",
+        "color_th": "#fda75f",
+        "color_th_text": "#121212",
+        "color_even": "#ffffff",
+        "color_even_text": "#121212",
+        "color_odd": "#ffffff",
+        "color_odd_text": "#121212",
+        "padding_top": 8,
+        "padding_bottom": 44,
+        "custom_class": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "rich_text_VpPTek",
+    "report_table_XFYfxy"
+  ]
+}

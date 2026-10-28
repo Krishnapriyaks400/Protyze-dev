@@ -1,0 +1,88 @@
+{% for group in robots.default_groups %}
+  {{- group.user_agent }}
+
+  {%- for rule in group.rules -%}
+    {{ rule }}
+  {%- endfor -%}
+
+  {%- if group.user_agent.value == '*' -%}
+    {{ 'Disallow: /*?*filter*' }}
+    {{ 'Disallow: /*?*sort_by*' }}
+    {{ 'Disallow: /blogs/*/tagged/' }}
+    {{ 'Disallow: /blogs/*/comments' }}
+    {{ 'Disallow: /recommendations/products' }}
+  {%- endif -%}
+
+  {%- if group.sitemap != blank -%}
+    {{ group.sitemap }}
+  {%- endif -%}
+{% endfor %}
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
+
+User-agent: serpstatbot
+Disallow: /
+
+User-agent: MegaIndex
+Disallow: /
+
+User-agent: ZoominfoBot
+Disallow: /
+
+User-agent: Barkrowler
+Disallow: /
+
+User-agent: DataForSeoBot
+Disallow: /
+
+User-agent: linkdexbot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: Diffbot
+Disallow: /
+
+User-agent: Omgili
+Disallow: /
+
+User-agent: Webzio-Extended
+Disallow: /
+
+User-agent: ImagesiftBot
+Disallow: /
+
+User-agent: SentiBot
+Disallow: /
+
+User-agent: TurnitinBot
+Disallow: /
+
+User-agent: img2dataset
+Disallow: /
+
+User-agent: HTTrack
+Disallow: /
+
+User-agent: WebCopier
+Disallow: /
+
+User-agent: WebZIP
+Disallow: /
+
+User-agent: WebStripper
+Disallow: /
+
+User-agent: Teleport
+Disallow: /
+
+User-agent: magpie-crawler
+Disallow: /

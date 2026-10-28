@@ -1,0 +1,84 @@
+{%- comment -%}
+  Params: root_id, per_view_desktop, per_view_tablet, per_view_mobile, gap,
+          autoplay, delay (seconds), speed (ms), pause_on_hover, show_arrows, show_dots
+  Requires the theme's swiper.js / swiper.css (loaded in theme.liquid).
+{%- endcomment -%}
+{%- liquid
+  assign delay_ms = delay | default: 4 | times: 1000
+  assign speed = speed | default: 600
+  assign gap = gap | default: 16
+  assign pause_on_hover = pause_on_hover | default: true, allow_false: true
+  assign autoplay_on = autoplay | default: false
+-%}
+
+{%- if show_arrows or show_dots -%}
+  <div class="fy-controls">
+    {%- if show_arrows -%}<button type="button" class="fy-nav fy-nav--prev" aria-label="Previous">&larr;</button>{%- endif -%}
+    {%- if show_dots -%}<div class="fy-dots"></div>{%- endif -%}
+    {%- if show_arrows -%}<button type="button" class="fy-nav fy-nav--next" aria-label="Next">&rarr;</button>{%- endif -%}
+  </div>
+{%- endif -%}
+
+<script>
+  (function () {
+    var root = document.getElementById({{ root_id | json }});
+    if (!root) return;
+    var el = root.querySelector('.fy-swiper');
+    if (!el) return;
+
+    function build() {
+      if (el.swiper) return;
+      var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var nextEl = root.querySelector('.fy-nav--next');
+      var prevEl = root.querySelector('.fy-nav--prev');
+      var dotsEl = root.querySelector('.fy-dots');
+
+      new Swiper(el, {
+        slidesPerView: {{ per_view_mobile | default: 1.15 }},
+        spaceBetween: 12,
+        speed: {{ speed }},
+        rewind: true,
+        watchOverflow: true,
+        autoplay: {% if autoplay_on %}reduceMotion ? false : { delay: {{ delay_ms }}, disableOnInteraction: false, pauseOnMouseEnter: {{ pause_on_hover }} }{% else %}false{% endif %},
+        navigation: (nextEl && prevEl) ? { nextEl: nextEl, prevEl: prevEl } : false,
+        pagination: dotsEl ? { el: dotsEl, clickable: true } : false,
+        breakpoints: {
+          600: { slidesPerView: {{ per_view_tablet | default: 2.1 }}, spaceBetween: {{ gap }} },
+          990: { slidesPerView: {{ per_view_desktop | default: 3 }}, spaceBetween: {{ gap }} }
+        }
+      });
+    }
+
+    function init() {
+      if (window.Swiper) return build();
+      // Theme's swiper.js is deferred: it runs before DOMContentLoaded, so check again then
+      document.addEventListener('DOMContentLoaded', function () {
+        if (window.Swiper) return build();
+        window.addEventListener('load', function () {
+          if (window.Swiper) build();
+          else console.warn('[fy-swiper] Swiper not found. Make sure theme.liquid loads swiper.js on this page type.');
+        });
+      });
+    }
+
+    init();
+  })();
+</script>
+
+{% stylesheet %}
+  .fy-swiper { overflow: hidden; position: relative; }
+  .fy-swiper .swiper-wrapper { display: flex; }
+  .fy-swiper .swiper-slide.fy-slot { flex-shrink: 0; height: auto; display: flex; }
+  .fy-controls { display: flex; justify-content: center; align-items: center; gap: 14px; margin-top: 18px; }
+  .fy-nav {
+    width: 40px; height: 40px; border-radius: 50%; border: 0; cursor: pointer; font-size: 16px;
+    background: var(--pc-btn-bg, #3B0A2F); color: var(--pc-btn-text, #fff);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .fy-nav.swiper-button-disabled { opacity: .35; cursor: default; }
+  .fy-dots { display: flex; gap: 6px; align-items: center; }
+  .fy-dots .swiper-pagination-bullet {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--pc-heading, #3B0A2F); opacity: .25; cursor: pointer;
+  }
+  .fy-dots .swiper-pagination-bullet-active { opacity: 1; }
+{% endstylesheet %}

@@ -1,0 +1,183 @@
+{%- comment -%}
+  Renders one block of the Origin Question Banner section.
+  Accepts: block
+{%- endcomment -%}
+{%- case block.type -%}
+  {%- when 'eyebrow' -%}
+    <p class="oq__eyebrow" {{ block.shopify_attributes }}>{{ block.settings.text | escape | newline_to_br }}</p>
+
+  {%- when 'icon_item' -%}
+    <div class="oq__icon-item" {{ block.shopify_attributes }}>
+      <span class="oq__icon-item-icon" aria-hidden="true">
+        {%- if block.settings.icon_image != blank -%}
+          {{ block.settings.icon_image | image_url: width: 72 | image_tag: widths: '24, 48, 72', sizes: '24px', loading: 'lazy', alt: '' }}
+        {%- else -%}
+          {%- render 'icon-usage', icon: block.settings.icon -%}
+        {%- endif -%}
+      </span>
+      <span>{{ block.settings.label | escape }}</span>
+    </div>
+
+  {%- when 'heading' -%}
+    <h2 class="oq__heading" {{ block.shopify_attributes }}>{{ block.settings.text | escape | newline_to_br }}</h2>
+
+  {%- when 'text' -%}
+    <p class="oq__body{% if block.settings.bold %} oq__body--bold{% endif %}{% if block.settings.large %} oq__body--large{% endif %}" {{ block.shopify_attributes }}>
+      {{- block.settings.text | escape | newline_to_br -}}
+      {%- if block.settings.underline -%}
+        <svg class="oq__body-underline" viewBox="0 0 200 12" preserveAspectRatio="none" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+          <path vector-effect="non-scaling-stroke" d="M4 8C40 3 110 2 150 5c16 1 30 3 44 6"/>
+        </svg>
+      {%- endif -%}
+    </p>
+
+  {%- when 'tick_list' -%}
+    {%- assign oq_ticks = block.settings.items | newline_to_br | split: '<br />' -%}
+    <ul class="oq__ticks" {{ block.shopify_attributes }}>
+      {%- for line in oq_ticks -%}
+        {%- assign oq_tick = line | strip -%}
+        {%- if oq_tick != blank -%}
+          <li class="oq__tick">
+            <svg class="oq__tick-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M4.5 12.5 9.5 17.5 19.5 6.5"/>
+            </svg>
+            <span>{{ oq_tick | escape }}</span>
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+
+  {%- when 'feature_icons' -%}
+    <ul class="oq__features" {{ block.shopify_attributes }}>
+      {%- for i in (1..4) -%}
+        {%- liquid
+          assign fi_label_key = 'label_' | append: i
+          assign fi_icon_key = 'icon_' | append: i
+          assign fi_img_key = 'icon_image_' | append: i
+          assign fi_label = block.settings[fi_label_key]
+          assign fi_img = block.settings[fi_img_key]
+        -%}
+        {%- if fi_label != blank -%}
+          <li class="oq__feature">
+            <span class="oq__feature-icon" aria-hidden="true">
+              {%- if fi_img != blank -%}
+                {{ fi_img | image_url: width: 96 | image_tag: widths: '32, 64, 96', sizes: '32px', loading: 'lazy', alt: '' }}
+              {%- else -%}
+                {%- render 'icon-usage', icon: block.settings[fi_icon_key] -%}
+              {%- endif -%}
+            </span>
+            <span class="oq__feature-label">{{ fi_label | escape }}</span>
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+
+  {%- when 'testimonial' -%}
+    <div class="oq__testimonial" {{ block.shopify_attributes }}>
+      <span class="oq__testimonial-mark" aria-hidden="true">&ldquo;</span>
+      <p class="oq__testimonial-text">{{ block.settings.text | escape | newline_to_br }}</p>
+    </div>
+
+  {%- when 'check_item' -%}
+    <div class="oq__check" {{ block.shopify_attributes }}>
+      <svg class="oq__check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+        <circle cx="12" cy="12" r="9.5"/><path d="m7.8 12.3 2.9 2.9 5.5-6"/>
+      </svg>
+      <span>{{ block.settings.text | escape }}</span>
+    </div>
+
+  {%- when 'numbered_list' -%}
+    {%- assign oq_lines = block.settings.items | newline_to_br | split: '<br />' -%}
+    {%- assign oq_n = 0 -%}
+    <ol class="oq__steps" {{ block.shopify_attributes }}>
+      {%- for line in oq_lines -%}
+        {%- assign oq_line = line | strip -%}
+        {%- if oq_line != blank -%}
+          {%- assign oq_n = oq_n | plus: 1 -%}
+          <li class="oq__step">
+            <span class="oq__step-num" aria-hidden="true">{{ oq_n }}</span>
+            <span>{{ oq_line | escape }}</span>
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ol>
+
+  {%- when 'aside' -%}
+    <div class="oq__aside" {{ block.shopify_attributes }} style="--oq-w: {{ block.settings.highlight_image_width }}px;">
+      {%- if block.settings.icon != blank -%}
+        {{
+          block.settings.icon
+          | image_url: width: 168
+          | image_tag: class: 'oq__icon', widths: '56, 112, 168', sizes: '56px', loading: 'lazy', alt: ''
+        }}
+      {%- endif -%}
+      <div>
+        {%- if block.settings.text != blank -%}
+          <p class="oq__aside-text">{{ block.settings.text | escape | newline_to_br }}</p>
+        {%- endif -%}
+        {%- if block.settings.highlight_image != blank -%}
+          {{
+            block.settings.highlight_image
+            | image_url: width: 640
+            | image_tag: class: 'oq__hand-img oq__hand-img--inline', widths: '320, 480, 640', sizes: '320px', loading: 'lazy', alt: block.settings.highlight_text
+          }}
+        {%- elsif block.settings.highlight_text != blank -%}
+          <p class="oq__highlight">{{ block.settings.highlight_text | escape }}</p>
+        {%- endif -%}
+        {%- if block.settings.subtext != blank -%}
+          <p class="oq__highlight-sub">{{ block.settings.subtext | escape }}</p>
+        {%- endif -%}
+      </div>
+    </div>
+
+  {%- when 'handwritten' -%}
+    <div class="oq__hand" {{ block.shopify_attributes }} style="--oq-w: {{ block.settings.width }}px;">
+      {%- if block.settings.image != blank -%}
+        {{
+          block.settings.image
+          | image_url: width: 800
+          | image_tag: class: 'oq__hand-img', widths: '320, 480, 640, 800', sizes: '400px', loading: 'lazy', alt: block.settings.text
+        }}
+      {%- elsif block.settings.text != blank -%}
+        <p class="oq__hand-text">{{ block.settings.text | escape | newline_to_br }}</p>
+      {%- endif -%}
+    </div>
+
+  {%- when 'script_title' -%}
+    <p class="oq__question-title" {{ block.shopify_attributes }}>
+      {{- block.settings.text | escape | newline_to_br -}}
+      {%- if block.settings.underline -%}
+        <svg class="oq__underline" viewBox="0 0 200 10" preserveAspectRatio="none" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" focusable="false">
+          <path vector-effect="non-scaling-stroke" d="M2 7C50 3 120 2 198 5"/>
+        </svg>
+      {%- endif -%}
+    </p>
+
+  {%- when 'quote' -%}
+    <p class="oq__quote" {{ block.shopify_attributes }}>
+      <span class="oq__quote-mark oq__quote-mark--open" aria-hidden="true">&ldquo;</span>
+      {{- block.settings.text | escape -}}
+      <span class="oq__quote-mark oq__quote-mark--close" aria-hidden="true">&rdquo;</span>
+    </p>
+
+  {%- when 'arrow' -%}
+    <span
+      class="oq__arrow oq__arrow--{{ block.settings.direction }}{% if block.settings.hide_on_mobile %} oq__arrow--desktop-only{% endif %}"
+      {{ block.shopify_attributes }}
+      style="--oq-w: {{ block.settings.width }}px;"
+      aria-hidden="true"
+    >
+      {%- if block.settings.image != blank -%}
+        {{
+          block.settings.image
+          | image_url: width: 360
+          | image_tag: widths: '120, 240, 360', sizes: '120px', loading: 'lazy', alt: ''
+        }}
+      {%- else -%}
+        <svg viewBox="0 0 80 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+          <path d="M6 10C30 2 60 14 64 50"/>
+          <path d="M52 42l12 10 6-15"/>
+        </svg>
+      {%- endif -%}
+    </span>
+{%- endcase -%}

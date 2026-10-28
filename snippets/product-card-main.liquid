@@ -1,0 +1,343 @@
+{%- comment -%}
+  Snippet: product-card
+  Params:
+    product (required), layout ('flavour' | 'standard'), card_color, image, placeholder_text
+    flavour_text (flavour layout heading), pill_text, pill_bg, tagline
+    show_title, title_lines (0 = no truncation), show_price, show_reviews, show_atc
+    atc_label, save_label ("Save {percent}%"), offer_text ("{price}"), offer_percent, form_id
+  Colours/fonts come from CSS variables set on the parent section (--pc-*).
+{%- endcomment -%}
+
+{%- liquid
+  assign layout = layout | default: 'standard'
+  assign has_product = false
+  if product != blank
+    assign has_product = true
+  endif
+  assign variant = product.selected_or_first_available_variant
+  assign card_img = image | default: product.featured_image
+
+  assign show_title = show_title | default: true, allow_false: true
+  assign show_price = show_price | default: true, allow_false: true
+  assign show_reviews = show_reviews | default: true, allow_false: true
+  assign show_atc = show_atc | default: true, allow_false: true
+  assign lines = title_lines | default: 0 | plus: 0
+  assign atc_text = atc_label | default: 'Add to cart'
+  assign form_id = form_id | default: product.id | prepend: 'pc-'
+
+  unless has_product
+    assign show_title = false
+    assign show_price = false
+    assign show_reviews = false
+    assign show_atc = false
+  endunless
+
+  assign badge = ''
+  if product.tags contains 'new-arrivals'
+    assign badge = 'New Arrival'
+  elsif product.tags contains 'best-seller'
+    assign badge = 'Best Seller'
+  endif
+
+  assign flavour_first = ''
+  assign flavour_rest = ''
+  if flavour_text != blank
+    assign flavour_clean = flavour_text | strip_newlines | strip | escape
+    assign flavour_first = flavour_clean | split: ' ' | first
+    assign flavour_rest = flavour_clean | remove_first: flavour_first | strip
+  endif
+
+
+  assign offer_html = ''
+  if has_product and offer_percent > 0 and offer_text != blank
+    assign keep_pct = 100 | minus: offer_percent
+    assign offer_cents = variant.price | times: keep_pct | divided_by: 100.0 | round
+    assign offer_money = offer_cents | money_without_trailing_zeros
+    assign offer_price_html = '<strong>' | append: offer_money | append: '</strong>'
+    assign offer_html = offer_text | escape | replace: '{price}', offer_price_html
+  endif
+
+  assign show_ib = show_image_badge | default: false
+  assign ib_first = ''
+  assign ib_rest = ''
+  if show_ib and image_badge_text != blank
+    assign ib_clean = image_badge_text | strip_newlines | strip | escape
+    assign ib_first = ib_clean | split: ' ' | first
+    assign ib_rest = ib_clean | remove_first: ib_first | strip
+  endif
+
+-%}
+
+<article class="pc pc--{{ layout }}"{% if card_color != blank %} style="background: {{ card_color }};"{% endif %}>
+
+  {%- if layout == 'flavour' -%}
+    <div class="pc__top">
+      {%- if flavour_first != blank -%}
+        <h3 class="pc__flavour">
+          {%- if flavour_rest != blank -%}{{ flavour_first }} <br>{{ flavour_rest }}{%- else -%}{{ flavour_first }}{%- endif -%}
+        </h3>
+      {%- endif -%}
+      {%- if badge != blank -%}<span class="pc__badge pc__badge--chip">{{ badge }}</span>{%- endif -%}
+    </div>
+  {%- endif -%}
+
+  <a href="{{ product.url | default: '#' }}" class="pc__media{% unless card_img %} pc__media--empty{% endunless %}">
+    {%- if card_img -%}
+      {{ card_img | image_url: width: 700 | image_tag: loading: 'lazy', widths: '350, 500, 700', alt: product.title }}
+    {%- else -%}
+      {{ placeholder_text | default: 'Add product image' }}
+    {%- endif -%}
+    {%- if ib_first != blank -%}
+      <span class="pc__ibadge{% if image_badge_position == 'right' %} pc__ibadge--right{% endif %}">
+        <svg class="pc__ibadge-shape" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+          <polygon points="100,50 95.4,57.2 97.6,65.5 91,70.9 90.5,79.4 82.5,82.5 79.4,90.5 70.9,91 65.5,97.6 57.2,95.4 50,100 42.8,95.4 34.5,97.6 29.1,91 20.6,90.5 17.5,82.5 9.5,79.4 9,70.9 2.4,65.5 4.6,57.2 0,50 4.6,42.8 2.4,34.5 9,29.1 9.5,20.6 17.5,17.5 20.6,9.5 29.1,9 34.5,2.4 42.8,4.6 50,0 57.2,4.6 65.5,2.4 70.9,9 79.4,9.5 82.5,17.5 90.5,20.6 91,29.1 97.6,34.5 95.4,42.8"></polygon>
+        </svg>
+        <span class="pc__ibadge-text">
+          <strong>{{ ib_first }}</strong>
+          {%- if ib_rest != blank -%}<span>{{ ib_rest }}</span>{%- endif -%}
+        </span>
+      </span>
+    {%- endif -%}
+    {%- if layout == 'standard' and badge != blank -%}
+      <span class="pc__badge">{{ badge }}</span>
+    {%- endif -%}
+    {%- if pill_text != blank -%}
+      <span class="pc__pill" style="background: {{ pill_bg }};">{{ pill_text }}</span>
+    {%- endif -%}
+  </a>
+
+  <div class="pc__body">
+    {%- if show_title -%}
+      <h3 class="pc__name{% if lines > 0 %} pc__name--clamp{% endif %}"{% if lines > 0 %} style="--pc-name-lines: {{ lines }};"{% endif %}>
+        <a href="{{ product.url }}">{{ product.title }}</a>
+      </h3>
+    {%- endif -%}
+
+    {%- if tagline != blank -%}<p class="pc__tagline">{{ tagline }}</p>{%- endif -%}
+
+    {%- if show_reviews -%}
+      <div class="pc__reviews">
+        <div class="jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}">{{ product.metafields.judgeme.badge }}</div>
+      </div>
+    {%- endif -%}
+
+   
+    {%- if show_price or show_atc  != blank -%}
+      <div class="pc__buy">
+       
+
+        {%- if show_price -%}
+          <div class="pc__price">
+            <span class="pc__now">{{ variant.price | money_without_trailing_zeros }}</span>
+            {%- if variant.compare_at_price > variant.price -%}
+              <s class="pc__was">{{ variant.compare_at_price | money_without_trailing_zeros }}</s>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+         {%- if offer_html != blank -%}<p class="pc__offer">{{ offer_html }}</p>{%- endif -%}
+
+        {%- if show_atc -%}
+          <div class="pc__actions">
+            {%- form 'product', product, id: form_id, class: 'pc__form' -%}
+              <input type="hidden" name="id" value="{{ variant.id }}">
+              <button
+                type="submit"
+                class="pc__btn"
+                aria-label="{% if variant.available %}{{ atc_text | escape }}{% else %}Sold out{% endif %}"
+                {% unless variant.available %}disabled{% endunless %}
+              >
+                <span class="pc__btn-label">
+                  {%- if variant.available -%}{{ atc_text }}{%- else -%}Sold out{%- endif -%}
+                </span>
+                <span class="pc__btn-icon">Add +</span>
+
+                {% comment %} <svg class="pc__btn-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <circle cx="9" cy="21" r="1"></circle>
+                  <circle cx="20" cy="21" r="1"></circle>
+                  <path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"></path>
+                </svg> {% endcomment %}
+              </button>
+            {%- endform -%}
+          </div>
+        {%- endif -%}
+
+      </div>
+    {%- endif -%}
+    
+  </div>
+</article>
+
+{% stylesheet %}
+
+  .fy-slot { display: flex; min-width: 0; }
+  .fy-slot > .pc { flex: 1; min-width: 0; }
+
+  .pc {
+    display: flex; flex-direction: column; height: 100%; box-sizing: border-box; position: relative;
+    border-radius: 8px; background: var(--pc-card-bg, #fff); color: var(--pc-heading, #3B0A2F);
+  }
+  .pc *, .pc *::before, .pc *::after { box-sizing: border-box; }
+  .pc--flavour { padding: 20px; }
+  .pc--standard { padding: 10px 10px 14px; }
+
+  /* Flavour heading row */
+  .pc__top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+  .pc__flavour {
+    font-family: var(--pc-heading-font); text-transform: uppercase; font-weight: 400;
+    font-size: 28px; line-height: .95; margin: 0 0 24px; overflow-wrap: anywhere;
+  }
+
+  /* Media */
+  .pc__media {
+    position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden;
+    aspect-ratio: 1 / 1; background: #fff; text-decoration: none; color: inherit;
+    border-radius:8px;
+  }
+  .pc--standard .pc__media { background: #eee; }
+  .pc__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .pc__media--empty { border: 2px dashed rgba(0,0,0,.25); font-size: 12px; text-align: center; padding: 10px; }
+
+  /* Badge / pill */
+  .pc__badge {
+    background: var(--pc-badge-bg, #E5195E); color: var(--pc-badge-text, #fff);
+    font-size: 10px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+    padding: 6px 10px; border-radius: 6px; position: absolute; top: 10px; left: 10px;
+  }
+  .pc__badge--chip {
+    position: static; background: #fff; color: var(--pc-heading, #3B0A2F); padding: 6px 12px; border-radius: 999px; white-space: nowrap;
+  }
+  .pc__pill {
+    position: absolute; bottom: 10px; left: 10px; color: var(--pc-pill-text, #3B0A2F);
+    font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 999px;
+  }
+
+  /* Body */
+  .pc__body { display: flex; flex-direction: column; flex: 1; }
+  .pc--standard .pc__body { padding: 14px 8px 0; }
+  .pc__name { margin: 14px 0 0; font-size: var(--pc-name-size, 15px); font-weight: 600; line-height: 1.3; }
+  .pc__name a { color: inherit; text-decoration: none; }
+  .pc--standard .pc__name {
+    font-family: var(--pc-heading-font); text-transform: uppercase; font-weight: 400;
+    font-size: 14px; line-height: 1.05; margin: 0 0 8px;
+  }
+  .pc__name--clamp {
+    display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: var(--pc-name-lines, 2);
+    line-clamp: var(--pc-name-lines, 2); overflow: hidden; min-height: calc(1.3em * var(--pc-name-lines, 2));
+  }
+  .pc__tagline { font-size: 13px; margin: 0 0 8px; opacity: .9; }
+  .pc__reviews {  margin:0; font-size: 12px; }
+  .pc__reviews .jdgm-star { color: var(--pc-star, #F5A623) !important; }
+  .pc__reviews .jdgm-prev-badge__text { color: inherit; font-size: 12px; }
+
+  /* Price */
+  .pc__price { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 8px; }
+  .pc__now { font-size: 20px; font-weight: 800; }
+  .pc--standard .pc__now { font-size: 16px; }
+  .pc__was { font-size: 13px; font-weight: 500; opacity: .55; }
+  .pc__offer { font-size: 12px; margin: 8px 0 14px; }
+
+  /* Actions */
+  .pc__actions { display: flex; gap: 10px; margin-top: auto; padding-top: 10px; }
+  .pc__form { flex: 1; margin: 0; }
+  .pc__btn {
+    width: 100%; border: 0; border-radius: 8px; cursor: pointer;        
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background: var(--pc-btn-bg, #3B0A2F); color: var(--pc-btn-text, #fff);
+    font-family: inherit; font-weight: 700; font-size: 14px; transition: transform .15s, opacity .15s;
+  }
+  /* .pc--standard .pc__btn { height: 48px; } */
+  .pc__btn:hover { transform: translateY(-1px); }
+  .pc__btn[disabled] { opacity: .5; cursor: not-allowed; }
+
+    /* Buy row: transparent on mobile so the layout is unchanged */
+  .pc__buy { display: contents; }
+  .pc__btn-icon { display: none; }
+
+  /* Desktop / tablet: smaller price + cart icon on the right of the price */
+  @media (min-width: 600px) {
+    .pc__buy {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      column-gap: 10px;
+      margin-top: auto;
+      padding-top: 10px;
+    }
+    .pc__price { grid-column: 1; grid-row: 1; }
+    .pc__actions { grid-column: 2; grid-row: 1; margin-top: 0; padding-top: 0; }
+    .pc__offer { grid-column: 1 / -1; grid-row: 2; margin: 10px 0 0; }
+    .pc__form { flex: none; }
+
+    /* smaller price */
+    .pc__now,
+    .pc--standard .pc__now { font-size: 16px; }
+    .pc__was { font-size: 12px; }
+
+
+    /* round cart icon button */
+    .pc .pc__btn {
+      padding: 10px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .pc__btn-icon { display: block; }
+    .pc__btn-label {
+      position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+      overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+    }
+  }
+
+  @media (max-width: 989px) {
+    .pc__flavour br { display: none; }
+    .pc__offer {
+      margin: 0; 
+    }
+  }
+  @media (max-width: 599px) {
+    .pc--flavour { padding: 16px 10px; }
+    .pc--flavour .pc__top { flex-direction: column-reverse; gap: 5px; }
+    .pc__flavour { font-size: 18px; margin: 0 0 10px; }
+    .pc--flavour .pc__badge--chip { padding: 3px 5px; }
+    .pc--flavour .pc__now { font-size: 16px; }
+    .pc--flavour .pc__btn { height: 34px; }
+    .pc__ibadge {        
+        width: 45px !important;
+        height: 45px !important;
+        top: 4px !important;
+        left: 0; }
+    .pc__ibadge--right { left: auto; right: 6px; }
+    .pc__ibadge-text span {
+        font-size: 8px !important;
+    }
+
+    .pc__ibadge-text strong {
+        font-size: 13px !important;
+    }
+  }
+    /* Image badge (seal) */
+  .pc__ibadge {
+    position: absolute; top: 8px; left: 8px; z-index: 2; pointer-events: none;
+    width: var(--pc-ibadge-size, 84px); height: var(--pc-ibadge-size, 84px);
+    display: flex; align-items: center; justify-content: center;
+    transform: rotate(-12deg);
+    color: var(--pc-ibadge-text, #fff);
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,.2));
+  }
+  .pc__ibadge--right { left: auto; right: 8px; transform: rotate(12deg); }
+  .pc__ibadge-shape { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .pc__ibadge-shape polygon { fill: var(--pc-ibadge-bg, #6BAA2B); }
+  .pc__ibadge-text {
+    position: relative; display: flex; flex-direction: column; align-items: center;
+    text-align: center; line-height: 1; text-transform: uppercase;
+    font-family: var(--pc-heading-font); max-width: 78%;
+  }
+  .pc__ibadge-text strong { font-size: calc(var(--pc-ibadge-size, 84px) * .27); font-weight: 700; }
+  .pc__ibadge-text span { font-size: calc(var(--pc-ibadge-size, 84px) * .15); font-weight: 600; letter-spacing: .04em; margin-top: 3px; }
+   .pc__offer {
+    /* margin: 0;     */
+    padding: 10px;
+    background: #fff1d6;
+     }
+{% endstylesheet %}

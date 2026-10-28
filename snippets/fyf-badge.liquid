@@ -1,0 +1,15 @@
+{%- liquid
+  assign badge_label = ''
+
+  if product.tags contains 'new-arrivals'
+    assign badge_label = 'New Arrival'
+  elsif product.tags contains 'best-seller'
+    assign badge_label = 'Best Seller'
+  endif
+-%}
+
+{%- if badge_label != blank -%}
+     <div class="fyf-card__top">
+         <span class="fyf-card__badge">{{ badge_label }}</span>
+     </div>
+{%- endif -%}

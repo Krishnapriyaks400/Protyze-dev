@@ -1,0 +1,473 @@
+{%- liquid
+  assign ss_steps = section.blocks | where: 'type', 'step'
+  assign ss_bg = section.settings.background_color
+  if ss_bg == blank and product
+    assign ss_bg = product.metafields.custom.product_bg_color.value
+  endif
+-%}
+
+{%- style -%}
+  .ss-{{ section.id }} {
+    --ss-card-bg: {{ section.settings.card_bg_color | default: '#ffffff' }};
+    --ss-card-border: {{ section.settings.card_border_color | default: '#e6e2d6' }};
+    {% if ss_bg != blank %}background-color: {{ ss_bg }};{% endif %}
+    padding-top: {{ section.settings.padding_top | times: 0.7 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.7 | round: 0 }}px;
+  }
+
+  .ss-{{ section.id }} .ss__head {
+    margin: 0 auto 2.4rem;
+    max-width: 80rem;
+    text-align: center;
+  }
+
+  .ss-{{ section.id }} .ss__heading {
+    font-size: clamp(2.6rem, 1.8rem + 2.2vw, 4.4rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin: 0;
+    text-transform: none;
+  }
+
+  .ss-{{ section.id }} .ss__subheading {
+    color: rgba(var(--color-foreground), 0.7);
+    font-size: 1.6rem;
+    margin: 1rem 0 0;
+  }
+
+  .ss-{{ section.id }} .ss__body {
+    display: grid;
+    gap: 3rem;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ss-{{ section.id }} .ss__grid {
+    display: grid;
+    gap: 1.2rem;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ss-{{ section.id }} .ss__card {
+    align-items: center;
+    background: var(--ss-card-bg);
+    border: 0.1rem solid var(--ss-card-border);
+    border-radius: 8px;
+    box-sizing: border-box;
+    display: flex;
+    gap: 1.2rem;
+    padding: 1.4rem;
+  }
+
+  .ss-{{ section.id }} .ss__number {
+    align-items: center;
+    background: var(--ss-number-bg, #e07b28);
+    border-radius: 50%;
+    color: #ffffff;
+    display: flex;
+    flex-shrink: 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+    height: 2.8rem;
+    justify-content: center;
+    line-height: 1;
+    width: 2.8rem;
+  }
+
+  .ss-{{ section.id }} .ss__thumb {
+    border-radius: 8px;
+    flex-shrink: 0;
+    height: 5.6rem;
+    overflow: hidden;
+    width: 5.6rem;
+  }
+
+  .ss-{{ section.id }} .ss__thumb img {
+    display: block;
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .ss-{{ section.id }} .ss__title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 0 0 0.4rem;
+  }
+
+  .ss-{{ section.id }} .ss__text {
+    color: rgba(var(--color-foreground), 0.7);
+    font-size: 1.4rem;
+    line-height: 1.45;
+    margin: 0;
+  }
+
+  /* Stretch the button card to the full height of its grid row, and give it
+     the same minimum height as a step card when it sits on its own row. */
+  .ss-{{ section.id }} .ss__cta-item {
+    display: flex;
+  }
+
+  .ss-{{ section.id }} .ss__cta {
+    flex: 1;
+    min-height: 8.4rem;
+    align-items: center;
+    background: {{ section.settings.button_bg_color | default: 'var(--ss-card-bg)' }};
+    border: 0.1rem solid {{ section.settings.button_bg_color | default: 'var(--ss-card-border)' }};
+    border-radius: 8px;
+    box-sizing: border-box;
+    color: {{ section.settings.button_text_color | default: 'rgb(var(--color-foreground))' }};
+    display: flex;
+    font-size: 1.4rem;
+    font-weight: 700;
+    gap: 0.8rem;
+    justify-content: center;
+    padding: 1.4rem;
+    text-decoration: none;
+    transition: border-color 0.15s ease;
+  }
+
+  .ss-{{ section.id }} .ss__cta:hover {
+    border-color: rgb(var(--color-foreground));
+    opacity: 0.9;
+  }
+
+  .ss-{{ section.id }} .ss__media img {
+    display: block;
+    height: auto;
+    margin: 0 auto;
+    max-width: 100%;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ss-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+
+    .ss-{{ section.id }} .ss__head {
+      margin-bottom: 4rem;
+    }
+
+    .ss-{{ section.id }} .ss__body--has-media {
+      align-items: center;
+      gap: 4rem;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    }
+
+    .ss-{{ section.id }} .ss__body--media-left .ss__media {
+      order: -1;
+    }
+
+    .ss-{{ section.id }} .ss__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ss-{{ section.id }} .ss__card {
+      align-items: flex-start;
+      gap: 1.4rem;
+      padding: 1.8rem 1.6rem;
+    }
+
+    .ss-{{ section.id }} .ss__number {
+      margin-top: 1.4rem;
+    }
+
+    .ss-{{ section.id }} .ss__thumb {
+      height: 6rem;
+      width: 6rem;
+    }
+
+    .ss-{{ section.id }} .ss__title {
+      font-size: 1.6rem;
+    }
+
+    .ss-{{ section.id }} .ss__cta {
+      font-size: 1.5rem;
+      min-height: 9.6rem;
+    }
+  }
+{%- endstyle -%}
+
+<div class="ss-{{ section.id }} color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width">
+    {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
+      <div class="ss__head">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="ss__heading">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <p class="ss__subheading">{{ section.settings.subheading | escape }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="ss__body{% if section.settings.side_image != blank %} ss__body--has-media ss__body--media-{{ section.settings.image_position }}{% endif %}">
+      <ol class="ss__grid list-unstyled" role="list">
+        {%- for block in ss_steps -%}
+          <li
+            class="ss__card"
+            {{ block.shopify_attributes }}
+            {% if block.settings.number_color != blank %}
+              style="--ss-number-bg: {{ block.settings.number_color }};"
+            {% endif %}
+          >
+            <span class="ss__number" aria-hidden="true">{{ forloop.index }}</span>
+            {%- if block.settings.image != blank -%}
+              <span class="ss__thumb">
+                {{ block.settings.image | image_url: width: 180 | image_tag: widths: '60, 120, 180', sizes: '60px', loading: 'lazy' }}
+              </span>
+            {%- endif -%}
+            <div>
+              {%- if block.settings.title != blank -%}
+                <p class="ss__title">{{ block.settings.title | escape }}</p>
+              {%- endif -%}
+              {%- if block.settings.text != blank -%}
+                <p class="ss__text">{{ block.settings.text | escape }}</p>
+              {%- endif -%}
+            </div>
+          </li>
+        {%- endfor -%}
+
+        {%- if section.settings.button_label != blank -%}
+          <li class="ss__cta-item">
+            <a
+              class="ss__cta"
+              {% if section.settings.button_link != blank %}
+                href="{{ section.settings.button_link }}"
+              {% else %}
+                href="#" aria-disabled="true"
+              {% endif %}
+            >
+              {{ section.settings.button_label | escape }}
+              <span aria-hidden="true">&rarr;</span>
+            </a>
+          </li>
+        {%- endif -%}
+      </ol>
+
+      {%- if section.settings.side_image != blank -%}
+        <div class="ss__media">
+          {{
+            section.settings.side_image
+            | image_url: width: 1200
+            | image_tag: widths: '400, 600, 800, 1000, 1200', sizes: '(min-width: 1200px) 520px, (min-width: 750px) 40vw, 100vw', loading: 'lazy'
+          }}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Steps Spotlight",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Every image can be picked manually, or bound to an image metafield with the field's \"…\" menu → Connect dynamic source."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Five steps to a clear, refreshing shake"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Quick. Easy. Refreshing."
+    },
+    {
+      "type": "header",
+      "content": "Button card"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "info": "Shown as the last card in the grid. Leave empty to hide.",
+      "default": "See the full preparation guide"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button background",
+      "info": "Leave empty to match the card background."
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text",
+      "info": "Leave empty to use the section text colour."
+    },
+    {
+      "type": "header",
+      "content": "Side image"
+    },
+    {
+      "type": "image_picker",
+      "id": "side_image",
+      "label": "Side image",
+      "info": "Include any headline text (e.g. \"Sip. Recover. Repeat.\") in the image. Upload at least 1000px wide; transparent PNG works well. Never cropped."
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position (desktop)",
+      "info": "On mobile the image always sits below the steps.",
+      "options": [
+        {
+          "value": "right",
+          "label": "Right"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background",
+      "info": "Leave empty to use the product's custom.product_bg_color metafield automatically."
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card border",
+      "default": "#e6e2d6"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 56
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Add water"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "Pour 300–400 ml water into a shaker."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Thumbnail",
+          "info": "Recommended 180 × 180 px (square). Cropped to a square."
+        },
+        {
+          "type": "color",
+          "id": "number_color",
+          "label": "Number circle color",
+          "default": "#e07b28"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Steps Spotlight",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "title": "Add water",
+            "text": "Pour 300–400 ml water into a shaker.",
+            "number_color": "#6c5ce7"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Add one scoop",
+            "text": "Add 1 scoop or sachet of Protyze Clear Whey Protein.",
+            "number_color": "#e8336d"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Shake",
+            "text": "Shake well for 30–40 seconds.",
+            "number_color": "#1a8a63"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Wait",
+            "text": "Let it rest for more than 1 minute for the foam to settle.",
+            "number_color": "#c98a1e"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Sip",
+            "text": "Sip and enjoy your refreshing protein drink.",
+            "number_color": "#e07b28"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

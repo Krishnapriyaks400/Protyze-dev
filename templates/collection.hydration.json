@@ -1,0 +1,150 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "image_banner_YhCmme": {
+      "type": "image-banner",
+      "name": "t:sections.image-banner.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/hydra_-_x.avif",
+        "image_overlay_opacity": 0,
+        "image_height": "adapt",
+        "image_behavior": "none",
+        "desktop_content_position": "middle-center",
+        "desktop_content_alignment": "center",
+        "show_text_box": true,
+        "color_scheme": "",
+        "stack_images_on_mobile": true,
+        "mobile_content_alignment": "center",
+        "show_text_below": true,
+        "custom_class": ""
+      }
+    },
+    "product-grid": {
+      "type": "main-collection-product-grid",
+      "settings": {
+        "products_per_page": 64,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "standard",
+        "enable_filtering": false,
+        "filter_type": "horizontal",
+        "enable_sorting": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "banner": {
+      "type": "main-collection-banner",
+      "disabled": true,
+      "settings": {
+        "show_collection_description": true,
+        "show_collection_image": false,
+        "color_scheme": "scheme-1"
+      }
+    },
+    "faq_section_LwM8Pa": {
+      "type": "faq-section",
+      "blocks": {
+        "collapsible_row_j7wtFQ": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "1. Which is the best clear whey protein in India?",
+            "icon": "none",
+            "row_content": "<p>The best clear whey protein is one that offers high protein content, easy digestion, and a light, refreshing texture. Protyze Anytime Clear whey isolate products are generally preferred for their purity and fast absorption.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_iiYjww": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "2. Is clear whey protein the same as whey isolate?",
+            "icon": "none",
+            "row_content": "<p>Clear whey protein is typically made using whey isolate, but it is processed to remove the creamy texture. The result is a clear, juice-like protein drink with the same high-quality protein benefits.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_gmz9cL": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "3. Can clear whey protein be taken daily?",
+            "icon": "none",
+            "row_content": "<p>Yes, clear whey protein can be taken daily as part of a balanced diet. It is especially suitable for people who want a light protein option without heaviness.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_ADygDD": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "4. Is clear whey protein good for fat loss?",
+            "icon": "none",
+            "row_content": "<p>Clear whey protein by Protyze can support fat loss goals by providing high protein with low calories, helping manage hunger while preserving lean muscle mass.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_XhpcJt": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "5. Does clear whey protein cause bloating?",
+            "icon": "none",
+            "row_content": "<p>Clear whey isolate is generally easier to digest compared to regular whey protein, making it a good option for people who feel discomfort with heavier protein shakes.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_HqwYbJ": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "6. When is the best time to take clear whey protein?",
+            "icon": "none",
+            "row_content": "<p>Clear whey protein can be taken post-workout, between meals, or anytime during the day when meeting protein requirements is needed.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_j7wtFQ",
+        "collapsible_row_iiYjww",
+        "collapsible_row_gmz9cL",
+        "collapsible_row_ADygDD",
+        "collapsible_row_XhpcJt",
+        "collapsible_row_HqwYbJ"
+      ],
+      "disabled": true,
+      "name": "faq-section",
+      "settings": {
+        "caption": "",
+        "heading": "FAQ's",
+        "heading_size": "h1",
+        "span_text": "",
+        "heading_alignment": "center",
+        "layout": "none",
+        "color_scheme": "",
+        "container_color_scheme": "",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "image_banner_YhCmme",
+    "product-grid",
+    "banner",
+    "faq_section_LwM8Pa"
+  ]
+}

@@ -1,0 +1,803 @@
+{%- liquid
+  assign sp_bg = section.settings.background_color | default: '#f4f2ee'
+  assign sp_media_width = 100 | minus: section.settings.content_width | plus: 15
+  if sp_media_width > 100
+    assign sp_media_width = 100
+  endif
+  assign sp_fade_mid = section.settings.fade_width | divided_by: 3
+-%}
+
+{%- style -%}
+  .sp-{{ section.id }} {
+    --oq-text: {{ section.settings.text_color | default: '#1a1a1a' }};
+    --oq-accent: {{ section.settings.accent_color | default: '#e8541e' }};
+    --sp-panel-bg: {{ sp_bg }};
+    color: var(--oq-text);
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.7 | round: 0 }}px;
+    padding-top: {{ section.settings.padding_top | times: 0.7 | round: 0 }}px;
+  }
+
+  .sp-{{ section.id }} .sp__grid {
+    display: grid;
+    gap: 1.2rem;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sp-{{ section.id }} .sp__panel {
+    background: var(--sp-panel-bg);
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Mobile: text on top (centred), photo underneath. */
+  .sp-{{ section.id }} .sp__content {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+    padding: 2.8rem 2rem;
+    text-align: center;
+  }
+
+  .sp-{{ section.id }} .sp__content > * {
+    margin: 0;
+  }
+
+  .sp-{{ section.id }} .sp__media {
+    aspect-ratio: 4 / 3;
+    position: relative;
+  }
+
+  .sp-{{ section.id }} .sp__media img {
+    display: block;
+    height: 100%;
+    object-fit: cover;
+    object-position: {{ section.settings.image_focus }};
+    width: 100%;
+  }
+
+  .sp-{{ section.id }} .oq__eyebrow {
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    line-height: 1.6;
+    text-transform: uppercase;
+  }
+
+  .sp-{{ section.id }} .oq__heading {
+    font-family: var(--font-heading-family);
+    font-size: clamp(2.4rem, 1.9rem + 1vw, 3rem);
+    font-style: var(--font-heading-style);
+    font-weight: var(--font-heading-weight);
+    letter-spacing: calc(var(--font-heading-scale) * 0.06rem);
+    line-height: 1.15;
+    text-transform: none;
+  }
+
+  .sp-{{ section.id }} .oq__body {
+    font-size: 1.4rem;
+    line-height: 1.5;
+    opacity: 0.85;
+  }
+
+  .sp-{{ section.id }} .oq__body--bold {
+    font-weight: 700;
+    opacity: 1;
+  }
+
+  .sp-{{ section.id }} .oq__body--large {
+    font-size: 2rem;
+    line-height: 1.45;
+    opacity: 1;
+  }
+
+  /* Underline sits under the last line of the text. */
+  .sp-{{ section.id }} .oq__body-underline {
+    display: block;
+    height: 1.2rem;
+    margin: 0.4rem auto 0;
+    width: 6em;
+  }
+
+  .sp-{{ section.id }} .oq__check {
+    align-items: center;
+    display: flex;
+    font-size: 1.4rem;
+    gap: 1rem;
+    line-height: 1.4;
+    text-align: left;
+    width: 22rem;
+  }
+
+  .sp-{{ section.id }} .oq__check-icon {
+    color: var(--oq-accent);
+    flex-shrink: 0;
+    height: 2rem;
+    width: 2rem;
+  }
+
+  .sp-{{ section.id }} .oq__icon-item {
+    align-items: center;
+    display: flex;
+    font-size: 1.4rem;
+    gap: 1.4rem;
+    text-align: left;
+    width: 16rem;
+  }
+
+  .sp-{{ section.id }} .oq__icon-item-icon {
+    display: flex;
+    flex-shrink: 0;
+    height: 2.6rem;
+    justify-content: center;
+    width: 2.6rem;
+  }
+
+  .sp-{{ section.id }} .oq__icon-item-icon svg,
+  .sp-{{ section.id }} .oq__icon-item-icon img {
+    height: 100%;
+    object-fit: contain;
+    width: 100%;
+  }
+
+  .sp-{{ section.id }} .oq__hand-img {
+    display: block;
+    height: auto;
+    max-width: 100%;
+    width: calc(var(--oq-w, 240px) * 0.85);
+  }
+
+  .sp-{{ section.id }} .oq__hand-text {
+    color: var(--oq-accent);
+    font-size: 2.4rem;
+    font-style: italic;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  @media screen and (min-width: 750px) {
+    .sp-{{ section.id }} {
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+      padding-top: {{ section.settings.padding_top }}px;
+    }
+
+    .sp-{{ section.id }} .sp__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    /* Desktop: the photo only occupies the right part of the panel (so it is
+       cropped far less) and its left edge fades into the panel colour. The
+       text sits on the plain left side and only overlaps the faded edge. */
+    .sp-{{ section.id }} .sp__panel {
+      align-items: center;
+      display: flex;
+      min-height: {{ section.settings.desktop_height }}px;
+    }
+
+    .sp-{{ section.id }} .sp__media {
+      aspect-ratio: auto;
+      bottom: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: {{ sp_media_width }}%;
+    }
+
+    .sp-{{ section.id }} .sp__media::after {
+      background: linear-gradient(
+        90deg,
+        var(--sp-panel-bg) 0%,
+        {{ sp_bg | color_modify: 'alpha', 0.85 }} {{ sp_fade_mid }}%,
+        {{ sp_bg | color_modify: 'alpha', 0 }} {{ section.settings.fade_width }}%
+      );
+      content: '';
+      inset: 0;
+      position: absolute;
+    }
+
+    .sp-{{ section.id }} .sp__content {
+      align-items: flex-start;
+      max-width: {{ section.settings.content_width }}%;
+      padding: 3.2rem 2.8rem;
+      position: relative;
+      text-align: left;
+      z-index: 1;
+    }
+
+    .sp-{{ section.id }} .oq__icon-item,
+    .sp-{{ section.id }} .oq__check {
+      width: auto;
+    }
+
+    .sp-{{ section.id }} .oq__body--large {
+      font-size: 2.2rem;
+    }
+
+    .sp-{{ section.id }} .oq__body-underline {
+      margin-left: 0;
+    }
+
+    .sp-{{ section.id }} .oq__hand-img {
+      width: var(--oq-w, 240px);
+    }
+  }
+{%- endstyle -%}
+
+<div class="sp-{{ section.id }} color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width">
+    <div class="sp__grid">
+      {%- for p in (1..2) -%}
+        {%- liquid
+          assign sp_key = p | append: ''
+          assign sp_img_key = 'panel_' | append: p | append: '_image'
+          assign sp_img = section.settings[sp_img_key]
+        -%}
+        <div class="sp__panel">
+          <div class="sp__content">
+            {%- for block in section.blocks -%}
+              {%- if block.settings.panel == sp_key -%}
+                {%- render 'origin-question-block', block: block -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+
+          {%- if sp_img != blank -%}
+            <div class="sp__media">
+              {{
+                sp_img
+                | image_url: width: 1200
+                | image_tag: widths: '400, 600, 800, 1000, 1200', sizes: '(min-width: 750px) 50vw, 100vw', loading: 'lazy'
+              }}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Story Panels",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Two panels side by side. Every block has a Panel setting (1 = left, 2 = right)."
+    },
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "panel_1_image",
+      "label": "Panel 1 image",
+      "info": "Recommended 900 × 700 px, subject in the middle. On desktop it fills the right part of the panel; on phones it sits below the text, cropped to 4:3."
+    },
+    {
+      "type": "image_picker",
+      "id": "panel_2_image",
+      "label": "Panel 2 image",
+      "info": "Recommended 900 × 700 px, subject in the middle."
+    },
+    {
+      "type": "select",
+      "id": "image_focus",
+      "label": "Image focus point",
+      "options": [
+        {
+          "value": "center center",
+          "label": "Center"
+        },
+        {
+          "value": "right center",
+          "label": "Right"
+        },
+        {
+          "value": "70% center",
+          "label": "Right of center"
+        }
+      ],
+      "default": "center center"
+    },
+    {
+      "type": "range",
+      "id": "fade_width",
+      "label": "Photo edge fade (desktop)",
+      "info": "How much of the photo's left edge fades into the panel colour.",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "%",
+      "default": 35
+    },
+    {
+      "type": "range",
+      "id": "content_width",
+      "label": "Text width (desktop)",
+      "min": 35,
+      "max": 65,
+      "step": 5,
+      "unit": "%",
+      "default": 50,
+      "info": "The photo takes the rest of the panel, plus a small overlap that sits under the fade."
+    },
+    {
+      "type": "range",
+      "id": "desktop_height",
+      "label": "Panel height (desktop)",
+      "min": 240,
+      "max": 520,
+      "step": 20,
+      "unit": "px",
+      "default": 320
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Panel background",
+      "default": "#f4f2ee"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent",
+      "info": "Check icons and typed handwriting fallback.",
+      "default": "#e8541e"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Section color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 24
+    }
+  ],
+  "blocks": [
+    {
+      "type": "eyebrow",
+      "name": "Eyebrow",
+      "settings": [
+        {
+          "type": "select",
+          "id": "panel",
+          "label": "Panel",
+          "options": [
+            {
+              "value": "1",
+              "label": "1 (left)"
+            },
+            {
+              "value": "2",
+              "label": "2 (right)"
+            }
+          ],
+          "default": "1"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "Every night.\nThe same routine."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "name": "Heading",
+      "settings": [
+        {
+          "type": "select",
+          "id": "panel",
+          "label": "Panel",
+          "options": [
+            {
+              "value": "1",
+              "label": "1 (left)"
+            },
+            {
+              "value": "2",
+              "label": "2 (right)"
+            }
+          ],
+          "default": "1"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Heading",
+          "default": "Heading"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "select",
+          "id": "panel",
+          "label": "Panel",
+          "options": [
+            {
+              "value": "1",
+              "label": "1 (left)"
+            },
+            {
+              "value": "2",
+              "label": "2 (right)"
+            }
+          ],
+          "default": "2"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "Protein at the bottom.\nWater on top."
+        },
+        {
+          "type": "checkbox",
+          "id": "bold",
+          "label": "Bold",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "large",
+          "label": "Large text",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "underline",
+          "label": "Hand-drawn underline under the text",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "icon_item",
+      "name": "Icon item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "panel",
+          "label": "Panel",
+          "options": [
+            {
+              "value": "1",
+              "label": "1 (left)"
+            },
+            {
+              "value": "2",
+              "label": "2 (right)"
+            }
+          ],
+          "default": "1"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            {
+              "value": "flask",
+              "label": "Flask"
+            },
+            {
+              "value": "shaker",
+              "label": "Shaker"
+            },
+            {
+              "value": "snowflake",
+              "label": "Snowflake"
+            },
+            {
+              "value": "heart",
+              "label": "Heart"
+            },
+            {
+              "value": "cup",
+              "label": "Cup"
+            },
+            {
+              "value": "bottle",
+              "label": "Bottle"
+            },
+            {
+              "value": "glass",
+              "label": "Glass"
+            },
+            {
+              "value": "clock",
+              "label": "Clock"
+            },
+            {
+              "value": "moon",
+              "label": "Moon"
+            },
+            {
+              "value": "sun",
+              "label": "Sun"
+            },
+            {
+              "value": "leaf",
+              "label": "Leaf"
+            },
+            {
+              "value": "check",
+              "label": "Check"
+            }
+          ],
+          "default": "flask"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Custom icon",
+          "info": "Optional — replaces the icon above. Transparent PNG/SVG, 72 × 72 px."
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Experiment"
+        }
+      ]
+    },
+    {
+      "type": "check_item",
+      "name": "Check item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "panel",
+          "label": "Panel",
+          "options": [
+            {
+              "value": "1",
+              "label": "1 (left)"
+            },
+            {
+              "value": "2",
+              "label": "2 (right)"
+            }
+          ],
+          "default": "2"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Particles were floating."
+        }
+      ]
+    },
+    {
+      "type": "handwritten",
+      "name": "Handwritten image",
+      "settings": [
+        {
+          "type": "select",
+          "id": "panel",
+          "label": "Panel",
+          "options": [
+            {
+              "value": "1",
+              "label": "1 (left)"
+            },
+            {
+              "value": "2",
+              "label": "2 (right)"
+            }
+          ],
+          "default": "2"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Transparent PNG, e.g. handwriting with an underline. About 640px wide."
+        },
+        {
+          "type": "range",
+          "id": "width",
+          "label": "Width",
+          "min": 100,
+          "max": 400,
+          "step": 10,
+          "unit": "px",
+          "default": 180
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "info": "Shown in orange italics if no image is uploaded, and used as the image's alt text.",
+          "default": "Again.\nAnd again.\nAnd again."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Story Panels",
+      "blocks": [
+        {
+          "type": "eyebrow",
+          "settings": {
+            "panel": "1",
+            "text": "Every night.\nThe same routine."
+          }
+        },
+        {
+          "type": "icon_item",
+          "settings": {
+            "panel": "1",
+            "icon": "flask",
+            "label": "Experiment"
+          }
+        },
+        {
+          "type": "icon_item",
+          "settings": {
+            "panel": "1",
+            "icon": "shaker",
+            "label": "Shake"
+          }
+        },
+        {
+          "type": "icon_item",
+          "settings": {
+            "panel": "1",
+            "icon": "snowflake",
+            "label": "Refrigerator"
+          }
+        },
+        {
+          "type": "icon_item",
+          "settings": {
+            "panel": "1",
+            "icon": "heart",
+            "label": "Hope"
+          }
+        },
+        {
+          "type": "eyebrow",
+          "settings": {
+            "panel": "2",
+            "text": "Every morning.\nThe same result."
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "panel": "2",
+            "text": "Protein at the bottom.\nWater on top."
+          }
+        },
+        {
+          "type": "handwritten",
+          "settings": {
+            "panel": "2",
+            "text": "Again.\nAnd again.\nAnd again."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Story Panels — Eureka (dark)",
+      "settings": {
+        "background_color": "#1b1b1b",
+        "text_color": "#ffffff",
+        "accent_color": "#f08a24"
+      },
+      "blocks": [
+        {
+          "type": "eyebrow",
+          "settings": {
+            "panel": "1",
+            "text": "The Eureka moment."
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "panel": "1",
+            "text": "One day...\nNothing separated.\nI thought I won.",
+            "large": true,
+            "underline": true
+          }
+        },
+        {
+          "type": "eyebrow",
+          "settings": {
+            "panel": "2",
+            "text": "But the real challenge\nhad just begun."
+          }
+        },
+        {
+          "type": "check_item",
+          "settings": {
+            "panel": "2",
+            "text": "Particles were floating."
+          }
+        },
+        {
+          "type": "check_item",
+          "settings": {
+            "panel": "2",
+            "text": "Foam wouldn't disappear."
+          }
+        },
+        {
+          "type": "check_item",
+          "settings": {
+            "panel": "2",
+            "text": "Texture wasn't right."
+          }
+        },
+        {
+          "type": "check_item",
+          "settings": {
+            "panel": "2",
+            "text": "It wasn't juicy."
+          }
+        },
+        {
+          "type": "handwritten",
+          "settings": {
+            "panel": "2",
+            "text": "Creating clear protein\nwas just the beginning.",
+            "width": 260
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

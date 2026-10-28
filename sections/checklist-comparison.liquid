@@ -1,0 +1,284 @@
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .checklist-comparison-{{ section.id }} {
+    {%- if section.settings.background_color != blank -%}
+      --cc-bg: {{ section.settings.background_color }};
+    {%- endif -%}
+    {%- if section.settings.card_background_color != blank -%}
+      --cc-card-bg: {{ section.settings.card_background_color }};
+    {%- endif -%}
+    {%- if section.settings.text_color != blank -%}
+      --cc-text-color: {{ section.settings.text_color }};
+    {%- endif -%}
+  }
+
+  .checklist-comparison__wrapper {
+    background-color: var(--cc-bg, rgb(var(--color-background)));
+  }
+
+  .checklist-comparison__heading {
+    color: rgb(var(--color-foreground));
+    margin: 0 0 4rem;
+    text-align: center;
+    text-transform: none;
+  }
+
+  .checklist-comparison__grid {
+    display: grid;
+    gap: 1.2rem;
+    grid-template-columns: 1fr;
+  }
+
+  @media screen and (min-width: 750px) {
+    .checklist-comparison__grid {
+      gap: 2.4rem;
+      grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
+    }
+  }
+
+  .checklist-comparison__card {
+    background-color: var(--cc-card-bg, rgb(var(--color-background)));
+    border-radius: 0.8rem;
+    padding: 1.6rem 1.6rem;
+  }
+
+  @media screen and (min-width: 750px) {
+    .checklist-comparison__card {
+      padding: 3.2rem 2.8rem;
+    }
+  }
+
+  .checklist-comparison__title {
+    color: var(--cc-text-color, rgb(var(--color-foreground)));
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0 0 1.2rem;
+    text-align: center;
+  }
+
+  @media screen and (min-width: 750px) {
+    .checklist-comparison__title {
+      font-size: 2.2rem;
+      margin: 0 0 2.4rem;
+    }
+  }
+
+  .checklist-comparison__list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  @media screen and (min-width: 750px) {
+    .checklist-comparison__list {
+      gap: 2rem;
+    }
+  }
+
+  .checklist-comparison__item {
+    align-items: flex-start;
+    color: var(--cc-text-color, rgb(var(--color-foreground)));
+    display: flex;
+    gap: 1.2rem;
+    line-height: 1.4;
+  }
+
+  .checklist-comparison__icon {
+    color: var(--cc-text-color, rgb(var(--color-foreground)));
+    flex-shrink: 0;
+    height: 2rem;
+    margin-top: 0.2rem;
+    width: 2rem;
+  }
+
+  .checklist-comparison__card--muted .checklist-comparison__title,
+  .checklist-comparison__card--muted .checklist-comparison__item {
+    opacity: 0.55;
+  }
+{% endstyle %}
+
+<div class="checklist-comparison-{{ section.id }} color-{{ section.settings.color_scheme }} gradient {{ section.settings.custom_class }}">
+  <div class="checklist-comparison__wrapper">
+    <div class="page-width section-{{ section.id }}-padding">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="checklist-comparison__heading h1">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+
+      <div class="checklist-comparison__grid">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'column' -%}
+            <div
+              class="checklist-comparison__card{% if block.settings.muted %} checklist-comparison__card--muted{% endif %}"
+              {{ block.shopify_attributes }}
+            >
+              {%- if block.settings.title != blank -%}
+                <h3 class="checklist-comparison__title h4">{{ block.settings.title | escape }}</h3>
+              {%- endif -%}
+              {%- if block.settings.items != blank -%}
+                {%- liquid
+                  assign item_lines = block.settings.items | newline_to_br | split: '<br />'
+                -%}
+                <ul class="checklist-comparison__list">
+                  {%- for line in item_lines -%}
+                    {%- assign line = line | strip -%}
+                    {%- if line != blank -%}
+                      <li class="checklist-comparison__item">
+                        <svg class="checklist-comparison__icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                          <path d="M4 12.5L9.5 18L20 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>{{ line | escape }}</span>
+                      </li>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </ul>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Checklist comparison",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "What each one actually is"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "info": "Sets the default background and text colors. Use the overrides below to fine-tune individual elements.",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Main background color"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background color"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Card text color",
+      "info": "Applies to the card title, checklist text, and check marks."
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "Column",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Clear whey isolate"
+        },
+        {
+          "type": "textarea",
+          "id": "items",
+          "label": "Checklist items",
+          "info": "One item per line.",
+          "default": "Filtered further than concentrate, removing almost all fat, lactose and carbohydrate.\nHigher protein concentration per scoop.\nNo gums, creamers or thickeners of any kind.\nDissolves clear in cold water in seconds.\nFlavoured like fruit beverages rather than desserts."
+        },
+        {
+          "type": "checkbox",
+          "id": "muted",
+          "label": "Dim this column's checklist text",
+          "info": "Use to visually de-emphasize this column compared to others.",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Checklist comparison",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "column",
+          "settings": {
+            "title": "Clear whey isolate",
+            "items": "Filtered further than concentrate, removing almost all fat, lactose and carbohydrate.\nHigher protein concentration per scoop.\nNo gums, creamers or thickeners of any kind.\nDissolves clear in cold water in seconds.\nFlavoured like fruit beverages rather than desserts."
+          }
+        },
+        {
+          "type": "column",
+          "settings": {
+            "title": "Regular whey",
+            "items": "Usually concentrate or a blend, retaining more fat and lactose.\nProtein per scoop varies more between products.\nGums, creamers and thickeners build the milkshake body.\nOften needs milk or a blender for a smooth result.\nDessert-inspired flavours — chocolate, cookies, vanilla.",
+            "muted": true
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,187 @@
+{%- comment -%}
+  "Build your combo" picker for a combo product page.
+
+  Each row is one product in the combo; the shopper picks one flavour per
+  row. Flavours come from that product's custom.flavor_siblings metafield
+  (each sibling's custom.flavour_name / custom.flavour_color), falling back
+  to the product's own variant option values. The picks are sent to the
+  cart as line item properties on the combo product, e.g.
+  "Anytime Clear Whey Jar: Pink Guava".
+
+  Accepts:
+  - block: the combo_builder block
+  - product_form_id: id of the product form, so the picks submit with Add to cart
+{%- endcomment -%}
+{{ 'combo-builder.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign cb_total = 0
+  for i in (1..5)
+    assign cb_key = 'product_' | append: i
+    if block.settings[cb_key] != blank
+      assign cb_total = cb_total | plus: 1
+    endif
+  endfor
+-%}
+
+<div
+  class="cb"
+  id="ComboBuilder-{{ block.id }}"
+  data-total="{{ cb_total }}"
+  {{ block.shopify_attributes }}
+  style="--cb-accent: {{ block.settings.accent_color | default: '#1f8a3b' }}; --cb-card-bg: {{ block.settings.card_bg_color | default: '#ffffff' }};"
+>
+  <div class="cb__head">
+    {%- if block.settings.heading != blank -%}
+      <p class="cb__heading">{{ block.settings.heading | escape }}</p>
+    {%- endif -%}
+    <p class="cb__count" aria-live="polite">
+      <span data-cb-done>0</span> of {{ cb_total }} {{ block.settings.count_label | default: 'flavours picked' | escape }}
+    </p>
+  </div>
+  <div class="cb__bar" aria-hidden="true"><span class="cb__bar-fill" data-cb-bar></span></div>
+
+  <ol class="cb__list" role="list">
+    {%- assign cb_step = 0 -%}
+    {%- for i in (1..5) -%}
+      {%- liquid
+        assign cb_key = 'product_' | append: i
+        assign cb_product = block.settings[cb_key]
+      -%}
+      {%- if cb_product != blank -%}
+      {%- liquid
+        assign cb_step = cb_step | plus: 1
+
+        assign cb_title_key = 'title_' | append: i
+        assign cb_sub_key = 'subtitle_' | append: i
+        assign cb_title = block.settings[cb_title_key] | default: cb_product.title
+        assign cb_sub = block.settings[cb_sub_key]
+        assign cb_prop = 'properties[' | append: cb_title | append: ']'
+        assign cb_group = block.id | append: '-' | append: i
+
+        assign cb_siblings = cb_product.metafields.custom.flavor_siblings.value
+        assign cb_has_self = false
+        for s in cb_siblings
+          if s.id == cb_product.id
+            assign cb_has_self = true
+          endif
+        endfor
+      -%}
+      <li class="cb__row" data-cb-row>
+        <div class="cb__row-head">
+          {%- if cb_product.featured_image != blank -%}
+            {{ cb_product.featured_image | image_url: width: 160 | image_tag: class: 'cb__thumb', widths: '80, 120, 160', sizes: '56px', loading: 'lazy', alt: '' }}
+          {%- endif -%}
+          <div class="cb__info">
+            <p class="cb__title">{{ cb_title | escape }}</p>
+            {%- if cb_sub != blank -%}
+              <p class="cb__sub">{{ cb_sub | escape }}</p>
+            {%- endif -%}
+          </div>
+          <span class="cb__status">
+            <span class="cb__status-step">{{ block.settings.step_label | default: 'Step' | escape }} {{ cb_step }}</span>
+            <span class="cb__status-picked">&#10003; <span data-cb-picked></span></span>
+          </span>
+        </div>
+
+        <fieldset class="cb__options">
+          <legend class="visually-hidden">{{ cb_title | escape }}</legend>
+          {%- if cb_siblings != blank -%}
+            {%- unless cb_has_self -%}
+              {%- liquid
+                assign o_name = cb_product.metafields.custom.flavour_name.value | default: cb_product.title
+                assign o_color = cb_product.metafields.custom.flavour_color.value
+              -%}
+              {% render 'combo-builder-option', group: cb_group, prop: cb_prop, name: o_name, color: o_color, product_form_id: product_form_id, index: 0 %}
+            {%- endunless -%}
+            {%- for s in cb_siblings -%}
+              {%- liquid
+                assign o_name = s.metafields.custom.flavour_name.value | default: s.title
+                assign o_color = s.metafields.custom.flavour_color.value
+              -%}
+              {% render 'combo-builder-option', group: cb_group, prop: cb_prop, name: o_name, color: o_color, product_form_id: product_form_id, index: forloop.index %}
+            {%- endfor -%}
+          {%- else -%}
+            {%- for value in cb_product.options_with_values.first.values -%}
+              {% render 'combo-builder-option', group: cb_group, prop: cb_prop, name: value, color: nil, product_form_id: product_form_id, index: forloop.index %}
+            {%- endfor -%}
+          {%- endif -%}
+        </fieldset>
+      </li>
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- if block.settings.show_extra and block.settings.extra_title != blank -%}
+      <li class="cb__row cb__row--extra">
+        <div class="cb__row-head">
+          <span class="cb__thumb cb__thumb--extra">
+            {%- if block.settings.extra_image != blank -%}
+              {{ block.settings.extra_image | image_url: width: 160 | image_tag: widths: '80, 120, 160', sizes: '56px', loading: 'lazy', alt: '' }}
+            {%- else -%}
+              {% render 'icon-usage', icon: 'shaker' %}
+            {%- endif -%}
+          </span>
+          <div class="cb__info">
+            <p class="cb__title">{{ block.settings.extra_title | escape }}</p>
+            {%- if block.settings.extra_subtitle != blank -%}
+              <p class="cb__sub cb__sub--extra">{{ block.settings.extra_subtitle | escape }}</p>
+            {%- endif -%}
+          </div>
+          {%- if block.settings.extra_badge != blank -%}
+            <span class="cb__extra-badge">{{ block.settings.extra_badge | escape }}</span>
+          {%- endif -%}
+        </div>
+      </li>
+    {%- endif -%}
+  </ol>
+
+  {%- if block.settings.missing_text != blank -%}
+    <p class="cb__missing" data-cb-missing hidden>{{ block.settings.missing_text | escape }}</p>
+  {%- endif -%}
+</div>
+
+<script>
+  (function () {
+    var root = document.getElementById('ComboBuilder-{{ block.id }}');
+    if (!root) return;
+    var total = parseInt(root.dataset.total, 10) || 0;
+    var rows = root.querySelectorAll('[data-cb-row]');
+    var doneEl = root.querySelector('[data-cb-done]');
+    var bar = root.querySelector('[data-cb-bar]');
+    var missing = root.querySelector('[data-cb-missing]');
+
+    function update() {
+      var done = 0;
+      rows.forEach(function (row) {
+        var picked = row.querySelector('input:checked');
+        row.classList.toggle('is-picked', !!picked);
+        if (picked) {
+          done++;
+          row.classList.remove('is-missing');
+          row.querySelector('[data-cb-picked]').textContent = picked.value;
+        }
+      });
+      if (doneEl) doneEl.textContent = done;
+      if (bar) bar.style.width = (total ? (done / total) * 100 : 0) + '%';
+      if (missing && done === total) missing.hidden = true;
+    }
+
+    root.addEventListener('change', update);
+
+    // The radios are "required", so Add to cart is blocked until every row
+    // has a flavour. Mark the empty rows and scroll to the first one.
+    var warned = false;
+    root.addEventListener('invalid', function (e) {
+      var row = e.target.closest('[data-cb-row]');
+      if (row) row.classList.add('is-missing');
+      if (missing) missing.hidden = false;
+      if (!warned && row) {
+        warned = true;
+        row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        setTimeout(function () { warned = false; }, 600);
+      }
+    }, true);
+
+    update();
+  })();
+</script>

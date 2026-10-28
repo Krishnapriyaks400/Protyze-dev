@@ -1,0 +1,1210 @@
+{{ 'product-story-accordion_copy1.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign ps_accent = section.settings.accent_color
+  if ps_accent == blank and product
+    assign ps_accent = product.metafields.custom.flavour_color.value
+  endif
+  if ps_accent == blank
+    assign ps_accent = '#e07b28'
+  endif
+
+  assign ps_tab_text = section.settings.tab_text_color | default: '#ffffff'
+  assign ps_active_text = section.settings.active_text_color | default: '#111111'
+-%}
+
+{%- liquid
+  assign ps_tab_r = ps_tab_text | color_extract: 'red'
+  assign ps_tab_g = ps_tab_text | color_extract: 'green'
+  assign ps_tab_b = ps_tab_text | color_extract: 'blue'
+  assign ps_act_r = ps_active_text | color_extract: 'red'
+  assign ps_act_g = ps_active_text | color_extract: 'green'
+  assign ps_act_b = ps_active_text | color_extract: 'blue'
+-%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  .ps-{{ section.id }} {
+    --ps-accent: {{ ps_accent }};
+    --ps-tab-bg: {{ section.settings.tab_bg_color | default: '#232428' }};
+    --ps-tab-fg: {{ ps_tab_r }}, {{ ps_tab_g }}, {{ ps_tab_b }};
+    --ps-active-bg: {{ section.settings.active_bg_color | default: '#e3f0d0' }};
+    --ps-active-fg: {{ ps_act_r }}, {{ ps_act_g }}, {{ ps_act_b }};
+    {% if section.settings.background_color != blank %}background-color: {{ section.settings.background_color }};{% endif %}
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="ps-{{ section.id }} color-{{ section.settings.color_scheme }} gradient">
+  <div class="product-story page-width section-{{ section.id }}-padding">
+    <div class="ps__layout">
+      <div class="ps__nav">
+        {%- if section.settings.caption != blank -%}
+          <p class="ps__caption">{{ section.settings.caption | escape }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="ps__heading">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+
+        <div
+          class="ps__tabs"
+          role="tablist"
+          aria-label="{{ section.settings.heading | strip_html | escape }}"
+          id="PsTabs-{{ section.id }}"
+        >
+          {%- for block in section.blocks -%}
+            <button
+              type="button"
+              class="ps__tab"
+              id="PsTab-{{ block.id }}"
+              role="tab"
+              aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+              aria-controls="PsPanel-{{ block.id }}"
+              tabindex="{% if forloop.first %}0{% else %}-1{% endif %}"
+              data-block-id="{{ block.id }}"
+              {% if block.settings.card_bg_color != blank %}
+                style="--ps-item-bg: {{ block.settings.card_bg_color }};"
+              {% endif %}
+            >
+              <span class="ps__tab-num" aria-hidden="true">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+              <span class="ps__tab-text">
+                <span class="ps__tab-title">{{ block.settings.heading | escape }}</span>
+                {%- if block.settings.subtitle != blank -%}
+                  <span class="ps__tab-sub">{{ block.settings.subtitle | escape }}</span>
+                {%- endif -%}
+              </span>
+              <svg class="ps__tab-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <path d="M4 12h16M14 6l6 6-6 6"/>
+              </svg>
+            </button>
+          {%- endfor -%}
+        </div>
+      </div>
+
+      <div class="ps__panels">
+        {%- for block in section.blocks -%}
+          {%- assign ps_panel_img = block.settings.panel_image | default: section.settings.side_image -%}
+          <div
+            class="ps__panel{% if ps_panel_img != blank %} ps__panel--has-media{% endif %}"
+            id="PsPanel-{{ block.id }}"
+            role="tabpanel"
+            aria-labelledby="PsTab-{{ block.id }}"
+            tabindex="0"
+            {% unless forloop.first %}
+              hidden
+            {% endunless %}
+            {% if block.settings.card_bg_color != blank %}
+              style="--ps-item-bg: {{ block.settings.card_bg_color }};"
+            {% endif %}
+            {{ block.shopify_attributes }}
+          >
+            <div class="ps__panel-body">
+              <h3 class="ps__panel-title">{{ block.settings.panel_title | default: block.settings.heading | escape }}</h3>
+              {%- if block.settings.panel_lead != blank -%}
+                <p class="ps__panel-lead">{{ block.settings.panel_lead | escape }}</p>
+              {%- endif -%}
+
+              <div class="product-story__content">
+{%- case block.type -%}
+
+                {%- when 'description' -%}
+                  <div class="product-story__description rte">
+                    {%- if block.settings.use_product_description -%}
+                      {{ product.description }}
+                    {%- else -%}
+                      {{ block.settings.custom_description }}
+                    {%- endif -%}
+                  </div>
+
+                {%- when 'benefits' -%}
+                  <div class="product-story__benefits">
+                    <div class="product-story__benefit-grid">
+                      {%- for i in (1..6) -%}
+                        {%- liquid
+                          assign b_title_key = 'benefit_' | append: i | append: '_title'
+                          assign b_desc_key = 'benefit_' | append: i | append: '_desc'
+                          assign b_icon_key = 'benefit_' | append: i | append: '_icon'
+                          assign b_color_key = 'benefit_' | append: i | append: '_color'
+                          assign b_title = block.settings[b_title_key]
+                          assign b_desc = block.settings[b_desc_key]
+                          assign b_icon = block.settings[b_icon_key]
+                          assign b_color = block.settings[b_color_key]
+                        -%}
+                        {%- if b_title != blank -%}
+                          <div class="product-story__benefit">
+                            <span
+                              class="product-story__benefit-icon"
+                              {% if b_color != blank %}
+                                style="--benefit-bg: {{ b_color }};"
+                              {% endif %}
+                            >
+                              {%- if b_icon != blank -%}
+                                {{ b_icon | image_url: width: 96 | image_tag: widths: '48, 72, 96', loading: 'lazy' }}
+                              {%- endif -%}
+                            </span>
+                            <div class="product-story__benefit-body">
+                              <p class="product-story__benefit-title">{{ b_title | escape }}</p>
+                              {%- if b_desc != blank -%}
+                                <p class="product-story__benefit-desc">{{ b_desc | escape }}</p>
+                              {%- endif -%}
+                            </div>
+                          </div>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </div>
+
+                    {%- if block.settings.points != blank -%}
+                      {%- assign points = block.settings.points | newline_to_br | split: '<br />' -%}
+                      <ul class="product-story__points">
+                        {%- for point in points -%}
+                          {%- assign point_text = point | strip -%}
+                          {%- if point_text != blank -%}
+                            <li>{{ point_text | escape }}</li>
+                          {%- endif -%}
+                        {%- endfor -%}
+                      </ul>
+                    {%- endif -%}
+                  </div>
+
+                {%- when 'richtext' -%}
+                  <div class="product-story__richtext rte">
+                    {{ block.settings.content }}
+                  </div>
+
+                {%- when 'steps' -%}
+                  <ol class="product-story__steps">
+                    {%- assign step_number = 0 -%}
+                    {%- for i in (1..6) -%}
+                      {%- liquid
+                        assign step_text_key = 'step_' | append: i | append: '_text'
+                        assign step_title_key = 'step_' | append: i | append: '_title'
+                        assign step_icon_key = 'step_' | append: i | append: '_icon'
+                        assign step_text = block.settings[step_text_key]
+                        assign step_title = block.settings[step_title_key]
+                        assign step_icon = block.settings[step_icon_key]
+                      -%}
+                      {%- if step_text != blank -%}
+                        {%- assign step_number = step_number | plus: 1 -%}
+                        <li class="product-story__step">
+                          <span class="product-story__step-number" aria-hidden="true">{{ step_number }}</span>
+                          {%- if step_icon != blank -%}
+                            <span class="product-story__step-icon">
+                              {{ step_icon | image_url: width: 120 | image_tag: widths: '60, 90, 120', loading: 'lazy' }}
+                            </span>
+                          {%- endif -%}
+                          <div class="product-story__step-body">
+                            {%- if step_title != blank -%}
+                              <p class="product-story__step-title">{{ step_title | escape }}</p>
+                            {%- endif -%}
+                            <p class="product-story__step-text">{{ step_text | escape }}</p>
+                          </div>
+                        </li>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </ol>
+
+                {%- when 'comparison' -%}
+                  <div class="product-story__comparison">
+                    <table class="product-story__table">
+                      <thead>
+                        <tr>
+                          <th class="product-story__th product-story__th--feature">{{ block.settings.feature_label | default: 'Feature' | escape }}</th>
+                          <th class="product-story__th product-story__th--col1">{{ block.settings.column1_label | default: 'Clear Whey' | escape }}</th>
+                          <th class="product-story__th product-story__th--col2">{{ block.settings.column2_label | default: 'Regular Whey' | escape }}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {%- for i in (1..6) -%}
+                          {%- assign row_feature_key = 'row_' | append: i | append: '_feature' -%}
+                          {%- assign row_col1_key = 'row_' | append: i | append: '_col1' -%}
+                          {%- assign row_col2_key = 'row_' | append: i | append: '_col2' -%}
+                          {%- assign row_feature = block.settings[row_feature_key] -%}
+                          {%- if row_feature != blank -%}
+                            <tr>
+                              <td class="product-story__td product-story__td--feature">{{ row_feature | escape }}</td>
+                              <td class="product-story__td product-story__td--col1">{{ block.settings[row_col1_key] | escape }}</td>
+                              <td class="product-story__td product-story__td--col2">{{ block.settings[row_col2_key] | escape }}</td>
+                            </tr>
+                          {%- endif -%}
+                        {%- endfor -%}
+                      </tbody>
+                    </table>
+                    {%- if block.settings.table_footnote != blank -%}
+                      <p class="product-story__footnote">{{ block.settings.table_footnote }}</p>
+                    {%- endif -%}
+                  </div>
+
+              {%- endcase -%}
+              </div>
+
+              {%- if block.settings.button_label != blank -%}
+                <div class="ps__panel-cta">
+                  <a
+                    class="ps__panel-button"
+                    {% if block.settings.button_link != blank %}
+                      href="{{ block.settings.button_link }}"
+                    {% else %}
+                      href="#" aria-disabled="true"
+                    {% endif %}
+                  >
+                    {{- block.settings.button_label | escape -}}
+                  </a>
+                  {%- if block.settings.button_note != blank -%}
+                    <span class="ps__panel-note">{{ block.settings.button_note | escape }}</span>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+            </div>
+
+            {%- if ps_panel_img != blank -%}
+              <div class="ps__panel-media">
+                {{
+                  ps_panel_img
+                  | image_url: width: 1000
+                  | image_tag: widths: '400, 600, 800, 1000', sizes: '(min-width: 750px) 25vw, 100vw', loading: 'lazy'
+                }}
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var tablist = document.getElementById('PsTabs-{{ section.id }}');
+    if (!tablist) return;
+    var tabs = Array.prototype.slice.call(tablist.querySelectorAll('[role="tab"]'));
+    var mobile = window.matchMedia('(max-width: 749px)');
+
+    function activate(tab, opts) {
+      tabs.forEach(function (t) {
+        var selected = t === tab;
+        t.setAttribute('aria-selected', selected ? 'true' : 'false');
+        t.tabIndex = selected ? 0 : -1;
+        var panel = document.getElementById(t.getAttribute('aria-controls'));
+        if (panel) panel.hidden = !selected;
+      });
+      if (opts && opts.focus) tab.focus();
+      // On phones the card sits below the list, so bring it into view.
+      if (opts && opts.scroll && mobile.matches) {
+        var panel = document.getElementById(tab.getAttribute('aria-controls'));
+        if (panel) panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    tabs.forEach(function (tab, i) {
+      tab.addEventListener('click', function () {
+        activate(tab, { scroll: true });
+      });
+      tab.addEventListener('keydown', function (e) {
+        var next = null;
+        if (e.key === 'ArrowDown' || e.key === 'ArrowRight') next = tabs[(i + 1) % tabs.length];
+        if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') next = tabs[(i - 1 + tabs.length) % tabs.length];
+        if (e.key === 'Home') next = tabs[0];
+        if (e.key === 'End') next = tabs[tabs.length - 1];
+        if (next) {
+          e.preventDefault();
+          activate(next, { focus: true });
+        }
+      });
+    });
+
+    // Theme editor: selecting a block in the sidebar shows its tab.
+    document.addEventListener('shopify:block:select', function (e) {
+      var tab = tablist.querySelector('[data-block-id="' + e.detail.blockId + '"]');
+      if (tab) activate(tab);
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Product Story Tabs",
+  "tag": "section",
+  "class": "section",
+  "enabled_on": {
+    "templates": [
+      "product"
+    ]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "caption",
+      "label": "Caption",
+      "info": "Small label above the heading. Leave empty to hide.",
+      "default": "Clear whey · Four formulas"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "What's your goal?"
+    },
+    {
+      "type": "header",
+      "content": "Colours"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background",
+      "info": "Optional. Overrides the colour scheme background."
+    },
+    {
+      "type": "color",
+      "id": "tab_bg_color",
+      "label": "Button background",
+      "default": "#232428"
+    },
+    {
+      "type": "color",
+      "id": "tab_text_color",
+      "label": "Button text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "active_bg_color",
+      "label": "Active button + card background",
+      "info": "The selected button and the card on the right share this colour. A block can override it.",
+      "default": "#e3f0d0"
+    },
+    {
+      "type": "color",
+      "id": "active_text_color",
+      "label": "Active button + card text",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Card title colour",
+      "info": "The big title in the card. Leave empty to use the product's custom.flavour_color metafield."
+    },
+    {
+      "type": "header",
+      "content": "Card image"
+    },
+    {
+      "type": "image_picker",
+      "id": "side_image",
+      "label": "Default card image",
+      "info": "Shown on the right of every card that has no image of its own. Recommended 800 × 1000 px."
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 52
+    }
+  ],
+  "blocks": [
+    {
+      "type": "description",
+      "name": "Product Description",
+      "settings": [
+        {
+          "type": "color",
+          "id": "card_bg_color",
+          "label": "Active colour for this tab (optional)",
+          "info": "Overrides the section's active colour for this button and its card."
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Button title",
+          "default": "Description"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Button subtitle"
+        },
+        {
+          "type": "checkbox",
+          "id": "use_product_description",
+          "label": "Use product description",
+          "info": "Pull description from the product page automatically",
+          "default": true
+        },
+        {
+          "type": "richtext",
+          "id": "custom_description",
+          "label": "Custom description",
+          "info": "Used when 'Use product description' is unchecked"
+        },
+        {
+          "type": "header",
+          "content": "Card"
+        },
+        {
+          "type": "text",
+          "id": "panel_title",
+          "label": "Card title",
+          "info": "Big coloured title in the card. Leave empty to use the button title."
+        },
+        {
+          "type": "text",
+          "id": "panel_lead",
+          "label": "Card lead line",
+          "info": "Bold line under the card title."
+        },
+        {
+          "type": "image_picker",
+          "id": "panel_image",
+          "label": "Card image",
+          "info": "Shown on the right of the card. Recommended 800 × 1000 px. Falls back to the section's default card image."
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "text",
+          "id": "button_note",
+          "label": "Text next to button",
+          "info": "e.g. \"from ₹3,263\"."
+        }
+      ]
+    },
+    {
+      "type": "benefits",
+      "name": "Key Benefits",
+      "settings": [
+        {
+          "type": "color",
+          "id": "card_bg_color",
+          "label": "Active colour for this tab (optional)",
+          "info": "Overrides the section's active colour for this button and its card."
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Button title",
+          "default": "Key benefits"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Button subtitle"
+        },
+        {
+          "type": "paragraph",
+          "content": "Benefit cards: use a white/transparent PNG icon (recommended 96 × 96 px). It sits on a coloured tile."
+        },
+        {
+          "type": "header",
+          "content": "Benefit 1"
+        },
+        {
+          "type": "image_picker",
+          "id": "benefit_1_icon",
+          "label": "Icon"
+        },
+        {
+          "type": "color",
+          "id": "benefit_1_color",
+          "label": "Icon tile color",
+          "default": "#e8336d"
+        },
+        {
+          "type": "text",
+          "id": "benefit_1_title",
+          "label": "Title",
+          "default": "Muscle growth and recovery"
+        },
+        {
+          "type": "text",
+          "id": "benefit_1_desc",
+          "label": "Description",
+          "info": "Optional small line under the title."
+        },
+        {
+          "type": "header",
+          "content": "Benefit 2"
+        },
+        {
+          "type": "image_picker",
+          "id": "benefit_2_icon",
+          "label": "Icon"
+        },
+        {
+          "type": "color",
+          "id": "benefit_2_color",
+          "label": "Icon tile color",
+          "default": "#1a8a63"
+        },
+        {
+          "type": "text",
+          "id": "benefit_2_title",
+          "label": "Title",
+          "default": "Helps reduce bloating"
+        },
+        {
+          "type": "text",
+          "id": "benefit_2_desc",
+          "label": "Description",
+          "info": "Optional small line under the title."
+        },
+        {
+          "type": "header",
+          "content": "Benefit 3"
+        },
+        {
+          "type": "image_picker",
+          "id": "benefit_3_icon",
+          "label": "Icon"
+        },
+        {
+          "type": "color",
+          "id": "benefit_3_color",
+          "label": "Icon tile color",
+          "default": "#7b5cf0"
+        },
+        {
+          "type": "text",
+          "id": "benefit_3_title",
+          "label": "Title",
+          "default": "Easy to digest"
+        },
+        {
+          "type": "text",
+          "id": "benefit_3_desc",
+          "label": "Description",
+          "info": "Optional small line under the title."
+        },
+        {
+          "type": "header",
+          "content": "Benefit 4"
+        },
+        {
+          "type": "image_picker",
+          "id": "benefit_4_icon",
+          "label": "Icon"
+        },
+        {
+          "type": "color",
+          "id": "benefit_4_color",
+          "label": "Icon tile color",
+          "default": "#c98a1e"
+        },
+        {
+          "type": "text",
+          "id": "benefit_4_title",
+          "label": "Title",
+          "default": "Rapid absorption"
+        },
+        {
+          "type": "text",
+          "id": "benefit_4_desc",
+          "label": "Description",
+          "info": "Optional small line under the title."
+        },
+        {
+          "type": "header",
+          "content": "Benefit 5"
+        },
+        {
+          "type": "image_picker",
+          "id": "benefit_5_icon",
+          "label": "Icon"
+        },
+        {
+          "type": "color",
+          "id": "benefit_5_color",
+          "label": "Icon tile color",
+          "default": "#e07b28"
+        },
+        {
+          "type": "text",
+          "id": "benefit_5_title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "benefit_5_desc",
+          "label": "Description",
+          "info": "Optional small line under the title."
+        },
+        {
+          "type": "header",
+          "content": "Benefit 6"
+        },
+        {
+          "type": "image_picker",
+          "id": "benefit_6_icon",
+          "label": "Icon"
+        },
+        {
+          "type": "color",
+          "id": "benefit_6_color",
+          "label": "Icon tile color",
+          "default": "#e07b28"
+        },
+        {
+          "type": "text",
+          "id": "benefit_6_title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "benefit_6_desc",
+          "label": "Description",
+          "info": "Optional small line under the title."
+        },
+        {
+          "type": "header",
+          "content": "Bullet list"
+        },
+        {
+          "type": "textarea",
+          "id": "points",
+          "label": "Points",
+          "info": "One point per line. Shown below the benefit cards.",
+          "default": "24g whey protein isolate with 7.2g BCAA and 3.8g leucine per serving.\n99% lactose free, so it stays light on digestion.\nNo gums, thickeners or maltodextrin — mixes clear in water.\n0g added sugar, low carb, around 90 kcal per serving.\n30% higher absorption and 40% more BCAA than regular whey."
+        },
+        {
+          "type": "text",
+          "id": "panel_title",
+          "label": "Card title",
+          "info": "Big coloured title in the card. Leave empty to use the button title."
+        },
+        {
+          "type": "text",
+          "id": "panel_lead",
+          "label": "Card lead line",
+          "info": "Bold line under the card title."
+        },
+        {
+          "type": "image_picker",
+          "id": "panel_image",
+          "label": "Card image",
+          "info": "Shown on the right of the card. Recommended 800 × 1000 px. Falls back to the section's default card image."
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "text",
+          "id": "button_note",
+          "label": "Text next to button",
+          "info": "e.g. \"from ₹3,263\"."
+        }
+      ]
+    },
+    {
+      "type": "richtext",
+      "name": "Rich Text Content",
+      "settings": [
+        {
+          "type": "color",
+          "id": "card_bg_color",
+          "label": "Active colour for this tab (optional)",
+          "info": "Overrides the section's active colour for this button and its card."
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Button title",
+          "default": "Rich Text"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Button subtitle"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content"
+        },
+        {
+          "type": "header",
+          "content": "Card"
+        },
+        {
+          "type": "text",
+          "id": "panel_title",
+          "label": "Card title",
+          "info": "Big coloured title in the card. Leave empty to use the button title."
+        },
+        {
+          "type": "text",
+          "id": "panel_lead",
+          "label": "Card lead line",
+          "info": "Bold line under the card title."
+        },
+        {
+          "type": "image_picker",
+          "id": "panel_image",
+          "label": "Card image",
+          "info": "Shown on the right of the card. Recommended 800 × 1000 px. Falls back to the section's default card image."
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "text",
+          "id": "button_note",
+          "label": "Text next to button",
+          "info": "e.g. \"from ₹3,263\"."
+        }
+      ]
+    },
+    {
+      "type": "steps",
+      "name": "How to Use Steps",
+      "settings": [
+        {
+          "type": "color",
+          "id": "card_bg_color",
+          "label": "Active colour for this tab (optional)",
+          "info": "Overrides the section's active colour for this button and its card."
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Button title",
+          "default": "How to use"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Button subtitle"
+        },
+        {
+          "type": "image_picker",
+          "id": "step_1_icon",
+          "label": "Step 1 icon"
+        },
+        {
+          "type": "text",
+          "id": "step_1_title",
+          "label": "Step 1 title",
+          "default": "SCOOP"
+        },
+        {
+          "type": "text",
+          "id": "step_1_text",
+          "label": "Step 1 description",
+          "default": "Add 1 scoop (30g) to your shaker"
+        },
+        {
+          "type": "image_picker",
+          "id": "step_2_icon",
+          "label": "Step 2 icon"
+        },
+        {
+          "type": "text",
+          "id": "step_2_title",
+          "label": "Step 2 title",
+          "default": "POUR"
+        },
+        {
+          "type": "text",
+          "id": "step_2_text",
+          "label": "Step 2 description",
+          "default": "Pour in 250-300ml cold water"
+        },
+        {
+          "type": "image_picker",
+          "id": "step_3_icon",
+          "label": "Step 3 icon"
+        },
+        {
+          "type": "text",
+          "id": "step_3_title",
+          "label": "Step 3 title",
+          "default": "SHAKE"
+        },
+        {
+          "type": "text",
+          "id": "step_3_text",
+          "label": "Step 3 description",
+          "default": "Shake 30-40 seconds until clear"
+        },
+        {
+          "type": "image_picker",
+          "id": "step_4_icon",
+          "label": "Step 4 icon"
+        },
+        {
+          "type": "text",
+          "id": "step_4_title",
+          "label": "Step 4 title",
+          "default": "SIP"
+        },
+        {
+          "type": "text",
+          "id": "step_4_text",
+          "label": "Step 4 description",
+          "default": "Sip post-workout or anytime"
+        },
+        {
+          "type": "image_picker",
+          "id": "step_5_icon",
+          "label": "Step 5 icon"
+        },
+        {
+          "type": "text",
+          "id": "step_5_title",
+          "label": "Step 5 title"
+        },
+        {
+          "type": "text",
+          "id": "step_5_text",
+          "label": "Step 5 description"
+        },
+        {
+          "type": "image_picker",
+          "id": "step_6_icon",
+          "label": "Step 6 icon"
+        },
+        {
+          "type": "text",
+          "id": "step_6_title",
+          "label": "Step 6 title"
+        },
+        {
+          "type": "text",
+          "id": "step_6_text",
+          "label": "Step 6 description"
+        },
+        {
+          "type": "header",
+          "content": "Card"
+        },
+        {
+          "type": "text",
+          "id": "panel_title",
+          "label": "Card title",
+          "info": "Big coloured title in the card. Leave empty to use the button title."
+        },
+        {
+          "type": "text",
+          "id": "panel_lead",
+          "label": "Card lead line",
+          "info": "Bold line under the card title."
+        },
+        {
+          "type": "image_picker",
+          "id": "panel_image",
+          "label": "Card image",
+          "info": "Shown on the right of the card. Recommended 800 × 1000 px. Falls back to the section's default card image."
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "text",
+          "id": "button_note",
+          "label": "Text next to button",
+          "info": "e.g. \"from ₹3,263\"."
+        }
+      ]
+    },
+    {
+      "type": "comparison",
+      "name": "Comparison Table",
+      "settings": [
+        {
+          "type": "color",
+          "id": "card_bg_color",
+          "label": "Active colour for this tab (optional)",
+          "info": "Overrides the section's active colour for this button and its card."
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Button title",
+          "default": "Clear Whey vs Regular Whey"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Button subtitle",
+          "default": "Why clear wins for everyday protein"
+        },
+        {
+          "type": "header",
+          "content": "Table headers"
+        },
+        {
+          "type": "text",
+          "id": "feature_label",
+          "label": "Feature column label",
+          "default": "Feature"
+        },
+        {
+          "type": "text",
+          "id": "column1_label",
+          "label": "Column 1 label",
+          "default": "Clear Whey"
+        },
+        {
+          "type": "text",
+          "id": "column2_label",
+          "label": "Column 2 label",
+          "default": "Regular Whey"
+        },
+        {
+          "type": "header",
+          "content": "Row 1"
+        },
+        {
+          "type": "text",
+          "id": "row_1_feature",
+          "label": "Feature",
+          "default": "Texture"
+        },
+        {
+          "type": "text",
+          "id": "row_1_col1",
+          "label": "Column 1 value",
+          "default": "Light & juice-like"
+        },
+        {
+          "type": "text",
+          "id": "row_1_col2",
+          "label": "Column 2 value",
+          "default": "Thick & milky"
+        },
+        {
+          "type": "header",
+          "content": "Row 2"
+        },
+        {
+          "type": "text",
+          "id": "row_2_feature",
+          "label": "Feature",
+          "default": "Digestion"
+        },
+        {
+          "type": "text",
+          "id": "row_2_col1",
+          "label": "Column 1 value",
+          "default": "Fast, easy"
+        },
+        {
+          "type": "text",
+          "id": "row_2_col2",
+          "label": "Column 2 value",
+          "default": "Heavier, slower"
+        },
+        {
+          "type": "header",
+          "content": "Row 3"
+        },
+        {
+          "type": "text",
+          "id": "row_3_feature",
+          "label": "Feature",
+          "default": "Lactose"
+        },
+        {
+          "type": "text",
+          "id": "row_3_col1",
+          "label": "Column 1 value",
+          "default": "99% free"
+        },
+        {
+          "type": "text",
+          "id": "row_3_col2",
+          "label": "Column 2 value",
+          "default": "Often higher"
+        },
+        {
+          "type": "header",
+          "content": "Row 4"
+        },
+        {
+          "type": "text",
+          "id": "row_4_feature",
+          "label": "Feature",
+          "default": "Added sugar"
+        },
+        {
+          "type": "text",
+          "id": "row_4_col1",
+          "label": "Column 1 value",
+          "default": "Zero"
+        },
+        {
+          "type": "text",
+          "id": "row_4_col2",
+          "label": "Column 2 value",
+          "default": "Varies"
+        },
+        {
+          "type": "header",
+          "content": "Row 5"
+        },
+        {
+          "type": "text",
+          "id": "row_5_feature",
+          "label": "Feature",
+          "default": "Best for"
+        },
+        {
+          "type": "text",
+          "id": "row_5_col1",
+          "label": "Column 1 value",
+          "default": "Anytime sipping"
+        },
+        {
+          "type": "text",
+          "id": "row_5_col2",
+          "label": "Column 2 value",
+          "default": "Post-workout only"
+        },
+        {
+          "type": "header",
+          "content": "Row 6"
+        },
+        {
+          "type": "text",
+          "id": "row_6_feature",
+          "label": "Feature"
+        },
+        {
+          "type": "text",
+          "id": "row_6_col1",
+          "label": "Column 1 value"
+        },
+        {
+          "type": "text",
+          "id": "row_6_col2",
+          "label": "Column 2 value"
+        },
+        {
+          "type": "header",
+          "content": "Footnote"
+        },
+        {
+          "type": "richtext",
+          "id": "table_footnote",
+          "label": "Table footnote"
+        },
+        {
+          "type": "text",
+          "id": "panel_title",
+          "label": "Card title",
+          "info": "Big coloured title in the card. Leave empty to use the button title."
+        },
+        {
+          "type": "text",
+          "id": "panel_lead",
+          "label": "Card lead line",
+          "info": "Bold line under the card title."
+        },
+        {
+          "type": "image_picker",
+          "id": "panel_image",
+          "label": "Card image",
+          "info": "Shown on the right of the card. Recommended 800 × 1000 px. Falls back to the section's default card image."
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "text",
+          "id": "button_note",
+          "label": "Text next to button",
+          "info": "e.g. \"from ₹3,263\"."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Story Accordion",
+      "blocks": [
+        {
+          "type": "description"
+        },
+        {
+          "type": "benefits"
+        },
+        {
+          "type": "steps"
+        },
+        {
+          "type": "comparison"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

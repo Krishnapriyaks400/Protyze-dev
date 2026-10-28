@@ -1,0 +1,787 @@
+{%- liquid
+  assign wd_items = section.blocks | where: 'type', 'moment'
+
+  assign wd_accent = section.settings.accent_color
+  if wd_accent == blank and product
+    assign wd_accent = product.metafields.custom.flavour_color.value
+  endif
+  if wd_accent == blank
+    assign wd_accent = '#e53935'
+  endif
+
+  comment
+    Circle colour: always the product's flavour colour metafield (custom.flavour_color),
+    independent of the Accent setting. Falls back to the accent colour if the metafield is empty.
+    A block's own "Circle colour" still overrides it.
+  endcomment
+  assign wd_flavour = ''
+  if product
+    assign wd_flavour = product.metafields.custom.flavour_color.value
+  endif
+  if wd_flavour == blank
+    assign wd_flavour = wd_accent
+  endif
+
+  assign wd_bg = section.settings.background_color
+  if wd_bg == blank and product
+    assign wd_bg = product.metafields.custom.product_bg_color.value
+  endif
+
+  assign wd_overlay = wd_bg | default: '#ffffff'
+  assign wd_overlay_alpha = section.settings.overlay_opacity | divided_by: 100.0
+  assign wd_overlay = wd_overlay | color_modify: 'alpha', wd_overlay_alpha
+
+  # Optional two-colour gradient background (same idea as the nutrition panel).
+  assign wd_grad = false
+  if section.settings.gradient_start != blank and section.settings.gradient_end != blank
+    assign wd_grad = true
+    assign wd_g1 = section.settings.gradient_start | color_modify: 'alpha', wd_overlay_alpha
+    assign wd_g2 = section.settings.gradient_end | color_modify: 'alpha', wd_overlay_alpha
+  endif
+
+  # Points along the upper arc (x%, y% of the arc box), spread evenly
+  # from 165° to 15° for 3–7 items.
+  case wd_items.size
+    when 3
+      assign wd_pos = '11.4,71.4|50,0.8|88.6,71.4'
+    when 4
+      assign wd_pos = '11.4,71.4|33.1,9.7|66.9,9.7|88.6,71.4'
+    when 5
+      assign wd_pos = '11.4,71.4|25.6,20.4|50,0.8|74.4,20.4|88.6,71.4'
+    when 6
+      assign wd_pos = '11.4,71.4|21.7,28.7|39.6,4|60.4,4|78.3,28.7|88.6,71.4'
+    else
+      assign wd_pos = '11.4,71.4|19.4,34.8|33.1,9.7|50,0.8|66.9,9.7|80.6,34.8|88.6,71.4'
+  endcase
+  assign wd_pos = wd_pos | split: '|'
+-%}
+
+{%- style -%}
+  .wd-{{ section.id }} {
+    --wd-accent: {{ wd_accent }};
+    --wd-flavour: {{ wd_flavour }};
+    --wd-line: {{ section.settings.line_color | default: wd_accent }};
+    {% if wd_bg != blank %}background-color: {{ wd_bg }};{% endif %}
+    {% if wd_grad %}background-image: linear-gradient({{ section.settings.gradient_angle | default: 180 }}deg, {{ section.settings.gradient_start }} 0%, {{ section.settings.gradient_end }} 100%);{% endif %}
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.7 | round: 0 }}px;
+    padding-top: {{ section.settings.padding_top | times: 0.7 | round: 0 }}px;
+    isolation: isolate;
+    overflow-x: clip;
+    position: relative;
+  }
+
+  /* ── Optional full background image (e.g. water droplets) ─────────── */
+  .wd-{{ section.id }} .wd__bg {
+    inset: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+
+  .wd-{{ section.id }} .wd__bg img {
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  /* Wash of the background colour over the photo so text stays readable. */
+  .wd-{{ section.id }} .wd__bg::after {
+    background: {% if wd_grad %}linear-gradient({{ section.settings.gradient_angle | default: 180 }}deg, {{ wd_g1 }} 0%, {{ wd_g2 }} 100%){% else %}{{ wd_overlay }}{% endif %};
+    content: '';
+    inset: 0;
+    position: absolute;
+  }
+
+  /* ── Optional image in the middle of the arc ──────────────────────── */
+  .wd-{{ section.id }} .wd__center {
+    left: 50%;
+    pointer-events: none;
+    position: absolute;
+    top: {{ section.settings.center_image_top }}%;
+    transform: translate(-50%, -50%);
+    width: {{ section.settings.center_image_width }}cqw;
+  }
+
+  .wd-{{ section.id }} .wd__center img {
+    display: block;
+    height: auto;
+    width: 100%;
+  }
+
+  .wd-{{ section.id }} .wd__head {
+    text-align: center;
+  }
+
+  .wd-{{ section.id }} .wd__eyebrow {
+    align-items: center;
+    background: color-mix(in srgb, var(--wd-accent) 14%, transparent);
+    border-radius: 999px;
+    color: var(--wd-accent);
+    display: inline-flex;
+    font-size: 1.2rem;
+    font-weight: 800;
+    gap: 0.8rem;
+    letter-spacing: 0.1em;
+    margin: 0 0 1.2rem;
+    padding: 0.6rem 1.4rem;
+    text-transform: uppercase;
+  }
+
+  .wd-{{ section.id }} .wd__eyebrow::before {
+    background: currentColor;
+    border-radius: 50%;
+    content: '';
+    height: 0.7rem;
+    width: 0.7rem;
+  }
+
+  /* Same style as the product title. */
+  .wd-{{ section.id }} .wd__heading {
+    font-family: var(--font-fourth-family, var(--font-body-family));
+    font-size: clamp(2.8rem, 2.2rem + 1.6vw, 4.2rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin: 0;
+    text-transform: none;
+  }
+
+  /* ── The arc ──────────────────────────────────────────────────────────
+     .wd__stage is a size container; .wd__arc is 42cqw tall and each item
+     sits at its --x / --y point. The dashed line is the top half of a
+     circle (diameter 80% of the width) behind the items. */
+  .wd-{{ section.id }} .wd__stage {
+    --wd-c: clamp(6.4rem, 7.6cqw, 8.6rem);
+    container-type: inline-size;
+    margin: 0 auto;
+    max-width: 110rem;
+    padding-top: calc(var(--wd-c) * 0.65 + 2.4rem);
+  }
+
+  .wd-{{ section.id }} .wd__arc {
+    height: 42cqw;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    z-index: 0;
+  }
+
+  .wd-{{ section.id }} .wd__arc::before,
+  .wd-{{ section.id }} .wd__arc::after {
+    border-radius: 50%;
+    clip-path: inset(-3rem -3rem 50% -3rem);
+    content: '';
+    height: 80cqw;
+    left: 10%;
+    pointer-events: none;
+    position: absolute;
+    top: calc(96% - 40cqw);
+    width: 80cqw;
+  }
+
+  /* Dashed line, lifted off the background with a soft shadow. */
+  .wd-{{ section.id }} .wd__arc::before {
+    border: 0.25rem dashed var(--wd-line);
+    filter: drop-shadow(0 0.4rem 0.6rem rgba(0, 0, 0, 0.18));
+    z-index: 0;
+  }
+
+  {%- unless section.settings.arc_flat %}
+    /* Soft glow under the dashed line: a blurred white band (no hard
+       edges) so the arch looks raised off the page. */
+    .wd-{{ section.id }} .wd__arc::after {
+      border: 1.4rem solid rgba(255, 255, 255, 0.55);
+      filter: blur(0.8rem);
+      height: calc(80cqw + 1.4rem);
+      left: calc(10% - 0.7rem);
+      top: calc(96% - 40cqw - 0.7rem);
+      width: calc(80cqw + 1.4rem);
+      z-index: -1;
+    }
+  {%- else %}
+    .wd-{{ section.id }} .wd__arc::after {
+      content: none;
+    }
+  {%- endunless %}
+
+  .wd-{{ section.id }} .wd__item {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    left: var(--x);
+    position: absolute;
+    text-align: center;
+    top: var(--y);
+    transform: translate(-50%, calc(var(--wd-size) / -2));
+    width: 16rem;
+    z-index: 1;
+    --wd-size: var(--wd-c);
+  }
+
+  /* Circle fill = flavour colour metafield (a block's own colour overrides it);
+     icon is white by default so it stays readable on the flavour colour. */
+  .wd-{{ section.id }} .wd__circle {
+    align-items: center;
+    background: var(--wd-circle-bg, var(--wd-flavour));
+    border-radius: 50%;
+    box-shadow: 0 1.2rem 2.8rem rgba(0, 0, 0, 0.14), 0 0.2rem 0.6rem rgba(0, 0, 0, 0.06);
+    color: var(--wd-icon, #ffffff);
+    display: flex;
+    flex-shrink: 0;
+    height: var(--wd-size);
+    justify-content: center;
+    position: relative;
+    width: var(--wd-size);
+  }
+
+  .wd-{{ section.id }} .wd__circle svg {
+    height: 38%;
+    width: 38%;
+  }
+
+  .wd-{{ section.id }} .wd__circle img {
+    border-radius: 50%;
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .wd-{{ section.id }} .wd__title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    line-height: 1.25;
+  }
+
+  /* Phones: same arch, scaled down. The arc box is made taller (62cqw
+     instead of 42cqw) so the titles have room, and the dashed line becomes
+     a matching ellipse so it still passes through every circle. */
+  @media screen and (max-width: 749px) {
+    /* Wider on phones: the stage bleeds into the page side padding, and
+       the arch is stretched sideways (x 1.08) so it uses the full width. */
+    .wd-{{ section.id }} .wd__stage {
+      --wd-c: 12.5cqw;
+      margin-inline: -1rem;
+      padding-top: calc(var(--wd-c) * 0.7 + 1.6rem);
+    }
+
+    .wd-{{ section.id }} .wd__item {
+      left: calc(50% + (var(--x) - 50%) * 1.08);
+    }
+
+    /* Taller arch (54cqw) so the moments have more breathing room. The
+       arc area is reserved with padding-top, items are placed in cqw, and
+       the centre image flows underneath the arch instead of inside it. */
+    .wd-{{ section.id }} .wd__arc {
+      height: auto;
+      padding-top: 54cqw;
+    }
+
+    .wd-{{ section.id }} .wd__item {
+      top: calc(var(--yn) * 0.54cqw);
+    }
+
+    .wd-{{ section.id }} .wd__arc::before,
+    .wd-{{ section.id }} .wd__arc::after {
+      height: calc(80cqw * 54 / 42);
+      clip-path: inset(-3rem -3rem 63% -3rem);
+      left: 6.8%;
+      top: calc(54cqw * 0.96 - 40cqw * 54 / 42);
+      width: 86.4cqw;
+    }
+
+    {%- unless section.settings.arc_flat %}
+      .wd-{{ section.id }} .wd__arc::after {
+        border-width: 0.9rem;
+        filter: blur(0.5rem);
+        height: calc(80cqw * 54 / 42 + 0.9rem);
+        left: calc(6.8% - 0.45rem);
+        top: calc(54cqw * 0.96 - 40cqw * 54 / 42 - 0.45rem);
+        width: calc(86.4cqw + 0.9rem);
+      }
+    {%- endunless %}
+
+    .wd-{{ section.id }} .wd__arc::before {
+      border-width: 0.2rem;
+    }
+
+    .wd-{{ section.id }} .wd__item {
+      gap: 0.5rem;
+      width: 9rem;
+    }
+
+    .wd-{{ section.id }} .wd__circle {
+      box-shadow: 0 0.6rem 1.4rem rgba(0, 0, 0, 0.14);
+    }
+
+    .wd-{{ section.id }} .wd__title {
+      font-size: 1.1rem;
+      line-height: 1.2;
+    }
+
+    .wd-{{ section.id }} .wd__center {
+      display: flex;
+      justify-content: center;
+      margin: 0.8rem auto 0;
+      max-width: 26rem;
+      padding-bottom: 0.8rem;
+      position: static;
+      transform: none;
+      width: {{ section.settings.center_image_width_mobile | default: 50 }}%;
+    }
+
+    {%- if section.settings.center_mobile_inside %}
+      /* Option: keep the centre image inside the arch on phones too. */
+      .wd-{{ section.id }} .wd__center {
+        left: 50%;
+        margin: 0;
+        max-width: none;
+        padding-bottom: 0;
+        position: absolute;
+        top: calc(54cqw * {{ section.settings.center_mobile_top | default: 68 }} / 100);
+        transform: translate(-50%, -50%);
+        width: {{ section.settings.center_image_width_mobile | default: 50 }}cqw;
+      }
+    {%- endif %}
+
+    /* Keep the edge titles inside the screen. */
+    .wd-{{ section.id }} .wd__title {
+      max-width: 8rem;
+    }
+  }
+
+  @media screen and (min-width: 750px) {
+    .wd-{{ section.id }} {
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+      padding-top: {{ section.settings.padding_top }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="wd-{{ section.id }} color-{{ section.settings.color_scheme }} gradient">
+  {%- if section.settings.bg_image != blank -%}
+    <div class="wd__bg" aria-hidden="true">
+      <picture>
+        {%- if section.settings.bg_image_mobile != blank -%}
+          <source
+            media="(max-width: 749px)"
+            srcset="{{ section.settings.bg_image_mobile | image_url: width: 750 }} 750w, {{ section.settings.bg_image_mobile | image_url: width: 1080 }} 1080w"
+            sizes="100vw"
+          >
+        {%- endif -%}
+        {{ section.settings.bg_image | image_url: width: 2400 | image_tag: widths: '750, 1100, 1500, 1920, 2400', sizes: '100vw', loading: 'lazy', alt: '' }}
+      </picture>
+    </div>
+  {%- endif -%}
+  <div class="page-width">
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank -%}
+      <div class="wd__head">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="wd__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="wd__heading">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if wd_items.size > 0 -%}
+      <div class="wd__stage">
+        <ul class="wd__arc" role="list">
+          {%- if section.settings.center_image != blank -%}
+            <li class="wd__center">
+              <picture>
+                {%- if section.settings.center_image_mobile != blank -%}
+                  <source
+                    media="(max-width: 749px)"
+                    srcset="{{ section.settings.center_image_mobile | image_url: width: 300 }} 300w, {{ section.settings.center_image_mobile | image_url: width: 450 }} 450w, {{ section.settings.center_image_mobile | image_url: width: 600 }} 600w"
+                    sizes="45vw"
+                    width="{{ section.settings.center_image_mobile.width }}"
+                    height="{{ section.settings.center_image_mobile.height }}"
+                  >
+                {%- endif -%}
+                {{ section.settings.center_image | image_url: width: 1000 | image_tag: widths: '400, 600, 800, 1000', sizes: '(min-width: 750px) 40vw, 80vw', loading: 'lazy', alt: section.settings.center_image.alt }}
+              </picture>
+            </li>
+          {%- endif -%}
+          {%- for block in wd_items limit: 7 -%}
+            {%- liquid
+              assign wd_xy = wd_pos[forloop.index0] | split: ','
+              assign wd_style = '--x: ' | append: wd_xy[0] | append: '%; --y: ' | append: wd_xy[1] | append: '%; --yn: ' | append: wd_xy[1] | append: ';'
+              if block.settings.circle_color != blank
+                assign wd_style = wd_style | append: ' --wd-circle-bg: ' | append: block.settings.circle_color | append: ';'
+              endif
+              if block.settings.icon_color != blank
+                assign wd_style = wd_style | append: ' --wd-icon: ' | append: block.settings.icon_color | append: ';'
+              endif
+            -%}
+            <li
+              class="wd__item"
+              style="{{ wd_style }}"
+              {{ block.shopify_attributes }}
+            >
+              <span class="wd__circle">
+                {%- if block.settings.image != blank -%}
+                  {{ block.settings.image | image_url: width: 240 | image_tag: widths: '120, 180, 240', sizes: '108px', loading: 'lazy', alt: '' }}
+                {%- else -%}
+                  {% render 'icon-usage', icon: block.settings.icon %}
+                {%- endif -%}
+              </span>
+              {%- if block.settings.title != blank -%}
+                <span class="wd__title">{{ block.settings.title | escape }}</span>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "When to drink",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Small label above the heading",
+      "info": "Leave empty to hide.",
+      "default": "Sunrise to night"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "When To Drink"
+    },
+    {
+      "type": "header",
+      "content": "Centre image"
+    },
+    {
+      "type": "image_picker",
+      "id": "center_image",
+      "label": "Image in the middle of the arc",
+      "info": "e.g. an \"Any time is protein time\" graphic. Transparent PNG, about 1000 × 600 px. On phones it shows below the arch."
+    },
+    {
+      "type": "range",
+      "id": "center_image_width",
+      "label": "Centre image width",
+      "min": 20,
+      "max": 50,
+      "step": 2,
+      "unit": "%",
+      "default": 34
+    },
+    {
+      "type": "range",
+      "id": "center_image_top",
+      "label": "Centre image vertical position",
+      "info": "Lower = higher up inside the arc.",
+      "min": 40,
+      "max": 80,
+      "step": 2,
+      "unit": "%",
+      "default": 62
+    },
+    {
+      "type": "image_picker",
+      "id": "center_image_mobile",
+      "label": "Centre image — mobile",
+      "info": "Optional separate image for phones. Transparent PNG, 600 × 400 px, text cropped tight (a compact, stacked version reads best inside the arch). Leave empty to reuse the desktop image."
+    },
+    {
+      "type": "checkbox",
+      "id": "center_mobile_inside",
+      "label": "Mobile: place centre image inside the arch",
+      "info": "Off: the image sits below the arch on phones. On: it stays inside the arch like on desktop.",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "center_image_width_mobile",
+      "label": "Centre image width — mobile",
+      "info": "Below the arch: % of the screen width. Inside the arch: about 36–42% clears the circles.",
+      "min": 25,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "center_mobile_top",
+      "label": "Mobile inside-arch vertical position",
+      "info": "Only used when the image is inside the arch on phones. Higher = lower down.",
+      "min": 50,
+      "max": 85,
+      "step": 1,
+      "unit": "%",
+      "default": 68
+    },
+    {
+      "type": "header",
+      "content": "Background image"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background image",
+      "info": "Covers the whole section, e.g. water droplets. Desktop: 2400 × 1100 px. Keep it light so the circles and titles stand out."
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image_mobile",
+      "label": "Background image — mobile",
+      "info": "Optional. 1080 × 1600 px. Leave empty to crop the desktop image."
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Background image fade",
+      "info": "Washes the section background colour over the image for readability. 0 = no fade.",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent",
+      "info": "The small label above the heading and the dashed arc (unless set below). Leave empty to use the product's custom.flavour_color metafield. The circles always use the product's custom.flavour_color metafield, falling back to this colour if it's empty."
+    },
+    {
+      "type": "color",
+      "id": "line_color",
+      "label": "Dashed arc",
+      "info": "Leave empty to use the accent colour."
+    },
+    {
+      "type": "checkbox",
+      "id": "arc_flat",
+      "label": "Flat arch (turn off raised effect)",
+      "info": "The arch has a soft frosted band and shadow by default so it stands out from the background. Tick to show just the dashed line.",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background",
+      "info": "Leave empty to use the product's custom.product_bg_color metafield."
+    },
+    {
+      "type": "color",
+      "id": "gradient_start",
+      "label": "Background gradient — start",
+      "info": "Set both gradient colours to use a gradient instead of the plain background (like the nutrition panel). With a background image, the gradient becomes the fade over it."
+    },
+    {
+      "type": "color",
+      "id": "gradient_end",
+      "label": "Background gradient — end"
+    },
+    {
+      "type": "range",
+      "id": "gradient_angle",
+      "label": "Gradient direction",
+      "min": 0,
+      "max": 360,
+      "step": 10,
+      "unit": "°",
+      "default": 180
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 56
+    }
+  ],
+  "blocks": [
+    {
+      "type": "moment",
+      "name": "Moment",
+      "limit": 7,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Morning"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            {
+              "value": "sun",
+              "label": "Sun"
+            },
+            {
+              "value": "bolt",
+              "label": "Lightning"
+            },
+            {
+              "value": "dumbbell",
+              "label": "Dumbbell"
+            },
+            {
+              "value": "glass",
+              "label": "Glass"
+            },
+            {
+              "value": "cup",
+              "label": "Cup"
+            },
+            {
+              "value": "shaker",
+              "label": "Shaker"
+            },
+            {
+              "value": "bottle",
+              "label": "Bottle"
+            },
+            {
+              "value": "clock",
+              "label": "Clock"
+            },
+            {
+              "value": "moon",
+              "label": "Moon"
+            },
+            {
+              "value": "heart",
+              "label": "Heart"
+            },
+            {
+              "value": "leaf",
+              "label": "Leaf"
+            },
+            {
+              "value": "drop",
+              "label": "Drop"
+            },
+            {
+              "value": "snowflake",
+              "label": "Snowflake"
+            },
+            {
+              "value": "person",
+              "label": "Person"
+            }
+          ],
+          "default": "sun"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image instead of icon",
+          "info": "Optional. Square, 240 × 240 px."
+        },
+        {
+          "type": "color",
+          "id": "circle_color",
+          "label": "Circle colour",
+          "info": "Leave empty to use the product's flavour colour (custom.flavour_color)."
+        },
+        {
+          "type": "color",
+          "id": "icon_color",
+          "label": "Icon colour",
+          "info": "Leave empty for white."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "When to drink",
+      "blocks": [
+        {
+          "type": "moment",
+          "settings": {
+            "title": "Morning",
+            "icon": "sun"
+          }
+        },
+        {
+          "type": "moment",
+          "settings": {
+            "title": "Before workout",
+            "icon": "bolt"
+          }
+        },
+        {
+          "type": "moment",
+          "settings": {
+            "title": "During workout",
+            "icon": "dumbbell"
+          }
+        },
+        {
+          "type": "moment",
+          "settings": {
+            "title": "After workout",
+            "icon": "glass"
+          }
+        },
+        {
+          "type": "moment",
+          "settings": {
+            "title": "Between meals",
+            "icon": "clock"
+          }
+        },
+        {
+          "type": "moment",
+          "settings": {
+            "title": "Evening",
+            "icon": "moon"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

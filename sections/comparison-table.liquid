@@ -1,0 +1,472 @@
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .comparison-table-{{ section.id }} {
+    {%- if section.settings.background_color != blank -%}
+      --ct-bg: {{ section.settings.background_color }};
+    {%- endif -%}
+    {%- if section.settings.card_background_color != blank -%}
+      --ct-card-bg: {{ section.settings.card_background_color }};
+    {%- endif -%}
+    {%- if section.settings.eyebrow_color != blank -%}
+      --ct-eyebrow-color: {{ section.settings.eyebrow_color }};
+    {%- endif -%}
+    {%- if section.settings.protyze_column_background_color != blank -%}
+      --ct-protyze-bg: {{ section.settings.protyze_column_background_color }};
+    {%- endif -%}
+    {%- if section.settings.tick_color != blank -%}
+      --ct-tick-color: {{ section.settings.tick_color }};
+    {%- endif -%}
+    {%- if section.settings.cross_color != blank -%}
+      --ct-cross-color: {{ section.settings.cross_color }};
+    {%- endif -%}
+  }
+
+  .comparison-table__wrapper {
+    background-color: var(--ct-bg, rgb(var(--color-background)));
+  }
+
+  .comparison-table__intro {
+    margin: 0 auto 3.2rem;
+    max-width: 60rem;
+    text-align: center;
+  }
+
+  .comparison-table__eyebrow {
+    color: var(--ct-eyebrow-color, rgb(var(--color-foreground)));
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 0.15rem;
+    margin: 0 0 0.8rem;
+    text-transform: uppercase;
+  }
+
+  .comparison-table__heading {
+    color: rgb(var(--color-foreground));
+    margin: 0;
+    text-transform: none;
+  }
+
+  .comparison-table__scroll {
+    -webkit-overflow-scrolling: touch;
+    overflow-x: auto;
+  }
+
+  .comparison-table__card {
+    background-color: var(--ct-card-bg, rgb(var(--color-background)));
+    border: 0.1rem solid rgba(var(--color-foreground), 0.15);
+    border-radius: 0.8rem;
+    margin: 0 auto;
+    max-width: 90rem;
+    overflow: hidden;
+  }
+
+  .comparison-table__table {
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 100%;
+  }
+
+  .comparison-table__table th,
+  .comparison-table__table td {
+    border-bottom: 0.1rem solid rgba(var(--color-foreground), 0.08);
+    padding: 1.6rem;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .comparison-table__table th:not(:last-child),
+  .comparison-table__table td:not(:last-child) {
+    border-right: 0.1rem solid rgba(var(--color-foreground), 0.08);
+  }
+
+  .comparison-table__table thead th {
+    vertical-align: bottom;
+  }
+
+  .comparison-table__table tr:last-child th,
+  .comparison-table__table tr:last-child td {
+    border-bottom: 0;
+  }
+
+  .comparison-table__table tbody tr:first-child th,
+  .comparison-table__table tbody tr:first-child td {
+    border-top: 0.1rem solid rgba(var(--color-foreground), 0.08);
+  }
+
+  .comparison-table__feature-header {
+    color: rgb(var(--color-foreground));
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.03rem;
+    text-align: left;
+    text-transform: uppercase;
+    width: 40%;
+  }
+
+  .comparison-table__col {
+    width: 30%;
+  }
+
+  .comparison-table__col--protyze {
+    background-color: var(--ct-protyze-bg, rgba(var(--color-foreground), 0.03));
+  }
+
+  .comparison-table__feature {
+    color: rgb(var(--color-foreground));
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-align: left;
+  }
+
+  @media screen and (min-width: 750px) {
+    .comparison-table__feature {
+      font-size: 1.4rem;
+    }
+  }
+
+  .comparison-table__image-swatch {
+    align-items: center;
+    border-radius: 0.8rem;
+    display: flex;
+    height: 6rem;
+    justify-content: center;
+    margin: 0 auto 1.2rem;
+    width: 6rem;
+  }
+
+  .comparison-table__image-swatch img {
+    display: block;
+    height: auto;
+    max-height: 100%;
+    max-width: 100%;
+    width: auto;
+  }
+
+  .comparison-table__col-label {
+    color: rgb(var(--color-foreground));
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.03rem;
+    text-transform: uppercase;
+  }
+
+  .comparison-table__icon {
+    display: inline-block;
+    height: 2.4rem;
+    width: 2.4rem;
+  }
+
+  .comparison-table__icon--check {
+    color: var(--ct-tick-color, #1a8a4a);
+  }
+
+  .comparison-table__icon--cross {
+    color: var(--ct-cross-color, rgba(var(--color-foreground), 0.35));
+  }
+
+  @media screen and (max-width: 749px) {
+    .comparison-table__table th,
+    .comparison-table__table td {
+      padding: 1.2rem 0.8rem;
+    }
+
+    .comparison-table__image-swatch {
+      height: 4.8rem;
+      width: 4.8rem;
+    }
+
+    .comparison-table__col-label {
+      font-size: 1.05rem;
+    }
+  }
+{% endstyle %}
+
+<div class="comparison-table-{{ section.id }} color-{{ section.settings.color_scheme }} gradient {{ section.settings.custom_class }}">
+  <div class="comparison-table__wrapper">
+    <div class="page-width section-{{ section.id }}-padding">
+      {%- if section.settings.eyebrow_text != blank or section.settings.heading_text != blank -%}
+        <div class="comparison-table__intro">
+          {%- if section.settings.eyebrow_text != blank -%}
+            <p class="comparison-table__eyebrow">{{ section.settings.eyebrow_text | escape }}</p>
+          {%- endif -%}
+          {%- if section.settings.heading_text != blank -%}
+            <h2 class="comparison-table__heading h1">{{ section.settings.heading_text }}</h2>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      <div class="comparison-table__card">
+        <div class="comparison-table__scroll">
+          <table class="comparison-table__table">
+            <thead>
+              <tr>
+                <th class="comparison-table__feature-header">
+                  {%- if section.settings.feature_header_text != blank -%}
+                    {{ section.settings.feature_header_text | escape }}
+                  {%- endif -%}
+                </th>
+                <th class="comparison-table__col comparison-table__col--protyze">
+                  {%- if section.settings.protyze_image != blank -%}
+                    <div class="comparison-table__image-swatch">
+                      {{
+                        section.settings.protyze_image
+                        | image_url: width: 120
+                        | image_tag: loading: 'lazy', width: 60, height: 60, alt: section.settings.protyze_image.alt
+                      }}
+                    </div>
+                  {%- endif -%}
+                  {%- if section.settings.protyze_label != blank -%}
+                    <span class="comparison-table__col-label comparison-table__col-label--protyze">
+                      {{- section.settings.protyze_label | escape -}}
+                    </span>
+                  {%- endif -%}
+                </th>
+                <th class="comparison-table__col">
+                  {%- if section.settings.regular_image != blank -%}
+                    <div class="comparison-table__image-swatch">
+                      {{
+                        section.settings.regular_image
+                        | image_url: width: 120
+                        | image_tag: loading: 'lazy', width: 60, height: 60, alt: section.settings.regular_image.alt
+                      }}
+                    </div>
+                  {%- endif -%}
+                  {%- if section.settings.regular_label != blank -%}
+                    <span class="comparison-table__col-label">{{ section.settings.regular_label | escape }}</span>
+                  {%- endif -%}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'row' -%}
+                  <tr {{ block.shopify_attributes }}>
+                    <td class="comparison-table__feature">{{ block.settings.feature_text | escape }}</td>
+                    <td class="comparison-table__col comparison-table__col--protyze">
+                      {%- if block.settings.protyze_status == 'check' -%}
+                        <svg class="comparison-table__icon comparison-table__icon--check" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                          <circle cx="12" cy="12" r="9.5" stroke="currentColor" stroke-width="1.5"/>
+                          <path d="M7.5 12.5L10.3 15.3L16.5 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span class="visually-hidden">Included</span>
+                      {%- else -%}
+                        <svg class="comparison-table__icon comparison-table__icon--cross" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                          <path d="M7 7L17 17M17 7L7 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                        <span class="visually-hidden">Not included</span>
+                      {%- endif -%}
+                    </td>
+                    <td class="comparison-table__col">
+                      {%- if block.settings.regular_status == 'check' -%}
+                        <svg class="comparison-table__icon comparison-table__icon--check" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                          <circle cx="12" cy="12" r="9.5" stroke="currentColor" stroke-width="1.5"/>
+                          <path d="M7.5 12.5L10.3 15.3L16.5 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span class="visually-hidden">Included</span>
+                      {%- else -%}
+                        <svg class="comparison-table__icon comparison-table__icon--cross" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                          <path d="M7 7L17 17M17 7L7 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                        <span class="visually-hidden">Not included</span>
+                      {%- endif -%}
+                    </td>
+                  </tr>
+                {%- endif -%}
+              {%- endfor -%}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Comparison table",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow",
+      "default": "At a glance"
+    },
+    {
+      "type": "text",
+      "id": "heading_text",
+      "label": "Heading",
+      "default": "Us vs them"
+    },
+    {
+      "type": "header",
+      "content": "Columns"
+    },
+    {
+      "type": "text",
+      "id": "feature_header_text",
+      "label": "Feature column header text",
+      "info": "Optional. Shown in the blank top-left cell above the feature list."
+    },
+    {
+      "type": "image_picker",
+      "id": "protyze_image",
+      "label": "First column image"
+    },
+    {
+      "type": "text",
+      "id": "protyze_label",
+      "label": "First column label",
+      "default": "Protyze Clear Whey"
+    },
+    {
+      "type": "image_picker",
+      "id": "regular_image",
+      "label": "Second column image"
+    },
+    {
+      "type": "text",
+      "id": "regular_label",
+      "label": "Second column label",
+      "default": "Regular Whey"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "info": "Sets the default background and text colors. Use the overrides below to fine-tune individual elements.",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Main background color"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Table card background color"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Subtext (eyebrow) color"
+    },
+    {
+      "type": "color",
+      "id": "protyze_column_background_color",
+      "label": "First column background color",
+      "info": "Highlights the first column across the whole table."
+    },
+    {
+      "type": "color",
+      "id": "tick_color",
+      "label": "Tick mark color"
+    },
+    {
+      "type": "color",
+      "id": "cross_color",
+      "label": "Cross mark color"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "feature_text",
+          "label": "Feature text",
+          "default": "Crystal-clear, juice-like texture"
+        },
+        {
+          "type": "select",
+          "id": "protyze_status",
+          "label": "First column",
+          "options": [
+            { "value": "check", "label": "Tick" },
+            { "value": "cross", "label": "Cross" }
+          ],
+          "default": "check"
+        },
+        {
+          "type": "select",
+          "id": "regular_status",
+          "label": "Second column",
+          "options": [
+            { "value": "check", "label": "Tick" },
+            { "value": "cross", "label": "Cross" }
+          ],
+          "default": "cross"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Comparison table",
+      "category": "Custom",
+      "blocks": [
+        { "type": "row" },
+        { "type": "row" },
+        { "type": "row" },
+        { "type": "row" },
+        { "type": "row" }
+      ]
+    }
+  ]
+}
+{% endschema %}

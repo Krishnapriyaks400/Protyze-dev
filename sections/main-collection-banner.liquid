@@ -1,0 +1,169 @@
+{% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
+{{ 'component-collection-hero.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  @media screen and (max-width: 749px) {
+    .collection-hero--with-image .collection-hero__inner {
+      padding-bottom: calc({{ settings.media_shadow_vertical_offset | at_least: 0 }}px + 2rem);
+    }
+  }
+    #toggle-description{
+    display: flex;
+    margin: auto;
+    margin-top: 20px;
+  }
+  .collection-hero__description br + br {
+  display: none;
+}
+
+.collection-hero__description p:empty {
+  display: none;
+}
+{%- endstyle -%}
+
+<div class="collection-hero{% if section.settings.show_collection_image and collection.image %} collection-hero--with-image{% endif %} color-{{ section.settings.color_scheme }} gradient">
+  <div class="collection-hero__inner page-width {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+    <div class="collection-hero__text-wrapper">
+      <h1 class="collection-hero__title">
+        <!-- <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span> -->
+        {{- collection.title | escape -}}
+      </h1>
+
+      {%- if section.settings.show_collection_description and collection.description != blank -%}
+        <div class="collection-hero__description rte">
+          <div id="collection-description-short" class="description-text" style="display: block;"></div>
+          <div id="collection-description-full" class="description-text" style="display: none;">
+            {{ collection.description }}
+          </div>
+          <button id="toggle-description" class="button button--primary" type="button">Read More</button>
+        </div>
+      {%- endif -%}
+
+      
+    </div>
+
+    {%- if section.settings.show_collection_image and collection.image -%}
+      <div class="collection-hero__image-container media gradient">
+        <img
+          srcset="
+            {%- if collection.image.width >= 165 -%}{{ collection.image | image_url: width: 165 }} 165w,{%- endif -%}
+            {%- if collection.image.width >= 360 -%}{{ collection.image | image_url: width: 360 }} 360w,{%- endif -%}
+            {%- if collection.image.width >= 535 -%}{{ collection.image | image_url: width: 535 }} 535w,{%- endif -%}
+            {%- if collection.image.width >= 750 -%}{{ collection.image | image_url: width: 750 }} 750w,{%- endif -%}
+            {%- if collection.image.width >= 1070 -%}{{ collection.image | image_url: width: 1070 }} 1070w,{%- endif -%}
+            {%- if collection.image.width >= 1500 -%}{{ collection.image | image_url: width: 1500 }} 1500w,{%- endif -%}
+            {{ collection.image | image_url }} {{ collection.image.width }}w
+          "
+          src="{{ collection.image | image_url: width: 750 }}"
+          sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | divided_by: 2 }}px, (min-width: 750px) calc(50vw - 130px), calc(50vw - 55px)"
+          alt=""
+          width="{{ collection.image.width }}"
+          height="{{ collection.image.height }}"
+        >
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const shortDiv = document.getElementById("collection-description-short");
+    const fullDiv = document.getElementById("collection-description-full");
+    const toggleBtn = document.getElementById("toggle-description");
+
+    if (!shortDiv || !fullDiv || !toggleBtn) return;
+
+    const maxLength = 1308;
+    const fullHtml = fullDiv.innerHTML.trim();
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = fullHtml;
+
+    let charCount = 0;
+    let stop = false;
+
+    function truncateNode(node) {
+      if (charCount >= maxLength) return '';
+
+      if (node.nodeType === Node.TEXT_NODE) {
+        const text = node.textContent;
+        const remaining = maxLength - charCount;
+        const addText = text.slice(0, remaining);
+        charCount += addText.length;
+
+        if (charCount >= maxLength) {
+          stop = true;
+          return addText + '...';
+        }
+
+        return addText;
+      }
+
+      if (node.nodeType === Node.ELEMENT_NODE) {
+        const tagName = node.tagName.toLowerCase();
+        let html = `<${tagName}`;
+
+        for (let attr of node.attributes) {
+          html += ` ${attr.name}="${attr.value}"`;
+        }
+        html += '>';
+
+        for (let child of node.childNodes) {
+          if (stop) break;
+          html += truncateNode(child);
+        }
+
+        html += `</${tagName}>`;
+        return html;
+      }
+
+      return '';
+    }
+
+    let truncatedHTML = '';
+    for (let node of tempDiv.childNodes) {
+      if (stop) break;
+      truncatedHTML += truncateNode(node);
+    }
+
+    shortDiv.innerHTML = truncatedHTML;
+
+    toggleBtn.addEventListener("click", function () {
+      const showingShort = shortDiv.style.display !== "none";
+      shortDiv.style.display = showingShort ? "none" : "block";
+      fullDiv.style.display = showingShort ? "block" : "none";
+      toggleBtn.textContent = showingShort ? "Read Less" : "Read More";
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "t:sections.main-collection-banner.name",
+  "class": "section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:sections.main-collection-banner.settings.paragraph.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_description",
+      "default": true,
+      "label": "t:sections.main-collection-banner.settings.show_collection_description.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_image",
+      "default": false,
+      "label": "t:sections.main-collection-banner.settings.show_collection_image.label",
+      "info": "t:sections.main-collection-banner.settings.show_collection_image.info"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "background-1"
+    }
+  ]
+}
+{% endschema %}

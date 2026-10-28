@@ -1,0 +1,468 @@
+{% comment %}
+  Why clear whey: intro text on the left, "regular vs clear" comparison card on the right.
+  Each comparison row is a block. "Read more" uses <details>, so it works without JavaScript.
+{% endcomment %}
+
+{%- assign wc_rows = section.blocks | where: 'type', 'row' -%}
+
+{%- if section.settings.load_fonts -%}
+  {%- comment -%} Same fonts as the Flavour hero carousel and Shop by goal; the browser downloads them once. {%- endcomment -%}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@400;700;800&family=Sacramento&display=swap"
+    rel="stylesheet"
+    media="print"
+    onload="this.media='all'"
+  >
+{%- endif -%}
+
+{%- style -%}
+  /* Element + class beats the theme's "body .color-scheme-x" background/text rule. */
+  div.wc-{{ section.id }} {
+    --wc-bg: {{ section.settings.background_color }};
+    --wc-text: {{ section.settings.text_color }};
+    --wc-muted: {{ section.settings.text_color | color_modify: 'alpha', 0.75 }};
+    --wc-line: {{ section.settings.text_color | color_modify: 'alpha', 0.1 }};
+    --wc-accent: {{ section.settings.accent_color }};
+    --wc-card: {{ section.settings.card_color }};
+    --wc-hl-bg: {{ section.settings.highlight_bg_color }};
+    --wc-hl-text: {{ section.settings.highlight_text_color }};
+    --wc-hl-head: {{ section.settings.highlight_heading_color }};
+    --wc-display: 'Anton', var(--font-heading-family), sans-serif;
+    --wc-script: 'Sacramento', cursive;
+    background: var(--wc-bg);
+    color: var(--wc-text);
+    font-family: 'Outfit', var(--font-body-family), system-ui, sans-serif;
+    padding-top: {{ section.settings.padding_top | times: 0.7 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.7 | round: 0 }}px;
+  }
+
+  /* Max content width (setting). Specific enough to beat the theme's home-page
+     ".template-index .content-for-layout .page-width" width; side padding still applies. */
+  div.wc-{{ section.id }} > .page-width.wc__wrap {
+    margin: 0 auto;
+    max-width: {{ section.settings.max_width }}px;
+  }
+
+  .wc-{{ section.id }} .wc__grid {
+    align-items: center;
+    display: grid;
+    gap: 3.2rem;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* ── Left: intro ─────────────────────────────────────────────────── */
+  .wc-{{ section.id }} .wc__eyebrow {
+    align-items: center;
+    background: {{ section.settings.eyebrow_bg_color }};
+    border-radius: 99rem;
+    color: var(--wc-text);
+    display: inline-flex;
+    font-size: 1.1rem;
+    font-weight: 700;
+    gap: 0.6rem;
+    letter-spacing: 0.08em;
+    padding: 0.6rem 1.4rem;
+    text-transform: uppercase;
+  }
+  .wc-{{ section.id }} .wc__eyebrow::before {
+    background: var(--wc-accent);
+    border-radius: 50%;
+    content: '';
+    height: 0.6rem;
+    width: 0.6rem;
+  }
+  .wc-{{ section.id }} .wc__heading {
+    color: var(--wc-text);
+    font-family: var(--wc-display);
+    font-size: clamp(4rem, 2.4rem + 4vw, 7.2rem);
+    font-weight: 400;
+    line-height: 0.98;
+    margin: 1.6rem 0 0;
+    text-transform: uppercase;
+  }
+  .wc-{{ section.id }} .wc__script {
+    color: var(--wc-accent);
+    font-family: var(--wc-script);
+    font-size: 1.25em;
+    font-weight: 400;
+    line-height: 0.8;
+    text-transform: none;
+  }
+  .wc-{{ section.id }} .wc__desc {
+    color: var(--wc-muted);
+    font-size: 1.5rem;
+    line-height: 1.65;
+    margin-top: 1.6rem;
+    max-width: 56rem;
+  }
+  .wc-{{ section.id }} .wc__desc p {
+    margin: 0 0 1rem;
+  }
+  .wc-{{ section.id }} .wc__desc strong {
+    color: var(--wc-text);
+  }
+
+  .wc-{{ section.id }} .wc__more summary {
+    align-items: center;
+    color: var(--wc-text);
+    cursor: pointer;
+    display: inline-flex;
+    font-size: 1.4rem;
+    font-weight: 700;
+    gap: 0.6rem;
+    list-style: none;
+    margin-top: 0.8rem;
+  }
+  .wc-{{ section.id }} .wc__more summary::-webkit-details-marker {
+    display: none;
+  }
+  .wc-{{ section.id }} .wc__more summary svg {
+    height: 1.4rem;
+    transition: transform 0.2s;
+    width: 1.4rem;
+  }
+  .wc-{{ section.id }} .wc__more[open] summary svg {
+    transform: rotate(180deg);
+  }
+  .wc-{{ section.id }} .wc__more-less,
+  .wc-{{ section.id }} .wc__more[open] .wc__more-label {
+    display: none;
+  }
+  .wc-{{ section.id }} .wc__more[open] .wc__more-less {
+    display: inline;
+  }
+  .wc-{{ section.id }} .wc__more-body {
+    margin-top: 1rem;
+  }
+
+  .wc-{{ section.id }} .wc__cta {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.4rem 2rem;
+    margin-top: 2.8rem;
+  }
+  .wc-{{ section.id }} .wc__button {
+    align-items: center;
+    background: {{ section.settings.button_bg_color }};
+    border-radius: 99rem;
+    color: {{ section.settings.button_text_color }};
+    display: inline-flex;
+    font-size: 1.6rem;
+    font-weight: 700;
+    gap: 1rem;
+    min-height: 5.4rem;
+    padding: 0 2.8rem;
+    text-decoration: none;
+    transition: opacity 0.15s, transform 0.15s;
+  }
+  .wc-{{ section.id }} .wc__button:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
+  .wc-{{ section.id }} .wc__button svg {
+    height: 1.6rem;
+    width: 1.6rem;
+  }
+  .wc-{{ section.id }} .wc__trust {
+    color: var(--wc-muted);
+    font-size: 1.3rem;
+    margin: 0;
+  }
+
+  /* ── Right: comparison card ──────────────────────────────────────── */
+  .wc-{{ section.id }} .wc__card {
+    background: var(--wc-card);
+    border-radius: 2.4rem;
+    box-shadow: 0 1.6rem 4rem rgba(59, 15, 36, 0.08);
+    padding: 2rem 1.2rem 1.2rem 1.6rem;
+  }
+  .wc-{{ section.id }} .wc__card-title {
+    color: var(--wc-text);
+    font-size: 1.2rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    margin: 0 0 1.2rem;
+    text-transform: uppercase;
+  }
+  .wc-{{ section.id }} .wc__table {
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
+    width: 100%;
+  }
+  .wc-{{ section.id }} .wc__table th,
+  .wc-{{ section.id }} .wc__table td {
+    font-size: 1.3rem;
+    line-height: 1.35;
+    padding: 1.3rem 1rem;
+    text-align: left;
+    vertical-align: middle;
+  }
+  .wc-{{ section.id }} .wc__table tbody tr + tr > * {
+    border-top: 1px solid var(--wc-line);
+  }
+  .wc-{{ section.id }} .wc__table thead th {
+    font-size: 1.3rem;
+    font-weight: 700;
+    padding-bottom: 1.4rem;
+    padding-top: 1.4rem;
+  }
+  .wc-{{ section.id }} .wc__row-label {
+    font-weight: 700;
+    width: 30%;
+  }
+  .wc-{{ section.id }} .wc__regular {
+    color: var(--wc-muted);
+  }
+
+  /* Highlighted Protyze column: one dark, rounded strip. */
+  .wc-{{ section.id }} .wc__hl {
+    background: var(--wc-hl-bg);
+    color: var(--wc-hl-text);
+    font-weight: 700;
+    width: 36%;
+  }
+  .wc-{{ section.id }} .wc__table tbody tr + tr > .wc__hl {
+    border-top-color: rgba(255, 255, 255, 0.12);
+  }
+  .wc-{{ section.id }} thead .wc__hl {
+    border-radius: 1.4rem 1.4rem 0 0;
+    color: var(--wc-hl-head);
+    font-family: var(--wc-display);
+    font-size: 1.8rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  .wc-{{ section.id }} tbody tr:last-child .wc__hl {
+    border-radius: 0 0 1.4rem 1.4rem;
+  }
+  .wc-{{ section.id }} .wc__footnote {
+    color: var(--wc-muted);
+    font-size: 1.1rem;
+    margin: 1.2rem 0 0 1.6rem;
+  }
+
+  /* Mobile: centred intro with a little extra side padding. */
+  @media screen and (max-width: 749px) {
+    .wc-{{ section.id }} .wc__intro {
+      padding: 0 1.2rem;
+      text-align: center;
+    }
+    .wc-{{ section.id }} .wc__desc {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .wc-{{ section.id }} .wc__cta {
+      justify-content: center;
+    }
+  }
+
+  @media screen and (min-width: 750px) {
+    div.wc-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+    .wc-{{ section.id }} .wc__grid {
+      gap: 5.6rem;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+    .wc-{{ section.id }} .wc__desc {
+      font-size: 1.6rem;
+    }
+    .wc-{{ section.id }} .wc__card {
+      padding: 2.4rem 1.6rem 1.6rem 2rem;
+    }
+    .wc-{{ section.id }} .wc__table th,
+    .wc-{{ section.id }} .wc__table td {
+      font-size: 1.4rem;
+      padding: 1.5rem 1.4rem;
+    }
+    .wc-{{ section.id }} thead .wc__hl {
+      font-size: 2rem;
+    }
+  }
+{%- endstyle -%}
+
+<div class="wc-{{ section.id }} color-{{ section.settings.color_scheme }}">
+  <div class="page-width wc__wrap">
+    <div class="wc__grid">
+      <div class="wc__intro">
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="wc__eyebrow">{{ section.settings.eyebrow | escape }}</span>
+        {%- endif -%}
+
+        {%- if section.settings.heading_before != blank
+          or section.settings.heading_script != blank
+          or section.settings.heading_after != blank
+        -%}
+          <h2 class="wc__heading">
+            {{- section.settings.heading_before | escape }}
+            {% if section.settings.heading_script != blank -%}
+              <span class="wc__script">{{ section.settings.heading_script | escape }}</span>
+            {%- endif %}
+            {{ section.settings.heading_after | escape -}}
+          </h2>
+        {%- endif -%}
+
+        {%- if section.settings.description != blank -%}
+          <div class="wc__desc rte">
+            {{ section.settings.description }}
+            {%- if section.settings.more_text != blank -%}
+              <details class="wc__more">
+                <summary>
+                  <span class="wc__more-label">{{ section.settings.more_label | default: 'Read more' | escape }}</span>
+                  <span class="wc__more-less">{{ section.settings.less_label | default: 'Read less' | escape }}</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg>
+                </summary>
+                <div class="wc__more-body">{{ section.settings.more_text }}</div>
+              </details>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.button_label != blank or section.settings.trust_text != blank -%}
+          <div class="wc__cta">
+            {%- if section.settings.button_label != blank -%}
+              <a class="wc__button" href="{{ section.settings.button_link | default: routes.all_products_collection_url }}">
+                {{ section.settings.button_label | escape }}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+            {%- endif -%}
+            {%- if section.settings.trust_text != blank -%}
+              <p class="wc__trust">{{ section.settings.trust_text | escape }}</p>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- if wc_rows.size > 0 -%}
+        <div class="wc__compare">
+          <div class="wc__card">
+            {%- if section.settings.card_title != blank -%}
+              <p class="wc__card-title">{{ section.settings.card_title | escape }}</p>
+            {%- endif -%}
+            <table class="wc__table">
+              <thead>
+                <tr>
+                  <th scope="col"><span class="visually-hidden">{{ section.settings.card_title | escape }}</span></th>
+                  <th scope="col" class="wc__regular-head">{{ section.settings.regular_label | escape }}</th>
+                  <th scope="col" class="wc__hl">{{ section.settings.highlight_label | escape }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {%- for block in wc_rows -%}
+                  <tr {{ block.shopify_attributes }}>
+                    <th scope="row" class="wc__row-label">{{ block.settings.label | escape }}</th>
+                    <td class="wc__regular">{{ block.settings.regular | escape }}</td>
+                    <td class="wc__hl">{{ block.settings.clear | escape }}</td>
+                  </tr>
+                {%- endfor -%}
+              </tbody>
+            </table>
+          </div>
+          {%- if section.settings.footnote != blank -%}
+            <p class="wc__footnote">{{ section.settings.footnote | escape }}</p>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Why clear whey",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "header", "content": "Intro" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Why clear whey" },
+    { "type": "text", "id": "heading_before", "label": "Heading — first part", "default": "Upgrade your whey" },
+    { "type": "text", "id": "heading_script", "label": "Heading — script word", "default": "protein" },
+    { "type": "text", "id": "heading_after", "label": "Heading — last part", "default": "powder" },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Protyze Clear Whey Protein Isolate is a refreshing, fruit-flavoured clear whey protein powder designed for faster absorption, easy digestion and everyday performance — <strong>15g to 30g protein per serving</strong>, without the heaviness of regular whey.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "more_text",
+      "label": "Read more text",
+      "info": "Shown when \"Read more\" is opened. Leave empty to hide the link."
+    },
+    { "type": "text", "id": "more_label", "label": "Read more label", "default": "Read more" },
+    { "type": "text", "id": "less_label", "label": "Read less label", "default": "Read less" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Upgrade now" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "text", "id": "trust_text", "label": "Text next to button", "default": "GMP-certified · Patented process · 50,000+ fans" },
+    { "type": "header", "content": "Comparison card" },
+    { "type": "text", "id": "card_title", "label": "Card title", "default": "Regular whey vs clear whey" },
+    { "type": "text", "id": "regular_label", "label": "Regular column heading", "default": "Regular whey shake" },
+    { "type": "text", "id": "highlight_label", "label": "Highlighted column heading", "default": "Protyze Clear" },
+    { "type": "text", "id": "footnote", "label": "Footnote", "default": "*Anytime Clear Whey Isolate" },
+    {
+      "type": "checkbox",
+      "id": "load_fonts",
+      "label": "Load Google fonts",
+      "info": "Anton (headings), Outfit (text) and Sacramento (script word), same as the Flavour hero carousel. Untick if the theme already loads them.",
+      "default": true
+    },
+    { "type": "header", "content": "Colours" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "color", "id": "background_color", "label": "Section background", "default": "#fff5f0" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#3b0f24" },
+    { "type": "color", "id": "accent_color", "label": "Accent (script word, dot)", "default": "#e0457b" },
+    { "type": "color", "id": "eyebrow_bg_color", "label": "Eyebrow background", "default": "#ffdcd3" },
+    { "type": "color", "id": "button_bg_color", "label": "Button background", "default": "#3b0f24" },
+    { "type": "color", "id": "button_text_color", "label": "Button text", "default": "#ffffff" },
+    { "type": "color", "id": "card_color", "label": "Card background", "default": "#ffffff" },
+    { "type": "color", "id": "highlight_bg_color", "label": "Highlighted column background", "default": "#3b0f24" },
+    { "type": "color", "id": "highlight_text_color", "label": "Highlighted column text", "default": "#ffffff" },
+    { "type": "color", "id": "highlight_heading_color", "label": "Highlighted column heading", "default": "#ff9ec4" },
+    { "type": "header", "content": "Spacing" },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 800,
+      "max": 1800,
+      "step": 20,
+      "unit": "px",
+      "label": "Max content width",
+      "info": "How wide the text and comparison card can spread on large screens.",
+      "default": 1280
+    },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Top padding", "default": 64 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Bottom padding", "default": 64 }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Comparison row",
+      "limit": 10,
+      "settings": [
+        { "type": "text", "id": "label", "label": "Row label", "default": "Texture" },
+        { "type": "text", "id": "regular", "label": "Regular whey", "default": "Thick & milky" },
+        { "type": "text", "id": "clear", "label": "Protyze Clear", "default": "Light & juice-like" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Why clear whey",
+      "blocks": [
+        { "type": "row", "settings": { "label": "Texture", "regular": "Thick & milky", "clear": "Light & juice-like" } },
+        { "type": "row", "settings": { "label": "Taste", "regular": "Creamy flavours", "clear": "Fresh fruit flavours" } },
+        { "type": "row", "settings": { "label": "How it feels", "regular": "Can feel heavy", "clear": "Refreshing, easy to digest" } },
+        { "type": "row", "settings": { "label": "Lactose", "regular": "Varies by type", "clear": "99% lactose-free*" } },
+        { "type": "row", "settings": { "label": "Added sugar", "regular": "Varies by brand", "clear": "0g added sugar" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

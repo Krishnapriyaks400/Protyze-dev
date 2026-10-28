@@ -1,0 +1,126 @@
+
+
+<style>
+.blog-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+  align-items: center;
+}
+.blog-tab-button {
+  padding: 10px 20px;
+  border: 2px solid #333;
+  border-radius: 1px;
+  background-color: #000000;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  text-transform: capitalize;
+}
+.blog-tab-button:hover,
+.blog-tab-button.active {
+  background-color: #5a5a5a;
+  color: white;
+  border-color: #5a5a5a;
+}
+  .blog-tabs p{
+    margin: 0;
+  }
+    .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+@media screen and (max-width: 749px) {
+  .blog-tabs{
+    justify-content: left;
+    padding-left: 10px;
+  }
+}
+
+  @media(max-width: 576px){
+    .blog-tab-button{
+       padding: 4px 6px;
+      font-size: 12px;  
+    }
+    .blog-tabs p{
+      font-size: 14px;
+      display: none;
+    }
+  }
+</style>
+
+<div class="blog-tabs-section">
+  <div class="page-width-desktop isolate section-{{ section.id }}-padding">
+    <div class="blog-tabs">
+      <p>Categories:</p>
+      {%- for block in section.blocks -%}
+  <a href="#{{ block.settings.title | strip_html }}" class="blog-tab-button">
+    {{ block.settings.title | strip_html }}
+  </a>
+{%- endfor -%}
+      </div>
+    </div>
+</div>
+
+
+{% schema %}
+{
+  "name": "t:sections.simpletab.name",
+  "tag": "section",
+  "class": "blog-tab-section",
+  "settings": [
+      {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    },
+  ],
+  "blocks": [
+     {
+      "type": "heading",
+      "name": "title",
+      "settings": [
+          {
+            "id": "title",
+            "type": "text",
+           "label": "t:sections.marquee-block.blocks.icon.settings.message.label"
+          }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.simpletab.presets.name"
+    },
+  ]
+}
+{% endschema %}

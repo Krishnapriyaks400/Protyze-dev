@@ -1,0 +1,763 @@
+
+{% comment %}
+  Collection comparison table.
+
+  Collection card content can be customized independently in the Theme Editor:
+    - Display title:       block.settings.display_title
+    - Display description: block.settings.display_description
+    - Display image:       block.settings.display_image
+
+  Fallback order:
+    Image: custom image -> collection metafield -> collection image -> featured image
+    Title: custom title -> collection title metafield -> collection title
+    Description: custom description -> collection description metafield -> collection description
+
+  Comparison rows, tag, badge, colours and button remain customizable.
+{% endcomment %}
+
+{%- liquid
+  assign cc_columns = section.blocks | where: 'type', 'collection'
+  assign cc_row_count = 0
+
+  for i in (1..8)
+    assign label_key = 'row_' | append: i | append: '_label'
+
+    if section.settings[label_key] != blank
+      assign cc_row_count = cc_row_count | plus: 1
+    endif
+  endfor
+-%}
+
+{%- style -%}
+  .cc-{{ section.id }} {
+    {% if section.settings.background_color != blank %}
+      background-color: {{ section.settings.background_color }};
+    {% endif %}
+    padding-top: {{ section.settings.padding_top | times: 0.7 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.7 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .cc-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .cc-{{ section.id }} .cc__head {
+    margin: 0 auto 3rem;
+    max-width: 70rem;
+    text-align: center;
+  }
+
+  .cc-{{ section.id }} .cc__heading {
+    font-family: var(--font-heading-family);
+    font-size: clamp(2.6rem, 2rem + 1.6vw, 4rem);
+    line-height: 1.1;
+    margin: 0;
+  }
+
+  .cc-{{ section.id }} .cc__subheading {
+    color: rgba(var(--color-foreground), 0.7);
+    font-size: 1.6rem;
+    margin: 1rem 0 0;
+  }
+
+  .cc-{{ section.id }} .cc__panel {
+    background: {{ section.settings.panel_color | default: '#ffffff' }};
+    border-radius: 1.6rem;
+    box-shadow: 0 0.4rem 2.4rem rgba(0, 0, 0, 0.06);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .cc-{{ section.id }} .cc__table {
+    border-collapse: collapse;
+    min-width: calc(12rem + {{ cc_columns.size | at_least: 1 }} * 19rem);
+    table-layout: fixed;
+    width: 100%;
+  }
+
+  .cc-{{ section.id }} .cc__table th,
+  .cc-{{ section.id }} .cc__table td {
+    padding: 1.6rem 1.2rem;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  /* Sticky first column for horizontal scrolling */
+  .cc-{{ section.id }} .cc__label {
+    background: inherit;
+    font-size: 1.2rem;
+    font-weight: 700;
+    left: 0;
+    position: sticky;
+    width: 14rem;
+    z-index: 1;
+  }
+
+  .cc-{{ section.id }} .cc__table tr {
+    background: {{ section.settings.panel_color | default: '#ffffff' }};
+  }
+
+  .cc-{{ section.id }} .cc__table tbody tr:nth-child(odd) {
+    background: {{ section.settings.stripe_color | default: '#fdf6f4' }};
+  }
+
+  .cc-{{ section.id }} .cc__table tbody tr + tr td,
+  .cc-{{ section.id }} .cc__table tbody tr + tr th {
+    border-top: 1px solid rgba(var(--color-foreground), 0.06);
+  }
+
+  .cc-{{ section.id }} .cc__compare-label {
+    color: rgba(var(--color-foreground), 0.6);
+    font-size: 1.1rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    vertical-align: bottom;
+  }
+
+  .cc-{{ section.id }} .cc__card {
+    background: var(--cc-card-bg);
+    border-radius: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 0.8rem 0.8rem 1.4rem;
+  }
+
+  .cc-{{ section.id }} .cc__media {
+    aspect-ratio: 4 / 3;
+    border-radius: 0.8rem;
+    overflow: hidden;
+    position: relative;
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  .cc-{{ section.id }} .cc__media img,
+  .cc-{{ section.id }} .cc__media svg {
+    display: block;
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .cc-{{ section.id }} .cc__badge {
+    background: var(--cc-accent);
+    border-radius: 99rem;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 0.3rem 0.8rem;
+    position: absolute;
+    right: 0.6rem;
+    top: 0.6rem;
+  }
+
+  .cc-{{ section.id }} .cc__tag {
+    align-items: center;
+    color: var(--cc-accent);
+    display: flex;
+    font-size: 1rem;
+    font-weight: 700;
+    gap: 0.5rem;
+    letter-spacing: 0.06em;
+    margin: 1.2rem 0.4rem 0;
+    text-transform: uppercase;
+  }
+
+  .cc-{{ section.id }} .cc__tag::before {
+    background: currentColor;
+    border-radius: 50%;
+    content: '';
+    height: 0.6rem;
+    width: 0.6rem;
+    flex-shrink: 0;
+  }
+
+  .cc-{{ section.id }} .cc__title {
+    font-family: var(--font-heading-family);
+    font-size: 1.5rem;
+    line-height: 1.1;
+    margin: 0.4rem 0.4rem 0;
+    overflow-wrap: anywhere;
+  }
+
+  .cc-{{ section.id }} .cc__desc {
+    color: rgba(var(--color-foreground), 0.75);
+    font-size: 1.2rem;
+    font-weight: 400;
+    line-height: 1.45;
+    margin: 0.6rem 0.4rem 0;
+    overflow-wrap: anywhere;
+  }
+
+  .cc-{{ section.id }} .cc__value {
+    color: rgba(var(--color-foreground), 0.85);
+    font-size: 1.3rem;
+    line-height: 1.45;
+  }
+
+  .cc-{{ section.id }} .cc__value p {
+    margin: 0;
+  }
+
+  .cc-{{ section.id }} .cc__value--highlight {
+    color: var(--cc-accent);
+    font-family: var(--font-heading-family);
+    font-size: 2rem;
+    line-height: 1.1;
+  }
+
+  .cc-{{ section.id }} .cc__table tfoot td {
+    padding-bottom: 2rem;
+    padding-top: 2rem;
+  }
+
+  .cc-{{ section.id }} .cc__button {
+    align-items: center;
+    background: var(--cc-accent);
+    border-radius: 99rem;
+    color: #fff;
+    display: flex;
+    font-size: 1.2rem;
+    font-weight: 700;
+    gap: 0.6rem;
+    justify-content: center;
+    padding: 1.1rem 1.4rem;
+    text-decoration: none;
+    transition: filter 0.2s, transform 0.2s;
+  }
+
+  .cc-{{ section.id }} .cc__button:hover {
+    filter: brightness(0.92);
+    transform: translateY(-1px);
+  }
+{%- endstyle -%}
+
+<div class="cc-{{ section.id }} color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width">
+
+    {% if section.settings.heading != blank or section.settings.subheading != blank %}
+      <div class="cc__head">
+        {% if section.settings.heading != blank %}
+          <h2 class="cc__heading">
+            {{ section.settings.heading }}
+          </h2>
+        {% endif %}
+
+        {% if section.settings.subheading != blank %}
+          <p class="cc__subheading">
+            {{ section.settings.subheading | escape }}
+          </p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% if cc_columns.size > 0 %}
+      <div class="cc__panel">
+        <table class="cc__table">
+
+          <thead>
+            <tr>
+              <th class="cc__label cc__compare-label" scope="col">
+                {{ section.settings.compare_label | escape }}
+              </th>
+
+              {% for block in cc_columns %}
+                {% liquid
+                  assign col = block.settings.collection
+
+                  comment
+                    Custom image overrides collection image.
+                  endcomment
+                  assign cc_image = block.settings.display_image
+
+                  if cc_image == blank and col != blank
+                    assign cc_image = col.metafields.custom.compare_image.value
+                  endif
+
+                  if cc_image == blank and col != blank
+                    assign cc_image = col.image | default: col.featured_image
+                  endif
+
+                  comment
+                    Custom title overrides collection title.
+                  endcomment
+                  assign cc_title = block.settings.display_title | strip
+
+                  if cc_title == blank and col != blank
+                    assign cc_title = col.metafields.custom.compare_title.value
+                  endif
+
+                  if cc_title == blank and col != blank
+                    assign cc_title = col.title
+                  endif
+
+                  if cc_title == blank
+                    assign cc_title = 'Collection title'
+                  endif
+
+                  comment
+                    Custom description overrides collection description.
+                  endcomment
+                  assign cc_desc = block.settings.display_description | strip
+
+                  if cc_desc == blank and col != blank
+                    assign cc_desc = col.metafields.custom.compare_description.value
+                  endif
+                
+                %}
+
+                <th
+                  scope="col"
+                  style="--cc-accent: {{ block.settings.accent_color }}; --cc-card-bg: {{ block.settings.card_color }};"
+                  {{ block.shopify_attributes }}
+                >
+                  <div class="cc__card">
+
+                    <div class="cc__media">
+                      {% if cc_image != blank %}
+                        {{
+                          cc_image
+                          | image_url: width: 600
+                          | image_tag:
+                            loading: 'lazy',
+                            sizes: '(min-width: 750px) 25vw, 60vw',
+                            alt: cc_title
+                        }}
+                      {% else %}
+                        {{ 'collection-1' | placeholder_svg_tag }}
+                      {% endif %}
+
+                      {% if block.settings.badge != blank %}
+                        <span class="cc__badge">
+                          {{ block.settings.badge | escape }}
+                        </span>
+                      {% endif %}
+                    </div>
+
+                    {% if block.settings.tag != blank %}
+                      <span class="cc__tag">
+                        {{ block.settings.tag | escape }}
+                      </span>
+                    {% endif %}
+
+                    <span class="cc__title">
+                      {{ cc_title | escape }}
+                    </span>
+
+                    {% if cc_desc != blank %}
+                      <p class="cc__desc">
+                        {{ cc_desc | strip_html | escape }}
+                      </p>
+                    {% endif %}
+
+                  </div>
+                </th>
+              {% endfor %}
+            </tr>
+          </thead>
+
+          {% if cc_row_count > 0 %}
+            <tbody>
+              {% for i in (1..8) %}
+                {% liquid
+                  assign label_key = 'row_' | append: i | append: '_label'
+                  assign highlight_key = 'row_' | append: i | append: '_highlight'
+                  assign value_key = 'row_' | append: i
+                %}
+
+                {% if section.settings[label_key] != blank %}
+                  <tr>
+                    <th class="cc__label" scope="row">
+                      {{ section.settings[label_key] | escape }}
+                    </th>
+
+                    {% for block in cc_columns %}
+                      <td
+                        class="cc__value{% if section.settings[highlight_key] %} cc__value--highlight{% endif %}"
+                        style="--cc-accent: {{ block.settings.accent_color }};"
+                      >
+                        {% if block.settings[value_key] != blank %}
+                          {{ block.settings[value_key] }}
+                        {% else %}
+                          —
+                        {% endif %}
+                      </td>
+                    {% endfor %}
+                  </tr>
+                {% endif %}
+              {% endfor %}
+            </tbody>
+          {% endif %}
+
+          <tfoot>
+            <tr>
+              <td class="cc__label"></td>
+
+              {% for block in cc_columns %}
+                {% liquid
+                  assign col = block.settings.collection
+                  assign cc_button = block.settings.button_label
+
+                  if cc_button == blank
+                    if col != blank
+                      assign cc_button = 'Shop ' | append: col.title
+                    else
+                      assign cc_button = 'Shop collection'
+                    endif
+                  endif
+
+                  assign cc_url = routes.all_products_collection_url
+
+                  if col != blank
+                    assign cc_url = col.url
+                  endif
+                %}
+
+                <td style="--cc-accent: {{ block.settings.accent_color }};">
+                  <a class="cc__button" href="{{ cc_url }}">
+                    {{ cc_button | escape }}
+
+                    {% if block.settings.show_count and col != blank and col.all_products_count > 0 %}
+                      · {{ col.all_products_count }}
+                      {{ col.all_products_count | pluralize: 'product', 'products' }}
+                    {% endif %}
+
+                    <span aria-hidden="true">→</span>
+                  </a>
+                </td>
+              {% endfor %}
+            </tr>
+          </tfoot>
+
+        </table>
+      </div>
+    {% endif %}
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collection comparison",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "text",
+      "id": "compare_label",
+      "label": "Top-left label",
+      "default": "Compare"
+    },
+    {
+      "type": "header",
+      "content": "Comparison rows",
+      "info": "Leave a label empty to hide that row. Fill each row's value in the collection blocks."
+    },
+    {
+      "type": "text",
+      "id": "row_1_label",
+      "label": "Row 1 label",
+      "default": "Protein / serving"
+    },
+    {
+      "type": "checkbox",
+      "id": "row_1_highlight",
+      "label": "Row 1: highlight values",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "row_2_label",
+      "label": "Row 2 label",
+      "default": "Key ingredients"
+    },
+    {
+      "type": "checkbox",
+      "id": "row_2_highlight",
+      "label": "Row 2: highlight values",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "row_3_label",
+      "label": "Row 3 label",
+      "default": "Best for"
+    },
+    {
+      "type": "checkbox",
+      "id": "row_3_highlight",
+      "label": "Row 3: highlight values",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "row_4_label",
+      "label": "Row 4 label",
+      "default": "When to drink"
+    },
+    {
+      "type": "checkbox",
+      "id": "row_4_highlight",
+      "label": "Row 4: highlight values",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "row_5_label",
+      "label": "Row 5 label",
+      "default": "Flavours"
+    },
+    {
+      "type": "checkbox",
+      "id": "row_5_highlight",
+      "label": "Row 5: highlight values",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "row_6_label",
+      "label": "Row 6 label",
+      "default": "Pack sizes"
+    },
+    {
+      "type": "checkbox",
+      "id": "row_6_highlight",
+      "label": "Row 6: highlight values",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "row_7_label",
+      "label": "Row 7 label",
+      "default": "Rating"
+    },
+    {
+      "type": "checkbox",
+      "id": "row_7_highlight",
+      "label": "Row 7: highlight values",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "row_8_label",
+      "label": "Row 8 label",
+      "default": "Starts at"
+    },
+    {
+      "type": "checkbox",
+      "id": "row_8_highlight",
+      "label": "Row 8: highlight values",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colours"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background"
+    },
+    {
+      "type": "color",
+      "id": "panel_color",
+      "label": "Table background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "stripe_color",
+      "label": "Striped row background",
+      "default": "#fdf6f4"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection",
+          "info": "Select the original Shopify collection."
+        },
+        {
+          "type": "header",
+          "content": "Comparison card content",
+          "info": "Customize the card independently from the original collection. Leave fields blank to use the original collection details."
+        },
+        {
+          "type": "text",
+          "id": "display_title",
+          "label": "Display title",
+          "info": "Optional custom title for the comparison card."
+        },
+        {
+          "type": "textarea",
+          "id": "display_description",
+          "label": "Display description",
+          "info": "Optional custom description for the comparison card."
+        },
+        {
+          "type": "image_picker",
+          "id": "display_image",
+          "label": "Display image",
+          "info": "Optional custom image for the comparison card."
+        },
+        {
+          "type": "header",
+          "content": "Card labels and colours"
+        },
+        {
+          "type": "text",
+          "id": "tag",
+          "label": "Tag",
+          "info": "e.g. Everyday protein"
+        },
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Image badge",
+          "info": "e.g. 24g protein"
+        },
+        {
+          "type": "color",
+          "id": "accent_color",
+          "label": "Accent colour",
+          "default": "#c8235a"
+        },
+        {
+          "type": "color",
+          "id": "card_color",
+          "label": "Card background",
+          "default": "#fde4ea"
+        },
+        {
+          "type": "header",
+          "content": "Button"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "info": "Defaults to Shop followed by the original collection title."
+        },
+        {
+          "type": "checkbox",
+          "id": "show_count",
+          "label": "Show product count on button",
+          "default": true
+        },
+        {
+          "type": "header",
+          "content": "Comparison row values"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "row_1",
+          "label": "Row 1"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "row_2",
+          "label": "Row 2"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "row_3",
+          "label": "Row 3"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "row_4",
+          "label": "Row 4"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "row_5",
+          "label": "Row 5"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "row_6",
+          "label": "Row 6"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "row_7",
+          "label": "Row 7"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "row_8",
+          "label": "Row 8"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection comparison",
+      "blocks": [
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

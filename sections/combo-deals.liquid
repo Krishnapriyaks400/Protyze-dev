@@ -1,0 +1,695 @@
+{% comment %}
+  Combo deals: one featured banner whose chip buttons (Anytime, Diet, Nitro…) switch the
+  product cards below. Each button is a block with up to 4 hand-picked products
+  (snippets/combo-deal-card.liquid). A "View all" link sits under the cards.
+
+  Banner: price, compare-at and "You save" come from the banner product;
+  the image falls back to its featured image.
+{% endcomment %}
+
+{%- liquid
+  assign cd_tabs = section.blocks | where: 'type', 'tab'
+  assign hero_product = section.settings.hero_product
+  assign hero_variant = hero_product.selected_or_first_available_variant
+  assign hero_image = section.settings.hero_image | default: hero_product.featured_image
+  assign hero_url = section.settings.hero_link | default: hero_product.url
+-%}
+
+{%- if section.settings.load_fonts -%}
+  {%- comment -%} Same fonts as the Flavour hero carousel and Shop by goal; the browser downloads them once. {%- endcomment -%}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@400;700;800&family=Sacramento&display=swap"
+    rel="stylesheet"
+    media="print"
+    onload="this.media='all'"
+  >
+{%- endif -%}
+
+{{ 'combo-deal-card.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  /* Element + class beats the theme's "body .color-scheme-x" background/text rule. */
+  combo-deals.cd-{{ section.id }} {
+    --cd-bg: {{ section.settings.background_color }};
+    --cd-text: {{ section.settings.text_color }};
+    --cd-muted: {{ section.settings.text_color | color_modify: 'alpha', 0.72 }};
+    --cd-line: {{ section.settings.text_color | color_modify: 'alpha', 0.14 }};
+    --cd-accent: {{ section.settings.accent_color }};
+    --cd-dark: {{ section.settings.dark_color }};
+    --cd-card: {{ section.settings.card_color }};
+    --cd-note: {{ section.settings.note_bg_color }};
+    --cd-display: 'Anton', var(--font-heading-family), sans-serif;
+    --cd-script: 'Sacramento', cursive;
+    /* Shared product card colours (assets/combo-deal-card.css). */
+    --card-bg: var(--cd-card);
+    --card-text: var(--cd-text);
+    --card-muted: var(--cd-muted);
+    --card-media-bg: #f3eee9;
+    --card-badge-bg: var(--cd-dark);
+    --card-badge-text: #ffffff;
+    --card-save: #2e9e5b;
+    --card-note-bg: var(--cd-note);
+    --card-note-text: var(--cd-text);
+    --card-btn-bg: var(--cd-dark);
+    --card-btn-text: #ffffff;
+    --card-display: var(--cd-display);
+    background: var(--cd-bg);
+    color: var(--cd-text);
+    display: block; /* custom elements are inline by default, which ignores vertical padding */
+    font-family: 'Outfit', var(--font-body-family), system-ui, sans-serif;
+    padding-top: {{ section.settings.padding_top | times: 0.7 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.7 | round: 0 }}px;
+  }
+
+  /* ── Title row: title on the left, View all on the right ──────────── */
+  .cd-{{ section.id }} .cd__head {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+  .cd-{{ section.id }} .cd__head-actions {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .cd-{{ section.id }} .cd__title {
+    color: var(--cd-text);
+    font-family: var(--cd-display);
+    font-size: clamp(2.8rem, 2rem + 2vw, 4.4rem);
+    font-weight: 400;
+    line-height: 1;
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  .cd-{{ section.id }} .cd__title-script {
+    color: var(--cd-accent);
+    font-family: var(--cd-script);
+    font-size: 1.25em;
+    font-weight: 400;
+    line-height: 0.8;
+    text-transform: none;
+  }
+
+  /* ── Featured banner ─────────────────────────────────────────────── */
+  .cd-{{ section.id }} .cd__hero {
+    background: var(--cd-dark);
+    border-radius: 16px;
+    color: #ffffff;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    margin-bottom: 1.6rem;
+    overflow: hidden;
+  }
+  .cd-{{ section.id }} .cd__hero-body {
+    align-self: center;
+    padding: 2.4rem 2rem;
+  }
+  .cd-{{ section.id }} .cd__hero-pill {
+    background: var(--cd-accent);
+    border-radius: 99rem;
+    color: var(--cd-dark);
+    display: inline-block;
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    padding: 0.5rem 1.2rem;
+    text-transform: uppercase;
+  }
+  .cd-{{ section.id }} .cd__hero-heading {
+    color: #ffffff;
+    font-family: var(--cd-display);
+    font-size: clamp(3.4rem, 2.4rem + 2.6vw, 5.6rem);
+    font-weight: 400;
+    line-height: 1;
+    margin: 1.4rem 0 0;
+    text-transform: uppercase;
+  }
+  .cd-{{ section.id }} .cd__hero-script {
+    color: var(--cd-accent);
+    font-family: var(--cd-script);
+    font-size: 1.2em;
+    font-weight: 400;
+    text-transform: none;
+  }
+
+  .cd-{{ section.id }} .cd__hero-desc {
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 1.5rem;
+    line-height: 1.5;
+    margin: 1.2rem 0 0;
+    max-width: 48rem;
+  }
+  .cd-{{ section.id }} .cd__hero-desc p {
+    margin: 0;
+  }
+  .cd-{{ section.id }} .cd__hero-desc p + p {
+    margin-top: 0.6rem;
+  }
+  .cd-{{ section.id }} .cd__hero-desc a {
+    color: var(--cd-accent);
+  }
+
+  /* Tiles + Grab the combo: button under the tiles on mobile, to their right on desktop. */
+  .cd-{{ section.id }} .cd__choose {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    margin: 1.8rem 0 0;
+  }
+  .cd-{{ section.id }} .cd__grab {
+    justify-content: center;
+    margin-top: 0;
+  }
+
+  /* Glass tiles inside the banner: each one shows its own product cards below. */
+  .cd-{{ section.id }} .cd__tabs {
+    display: grid;
+    gap: 0.8rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 48rem;
+  }
+  .cd-{{ section.id }} .cd__tab {
+    align-items: center;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 8px;
+    color: #ffffff;
+    cursor: pointer;
+    display: flex;
+    font-family: inherit;
+    gap: 0.9rem;
+    min-width: 0;
+    padding: 0.9rem 1rem;
+    position: relative;
+    text-align: left;
+    transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+  }
+  .cd-{{ section.id }} .cd__tab:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.32);
+    transform: translateY(-1px);
+  }
+  .cd-{{ section.id }} .cd__tab[aria-selected='true'] {
+    background: var(--cd-accent);
+    border-color: var(--cd-accent);
+    box-shadow: 0 0.8rem 2rem {{ section.settings.accent_color | color_modify: 'alpha', 0.35 }};
+    color: var(--cd-dark);
+  }
+  .cd-{{ section.id }} .cd__tab:focus-visible {
+    outline: 0.2rem solid #ffffff;
+    outline-offset: 0.2rem;
+  }
+  .cd-{{ section.id }} .cd__tab-text {
+    flex: 1;
+    min-width: 0;
+  }
+  .cd-{{ section.id }} .cd__tab-title {
+    display: block;
+    font-size: 1.4rem;
+    font-weight: 800;
+    line-height: 1.2;
+  }
+  .cd-{{ section.id }} .cd__tab-sub {
+    display: block;
+    font-size: 1.1rem;
+    line-height: 1.3;
+    margin-top: 0.1rem;
+    opacity: 0.72;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .cd-{{ section.id }} .cd__tab-arrow {
+    flex-shrink: 0;
+    height: 1.5rem;
+    opacity: 0.7;
+    transition: opacity 0.2s, transform 0.2s;
+    width: 1.5rem;
+  }
+  .cd-{{ section.id }} .cd__tab:hover .cd__tab-arrow,
+  .cd-{{ section.id }} .cd__tab[aria-selected='true'] .cd__tab-arrow {
+    opacity: 1;
+    transform: translateX(2px);
+  }
+  .cd-{{ section.id }} .cd__panel[hidden] {
+    display: none;
+  }
+
+  .cd-{{ section.id }} .cd__hero-price {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 1.2rem;
+    margin: 1.8rem 0 0;
+  }
+  .cd-{{ section.id }} .cd__hero-now {
+    font-family: var(--cd-display);
+    font-size: 4rem;
+    line-height: 1;
+  }
+  .cd-{{ section.id }} .cd__hero-was {
+    font-size: 1.5rem;
+    opacity: 0.6;
+  }
+  .cd-{{ section.id }} .cd__hero-save {
+    background: {{ section.settings.save_bg_color }};
+    border-radius: 99rem;
+    color: {{ section.settings.save_text_color }};
+    font-size: 1.2rem;
+    font-weight: 800;
+    padding: 0.4rem 1rem;
+  }
+  .cd-{{ section.id }} .cd__hero-btn {
+    align-items: center;
+    background: var(--cd-accent);
+    border-radius: 8px;
+    color: var(--cd-dark);
+    display: inline-flex;
+    font-size: 1.5rem;
+    font-weight: 800;
+    gap: 0.8rem;
+    margin-top: 2rem;
+    padding: 1.3rem 2.6rem;
+    text-decoration: none;
+    transition: filter 0.2s, transform 0.2s;
+  }
+  .cd-{{ section.id }} .cd__hero-btn:hover {
+    filter: brightness(0.95);
+    transform: translateY(-1px);
+  }
+  .cd-{{ section.id }} .cd__hero-media {
+    aspect-ratio: 4 / 3;
+    position: relative;
+  }
+  .cd-{{ section.id }} .cd__hero-media img {
+    display: block;
+    height: 100%;
+    inset: 0;
+    object-fit: cover;
+    position: absolute;
+    width: 100%;
+  }
+
+  /* ── Product cards ───────────────────────────────────────────────── */
+  .cd-{{ section.id }} .cd__grid {
+    display: grid;
+    gap: 1.6rem;
+    grid-template-columns: minmax(0, 1fr);
+    margin: 0;
+  }
+  /* ── View all (in the title row) ─────────────────────────────────── */
+  .cd-{{ section.id }} .cd__more-btn {
+    align-items: center;
+    border: 1px solid var(--cd-text);
+    border-radius: 8px;
+    color: var(--cd-text);
+    display: inline-flex;
+    font-size: 1.3rem;
+    font-weight: 700;
+    gap: 0.8rem;
+    padding: 0.9rem 1.8rem;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+    white-space: nowrap;
+  }
+  .cd-{{ section.id }} .cd__more-btn:hover {
+    background: var(--cd-dark);
+    border-color: var(--cd-dark);
+    color: #ffffff;
+  }
+
+  /* Mobile. */
+  @media screen and (max-width: 749px) {
+    /* No banner image on mobile: the text, tiles and Grab button only. */
+    .cd-{{ section.id }} .cd__hero-media {
+      display: none;
+    }
+    .cd-{{ section.id }} .cd__grid {
+      gap: 1rem;
+    }
+  }
+
+  @media screen and (min-width: 750px) {
+    combo-deals.cd-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+    .cd-{{ section.id }} .cd__head {
+      margin-bottom: 2.4rem;
+    }
+    .cd-{{ section.id }} .cd__hero {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+    .cd-{{ section.id }} .cd__hero-body {
+      padding: 3.6rem 4rem;
+    }
+    .cd-{{ section.id }} .cd__choose {
+      align-items: center;
+      flex-direction: row;
+      gap: 1.6rem;
+    }
+    .cd-{{ section.id }} .cd__choose .cd__tabs {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+    .cd-{{ section.id }} .cd__grab {
+      flex: none;
+      white-space: nowrap;
+    }
+    .cd-{{ section.id }} .cd__hero-media {
+      aspect-ratio: auto;
+      min-height: 32rem;
+    }
+    .cd-{{ section.id }} .cd__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .cd-{{ section.id }} .cd__grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+{%- endstyle -%}
+
+<combo-deals class="cd-{{ section.id }} color-{{ section.settings.color_scheme }}">
+  <div class="page-width">
+    <div class="cd__head">
+      {%- if section.settings.title != blank -%}
+        {%- assign cd_script = section.settings.title_script | strip -%}
+        <h2 class="cd__title">
+          {%- if cd_script != blank -%}
+            {%- comment -%} Script word styled where it appears in the title, otherwise added at the end. {%- endcomment -%}
+            {%- assign cd_title_parts = section.settings.title | split: cd_script -%}
+            {%- if section.settings.title contains cd_script -%}
+              {{ cd_title_parts[0] | escape }}<span class="cd__title-script">{{ cd_script | escape }}</span>{{ cd_title_parts[1] | escape }}
+            {%- else -%}
+              {{ section.settings.title | escape }} <span class="cd__title-script">{{ cd_script | escape }}</span>
+            {%- endif -%}
+          {%- else -%}
+            {{ section.settings.title | escape }}
+          {%- endif -%}
+        </h2>
+      {%- endif -%}
+      <div class="cd__head-actions">
+        {%- if section.settings.view_all_label != blank -%}
+          <a class="cd__more-btn" href="{{ section.settings.view_all_link | default: routes.all_products_collection_url }}">
+            {{ section.settings.view_all_label | escape }}
+            <span aria-hidden="true">→</span>
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="cd__hero">
+      <div class="cd__hero-body">
+        {%- if section.settings.hero_pill != blank -%}
+          <span class="cd__hero-pill">{{ section.settings.hero_pill | escape }}</span>
+        {%- endif -%}
+        {%- if section.settings.hero_heading != blank or section.settings.hero_script != blank -%}
+          <h3 class="cd__hero-heading">
+            {{ section.settings.hero_heading | escape }}
+            {%- if section.settings.hero_script != blank %}
+              <span class="cd__hero-script">{{ section.settings.hero_script | escape }}</span>
+            {%- endif -%}
+          </h3>
+        {%- endif -%}
+        {%- if section.settings.hero_description != blank -%}
+          <div class="cd__hero-desc">{{ section.settings.hero_description }}</div>
+        {%- endif -%}
+
+        <div class="cd__choose">
+        {%- if cd_tabs.size > 0 -%}
+          <div class="cd__tabs" role="tablist" aria-label="{{ section.settings.title | default: 'Combo deals' | escape }}">
+            {%- for block in cd_tabs -%}
+              <button
+                type="button"
+                class="cd__tab"
+                id="CdTab-{{ block.id }}"
+                role="tab"
+                aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+                aria-controls="CdPanel-{{ block.id }}"
+                tabindex="{% if forloop.first %}0{% else %}-1{% endif %}"
+                data-block-id="{{ block.id }}"
+                {{ block.shopify_attributes }}
+              >
+                <span class="cd__tab-text">
+                  <span class="cd__tab-title">{{ block.settings.label | escape }}</span>
+                  {%- if block.settings.subtitle != blank -%}
+                    <span class="cd__tab-sub">{{ block.settings.subtitle | escape }}</span>
+                  {%- endif -%}
+                </span>
+                <svg class="cd__tab-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6"/></svg>
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+          {%- if section.settings.hero_button != blank and hero_url != blank -%}
+            <a class="cd__hero-btn cd__grab" href="{{ hero_url }}">
+              {{ section.settings.hero_button | escape }}
+              <span aria-hidden="true">→</span>
+            </a>
+          {%- endif -%}
+        </div>
+
+        {%- if hero_variant -%}
+          <p class="cd__hero-price">
+            <span class="cd__hero-now">{{ hero_variant.price | money_without_trailing_zeros }}</span>
+            {%- if hero_variant.compare_at_price > hero_variant.price -%}
+              <s class="cd__hero-was">{{ hero_variant.compare_at_price | money_without_trailing_zeros }}</s>
+              <span class="cd__hero-save">
+                {{- section.settings.hero_save_label | default: 'You save' | escape }}
+                {{ hero_variant.compare_at_price | minus: hero_variant.price | money_without_trailing_zeros -}}
+              </span>
+            {%- endif -%}
+          </p>
+        {%- endif -%}
+      </div>
+      {%- if hero_image != blank -%}
+        <div class="cd__hero-media">
+          {{
+            hero_image
+            | image_url: width: 1400
+            | image_tag: widths: '500, 800, 1100, 1400', sizes: '(min-width: 750px) 50vw, 100vw', loading: 'lazy', alt: section.settings.hero_heading
+          }}
+        </div>
+      {%- endif -%}
+    </div>
+
+
+    {%- for block in cd_tabs -%}
+      <div
+        class="cd__panel"
+        id="CdPanel-{{ block.id }}"
+        role="tabpanel"
+        aria-labelledby="CdTab-{{ block.id }}"
+        {% unless forloop.first %}
+          hidden
+        {% endunless %}
+      >
+        {%- if block.settings.products.count > 0 -%}
+          <ul class="cd__grid list-unstyled" role="list">
+            {%- for p in block.settings.products -%}
+              {%- render 'combo-deal-card',
+                product: p,
+                autoapply_percent: section.settings.autoapply_percent,
+                autoapply_label: section.settings.autoapply_label,
+                button_label: section.settings.add_label
+              -%}
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</combo-deals>
+
+<script>
+  if (!customElements.get('combo-deals')) {
+    customElements.define(
+      'combo-deals',
+      class ComboDeals extends HTMLElement {
+        connectedCallback() {
+          this.tabs = [...this.querySelectorAll('[role="tab"]')];
+          this.tabs.forEach((tab, index) => {
+            tab.addEventListener('click', () => this.select(tab));
+            tab.addEventListener('keydown', (event) => {
+              const step = { ArrowRight: 1, ArrowLeft: -1 }[event.key];
+              if (!step) return;
+              event.preventDefault();
+              const next = this.tabs[(index + step + this.tabs.length) % this.tabs.length];
+              this.select(next);
+              next.focus();
+            });
+          });
+
+          // Theme editor: open the button whose block is selected.
+          this.onBlockSelect = (event) => {
+            const tab = this.tabs.find((t) => t.dataset.blockId === event.detail.blockId);
+            if (tab) this.select(tab);
+          };
+          document.addEventListener('shopify:block:select', this.onBlockSelect);
+
+          // Add to cart: add and open the cart drawer. Without a drawer the form posts normally.
+          this.addEventListener('submit', (event) => {
+            const form = event.target.closest('.cd__add');
+            const drawer = document.querySelector('cart-drawer');
+            if (!form || !drawer || typeof drawer.renderContents !== 'function') return;
+            event.preventDefault();
+            this.addToCart(form, drawer);
+          });
+        }
+
+        disconnectedCallback() {
+          document.removeEventListener('shopify:block:select', this.onBlockSelect);
+        }
+
+        select(activeTab) {
+          this.tabs.forEach((tab) => {
+            const active = tab === activeTab;
+            tab.setAttribute('aria-selected', active);
+            tab.tabIndex = active ? 0 : -1;
+            const panel = document.getElementById(tab.getAttribute('aria-controls'));
+            if (panel) panel.hidden = !active;
+          });
+        }
+
+        async addToCart(form, drawer) {
+          const button = form.querySelector('button');
+          const label = button.textContent;
+          button.setAttribute('aria-busy', 'true');
+          button.disabled = true;
+
+          const body = new FormData(form);
+          body.append('sections', drawer.getSectionsToRender().map((section) => section.id));
+          body.append('sections_url', window.location.pathname);
+
+          try {
+            const response = await fetch(routes.cart_add_url, {
+              method: 'POST',
+              headers: { 'X-Requested-With': 'XMLHttpRequest', Accept: 'application/javascript' },
+              body,
+            });
+            const state = await response.json();
+            if (state.status) throw new Error(state.description || state.message);
+            drawer.classList.remove('is-empty');
+            drawer.renderContents(state);
+          } catch (error) {
+            console.error(error);
+            button.textContent = 'Try again';
+            setTimeout(() => (button.textContent = label), 2000);
+          } finally {
+            button.removeAttribute('aria-busy');
+            button.disabled = false;
+          }
+        }
+      }
+    );
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Combo deals",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "text", "id": "title", "label": "Title", "default": "Combo deals" },
+    {
+      "type": "text",
+      "id": "title_script",
+      "label": "Title script word",
+      "info": "Shown in the script font. If the title contains this word it is styled in place, otherwise it is added at the end.",
+      "default": "deals"
+    },
+    { "type": "header", "content": "Featured banner", "info": "Add a \"Button\" block for each tile (Anytime, Diet…). The tiles sit inside the banner and each shows its own product cards." },
+    { "type": "product", "id": "hero_product", "label": "Banner product", "info": "Price, compare-at price and \"You save\" come from this product." },
+    { "type": "image_picker", "id": "hero_image", "label": "Banner image", "info": "Leave empty to use the product image." },
+    { "type": "text", "id": "hero_pill", "label": "Pill", "default": "Best way to start" },
+    { "type": "text", "id": "hero_heading", "label": "Heading", "default": "Taste all 5" },
+    { "type": "text", "id": "hero_script", "label": "Script words", "default": "clear proteins" },
+    {
+      "type": "richtext",
+      "id": "hero_description",
+      "label": "Description",
+      "info": "Shown under the heading, above the buttons. Leave empty to hide it.",
+      "default": "<p>Try every flavour in one box and find your favourite clear protein.</p>"
+    },
+    { "type": "text", "id": "hero_save_label", "label": "Saving label", "default": "You save" },
+    { "type": "text", "id": "hero_button", "label": "Button label", "default": "Grab the combo" },
+    { "type": "url", "id": "hero_link", "label": "Button link", "info": "Leave empty to link to the banner product." },
+    { "type": "header", "content": "Product cards" },
+    {
+      "type": "range",
+      "id": "autoapply_percent",
+      "label": "Auto-applied discount note",
+      "info": "Shows \"Get it at …\" on each card with this % off. Set to 0 to hide it.",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "%",
+      "default": 1
+    },
+    {
+      "type": "text",
+      "id": "autoapply_label",
+      "label": "Discount note text",
+      "info": "[price] is replaced with the discounted price.",
+      "default": "Get it at [price] · code auto-applies"
+    },
+    { "type": "text", "id": "add_label", "label": "Add to cart label", "default": "Add to cart" },
+    { "type": "text", "id": "view_all_label", "label": "View all button label", "default": "View all combos & packs" },
+    { "type": "url", "id": "view_all_link", "label": "View all button link", "info": "Leave empty to link to all products. Clear the label to hide the button." },
+    {
+      "type": "checkbox",
+      "id": "load_fonts",
+      "label": "Load Google fonts",
+      "info": "Anton (headings), Outfit (text) and Sacramento (script word), same as the Flavour hero carousel. Untick if the theme already loads them.",
+      "default": true
+    },
+    { "type": "header", "content": "Colours" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "color", "id": "background_color", "label": "Section background", "default": "#fde4d8" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#2b0a1c" },
+    { "type": "color", "id": "accent_color", "label": "Accent (script word, active button, banner button)", "default": "#f37aa8" },
+    { "type": "color", "id": "dark_color", "label": "Dark (banner, Add to cart)", "default": "#3b0f24" },
+    { "type": "color", "id": "card_color", "label": "Card background", "default": "#ffffff" },
+    { "type": "color", "id": "note_bg_color", "label": "Discount note background", "default": "#fff1d6" },
+    { "type": "color", "id": "save_bg_color", "label": "Banner \"You save\" background", "default": "#d6f5e3" },
+    { "type": "color", "id": "save_text_color", "label": "Banner \"You save\" text", "default": "#14653a" },
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Top padding", "default": 56 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Bottom padding", "default": 56 }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Button",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Title", "default": "Anytime" },
+        { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Everyday protein" },
+        { "type": "product_list", "id": "products", "label": "Products", "limit": 4, "info": "Up to 4 cards. Bullet points come from the product metafield custom.combo_includes." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Combo deals",
+      "blocks": [
+        { "type": "tab", "settings": { "label": "Anytime", "subtitle": "Everyday protein" } },
+        { "type": "tab", "settings": { "label": "Diet", "subtitle": "Gut health & weight" } },
+        { "type": "tab", "settings": { "label": "Nitro", "subtitle": "Strength & muscle" } },
+        { "type": "tab", "settings": { "label": "Hydra", "subtitle": "Hydration" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

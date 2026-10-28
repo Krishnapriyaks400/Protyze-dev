@@ -1,0 +1,47 @@
+/* ── Breadcrumb section ──────────────────────────────────────────── */
+
+.breadcrumb_section {
+  width: 100%;
+}
+
+.breadcrumb_section__inner {
+  font-family: var(--font-body-family);
+  font-size: 1.3rem;
+  line-height: 1.5;
+}
+
+.breadcrumb_section__inner :is(a, span) {
+  color: rgba(var(--color-foreground), 0.55);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.breadcrumb_section__inner a:hover {
+  color: rgb(var(--color-foreground));
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+/* Last crumb (current page) is slightly darker */
+.breadcrumb_section__inner span:last-child {
+  color: rgba(var(--color-foreground), 0.85);
+  font-weight: 500;
+}
+
+/* Separator */
+.breadcrumb_section__inner span[aria-hidden] {
+  color: rgba(var(--color-foreground), 0.3);
+  font-weight: 400;
+}
+
+
+.template-product .breadcrumb_section {
+  margin-bottom: 0;
+}
+
+/* ── Mobile ──────────────────────────────────────────────────────── */
+@media screen and (max-width: 749px) {
+  .breadcrumb_section {
+    font-size: 1.2rem;
+  }
+}

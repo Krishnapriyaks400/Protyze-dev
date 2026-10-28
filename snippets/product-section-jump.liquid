@@ -1,0 +1,664 @@
+{% comment %}
+  Product Section Jump Navigation
+
+  Design:
+    - Peach gradient panel with heading + subheading
+    - Connected arrow-shaped cards (rounded first card, notched cards after it)
+    - Large icon circle, bold label, grey description, orange chevron
+
+  Layout:
+    - Container wider than 900px: six cards in one row
+    - Container 900px or narrower: three cards per row (two rows for six links)
+
+  Supported icon values:
+    shaker, heart, leaf, document, star, question, person, clock
+
+  Optional block settings (add to the schema if you want them editable):
+    heading, subheading
+
+  Usage:
+    {% render 'product-section-jump', block: block %}
+{% endcomment %}
+
+{%- liquid
+  assign psj_review_count = product.metafields.reviews.rating_count.value | default: product.metafields.reviews.rating_count
+  assign psj_heading = block.settings.heading | default: 'Explore this product'
+  
+  comment
+    Flavour colour comes from a product metafield (type: Color or single line text, e.g. #E4572E).
+    Change "custom.flavour_color" below if your metafield uses a different namespace and key.
+    Fallback order: metafield -> block "Icon color" setting -> orange.
+  endcomment
+  assign psj_flavour = product.metafields.custom.flavour_color.value | default: block.settings.icon_color | default: '#ff721f'
+
+  assign psj_has_links = false
+
+  for i in (1..8)
+    assign label_key = 'link_' | append: i | append: '_label'
+    assign target_key = 'link_' | append: i | append: '_target'
+
+    if block.settings[label_key] != blank and block.settings[target_key] != blank
+      assign psj_has_links = true
+      break
+    endif
+  endfor
+-%}
+
+{%- if psj_has_links -%}
+  <product-section-jump
+    class="psj"
+    data-offset="{{ block.settings.scroll_offset | default: 0 }}"
+    style="
+      --psj-panel-bg: {{ block.settings.panel_color | default: '#fff0e6' }};
+      --psj-tile-bg: {{ block.settings.tile_color | default: '#fffaf6' }};
+      --psj-icon-bg: {{ block.settings.icon_bg_color | default: '#ffe4d1' }};
+      --psj-icon-fg: {{ block.settings.icon_color | default: '#ff721f' }};
+      --psj-accent: {{ block.settings.icon_color | default: '#ff721f' }};
+      --psj-flavour: {{ psj_flavour }};
+      --psj-text: {{ block.settings.text_color | default: '#211c19' }};
+    "
+    {{ block.shopify_attributes }}
+  >
+    <div class="psj__head">
+      <h2 class="psj__heading">{{ psj_heading | escape }}</h2>
+     
+    </div>
+
+    <ul class="psj__grid list-unstyled" role="list">
+      {%- for i in (1..8) -%}
+        {%- liquid
+          assign label_key = 'link_' | append: i | append: '_label'
+          assign target_key = 'link_' | append: i | append: '_target'
+          assign icon_key = 'link_' | append: i | append: '_icon'
+
+          assign psj_label = block.settings[label_key]
+          assign psj_target = block.settings[target_key] | strip | remove_first: '#'
+          assign psj_icon = block.settings[icon_key]
+        -%}
+
+        {%- if psj_label != blank and psj_target != blank -%}
+          <li class="psj__item">
+            <a
+              href="#{{ psj_target | escape }}"
+              class="psj__tile"
+              data-target="{{ psj_target | escape }}"
+            >
+              <span class="psj__icon" aria-hidden="true">
+                {%- case psj_icon -%}
+                  {%- when 'shaker' -%}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 2h6v3H9z"/>
+                      <path d="M8 5h8l-1 17H9L8 5z"/>
+                      <path d="M8.5 11h7"/>
+                    </svg>
+
+                  {%- when 'heart' -%}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"/>
+                      <path d="M5.5 12h4l2-3 3 6 2-3h2"/>
+                    </svg>
+
+                  {%- when 'leaf' -%}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10z"/>
+                      <path d="M2 21c0-3 1.9-5.4 5.1-6"/>
+                      <path d="M8 17c3-4 5-6 9-9"/>
+                    </svg>
+
+                  {%- when 'document' -%}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="5" y="3" width="14" height="18" rx="2"/>
+                      <path d="M9 8h6M9 12h6M9 16h4"/>
+                    </svg>
+
+                  {%- when 'star' -%}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round">
+                      <path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/>
+                    </svg>
+
+                  {%- when 'question' -%}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="9"/>
+                      <path d="M9.5 9a2.6 2.6 0 1 1 4.2 2.1c-1.1.8-1.7 1.2-1.7 2.8"/>
+                      <path d="M12 17.5h.01"/>
+                    </svg>
+
+                  {%- when 'person' -%}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="8" r="4"/>
+                      <path d="M4 21a8 8 0 0 1 16 0"/>
+                    </svg>
+
+                  {%- when 'clock' -%}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="9"/>
+                      <path d="M12 7v5l3 2"/>
+                    </svg>
+
+                  {%- else -%}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M12 5v14M5 12l7 7 7-7"/>
+                    </svg>
+                {%- endcase -%}
+              </span>
+
+              <span class="psj__content">
+                <span class="psj__label">
+                  {{- psj_label | escape -}}
+
+                  {%- if psj_icon == 'star' and block.settings.show_review_count and psj_review_count > 0 -%}
+                    <span class="psj__count">({{ psj_review_count }})</span>
+                  {%- endif -%}
+                </span>
+
+                {%- case psj_icon -%}
+                  {%- when 'shaker' -%}
+                    <span class="psj__description">Serving guide</span>
+                  {%- when 'heart' -%}
+                    <span class="psj__description">Why it works</span>
+                  {%- when 'leaf' -%}
+                    <span class="psj__description">What's inside</span>
+                  {%- when 'document' -%}
+                    <span class="psj__description">Nutrition facts</span>
+                  {%- when 'question' -%}
+                    <span class="psj__description">Common questions</span>
+                  {%- when 'star' -%}
+                    <span class="psj__description">Customer feedback</span>
+                {%- endcase -%}
+              </span>
+
+              <span class="psj__arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m9 5 7 7-7 7"/>
+                </svg>
+              </span>
+            </a>
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+  </product-section-jump>
+{%- endif -%}
+
+<style>
+/* =========================================
+   PRODUCT SECTION JUMP
+   Connected arrow cards inside a peach panel
+   ========================================= */
+
+.psj {
+  /* Shape of the arrow point / notch, in px */
+  --psj-point: 18px;
+  --psj-overlap: 14px; /* how far a card tucks into the previous card's point */
+
+  /* Border colour: lighter tint of the accent */
+  --psj-border: #ffb98f;
+  --psj-panel-end: #fff8f3;
+
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 16px 0;
+  padding: 16px 16px 16px;
+  border-radius: 8px;
+  background: var(--psj-panel-bg, #fff0e6);
+  background: linear-gradient(160deg, var(--psj-panel-bg, #fff0e6) 0%, var(--psj-panel-end) 100%);
+  border: 1px solid rgba(255, 114, 31, 0.22);
+  box-shadow: 0 2px 10px rgba(255, 114, 31, 0.08);
+  color: var(--psj-text, #211c19);
+  container-type: inline-size;
+}
+
+@supports (background: color-mix(in srgb, red 50%, white)) {
+  .psj {
+    --psj-border: color-mix(in srgb, var(--psj-accent, #ff721f) 55%, #fff);
+    --psj-panel-end: color-mix(in srgb, var(--psj-panel-bg, #fff0e6) 35%, #fff);
+  }
+}
+
+/* HEADING */
+
+.psj__head {
+  margin: 0 0 16px;
+  padding: 0 6px;
+}
+
+.psj__heading {
+  margin: 0;
+  font-family: var(--font-heading-family, inherit);
+  font-size: 22px;
+  
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.psj__subheading {
+  margin: 6px 0 0;
+  font-size: 13px;
+  font-size: clamp(11px, 2.9cqw, 15px);
+  line-height: 1.4;
+  color: rgba(var(--color-foreground, 33, 28, 25), 0.65);
+}
+
+/* GRID
+   Wide: six cards in one row
+   Narrow: three cards per row
+*/
+
+.psj__grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  column-gap: 0;
+  row-gap: 10px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.psj__item {
+  position: relative;
+  min-width: 0;
+  /* shadow follows the clipped arrow shape */
+  filter: drop-shadow(0 2px 4px rgba(255, 114, 31, 0.16));
+
+  /* Notched card (default for every card after the first) */
+  --psj-shape: polygon(
+    0 0,
+    calc(100% - var(--psj-point)) 0,
+    100% 50%,
+    calc(100% - var(--psj-point)) 100%,
+    0 100%,
+    var(--psj-point) 50%
+  );
+}
+
+/* Cards after the first tuck into the previous card's point */
+.psj__item:not(:first-child) {
+  margin-left: calc(var(--psj-overlap) * -1);
+}
+
+/* First card: rounded left corners (radius ~14px) + pointed right edge */
+.psj__item:first-child {
+  --psj-shape: polygon(
+    0 14px,
+    1.07px 8.64px,
+    4.1px 4.1px,
+    8.64px 1.07px,
+    14px 0,
+    calc(100% - var(--psj-point)) 0,
+    100% 50%,
+    calc(100% - var(--psj-point)) 100%,
+    14px 100%,
+    8.64px calc(100% - 1.07px),
+    4.1px calc(100% - 4.1px),
+    1.07px calc(100% - 8.64px),
+    0 calc(100% - 14px)
+  );
+}
+
+/* CARD */
+
+.psj__tile {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+  min-height: 64px;
+  min-height: clamp(56px, 15cqw, 74px);
+  height: 100%;
+  box-sizing: border-box;
+  padding: 8px 12px 8px calc(var(--psj-point) + 6px);
+
+  background: var(--psj-border);
+  color: inherit;
+  text-decoration: none;
+  clip-path: var(--psj-shape);
+
+  transition: background-color 0.2s ease, filter 0.2s ease;
+}
+
+.psj__item:first-child .psj__tile {
+  padding-left: 12px;
+}
+
+/* INNER CARD SURFACE (leaves a thin border) */
+
+.psj__tile::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 1.5px;
+  background: var(--psj-tile-bg, #fffaf6);
+  clip-path: var(--psj-shape);
+  transition: background-color 0.2s ease;
+}
+
+/* HOVER, ACTIVE AND FOCUS */
+
+.psj__tile:hover {
+  filter: brightness(0.98);
+}
+
+/* CLICKED / ACTIVE STATE uses the flavour colour:
+   border + icon circle + chevron in flavour colour, soft flavour tint inside. */
+
+.psj__tile:active,
+.psj__tile.is-active {
+  background: var(--psj-flavour, #ff721f);
+}
+
+.psj__tile:active .psj__icon,
+.psj__tile.is-active .psj__icon {
+  background: var(--psj-flavour, #ff721f);
+  color: #fff;
+}
+
+.psj__tile:active .psj__arrow,
+.psj__tile.is-active .psj__arrow {
+  color: var(--psj-flavour, #ff721f);
+}
+
+@supports (background: color-mix(in srgb, red 50%, white)) {
+  .psj__tile:active::before,
+  .psj__tile.is-active::before {
+    background: color-mix(in srgb, var(--psj-flavour, #ff721f) 12%, #fff);
+  }
+}
+
+.psj__tile:focus-visible {
+  outline: 2px solid var(--psj-accent, #ff721f);
+  outline-offset: 2px;
+}
+
+/* ICON CIRCLE */
+
+.psj__icon {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  width: clamp(30px, 8.6cqw, 46px);
+  height: clamp(30px, 8.6cqw, 46px);
+  border-radius: 50%;
+  background: var(--psj-icon-bg, #ffe4d1);
+  color: var(--psj-icon-fg, #ff721f);
+}
+
+.psj__icon svg {
+  display: block;
+  width: 58%;
+  height: 58%;
+}
+
+/* CARD TEXT */
+
+.psj__content {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  min-width: 0;
+}
+
+.psj__label {
+  display: block;
+  font-size: 12px;
+  font-size: clamp(10px, 2.5cqw, 13px);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-transform: none;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.psj__description {
+  display: block;
+  font-size: 10px;
+  font-size: clamp(8px, 2.15cqw, 11px);
+  font-weight: 400;
+  line-height: 1.25;
+  color: rgba(var(--color-foreground, 33, 28, 25), 0.65);
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.psj__count {
+  margin-left: 2px;
+  font-size: 0.9em;
+  font-weight: 400;
+}
+
+/* RIGHT CHEVRON */
+
+.psj__arrow {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  color: var(--psj-accent, #ff721f);
+}
+
+.psj__arrow svg {
+  display: block;
+  width: 14px;
+  height: 14px;
+}
+
+/* NARROW CONTAINERS: three cards per row
+   Card 1, 4, 7 start a row, so they get the rounded left edge.
+*/
+
+@container (max-width: 900px) {
+  .psj__item:nth-child(3n + 1) {
+    margin-left: 0;
+    --psj-shape: polygon(
+      0 14px,
+      1.07px 8.64px,
+      4.1px 4.1px,
+      8.64px 1.07px,
+      14px 0,
+      calc(100% - var(--psj-point)) 0,
+      100% 50%,
+      calc(100% - var(--psj-point)) 100%,
+      14px 100%,
+      8.64px calc(100% - 1.07px),
+      4.1px calc(100% - 4.1px),
+      1.07px calc(100% - 8.64px),
+      0 calc(100% - 14px)
+    );
+  }
+
+  .psj__item:nth-child(3n + 1) .psj__tile {
+    padding-left: 12px;
+  }
+
+  .psj__item:not(:nth-child(3n + 1)) {
+    margin-left: calc(var(--psj-overlap) * -1);
+  }
+
+  .psj__item:not(:nth-child(3n + 1)) .psj__tile {
+    padding-left: calc(var(--psj-point) + 6px);
+  }
+
+  .psj__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* SMALL CONTAINERS (phones) */
+
+@container (max-width: 440px) {
+  .psj__head {
+    margin-bottom: 12px;
+    padding: 0 2px;
+  }
+
+  .psj__grid {
+    row-gap: 8px;
+  }
+
+  .psj__tile {
+    gap: 5px;
+    padding-right: 14px;
+  }
+
+  .psj__item:not(:nth-child(3n + 1)) .psj__tile {
+    padding-left: calc(var(--psj-point) + 2px);
+  }
+
+  .psj__item:nth-child(3n + 1) .psj__tile {
+    padding-left: 8px;
+  }
+
+  .psj__arrow {
+    display: none;
+  }
+
+  .psj__label {
+    font-size: 9px;
+  }
+
+  .psj__description {
+    font-size: 7.5px;
+  }
+}
+
+@container (max-width: 340px) {
+  .psj {
+    --psj-point: 14px;
+    --psj-overlap: 11px;
+  }
+
+  .psj__tile {
+    padding-right: 10px;
+  }
+
+  .psj__icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .psj__label {
+    font-size: 8px;
+  }
+
+  .psj__description {
+    font-size: 6.5px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .psj__tile,
+  .psj__tile::before {
+    transition: none;
+  }
+}
+</style>
+
+<script>
+  if (!customElements.get('product-section-jump')) {
+    customElements.define(
+      'product-section-jump',
+      class ProductSectionJump extends HTMLElement {
+        connectedCallback() {
+          this.tiles = [...this.querySelectorAll('.psj__tile')];
+
+          this.tiles.forEach((tile) => {
+            tile.addEventListener('click', (event) => {
+              event.preventDefault();
+              this.jumpTo(tile);
+            });
+          });
+
+          this.observeSections();
+        }
+
+        disconnectedCallback() {
+          this.observer?.disconnect();
+        }
+
+        findTarget(value) {
+          if (!value) return null;
+
+          const el =
+            document.getElementById(value) ||
+            document.querySelector(
+              `[id$="__${CSS.escape(value)}"]`
+            );
+
+          if (el) return el;
+
+          try {
+            return document.querySelector(value);
+          } catch (e) {
+            return null;
+          }
+        }
+
+        jumpTo(tile) {
+          const target = this.findTarget(tile.dataset.target);
+          if (!target) return;
+
+          const offset = parseInt(this.dataset.offset, 10) || 0;
+
+          const top =
+            target.getBoundingClientRect().top +
+            window.scrollY -
+            offset;
+
+          window.scrollTo({
+            top,
+            behavior: 'smooth'
+          });
+        }
+
+        observeSections() {
+          if (!('IntersectionObserver' in window)) return;
+
+          const pairs = this.tiles
+            .map((tile) => ({
+              tile,
+              target: this.findTarget(tile.dataset.target)
+            }))
+            .filter((pair) => pair.target);
+
+          if (!pairs.length) return;
+
+          this.observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                const pair = pairs.find(
+                  (p) => p.target === entry.target
+                );
+
+                if (pair) {
+                  pair.tile.classList.toggle(
+                    'is-active',
+                    entry.isIntersecting
+                  );
+                }
+              });
+            },
+            {
+              rootMargin: '-40% 0px -55% 0px'
+            }
+          );
+
+          pairs.forEach((pair) => {
+            this.observer.observe(pair.target);
+          });
+        }
+      }
+    );
+  }
+</script>

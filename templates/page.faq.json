@@ -1,0 +1,297 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "collapsible_content_tWGzAP": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_row_c9pJAb": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "1. How is clear whey better than regular whey protein ?",
+            "icon": "none",
+            "row_content": "<p>No, clear whey isolate is a healthy option when compared to traditional whey isolate. Protyze Clear Whey Isolate undergoes microfiltration processing to remove excess fats and lactose, making it a suitable option for those with lactose intolerance or seeking a low-fat protein source.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_GgXapz": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "2. Who can consume Protyze clear whey protein?",
+            "icon": "none",
+            "row_content": "<p>Protyze Clear Whey Protein is suitable for individuals looking to supplement their protein intake. It can be consumed by athletes, fitness enthusiasts, or anyone seeking a refreshing and clean protein source. It offers 24 G of Protein, 7.2 G of BCAA, 3.8 G of Leucine, and 5 G of Glutamine in each serving. However, it is essential to consider individual dietary needs and consult with a healthcare professional for specific health concerns.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_KR3NnQ": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "3. Does clear whey isolate build muscle?",
+            "icon": "none",
+            "row_content": "<p>Yes, Clear Whey Isolate contributes to muscle building. Protyze Clear Whey Protein offering 3.8 G of Leucine plays a major role in muscle protein synthesis, muscle building, and repair. Consuming it as a part of a balanced diet and along with regular strength training can support muscle development.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_gqbMPt": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "4. Is it safe to take clear whey protein isolate every day?",
+            "icon": "none",
+            "row_content": "<p>Yes, it is safe to consume clear whey protein daily. However, it's essential to adhere to recommended serving sizes and consult with healthcare professionals if you have any existing health concerns or conditions. As with any dietary supplement, consuming them in moderation is the key to maintaining a balanced lifestyle.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_A7FFh4": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "5. Can I take whey protein everyday ?",
+            "icon": "none",
+            "row_content": "<p>Yes, you can take whey protein daily to support muscle recovery and growth. It's a convenient and effective way to meet your protein needs, aiding overall fitness and well-being.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_EwERxa": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "6. What happens after stopping whey protein ?",
+            "icon": "none",
+            "row_content": "<p>After discontinuing whey protein, your body retains muscle gains if you maintain a balanced diet and regular exercise. Adjust your protein intake from whole foods for sustained results.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_e4Thdg": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "7. How many times a day can I take protein powder ?",
+            "icon": "none",
+            "row_content": "<p>Optimal protein intake depends on your goals and lifestyle. Generally, consume protein powder 1 times a day to support muscle growth, recovery, and overall nutritional needs.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_nF9HEg": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "8. Where do the amino acids in protyze anytime Whey come from ?",
+            "icon": "none",
+            "row_content": "<p>The amino acids in Protyze Anytime Clear Whey are sourced from high-quality whey protein, providing a complete profile of essential amino acids vital for muscle repair, recovery, and growth.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_bHHB4t": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "9. Do your products contain banned substances ?",
+            "icon": "none",
+            "row_content": "<p>No, our products are rigorously tested to ensure they are free from banned substances. We prioritize safety and quality, offering you trusted supplements for your health and fitness journey.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_LtXy6R": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "10. Can i make clear protein drink with 100 ml water?",
+            "icon": "none",
+            "row_content": "<p>No, to prepare the clear protein drink you must take a minimum of 300 ml of water add one scoop shake it vigorously, and let it rest for 30-50 sec for the foam to settle, and then your drink is ready.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_aY9pgB": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "11. Can you take probiotics with protein ?",
+            "icon": "none",
+            "row_content": "<p>Yes, probiotics can be taken with protein without any issues. Probiotics aid gut health, while protein supports muscle growth and overall health. They do not interfere with each other's effectiveness.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_G7ddHT": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "12. Do probiotics improve protein absorption ?",
+            "icon": "none",
+            "row_content": "<p>Probiotics play a crucial role in supporting gut health and digestion. While direct evidence linking them to improved protein absorption is limited, maintaining a healthy gut environment with probiotics can indirectly enhance overall nutrient absorption, including protein.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_NNjeqz": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "13. Can I take probiotics and L-carnitine together ?",
+            "icon": "none",
+            "row_content": "<p>Combining probiotics and L-carnitine is safe. Probiotics replenish beneficial gut bacteria, while L-carnitine aids fat metabolism and energy production. They serve different purposes and don't interact negatively, potentially offering complementary benefits for overall health</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_cGfjaz": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "14. Is it important to take protein with creatine?",
+            "icon": "none",
+            "row_content": "<p>Yes, taking protein with creatine can enhance recovery, reduce muscle soreness, and promote muscle growth. The combination supports better performance during workouts and helps maintain muscle mass.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_396tAM": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "15. Can I take creatine with an empty stomach?",
+            "icon": "none",
+            "row_content": "<p>Yes, you can take creatine on an empty stomach. However, some people find it more effective when taken with a meal or a protein shake, as this can enhance absorption and minimize potential gastrointestinal discomfort.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_pEdzM6": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "16. Does creatine increase stamina?",
+            "icon": "none",
+            "row_content": "<p>Creatine primarily enhances strength and power output during high-intensity activities. While it may not directly increase stamina, it allows you to train harder and longer, which can improve overall endurance over time.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_BytrQy": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "17. Does creatine improve cardio?",
+            "icon": "none",
+            "row_content": "<p>Creatine is not typically associated with improving cardiovascular performance. However, it can enhance your ability to perform high-intensity intervals, which can indirectly benefit your overall cardio fitness by allowing for more effective training sessions.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_fbURFr": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "18. Does creatine improve recovery?",
+            "icon": "none",
+            "row_content": "<p>Yes, creatine can aid in recovery by reducing muscle soreness and inflammation after intense workouts. It helps replenish energy stores in muscles, allowing you to bounce back faster and train more effectively.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_UBnLC7": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "19. What kind of testing do you do on clear whey protein and how can we assure on the quality?",
+            "icon": "none",
+            "row_content": "<p>At Protyze, we ensure the highest quality of our clear whey protein supplements through rigorous protein, microbial, and heavy metal testing. It is certified by third-party labs. With transparent labeling and industry-standard certifications, we provide a product you can trust for your health and fitness goals.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_3nr6qk": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "20. Does Protyze Whey Protein have a complete Amino Acid Profile?",
+            "icon": "none",
+            "row_content": "<p>Yes, Protyze Clear Whey Protein offers a complete amino acid profile, including all 9 essential amino acids and BCAAs, ensuring optimal muscle recovery and growth.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_YkUCym": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "21. How can I incorporate Clear whey protein into my daily routine?",
+            "icon": "none",
+            "row_content": "<p>Incorporate Clear Whey Protein into your daily routine as a refreshing, light, and versatile way to meet your protein needs anytime, anywhere.<br/>1.<strong>Morning Boost:</strong>Start your day with a refreshing clear protein shake to fuel your morning.<br/>2.<strong>Post-Workout Recovery:</strong>Sip on it after workouts for quick muscle recovery.<br/>3.<strong>Midday Snack:</strong>Replace sugary drinks with clear whey protein to stay energized.<br/>4.<strong>On-the-Go:</strong>Carry it to work, hikes, or commutes for a light and nutritious pick-me-up.<br/>5.<strong>Meal Companion:</strong>Pair it with meals to meet your daily protein goals effortlessly.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_rCLgCT": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "22. Do I need to be working out to consume Clear whey protein powder?",
+            "icon": "none",
+            "row_content": "<p>No, you don’t need to work out to enjoy Clear Whey Protein. It’s a refreshing drink you can sip anytime—like a refreshing fruity juice packed with all the benefits of protein. Perfect for adding protein to your day without any fuss!</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_dBaYLF": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "23. What's the difference between regular whey protein and clear whey protein",
+            "icon": "none",
+            "row_content": "<p>Clear whey protein is a light, refreshing alternative to traditional creamy whey. It’s easy to digest, offers fruity flavors, and fits seamlessly into your active lifestyle without bloating or heaviness.<br/><strong>Texture:</strong>Regular whey protein is creamy, while clear whey protein is light and refreshing, like a fruit juice.<br/><strong>Digestibility:</strong>Clear whey protein is easier on the stomach, leaving no bloating or heaviness.<br/><strong>Flavor:</strong>Regular whey comes in heavy flavors like chocolate; clear whey offers fruity, vibrant options.<br/><strong>Usage:</strong>Regular whey feels like a meal; clear whey fits into your active lifestyle, anytime, anywhere.<br/><strong>Appearance:</strong>Regular whey is opaque; clear whey is translucent and mixes cleanly with water.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_NJkfJd": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "24. Does it help in weight loss/weight gain?",
+            "icon": "none",
+            "row_content": "<p>Clear whey protein supports muscle building and recovery, which can influence weight based on your body goals. For those aiming to tone or lose fat, it helps preserve muscle during calorie deficits. For those aiming to gain weight, it contributes to lean muscle growth when paired with a calorie surplus. Your results depend on how you align your diet and exercise with your goals.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_V4ecbC": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "25. Can I have Protyze clear whey protein Pre - intra- post-workout?",
+            "icon": "none",
+            "row_content": "<p>Yes, you can consume Protyze Clear Whey Protein in your pre, intra, and post-workout! The light, water-based texture ensures rapid absorption, keeping you energized and feeling light throughout your workout.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_c9pJAb",
+        "collapsible_row_GgXapz",
+        "collapsible_row_KR3NnQ",
+        "collapsible_row_gqbMPt",
+        "collapsible_row_A7FFh4",
+        "collapsible_row_EwERxa",
+        "collapsible_row_e4Thdg",
+        "collapsible_row_nF9HEg",
+        "collapsible_row_bHHB4t",
+        "collapsible_row_LtXy6R",
+        "collapsible_row_aY9pgB",
+        "collapsible_row_G7ddHT",
+        "collapsible_row_NNjeqz",
+        "collapsible_row_cGfjaz",
+        "collapsible_row_396tAM",
+        "collapsible_row_pEdzM6",
+        "collapsible_row_BytrQy",
+        "collapsible_row_fbURFr",
+        "collapsible_row_UBnLC7",
+        "collapsible_row_3nr6qk",
+        "collapsible_row_YkUCym",
+        "collapsible_row_rCLgCT",
+        "collapsible_row_dBaYLF",
+        "collapsible_row_NJkfJd",
+        "collapsible_row_V4ecbC"
+      ],
+      "name": "t:sections.collapsible_content.presets.name",
+      "settings": {
+        "caption": "",
+        "heading": "Faq's",
+        "heading_size": "h1",
+        "heading_alignment": "center",
+        "layout": "none",
+        "container_color_scheme": "",
+        "color_scheme": "",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "main",
+    "collapsible_content_tWGzAP"
+  ]
+}

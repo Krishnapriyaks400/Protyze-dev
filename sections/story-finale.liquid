@@ -1,0 +1,1716 @@
+{%- liquid
+  assign sf_r1_img = section.settings.row_1_image
+  assign sf_founder = section.settings.founder_image
+
+  assign sf_has_aside = false
+  for block in section.blocks
+    if block.settings.zone == 'r1_aside'
+      assign sf_has_aside = true
+    endif
+  endfor
+
+  assign sf_space = 0
+  if sf_founder != blank
+    assign sf_space = section.settings.founder_space
+  endif
+  assign sf_overlay_alpha = section.settings.row_2_overlay | divided_by: 100.0
+
+  assign sf_fade_color = section.settings.row_2_fade_color | default: '#f6ead9'
+  assign sf_fade_alpha = section.settings.row_2_text_fade | divided_by: 100.0
+  assign sf_fade_soft_alpha = sf_fade_alpha | times: 0.55
+  assign sf_fade_strong = sf_fade_color | color_modify: 'alpha', sf_fade_alpha
+  assign sf_fade_soft = sf_fade_color | color_modify: 'alpha', sf_fade_soft_alpha
+  assign sf_fade_none = sf_fade_color | color_modify: 'alpha', 0
+-%}
+
+{%- style -%}
+  .sf-{{ section.id }} {
+    --oq-text: {{ section.settings.text_color | default: '#1a1a1a' }};
+    --oq-accent: {{ section.settings.accent_color | default: '#e8541e' }};
+    --sf-tick: {{ section.settings.tick_color | default: '#3a8a4a' }};
+    color: var(--oq-text);
+    /* Keep the founder's z-index inside this section so he can't draw over
+       the sticky header when the page scrolls. */
+    isolation: isolate;
+    position: relative;
+    z-index: 0;
+  }
+
+  /* ── Rows ───────────────────────────────────────────────────────── */
+  .sf-{{ section.id }} .sf__row {
+    position: relative;
+  }
+
+  .sf-{{ section.id }} .sf__row--1 {
+    background: {{ section.settings.row_1_bg_color | default: '#f4f1ec' }};
+    overflow: hidden;
+  }
+
+  .sf-{{ section.id }} .sf__row--2 {
+    background: {{ section.settings.row_2_outer_bg_color | default: section.settings.row_1_bg_color | default: '#f4f1ec' }};
+  }
+
+  .sf-{{ section.id }} .sf__bg {
+    inset: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: 0;
+  }
+
+  .sf-{{ section.id }} .sf__bg img {
+    display: block;
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .sf-{{ section.id }} .sf__row--1 .sf__bg img {
+    object-position: {{ section.settings.row_1_bg_focus }};
+  }
+
+  /* ── Row 2 panels: each has its own background image ─────────────── */
+  .sf-{{ section.id }} .sf__panels {
+    display: grid;
+    gap: {{ section.settings.row_2_gap }}px;
+    grid-template-columns: minmax(0, 1fr);
+    position: relative;
+  }
+
+  .sf-{{ section.id }} .sf__panel {
+    background: {{ section.settings.row_2_bg_color | default: '#f3e3cf' }};
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+  }
+
+  {%- if section.settings.row_2_width == 'page' %}
+    .sf-{{ section.id }} .sf__panels-wrap {
+      padding-bottom: 2.4rem;
+    }
+
+    .sf-{{ section.id }} .sf__panel {
+      border-radius: 8px;
+    }
+  {%- endif %}
+
+  .sf-{{ section.id }} .sf__panel-content {
+    padding: 3.2rem 2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Mobile: the panel photo sits below its text. */
+  .sf-{{ section.id }} .sf__panel-media {
+    aspect-ratio: 4 / 3;
+    position: relative;
+  }
+
+  .sf-{{ section.id }} .sf__panel-media img {
+    display: block;
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .sf-{{ section.id }} .sf__panel--r2_left .sf__panel-media img {
+    object-position: {{ section.settings.row_2_bg_focus }};
+  }
+
+  .sf-{{ section.id }} .sf__panel--r2_right .sf__panel-media img {
+    object-position: {{ section.settings.row_2_right_focus }};
+  }
+
+  .sf-{{ section.id }} .sf__panel-media::after {
+    background: rgba(255, 255, 255, {{ sf_overlay_alpha }});
+    content: '';
+    inset: 0;
+    position: absolute;
+  }
+
+  .sf-{{ section.id }} .sf__grid {
+    display: grid;
+    gap: 2.8rem;
+    grid-template-columns: minmax(0, 1fr);
+    padding-bottom: 3.6rem;
+    padding-top: 3.6rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Each zone is a vertical stack of blocks. Mobile centres everything. */
+  .sf-{{ section.id }} .sf__zone {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+    text-align: center;
+  }
+
+  .sf-{{ section.id }} .sf__zone > * {
+    margin: 0;
+  }
+
+  /* The tick list and the handwriting sit side by side on every screen size. */
+  .sf-{{ section.id }} .sf__r1-left {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    gap: 1.6rem;
+    justify-content: center;
+  }
+
+  .sf-{{ section.id }} .sf__zone--aside {
+    align-self: stretch;
+    border-left: 0.1rem solid rgba(var(--color-foreground), 0.35);
+    flex: 1 1 0;
+    justify-content: center;
+    min-width: 0;
+    padding-left: 1.6rem;
+  }
+
+  @media screen and (max-width: 749px) {
+    .sf-{{ section.id }} .sf__r1-left .oq__tick {
+      font-size: 1.3rem;
+    }
+  }
+
+  .sf-{{ section.id }} .sf__media {
+    aspect-ratio: 4 / 3;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .sf-{{ section.id }} .sf__media img {
+    display: block;
+    height: 100%;
+    object-fit: cover;
+    object-position: {{ section.settings.row_1_image_focus }};
+    width: 100%;
+  }
+
+  .sf-{{ section.id }} .sf__founder {
+    display: block;
+    height: auto;
+    margin: 0 auto;
+    max-width: 70%;
+    position: relative;
+    z-index: 1;
+  }
+
+  {%- unless section.settings.show_r1_divider %}
+    /* Divider switched off (e.g. it's drawn into the handwriting image). */
+    .sf-{{ section.id }} .sf__zone--aside {
+      border: 0 !important;
+      padding-left: 0 !important;
+      padding-top: 0 !important;
+    }
+  {%- endunless %}
+
+  {%- unless section.settings.founder_on_mobile %}
+    @media screen and (max-width: 749px) {
+      .sf-{{ section.id }} .sf__founder {
+        display: none;
+      }
+    }
+  {%- endunless %}
+
+  /* ── Blocks ─────────────────────────────────────────────────────── */
+  .sf-{{ section.id }} .oq__eyebrow {
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    line-height: 1.5;
+    text-transform: uppercase;
+  }
+
+  .sf-{{ section.id }} .oq__heading {
+    font-family: var(--font-heading-family);
+    font-size: clamp(2.6rem, 1.6rem + 2vw, {{ section.settings.heading_size }}px);
+    font-style: var(--font-heading-style);
+    font-weight: var(--font-heading-weight);
+    letter-spacing: calc(var(--font-heading-scale) * 0.06rem);
+    line-height: 1.1;
+    text-transform: none;
+  }
+
+  .sf-{{ section.id }} .oq__body {
+    font-size: 1.5rem;
+    line-height: 1.5;
+  }
+
+  .sf-{{ section.id }} .oq__body--bold {
+    font-weight: 700;
+  }
+
+  .sf-{{ section.id }} .oq__body--large {
+    font-size: 2.2rem;
+    line-height: 1.3;
+  }
+
+  .sf-{{ section.id }} .oq__body-underline {
+    color: var(--oq-accent);
+    display: block;
+    height: 1.2rem;
+    margin: 0.4rem auto 0;
+    width: 12em;
+    max-width: 100%;
+  }
+
+  .sf-{{ section.id }} .oq__ticks {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    list-style: none;
+    padding: 0;
+    text-align: left;
+  }
+
+  .sf-{{ section.id }} .oq__tick {
+    align-items: center;
+    display: flex;
+    font-size: 1.4rem;
+    gap: 1rem;
+  }
+
+  .sf-{{ section.id }} .oq__tick-icon {
+    color: var(--sf-tick);
+    flex-shrink: 0;
+    height: 1.6rem;
+    width: 1.6rem;
+  }
+
+  .sf-{{ section.id }} .oq__features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem 2.8rem;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+  }
+
+  .sf-{{ section.id }} .oq__feature {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .sf-{{ section.id }} .oq__feature-icon {
+    display: flex;
+    height: 3.4rem;
+    width: 3.4rem;
+  }
+
+  .sf-{{ section.id }} .oq__feature-icon svg,
+  .sf-{{ section.id }} .oq__feature-icon img {
+    height: 100%;
+    object-fit: contain;
+    width: 100%;
+  }
+
+  .sf-{{ section.id }} .oq__feature-label {
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
+
+  .sf-{{ section.id }} .oq__testimonial-mark {
+    color: var(--oq-accent);
+    display: block;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 6rem;
+    font-weight: 700;
+    height: 3.6rem;
+    line-height: 1;
+  }
+
+  .sf-{{ section.id }} .oq__testimonial-text {
+    font-size: 1.6rem;
+    line-height: 1.45;
+    margin: 0;
+  }
+
+  .sf-{{ section.id }} .oq__hand-img {
+    display: block;
+    height: auto;
+    max-width: 100%;
+    width: calc(var(--oq-w, 240px) * 0.85);
+  }
+
+  .sf-{{ section.id }} .oq__hand-text {
+    font-size: 2.2rem;
+    font-style: italic;
+    font-weight: 600;
+    line-height: 1.25;
+    margin: 0;
+  }
+
+  .sf-{{ section.id }} .oq__arrow {
+    display: block;
+    width: calc(var(--oq-w, 80px) * 0.8);
+  }
+
+  .sf-{{ section.id }} .oq__arrow svg,
+  .sf-{{ section.id }} .oq__arrow img {
+    display: block;
+    height: auto;
+    width: 100%;
+  }
+
+  .sf-{{ section.id }} .oq__arrow--right svg { transform: rotate(-40deg); }
+  .sf-{{ section.id }} .oq__arrow--down-left svg { transform: scaleX(-1); }
+  .sf-{{ section.id }} .oq__arrow--up-right svg { transform: scaleY(-1); }
+  .sf-{{ section.id }} .oq__arrow--up-left svg { transform: scale(-1, -1); }
+
+  @media screen and (max-width: 749px) {
+    .sf-{{ section.id }} .oq__arrow--desktop-only {
+      display: none;
+    }
+  }
+
+  /* ── Desktop ────────────────────────────────────────────────────── */
+  @media screen and (min-width: 750px) {
+    .sf-{{ section.id }} .sf__zone {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .sf-{{ section.id }} .oq__features {
+      justify-content: flex-start;
+    }
+
+    .sf-{{ section.id }} .oq__body-underline {
+      margin-left: 0;
+    }
+
+    .sf-{{ section.id }} .oq__hand-img {
+      width: var(--oq-w, 240px);
+    }
+
+    .sf-{{ section.id }} .oq__arrow {
+      width: var(--oq-w, 80px);
+    }
+
+    /* Room on the right for the founder, who stands across both rows. */
+    .sf-{{ section.id }} .sf__grid {
+      padding-right: {{ sf_space }}%;
+    }
+
+    .sf-{{ section.id }} .sf__row--1 .sf__grid {
+      align-items: stretch;
+      gap: 3.2rem;
+      grid-template-columns: minmax(0, 1.55fr) minmax(0, {{ section.settings.row_1_media_width | default: '1.15' }}fr) minmax(0, 0.9fr);
+      min-height: {{ section.settings.row_1_height }}px;
+      padding-bottom: 0;
+      padding-top: 0;
+    }
+
+    .sf-{{ section.id }} .sf__row--1 .sf__grid--no-media {
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.9fr);
+    }
+
+    .sf-{{ section.id }} .sf__r1-left {
+      align-items: center;
+      align-self: center;
+      flex-direction: row;
+      gap: 2.4rem;
+      padding: 3.6rem 0;
+    }
+
+    .sf-{{ section.id }} .sf__zone--aside {
+      align-self: stretch;
+      border-left: 0.1rem solid rgba(var(--color-foreground), 0.35);
+      border-top: 0;
+      justify-content: center;
+      padding-left: 2.4rem;
+      padding-top: 0;
+    }
+
+    .sf-{{ section.id }} .sf__media {
+      aspect-ratio: auto;
+      border-radius: 0;
+      position: relative;
+    }
+
+    {%- if section.settings.row_1_image_fade > 0 %}
+      /* Soft edges: the photo reaches a little past its column and fades into
+         the row background on both sides. */
+      .sf-{{ section.id }} .sf__media {
+        margin: 0 -3.2rem;
+        -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 {{ section.settings.row_1_image_fade }}%, #000 calc(100% - {{ section.settings.row_1_image_fade }}%), transparent 100%);
+        mask-image: linear-gradient(90deg, transparent 0%, #000 {{ section.settings.row_1_image_fade }}%, #000 calc(100% - {{ section.settings.row_1_image_fade }}%), transparent 100%);
+      }
+    {%- endif %}
+
+    /* Left column: the tick list keeps its natural width so short items and
+       the eyebrow don't wrap; the handwritten side takes what's left. */
+    .sf-{{ section.id }} .sf__r1-left > .sf__zone:first-child {
+      flex: 0 0 auto;
+    }
+
+    .sf-{{ section.id }} .sf__r1-left > .sf__zone--aside {
+      flex: 1 1 auto;
+      min-width: 22rem;
+      padding-right: 3.2rem;
+    }
+
+    .sf-{{ section.id }} .sf__r1-left .oq__eyebrow,
+    .sf-{{ section.id }} .sf__r1-left .oq__tick {
+      white-space: nowrap;
+    }
+
+    .sf-{{ section.id }} .sf__media img {
+      inset: 0;
+      position: absolute;
+    }
+
+    .sf-{{ section.id }} .sf__zone--r1-right {
+      align-self: center;
+      padding: 3.6rem 0;
+    }
+
+    /* Desktop: two panels side by side. Each photo fills its panel and the
+       text sits on the left part, clear of the subject on the right. */
+    .sf-{{ section.id }} .sf__panels {
+      grid-template-columns: {{ section.settings.row_2_split }};
+    }
+
+    .sf-{{ section.id }} .sf__panel {
+      justify-content: center;
+      min-height: {{ section.settings.row_2_height }}px;
+    }
+
+    .sf-{{ section.id }} .sf__panel-media {
+      aspect-ratio: auto;
+      inset: 0;
+      position: absolute;
+    }
+
+    .sf-{{ section.id }} .sf__panel-content {
+      max-width: {{ section.settings.row_2_content_width }}%;
+      padding: 4rem 3.2rem;
+    }
+
+    {%- if section.settings.row_2_width == 'full' %}
+      /* Full width: line the left panel's text up with the page content above. */
+      .sf-{{ section.id }} .sf__panel--r2_left .sf__panel-content {
+        padding-left: max(3.2rem, calc((100vw - {{ settings.page_width }}px) / 2 + 5rem));
+      }
+    {%- endif %}
+
+    /* Warm fade from the text side into the photo, so text reads cleanly
+       while the subject on the right stays vivid. */
+    .sf-{{ section.id }} .sf__panel-media::after {
+      background:
+        linear-gradient(
+          90deg,
+          {{ sf_fade_strong }} 0%,
+          {{ sf_fade_soft }} 40%,
+          {{ sf_fade_none }} 72%
+        ),
+        rgba(255, 255, 255, {{ sf_overlay_alpha }});
+    }
+
+    .sf-{{ section.id }} .sf__founder {
+      bottom: 0;
+      height: {{ section.settings.founder_height }}%;
+      margin: 0;
+      max-width: none;
+      pointer-events: none;
+      position: absolute;
+      right: 0;
+      width: auto;
+      z-index: 3;
+    }
+  }
+{%- endstyle -%}
+
+<div class="sf-{{ section.id }}">
+  <div class="sf__row sf__row--1">
+    {%- if section.settings.row_1_bg_image != blank -%}
+      <div class="sf__bg">
+        {{
+          section.settings.row_1_bg_image
+          | image_url: width: 2400
+          | image_tag: widths: '750, 1100, 1500, 1920, 2400', sizes: '100vw', loading: 'lazy', alt: ''
+        }}
+      </div>
+    {%- endif -%}
+
+    <div class="page-width sf__grid{% if sf_r1_img == blank %} sf__grid--no-media{% endif %}">
+      <div class="sf__r1-left">
+        <div class="sf__zone">
+          {%- for block in section.blocks -%}
+            {%- if block.settings.zone == 'r1_left' -%}
+              {%- render 'origin-question-block', block: block -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        {%- if sf_has_aside -%}
+          <div class="sf__zone sf__zone--aside">
+            {%- for block in section.blocks -%}
+              {%- if block.settings.zone == 'r1_aside' -%}
+                {%- render 'origin-question-block', block: block -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- if sf_r1_img != blank -%}
+        <div class="sf__media">
+          {{
+            sf_r1_img
+            | image_url: width: 1400
+            | image_tag: widths: '500, 750, 1000, 1400', sizes: '(min-width: 750px) 33vw, 100vw', loading: 'lazy'
+          }}
+        </div>
+      {%- endif -%}
+
+      <div class="sf__zone sf__zone--r1-right">
+        {%- for block in section.blocks -%}
+          {%- if block.settings.zone == 'r1_right' -%}
+            {%- render 'origin-question-block', block: block -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+
+  <div class="sf__row sf__row--2">
+    <div class="sf__panels-wrap{% if section.settings.row_2_width == 'page' %} page-width{% endif %}">
+    <div class="sf__panels">
+      {%- for side in (1..2) -%}
+        {%- liquid
+          if side == 1
+            assign sf_zone = 'r2_left'
+            assign sf_panel_img = section.settings.row_2_bg_image
+          else
+            assign sf_zone = 'r2_right'
+            assign sf_panel_img = section.settings.row_2_right_image
+          endif
+        -%}
+        <div class="sf__panel sf__panel--{{ sf_zone }}">
+          <div class="sf__zone sf__panel-content">
+            {%- for block in section.blocks -%}
+              {%- if block.settings.zone == sf_zone -%}
+                {%- render 'origin-question-block', block: block -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+          {%- if sf_panel_img != blank -%}
+            <div class="sf__panel-media">
+              {{
+                sf_panel_img
+                | image_url: width: 1600
+                | image_tag: widths: '500, 750, 1000, 1300, 1600', sizes: '(min-width: 750px) 55vw, 100vw', loading: 'lazy'
+              }}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+
+      {%- if sf_founder != blank -%}
+        {{
+          sf_founder
+          | image_url: width: 1200
+          | image_tag: class: 'sf__founder', widths: '400, 600, 800, 1200', sizes: '(min-width: 750px) 30vw, 70vw', loading: 'lazy'
+        }}
+      {%- endif -%}
+    </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Story Finale",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Two rows in one section, so the founder cutout can stand across both. Every block has a Zone setting that places it."
+    },
+    {
+      "type": "header",
+      "content": "Row 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "row_1_image",
+      "label": "Middle photo",
+      "info": "Recommended 800 × 1000 px (4:5 portrait) for Medium width; 1000 × 1000 px (square) for Wide. Fills the middle column."
+    },
+    {
+      "type": "select",
+      "id": "row_1_media_width",
+      "label": "Middle photo width (desktop)",
+      "options": [
+        {
+          "value": "0.9",
+          "label": "Narrow"
+        },
+        {
+          "value": "1.15",
+          "label": "Medium"
+        },
+        {
+          "value": "1.45",
+          "label": "Wide"
+        }
+      ],
+      "default": "1.15"
+    },
+    {
+      "type": "select",
+      "id": "row_1_image_focus",
+      "label": "Middle photo focus",
+      "options": [
+        {
+          "value": "center center",
+          "label": "Center"
+        },
+        {
+          "value": "center top",
+          "label": "Top"
+        },
+        {
+          "value": "left center",
+          "label": "Left"
+        },
+        {
+          "value": "right center",
+          "label": "Right"
+        }
+      ],
+      "default": "center center"
+    },
+    {
+      "type": "range",
+      "id": "row_1_image_fade",
+      "label": "Middle photo edge fade (desktop)",
+      "info": "Softens the photo's left and right edges into the background. 0 = hard edges.",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "%",
+      "default": 18
+    },
+    {
+      "type": "image_picker",
+      "id": "row_1_bg_image",
+      "label": "Row 1 background image",
+      "info": "Optional, e.g. the soft sky behind the right text. Recommended 2400 × 700 px."
+    },
+    {
+      "type": "select",
+      "id": "row_1_bg_focus",
+      "label": "Row 1 background focus",
+      "options": [
+        {
+          "value": "center center",
+          "label": "Center"
+        },
+        {
+          "value": "right center",
+          "label": "Right"
+        },
+        {
+          "value": "left center",
+          "label": "Left"
+        }
+      ],
+      "default": "right center"
+    },
+    {
+      "type": "color",
+      "id": "row_1_bg_color",
+      "label": "Row 1 background colour",
+      "default": "#f4f1ec"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_r1_divider",
+      "label": "Show divider line before the handwriting",
+      "info": "Turn off if the line is drawn into your handwriting image.",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "row_1_height",
+      "label": "Row 1 height (desktop)",
+      "min": 260,
+      "max": 560,
+      "step": 20,
+      "unit": "px",
+      "default": 340
+    },
+    {
+      "type": "header",
+      "content": "Row 2"
+    },
+    {
+      "type": "select",
+      "id": "row_2_width",
+      "label": "Row 2 width",
+      "info": "Page width: the panels line up with row 1 and the sides show the panel background colour. Full width: the panels run edge to edge.",
+      "options": [
+        {
+          "value": "page",
+          "label": "Page width"
+        },
+        {
+          "value": "full",
+          "label": "Full width"
+        }
+      ],
+      "default": "page"
+    },
+    {
+      "type": "color",
+      "id": "row_2_outer_bg_color",
+      "label": "Row 2 background colour (around panels)",
+      "info": "The strip around and between the two panels. Leave empty to match row 1's background."
+    },
+    {
+      "type": "image_picker",
+      "id": "row_2_bg_image",
+      "label": "Row 2 — left panel image",
+      "info": "E.g. the sunset with the jar. Recommended 1400 × 800 px, subject on the right half (text sits on the left)."
+    },
+    {
+      "type": "select",
+      "id": "row_2_bg_focus",
+      "label": "Left panel image focus",
+      "options": [
+        {
+          "value": "center center",
+          "label": "Center"
+        },
+        {
+          "value": "right center",
+          "label": "Right"
+        },
+        {
+          "value": "70% center",
+          "label": "Right of center"
+        },
+        {
+          "value": "center bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "left center",
+          "label": "Left"
+        }
+      ],
+      "default": "right center"
+    },
+    {
+      "type": "image_picker",
+      "id": "row_2_right_image",
+      "label": "Row 2 — right panel image",
+      "info": "E.g. the mountains with the founder sitting on the right. Recommended 1200 × 800 px, subject on the right half."
+    },
+    {
+      "type": "select",
+      "id": "row_2_right_focus",
+      "label": "Right panel image focus",
+      "options": [
+        {
+          "value": "center center",
+          "label": "Center"
+        },
+        {
+          "value": "right center",
+          "label": "Right"
+        },
+        {
+          "value": "70% center",
+          "label": "Right of center"
+        },
+        {
+          "value": "center bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "left center",
+          "label": "Left"
+        }
+      ],
+      "default": "right center"
+    },
+    {
+      "type": "select",
+      "id": "row_2_split",
+      "label": "Panel widths (desktop)",
+      "options": [
+        {
+          "value": "minmax(0, 1fr) minmax(0, 1fr)",
+          "label": "50 / 50"
+        },
+        {
+          "value": "minmax(0, 1.2fr) minmax(0, 1fr)",
+          "label": "55 / 45"
+        },
+        {
+          "value": "minmax(0, 1.5fr) minmax(0, 1fr)",
+          "label": "60 / 40"
+        }
+      ],
+      "default": "minmax(0, 1.2fr) minmax(0, 1fr)"
+    },
+    {
+      "type": "range",
+      "id": "row_2_content_width",
+      "label": "Text width inside each panel (desktop)",
+      "info": "Keeps the text on the left, clear of the subject on the right.",
+      "min": 35,
+      "max": 75,
+      "step": 5,
+      "unit": "%",
+      "default": 55
+    },
+    {
+      "type": "range",
+      "id": "row_2_gap",
+      "label": "Gap between panels",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 6
+    },
+    {
+      "type": "color",
+      "id": "row_2_bg_color",
+      "label": "Panel background colour (inside panels)",
+      "info": "Only visible where a panel has no image.",
+      "default": "#f3e3cf"
+    },
+    {
+      "type": "range",
+      "id": "row_2_text_fade",
+      "label": "Text-side fade (desktop)",
+      "info": "A soft fade from the left of each panel into the photo so the text reads clearly. 0 = off.",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "default": 60
+    },
+    {
+      "type": "color",
+      "id": "row_2_fade_color",
+      "label": "Text-side fade colour",
+      "default": "#f6ead9"
+    },
+    {
+      "type": "range",
+      "id": "row_2_overlay",
+      "label": "Panel light overlay",
+      "info": "Lightens the whole of both panel images evenly. Usually the text-side fade is enough.",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "%",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "row_2_height",
+      "label": "Row 2 panel height (desktop)",
+      "min": 260,
+      "max": 560,
+      "step": 20,
+      "unit": "px",
+      "default": 340
+    },
+    {
+      "type": "header",
+      "content": "Founder"
+    },
+    {
+      "type": "image_picker",
+      "id": "founder_image",
+      "label": "Founder cutout",
+      "info": "Optional. Only needed if you want the founder to rise from row 2 into row 1. If he is already in the right panel image, leave this empty."
+    },
+    {
+      "type": "range",
+      "id": "founder_height",
+      "label": "Founder height (desktop)",
+      "info": "As a % of row 2's height. Over 100% makes him rise into row 1.",
+      "min": 80,
+      "max": 200,
+      "step": 5,
+      "unit": "%",
+      "default": 160
+    },
+    {
+      "type": "range",
+      "id": "founder_space",
+      "label": "Space kept free for the founder (desktop)",
+      "info": "Right-hand space both rows leave empty so text doesn't run under him.",
+      "min": 0,
+      "max": 35,
+      "step": 1,
+      "unit": "%",
+      "default": 18
+    },
+    {
+      "type": "checkbox",
+      "id": "founder_on_mobile",
+      "label": "Show founder on mobile",
+      "info": "Shown below row 2's text on phones.",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size (desktop)",
+      "info": "For Heading blocks such as \"THIS IS PROTYZE.\"",
+      "min": 28,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 38
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent",
+      "info": "Quote mark, underline and typed handwriting fallback.",
+      "default": "#e8541e"
+    },
+    {
+      "type": "color",
+      "id": "tick_color",
+      "label": "Tick colour",
+      "default": "#3a8a4a"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "eyebrow",
+      "name": "Eyebrow",
+      "settings": [
+        {
+          "type": "select",
+          "id": "zone",
+          "label": "Zone",
+          "options": [
+            {
+              "value": "r1_left",
+              "label": "Row 1 — left"
+            },
+            {
+              "value": "r1_aside",
+              "label": "Row 1 — beside left (after divider)"
+            },
+            {
+              "value": "r1_right",
+              "label": "Row 1 — right"
+            },
+            {
+              "value": "r2_left",
+              "label": "Row 2 — left"
+            },
+            {
+              "value": "r2_right",
+              "label": "Row 2 — right"
+            }
+          ],
+          "default": "r1_left"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "Two years later..."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "name": "Heading",
+      "settings": [
+        {
+          "type": "select",
+          "id": "zone",
+          "label": "Zone",
+          "options": [
+            {
+              "value": "r1_left",
+              "label": "Row 1 — left"
+            },
+            {
+              "value": "r1_aside",
+              "label": "Row 1 — beside left (after divider)"
+            },
+            {
+              "value": "r1_right",
+              "label": "Row 1 — right"
+            },
+            {
+              "value": "r2_left",
+              "label": "Row 2 — left"
+            },
+            {
+              "value": "r2_right",
+              "label": "Row 2 — right"
+            }
+          ],
+          "default": "r2_left"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Heading",
+          "default": "THIS IS PROTYZE."
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "select",
+          "id": "zone",
+          "label": "Zone",
+          "options": [
+            {
+              "value": "r1_left",
+              "label": "Row 1 — left"
+            },
+            {
+              "value": "r1_aside",
+              "label": "Row 1 — beside left (after divider)"
+            },
+            {
+              "value": "r1_right",
+              "label": "Row 1 — right"
+            },
+            {
+              "value": "r2_left",
+              "label": "Row 2 — left"
+            },
+            {
+              "value": "r2_right",
+              "label": "Row 2 — right"
+            }
+          ],
+          "default": "r1_right"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "Crystal clear.\nRefreshing.\nJuicy."
+        },
+        {
+          "type": "checkbox",
+          "id": "bold",
+          "label": "Bold",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "large",
+          "label": "Large text",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "underline",
+          "label": "Hand-drawn underline (accent colour)",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "tick_list",
+      "name": "Tick list",
+      "settings": [
+        {
+          "type": "select",
+          "id": "zone",
+          "label": "Zone",
+          "options": [
+            {
+              "value": "r1_left",
+              "label": "Row 1 — left"
+            },
+            {
+              "value": "r1_aside",
+              "label": "Row 1 — beside left (after divider)"
+            },
+            {
+              "value": "r1_right",
+              "label": "Row 1 — right"
+            },
+            {
+              "value": "r2_left",
+              "label": "Row 2 — left"
+            },
+            {
+              "value": "r2_right",
+              "label": "Row 2 — right"
+            }
+          ],
+          "default": "r1_left"
+        },
+        {
+          "type": "textarea",
+          "id": "items",
+          "label": "Items",
+          "info": "One item per line.",
+          "default": "Particle size\nMoisture\nBinding\nAgglomeration\nDrying temperature\nTaste\nTexture\nStability"
+        }
+      ]
+    },
+    {
+      "type": "feature_icons",
+      "name": "Icon row",
+      "settings": [
+        {
+          "type": "select",
+          "id": "zone",
+          "label": "Zone",
+          "options": [
+            {
+              "value": "r1_left",
+              "label": "Row 1 — left"
+            },
+            {
+              "value": "r1_aside",
+              "label": "Row 1 — beside left (after divider)"
+            },
+            {
+              "value": "r1_right",
+              "label": "Row 1 — right"
+            },
+            {
+              "value": "r2_left",
+              "label": "Row 2 — left"
+            },
+            {
+              "value": "r2_right",
+              "label": "Row 2 — right"
+            }
+          ],
+          "default": "r2_left"
+        },
+        {
+          "type": "select",
+          "id": "icon_1",
+          "label": "Icon 1",
+          "options": [
+            {
+              "value": "leaf",
+              "label": "Leaf"
+            },
+            {
+              "value": "drop",
+              "label": "Drop"
+            },
+            {
+              "value": "feather",
+              "label": "Feather"
+            },
+            {
+              "value": "check",
+              "label": "Check"
+            },
+            {
+              "value": "sun",
+              "label": "Sun"
+            },
+            {
+              "value": "heart",
+              "label": "Heart"
+            },
+            {
+              "value": "glass",
+              "label": "Glass"
+            },
+            {
+              "value": "cup",
+              "label": "Cup"
+            }
+          ],
+          "default": "leaf"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image_1",
+          "label": "Icon 1 — custom image"
+        },
+        {
+          "type": "text",
+          "id": "label_1",
+          "label": "Label 1",
+          "default": "Refreshing"
+        },
+        {
+          "type": "select",
+          "id": "icon_2",
+          "label": "Icon 2",
+          "options": [
+            {
+              "value": "leaf",
+              "label": "Leaf"
+            },
+            {
+              "value": "drop",
+              "label": "Drop"
+            },
+            {
+              "value": "feather",
+              "label": "Feather"
+            },
+            {
+              "value": "check",
+              "label": "Check"
+            },
+            {
+              "value": "sun",
+              "label": "Sun"
+            },
+            {
+              "value": "heart",
+              "label": "Heart"
+            },
+            {
+              "value": "glass",
+              "label": "Glass"
+            },
+            {
+              "value": "cup",
+              "label": "Cup"
+            }
+          ],
+          "default": "drop"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image_2",
+          "label": "Icon 2 — custom image"
+        },
+        {
+          "type": "text",
+          "id": "label_2",
+          "label": "Label 2",
+          "default": "Juicy"
+        },
+        {
+          "type": "select",
+          "id": "icon_3",
+          "label": "Icon 3",
+          "options": [
+            {
+              "value": "leaf",
+              "label": "Leaf"
+            },
+            {
+              "value": "drop",
+              "label": "Drop"
+            },
+            {
+              "value": "feather",
+              "label": "Feather"
+            },
+            {
+              "value": "check",
+              "label": "Check"
+            },
+            {
+              "value": "sun",
+              "label": "Sun"
+            },
+            {
+              "value": "heart",
+              "label": "Heart"
+            },
+            {
+              "value": "glass",
+              "label": "Glass"
+            },
+            {
+              "value": "cup",
+              "label": "Cup"
+            }
+          ],
+          "default": "feather"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image_3",
+          "label": "Icon 3 — custom image"
+        },
+        {
+          "type": "text",
+          "id": "label_3",
+          "label": "Label 3",
+          "default": "Light"
+        },
+        {
+          "type": "select",
+          "id": "icon_4",
+          "label": "Icon 4",
+          "options": [
+            {
+              "value": "leaf",
+              "label": "Leaf"
+            },
+            {
+              "value": "drop",
+              "label": "Drop"
+            },
+            {
+              "value": "feather",
+              "label": "Feather"
+            },
+            {
+              "value": "check",
+              "label": "Check"
+            },
+            {
+              "value": "sun",
+              "label": "Sun"
+            },
+            {
+              "value": "heart",
+              "label": "Heart"
+            },
+            {
+              "value": "glass",
+              "label": "Glass"
+            },
+            {
+              "value": "cup",
+              "label": "Cup"
+            }
+          ],
+          "default": "check"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image_4",
+          "label": "Icon 4 — custom image"
+        },
+        {
+          "type": "text",
+          "id": "label_4",
+          "label": "Label 4",
+          "default": "Clean"
+        }
+      ]
+    },
+    {
+      "type": "testimonial",
+      "name": "Founder quote",
+      "settings": [
+        {
+          "type": "select",
+          "id": "zone",
+          "label": "Zone",
+          "options": [
+            {
+              "value": "r1_left",
+              "label": "Row 1 — left"
+            },
+            {
+              "value": "r1_aside",
+              "label": "Row 1 — beside left (after divider)"
+            },
+            {
+              "value": "r1_right",
+              "label": "Row 1 — right"
+            },
+            {
+              "value": "r2_left",
+              "label": "Row 2 — left"
+            },
+            {
+              "value": "r2_right",
+              "label": "Row 2 — right"
+            }
+          ],
+          "default": "r2_right"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Quote",
+          "default": "Every bottle of Protyze carries\ntwo years of failed experiments\nthat no one will ever see—\nbut everyone will taste."
+        }
+      ]
+    },
+    {
+      "type": "handwritten",
+      "name": "Handwritten image",
+      "settings": [
+        {
+          "type": "select",
+          "id": "zone",
+          "label": "Zone",
+          "options": [
+            {
+              "value": "r1_left",
+              "label": "Row 1 — left"
+            },
+            {
+              "value": "r1_aside",
+              "label": "Row 1 — beside left (after divider)"
+            },
+            {
+              "value": "r1_right",
+              "label": "Row 1 — right"
+            },
+            {
+              "value": "r2_left",
+              "label": "Row 2 — left"
+            },
+            {
+              "value": "r2_right",
+              "label": "Row 2 — right"
+            }
+          ],
+          "default": "r1_aside"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Transparent PNG (handwriting, signature, etc.). About 640px wide."
+        },
+        {
+          "type": "range",
+          "id": "width",
+          "label": "Width",
+          "min": 80,
+          "max": 400,
+          "step": 10,
+          "unit": "px",
+          "default": 200
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "info": "Shown in italics if no image is uploaded, and used as the image's alt text.",
+          "default": "Hundreds of variables.\nThousands of experiments."
+        }
+      ]
+    },
+    {
+      "type": "arrow",
+      "name": "Arrow",
+      "settings": [
+        {
+          "type": "select",
+          "id": "zone",
+          "label": "Zone",
+          "options": [
+            {
+              "value": "r1_left",
+              "label": "Row 1 — left"
+            },
+            {
+              "value": "r1_aside",
+              "label": "Row 1 — beside left (after divider)"
+            },
+            {
+              "value": "r1_right",
+              "label": "Row 1 — right"
+            },
+            {
+              "value": "r2_left",
+              "label": "Row 2 — left"
+            },
+            {
+              "value": "r2_right",
+              "label": "Row 2 — right"
+            }
+          ],
+          "default": "r1_aside"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Arrow image",
+          "info": "Optional. Transparent PNG. If empty, a drawn arrow is used."
+        },
+        {
+          "type": "select",
+          "id": "direction",
+          "label": "Direction (drawn arrow)",
+          "options": [
+            {
+              "value": "right",
+              "label": "Right"
+            },
+            {
+              "value": "down-right",
+              "label": "Down-right"
+            },
+            {
+              "value": "down-left",
+              "label": "Down-left"
+            },
+            {
+              "value": "up-right",
+              "label": "Up-right"
+            },
+            {
+              "value": "up-left",
+              "label": "Up-left"
+            }
+          ],
+          "default": "right"
+        },
+        {
+          "type": "range",
+          "id": "width",
+          "label": "Width",
+          "min": 40,
+          "max": 200,
+          "step": 10,
+          "unit": "px",
+          "default": 70
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_on_mobile",
+          "label": "Hide on mobile",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Story Finale",
+      "blocks": [
+        {
+          "type": "eyebrow",
+          "settings": {
+            "zone": "r1_left",
+            "text": "Two years later..."
+          }
+        },
+        {
+          "type": "tick_list",
+          "settings": {
+            "zone": "r1_left"
+          }
+        },
+        {
+          "type": "handwritten",
+          "settings": {
+            "zone": "r1_aside",
+            "text": "Hundreds of variables.\nThousands of experiments."
+          }
+        },
+        {
+          "type": "arrow",
+          "settings": {
+            "zone": "r1_aside",
+            "direction": "right"
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "zone": "r1_right",
+            "text": "Finally,\nit happened.",
+            "bold": true,
+            "large": true
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "zone": "r1_right",
+            "text": "Crystal clear.\nRefreshing.\nJuicy.",
+            "large": true
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "zone": "r1_right",
+            "text": "Exactly how I imagined\nit two years earlier.",
+            "underline": true
+          }
+        },
+        {
+          "type": "heading",
+          "settings": {
+            "zone": "r2_left",
+            "text": "THIS IS PROTYZE."
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "zone": "r2_left",
+            "text": "Not just another protein.\nA completely different way to\nexperience protein.",
+            "large": true
+          }
+        },
+        {
+          "type": "feature_icons",
+          "settings": {
+            "zone": "r2_left"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "zone": "r2_right"
+          }
+        },
+        {
+          "type": "handwritten",
+          "settings": {
+            "zone": "r2_right",
+            "text": "Vinit Kumar",
+            "width": 140
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "zone": "r2_right",
+            "text": "Founder, Protyze"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

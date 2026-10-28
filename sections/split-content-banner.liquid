@@ -1,0 +1,1738 @@
+{%- liquid
+  assign fallback_image = section.settings.image | default: section.settings.image_mobile
+  assign desktop_image = section.settings.image | default: fallback_image
+  assign mobile_image = section.settings.image_mobile | default: fallback_image
+
+  assign fallback_image_2 = section.settings.image_2 | default: section.settings.image_2_mobile
+  assign desktop_image_2 = section.settings.image_2 | default: fallback_image_2
+  assign mobile_image_2 = section.settings.image_2_mobile | default: fallback_image_2
+
+  assign image_width_1x = section.settings.image_width | default: 420
+  assign image_width_2x = image_width_1x | times: 2
+
+  assign bg_layout = false
+  if section.settings.image_layout == 'background' and fallback_image != blank
+    assign bg_layout = true
+  endif
+  assign bg_fade = section.settings.bg_fade_width | default: 30
+  assign bg_fade_end = 100 | minus: bg_fade
+
+  assign has_left_block = false
+  assign has_right_block = false
+  assign has_left_side_image = false
+  assign has_right_side_image = false
+  for block in section.blocks
+    if block.settings.column == 'right'
+      assign has_right_block = true
+      if block.type == 'side_image' or block.type == 'side_note'
+        assign has_right_side_image = true
+      endif
+    else
+      assign has_left_block = true
+      if block.type == 'side_image' or block.type == 'side_note'
+        assign has_left_side_image = true
+      endif
+    endif
+  endfor
+-%}
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .split-banner-{{ section.id }} {
+    {%- if section.settings.eyebrow_color != blank -%}
+      --sb-eyebrow-color: {{ section.settings.eyebrow_color }};
+    {%- endif -%}
+    {%- if section.settings.heading_color != blank -%}
+      --sb-heading-color: {{ section.settings.heading_color }};
+    {%- endif -%}
+    {%- if section.settings.body_color != blank -%}
+      --sb-body-color: {{ section.settings.body_color }};
+    {%- endif -%}
+    {%- if section.settings.highlight_color != blank -%}
+      --sb-highlight-color: {{ section.settings.highlight_color }};
+    {%- endif -%}
+    {%- if section.settings.right_heading_color != blank -%}
+      --sb-right-heading-color: {{ section.settings.right_heading_color }};
+    {%- endif -%}
+    {%- if section.settings.quote_color != blank -%}
+      --sb-quote-color: {{ section.settings.quote_color }};
+    {%- endif -%}
+    {%- if section.settings.image_border_color != blank -%}
+      --sb-image-border-color: {{ section.settings.image_border_color }};
+    {%- endif -%}
+    --sb-image-width: {{ image_width_1x }}px;
+  }
+
+  .split-banner__wrapper {
+    background-color: rgb(var(--color-background));
+  }
+
+  .split-banner__grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2.8rem;
+  }
+
+  @media screen and (min-width: 750px) {
+    .split-banner__grid {
+      align-items: center;
+      flex-direction: row;
+      gap: 4rem;
+    }
+  }
+
+  .split-banner__left,
+  .split-banner__right-col {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+    text-align: center;
+  }
+
+  .split-banner__col-text {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+    min-width: 0;
+  }
+
+  .split-banner__side-image {
+    aspect-ratio: 3 / 4;
+    border-radius: 0.6rem;
+    display: block;
+    flex-shrink: 0;
+    overflow: hidden;
+    width: min(35%, 140px);
+  }
+
+  .split-banner__side-image img {
+    display: block;
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .split-banner__side-note {
+    border-top: 0.1rem solid rgba(var(--color-foreground), 0.2);
+    color: var(--sb-body-color, rgba(var(--color-foreground), 0.85));
+    display: grid;
+    column-gap: 1.6rem;
+    flex-shrink: 0;
+    font-size: 1.4rem;
+    font-style: italic;
+    grid-template-columns: repeat(2, 1fr);
+    line-height: 1.5;
+    padding-top: 1.6rem;
+    row-gap: 0.8rem;
+    width: 100%;
+  }
+
+  .split-banner__side-note p {
+    margin: 0;
+  }
+
+  @media screen and (min-width: 750px) {
+    .split-banner__side-note {
+      border-left: 0.1rem solid rgba(var(--color-foreground), 0.2);
+      border-top: 0;
+      display: block;
+      grid-template-columns: none;
+      padding-left: 1.6rem;
+      padding-top: 0;
+      width: auto;
+    }
+
+    .split-banner__side-note p {
+      margin: 0 0 0.8rem;
+    }
+
+    .split-banner__side-note p:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .split-banner__check-list {
+    display: grid;
+    column-gap: 1.6rem;
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 0.8rem;
+  }
+
+  @media screen and (min-width: 750px) {
+    .split-banner__check-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+  }
+
+  .split-banner__check {
+    align-items: flex-start;
+    display: flex;
+    gap: 0.8rem;
+  }
+
+  .split-banner__check-icon {
+    color: #2e9e4f;
+    flex-shrink: 0;
+    height: 1.6rem;
+    margin-top: 0.2rem;
+    width: 1.6rem;
+  }
+
+  .split-banner__check-text {
+    color: var(--sb-body-color, rgba(var(--color-foreground), 0.85));
+    font-size: 1.4rem;
+    margin: 0;
+  }
+
+  @media screen and (min-width: 750px) {
+    .split-banner__left,
+    .split-banner__right-col {
+      align-items: flex-start;
+      flex: 1 1 0;
+      min-width: 0;
+      text-align: left;
+    }
+
+    .split-banner__left--with-image,
+    .split-banner__right-col--with-image {
+      align-items: center;
+      flex-direction: row;
+    }
+
+    .split-banner__left--with-image .split-banner__col-text,
+    .split-banner__right-col--with-image .split-banner__col-text {
+      flex: 1 1 0;
+    }
+  }
+
+  .split-banner__eyebrow {
+    color: var(--sb-eyebrow-color, rgba(var(--color-foreground), 0.6));
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.15rem;
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  .split-banner__heading {
+    color: var(--sb-heading-color, rgb(var(--color-foreground)));
+    display: flex;
+    flex-direction: column;
+    font-size: 2.6rem;
+    font-weight: 800;
+    line-height: 1.15;
+    margin: 0;
+    text-transform: none;
+  }
+
+  @media screen and (min-width: 750px) {
+    .split-banner__heading {
+      font-size: 3.2rem;
+    }
+  }
+
+  .split-banner__body {
+    color: var(--sb-body-color, rgba(var(--color-foreground), 0.75));
+    font-size: 1.4rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .split-banner__body p {
+    margin: 0;
+  }
+
+  .split-banner__divider {
+    background-color: rgba(var(--color-foreground), 0.12);
+    border: 0;
+    height: 0.1rem;
+    margin: 0;
+    width: 100%;
+  }
+
+  .split-banner__numbered-group {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+    margin: 0 auto;
+    width: fit-content;
+  }
+
+  @media screen and (min-width: 750px) {
+    .split-banner__numbered-group {
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+
+  .split-banner__numbered {
+    align-items: center;
+    display: flex;
+    gap: 1rem;
+    text-align: left;
+  }
+
+  .split-banner__numbered-badge {
+    align-items: center;
+    border: 0.15rem solid var(--sb-body-color, rgb(var(--color-foreground)));
+    border-radius: 50%;
+    color: var(--sb-body-color, rgb(var(--color-foreground)));
+    display: flex;
+    flex-shrink: 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+    height: 2.4rem;
+    justify-content: center;
+    width: 2.4rem;
+  }
+
+  .split-banner__numbered-text {
+    color: var(--sb-body-color, rgba(var(--color-foreground), 0.85));
+    font-size: 1.4rem;
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  .split-banner__aside {
+    align-items: center;
+    display: flex;
+    gap: 1.2rem;
+  }
+
+  .split-banner__aside-icon {
+    flex-shrink: 0;
+    height: 4.8rem;
+    width: 4.8rem;
+  }
+
+  .split-banner__aside-icon img {
+    display: block;
+    height: 100%;
+    object-fit: contain;
+    width: 100%;
+  }
+
+  .split-banner__aside-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    text-align: left;
+  }
+
+  .split-banner__aside-text {
+    color: var(--sb-body-color, rgba(var(--color-foreground), 0.75));
+    font-size: 1.4rem;
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  .split-banner__highlight {
+    color: var(--sb-highlight-color, #ff6a2a);
+    font-size: 1.5rem;
+    font-style: italic;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .split-banner__highlight-sub {
+    color: var(--sb-body-color, rgba(var(--color-foreground), 0.75));
+    font-size: 1.3rem;
+    margin: 0;
+  }
+
+  .split-banner__marker-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    text-align: left;
+  }
+
+  .split-banner__marker-label {
+    color: var(--sb-heading-color, rgb(var(--color-foreground)));
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .split-banner__marker-text {
+    background-color: var(--sb-marker-bg, #f6cc9b);
+    border-radius: 0.3rem;
+    color: var(--sb-marker-color, #1a1a1a);
+    display: inline-block;
+    font-size: 1.7rem;
+    font-style: italic;
+    font-weight: 700;
+    padding: 0.2rem 0.7rem;
+    width: fit-content;
+  }
+
+  .split-banner__media {
+    overflow: hidden;
+    width: 100%;
+  }
+
+  @media screen and (min-width: 750px) {
+    .split-banner__media {
+      flex: 1 1 0;
+      min-width: 0;
+      width: auto;
+    }
+  }
+
+  .split-banner__image-wrap {
+    border: 0.1rem solid var(--sb-image-border-color, rgba(var(--color-foreground), 0.1));
+    border-radius: 0.8rem;
+    display: block;
+    margin: 0 auto;
+    overflow: hidden;
+    width: min(100%, var(--sb-image-width, 420px));
+  }
+
+  .split-banner__media--dual {
+    align-items: center;
+    display: flex;
+    gap: 1.2rem;
+    justify-content: center;
+  }
+
+  .split-banner__media--dual .split-banner__image-wrap {
+    aspect-ratio: 1 / 1;
+    margin: 0;
+    width: min(48%, var(--sb-image-width, 420px));
+  }
+
+  .split-banner__media--dual .split-banner__image {
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .split-banner__image {
+    display: block;
+    height: auto;
+    width: 100%;
+  }
+
+  .split-banner__script {
+    color: var(--sb-right-heading-color, rgb(var(--color-foreground)));
+    display: flex;
+    flex-direction: column;
+    font-size: 1.8rem;
+    font-style: italic;
+    line-height: 1.35;
+    margin: 0 auto;
+    width: fit-content;
+  }
+
+  @media screen and (min-width: 750px) {
+    .split-banner__script {
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+
+  .split-banner__script-line--underline {
+    border-bottom: 0.1rem solid var(--sb-right-heading-color, rgb(var(--color-foreground)));
+    padding-bottom: 0.4rem;
+    width: fit-content;
+  }
+
+  .split-banner__quote {
+    color: var(--sb-quote-color, rgb(var(--color-foreground)));
+    font-size: 1.9rem;
+    font-weight: 800;
+    line-height: 1.3;
+    margin: 0;
+  }
+
+  .split-banner__quote-mark {
+    color: var(--sb-highlight-color, #ff6a2a);
+  }
+
+  .split-banner__quote--circle {
+    align-items: center;
+    border: 0.1rem solid var(--sb-highlight-color, #ff6a2a);
+    border-radius: 50% / 45%;
+    color: var(--sb-highlight-color, #ff6a2a);
+    display: inline-flex;
+    font-size: 1.5rem;
+    font-style: italic;
+    font-weight: 700;
+    justify-content: center;
+    padding: 1.6rem 2.2rem;
+    text-align: center;
+    width: fit-content;
+  }
+
+  .split-banner__quote--testimonial {
+    color: var(--sb-quote-color, rgba(var(--color-foreground), 0.85));
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 1.55;
+  }
+
+  .split-banner__quote--testimonial .split-banner__quote-mark--open {
+    display: block;
+    font-size: 2.4rem;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+
+  .split-banner__quote-mark--close-inline {
+    font-weight: 800;
+  }
+
+  .split-banner__quote-attribution {
+    margin-top: 1.2rem;
+  }
+
+  .split-banner__quote-attribution-name {
+    color: var(--sb-heading-color, rgb(var(--color-foreground)));
+    font-size: 1.5rem;
+    font-style: italic;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .split-banner__quote-attribution-title {
+    color: var(--sb-body-color, rgba(var(--color-foreground), 0.6));
+    font-size: 1.2rem;
+    margin: 0.2rem 0 0;
+  }
+
+  .split-banner__icon-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.6rem;
+    justify-content: center;
+  }
+
+  @media screen and (min-width: 750px) {
+    .split-banner__icon-row {
+      justify-content: flex-start;
+    }
+  }
+
+  .split-banner__icon-row-item {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    text-align: center;
+  }
+
+  .split-banner__icon-row-icon {
+    height: 2.8rem;
+    width: 2.8rem;
+  }
+
+  .split-banner__icon-row-icon img {
+    display: block;
+    height: 100%;
+    object-fit: contain;
+    width: 100%;
+  }
+
+  .split-banner__icon-row-label {
+    color: var(--sb-body-color, rgba(var(--color-foreground), 0.85));
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  {%- if bg_layout %}
+    /* Background layout (desktop): the image fills the banner behind both
+       text columns and fades into the background colour at each side.
+       On mobile it stays stacked like the inline layout. */
+    @media screen and (min-width: 750px) {
+      .split-banner-{{ section.id }} .split-banner__wrapper {
+        overflow: hidden;
+        position: relative;
+      }
+
+      .split-banner-{{ section.id }} .split-banner__wrapper > .page-width {
+        position: relative;
+        z-index: 1;
+      }
+
+      .split-banner-{{ section.id }} .split-banner__grid {
+        justify-content: space-between;
+        min-height: {{ section.settings.bg_min_height }}px;
+      }
+
+      .split-banner-{{ section.id }} .split-banner__left,
+      .split-banner-{{ section.id }} .split-banner__right-col {
+        flex: 0 1 {{ section.settings.bg_content_width }}%;
+      }
+
+      .split-banner-{{ section.id }} .split-banner__media {
+        inset: 0;
+        position: absolute;
+        z-index: 0;
+      }
+
+      .split-banner-{{ section.id }} .split-banner__media::after {
+        background: linear-gradient(
+          90deg,
+          rgb(var(--color-background)) 0%,
+          rgba(var(--color-background), 0) {{ bg_fade }}%,
+          rgba(var(--color-background), 0) {{ bg_fade_end }}%,
+          rgb(var(--color-background)) 100%
+        );
+        content: '';
+        inset: 0;
+        pointer-events: none;
+        position: absolute;
+      }
+
+      .split-banner-{{ section.id }} .split-banner__image-wrap {
+        border: 0;
+        border-radius: 0;
+        height: 100%;
+        width: 100%;
+      }
+
+      .split-banner-{{ section.id }} .split-banner__image-wrap + .split-banner__image-wrap {
+        display: none;
+      }
+
+      .split-banner-{{ section.id }} .split-banner__image-wrap picture,
+      .split-banner-{{ section.id }} .split-banner__image {
+        display: block;
+        height: 100%;
+        object-fit: cover;
+        object-position: {{ section.settings.bg_focus }};
+        width: 100%;
+      }
+    }
+  {%- endif %}
+{% endstyle %}
+
+<div class="split-banner-{{ section.id }} color-{{ section.settings.color_scheme }} gradient {{ section.settings.custom_class }}">
+  <div class="split-banner__wrapper">
+    <div class="page-width section-{{ section.id }}-padding">
+      <div class="split-banner__grid">
+        {%- if has_left_block -%}
+          <div class="split-banner__left{% if has_left_side_image %} split-banner__left--with-image{% endif %}">
+            <div class="split-banner__col-text">
+            {%- assign prev_left_type = '' -%}
+            {%- for block in section.blocks -%}
+              {%- unless block.settings.column == 'right' or block.type == 'side_image' or block.type == 'side_note' -%}
+                {%- assign next_left_index = forloop.index0 | plus: 1 -%}
+                {%- assign next_left_block = section.blocks[next_left_index] -%}
+                {%- assign next_left_type = next_left_block.type | default: '' -%}
+
+                {%- if block.type == 'numbered_item' and prev_left_type != 'numbered_item' -%}
+                  <div class="split-banner__numbered-group">
+                {%- endif -%}
+                {%- if block.type == 'check_item' and prev_left_type != 'check_item' -%}
+                  <div class="split-banner__check-list">
+                {%- endif -%}
+
+                {%- case block.type -%}
+                  {%- when 'eyebrow' -%}
+                    <p class="split-banner__eyebrow" {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</p>
+
+                  {%- when 'heading' -%}
+                    <h2 class="split-banner__heading" {{ block.shopify_attributes }}>
+                      {%- if block.settings.line_1 != blank -%}<span>{{ block.settings.line_1 | escape }}</span>{%- endif -%}
+                      {%- if block.settings.line_2 != blank -%}<span>{{ block.settings.line_2 | escape }}</span>{%- endif -%}
+                    </h2>
+
+                  {%- when 'text' -%}
+                    <div class="split-banner__body rte" {{ block.shopify_attributes }}>{{ block.settings.content }}</div>
+
+                  {%- when 'divider' -%}
+                    <hr class="split-banner__divider" {{ block.shopify_attributes }}>
+
+                  {%- when 'numbered_item' -%}
+                    <div class="split-banner__numbered" {{ block.shopify_attributes }}>
+                      <span class="split-banner__numbered-badge">{{ block.settings.number | escape }}</span>
+                      <p class="split-banner__numbered-text">{{ block.settings.text | escape }}</p>
+                    </div>
+
+                  {%- when 'check_item' -%}
+                    <div class="split-banner__check" {{ block.shopify_attributes }}>
+                      <svg class="split-banner__check-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                      <p class="split-banner__check-text">{{ block.settings.text | escape }}</p>
+                    </div>
+
+                  {%- when 'icon_item' -%}
+                    <div class="split-banner__aside" {{ block.shopify_attributes }}>
+                      {%- if block.settings.icon != blank -%}
+                        <span class="split-banner__aside-icon">
+                          {{ block.settings.icon | image_url: width: 120 | image_tag: loading: 'lazy', alt: '' }}
+                        </span>
+                      {%- endif -%}
+                      <div class="split-banner__aside-content">
+                        {%- if block.settings.text != blank -%}
+                          <p class="split-banner__aside-text">{{ block.settings.text | escape }}</p>
+                        {%- endif -%}
+                        {%- if block.settings.highlight_text != blank -%}
+                          <p class="split-banner__highlight">{{ block.settings.highlight_text | escape }}</p>
+                        {%- endif -%}
+                        {%- if block.settings.subtext != blank -%}
+                          <p class="split-banner__highlight-sub">{{ block.settings.subtext | escape }}</p>
+                        {%- endif -%}
+                      </div>
+                    </div>
+
+                  {%- when 'highlight_marker' -%}
+                    <div class="split-banner__marker-wrap" {{ block.shopify_attributes }}>
+                      {%- if block.settings.label != blank -%}
+                        <p class="split-banner__marker-label">{{ block.settings.label | escape }}</p>
+                      {%- endif -%}
+                      {%- if block.settings.text != blank -%}
+                        <span class="split-banner__marker-text">{{ block.settings.text | escape }}</span>
+                      {%- endif -%}
+                    </div>
+
+                  {%- when 'script_text' -%}
+                    <p class="split-banner__script" {{ block.shopify_attributes }}>
+                      {%- if block.settings.line_1 != blank -%}<span>{{ block.settings.line_1 | escape }}</span>{%- endif -%}
+                      {%- if block.settings.line_2 != blank -%}<span{% if block.settings.underline_line_2 %} class="split-banner__script-line--underline"{% endif %}>{{ block.settings.line_2 | escape }}</span>{%- endif -%}
+                    </p>
+
+                  {%- when 'quote' -%}
+                    <div {{ block.shopify_attributes }}>
+                      {%- case block.settings.style -%}
+                        {%- when 'circle' -%}
+                          <p class="split-banner__quote--circle">
+                            &ldquo;{{ block.settings.text | escape }}&rdquo;
+                          </p>
+                        {%- when 'testimonial' -%}
+                          <p class="split-banner__quote--testimonial">
+                            <span class="split-banner__quote-mark--open" aria-hidden="true">&ldquo;</span>{{ block.settings.text | escape }}<span class="split-banner__quote-mark--close-inline" aria-hidden="true">&rdquo;</span>
+                          </p>
+                        {%- else -%}
+                          <p class="split-banner__quote">
+                            <span class="split-banner__quote-mark" aria-hidden="true">&ldquo;</span>{{ block.settings.text | escape }}<span class="split-banner__quote-mark" aria-hidden="true">&rdquo;</span>
+                          </p>
+                      {%- endcase -%}
+                      {%- if block.settings.attribution_name != blank or block.settings.attribution_title != blank -%}
+                        <div class="split-banner__quote-attribution">
+                          {%- if block.settings.attribution_name != blank -%}
+                            <p class="split-banner__quote-attribution-name">{{ block.settings.attribution_name | escape }}</p>
+                          {%- endif -%}
+                          {%- if block.settings.attribution_title != blank -%}
+                            <p class="split-banner__quote-attribution-title">{{ block.settings.attribution_title | escape }}</p>
+                          {%- endif -%}
+                        </div>
+                      {%- endif -%}
+                    </div>
+
+                  {%- when 'icon_row' -%}
+                    <div class="split-banner__icon-row" {{ block.shopify_attributes }}>
+                      {%- for i in (1..4) -%}
+                        {%- liquid
+                          assign icon_key = 'icon_' | append: i
+                          assign label_key = 'label_' | append: i
+                          assign row_icon = block.settings[icon_key]
+                          assign row_label = block.settings[label_key]
+                        -%}
+                        {%- if row_label != blank -%}
+                          <div class="split-banner__icon-row-item">
+                            {%- if row_icon != blank -%}
+                              <span class="split-banner__icon-row-icon">
+                                {{ row_icon | image_url: width: 60 | image_tag: loading: 'lazy', alt: '' }}
+                              </span>
+                            {%- endif -%}
+                            <p class="split-banner__icon-row-label">{{ row_label | escape }}</p>
+                          </div>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </div>
+                {%- endcase -%}
+
+                {%- if block.type == 'numbered_item' and next_left_type != 'numbered_item' -%}
+                  </div>
+                {%- endif -%}
+                {%- if block.type == 'check_item' and next_left_type != 'check_item' -%}
+                  </div>
+                {%- endif -%}
+                {%- assign prev_left_type = block.type -%}
+              {%- endunless -%}
+            {%- endfor -%}
+            </div>
+
+            {%- if has_left_side_image -%}
+              {%- for block in section.blocks -%}
+                {%- if block.settings.column != 'right' and block.type == 'side_image' and block.settings.image != blank -%}
+                  <span class="split-banner__side-image" {{ block.shopify_attributes }}>
+                    <img
+                      src="{{ block.settings.image | image_url: width: 280 }}"
+                      srcset="{{ block.settings.image | image_url: width: 140 }} 1x, {{ block.settings.image | image_url: width: 280 }} 2x"
+                      alt="{{ block.settings.image.alt | escape }}"
+                      loading="lazy"
+                      decoding="async"
+                      width="{{ block.settings.image.width }}"
+                      height="{{ block.settings.image.height }}"
+                    >
+                  </span>
+                {%- elsif block.settings.column != 'right' and block.type == 'side_note' -%}
+                  <div class="split-banner__side-note rte" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {%- if fallback_image != blank -%}
+          <div class="split-banner__media{% if fallback_image_2 != blank %} split-banner__media--dual{% endif %}">
+            <span class="split-banner__image-wrap">
+              <picture>
+                {%- if mobile_image != blank -%}
+                  <source media="(max-width: 749px)" srcset="{{ mobile_image | image_url: width: image_width_1x }} 1x, {{ mobile_image | image_url: width: image_width_2x }} 2x">
+                {%- endif -%}
+                {%- if desktop_image != blank and bg_layout -%}
+                  <source
+                    media="(min-width: 750px)"
+                    srcset="{{ desktop_image | image_url: width: 1100 }} 1100w, {{ desktop_image | image_url: width: 1500 }} 1500w, {{ desktop_image | image_url: width: 1920 }} 1920w, {{ desktop_image | image_url: width: 2400 }} 2400w"
+                    sizes="100vw"
+                  >
+                {%- elsif desktop_image != blank -%}
+                  <source media="(min-width: 750px)" srcset="{{ desktop_image | image_url: width: image_width_1x }} 1x, {{ desktop_image | image_url: width: image_width_2x }} 2x">
+                {%- endif -%}
+                <img
+                  src="{{ fallback_image | image_url: width: image_width_1x }}"
+                  srcset="{{ fallback_image | image_url: width: image_width_1x }} 1x, {{ fallback_image | image_url: width: image_width_2x }} 2x"
+                  alt="{{ fallback_image.alt | escape }}"
+                  class="split-banner__image"
+                  loading="lazy"
+                  decoding="async"
+                  width="{{ fallback_image.width }}"
+                  height="{{ fallback_image.height }}"
+                >
+              </picture>
+            </span>
+
+            {%- if fallback_image_2 != blank -%}
+              <span class="split-banner__image-wrap">
+                <picture>
+                  {%- if mobile_image_2 != blank -%}
+                    <source media="(max-width: 749px)" srcset="{{ mobile_image_2 | image_url: width: image_width_1x }} 1x, {{ mobile_image_2 | image_url: width: image_width_2x }} 2x">
+                  {%- endif -%}
+                  {%- if desktop_image_2 != blank -%}
+                    <source media="(min-width: 750px)" srcset="{{ desktop_image_2 | image_url: width: image_width_1x }} 1x, {{ desktop_image_2 | image_url: width: image_width_2x }} 2x">
+                  {%- endif -%}
+                  <img
+                    src="{{ fallback_image_2 | image_url: width: image_width_1x }}"
+                    srcset="{{ fallback_image_2 | image_url: width: image_width_1x }} 1x, {{ fallback_image_2 | image_url: width: image_width_2x }} 2x"
+                    alt="{{ fallback_image_2.alt | escape }}"
+                    class="split-banner__image"
+                    loading="lazy"
+                    decoding="async"
+                    width="{{ fallback_image_2.width }}"
+                    height="{{ fallback_image_2.height }}"
+                  >
+                </picture>
+              </span>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {%- if has_right_block -%}
+          <div class="split-banner__right-col{% if has_right_side_image %} split-banner__right-col--with-image{% endif %}">
+            <div class="split-banner__col-text">
+            {%- for block in section.blocks -%}
+              {%- if block.settings.column == 'right' and block.type != 'side_image' and block.type != 'side_note' -%}
+                {%- case block.type -%}
+                  {%- when 'eyebrow' -%}
+                    <p class="split-banner__eyebrow" {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</p>
+
+                  {%- when 'heading' -%}
+                    <h2 class="split-banner__heading" {{ block.shopify_attributes }}>
+                      {%- if block.settings.line_1 != blank -%}<span>{{ block.settings.line_1 | escape }}</span>{%- endif -%}
+                      {%- if block.settings.line_2 != blank -%}<span>{{ block.settings.line_2 | escape }}</span>{%- endif -%}
+                    </h2>
+
+                  {%- when 'text' -%}
+                    <div class="split-banner__body rte" {{ block.shopify_attributes }}>{{ block.settings.content }}</div>
+
+                  {%- when 'divider' -%}
+                    <hr class="split-banner__divider" {{ block.shopify_attributes }}>
+
+                  {%- when 'numbered_item' -%}
+                    <div class="split-banner__numbered" {{ block.shopify_attributes }}>
+                      <span class="split-banner__numbered-badge">{{ block.settings.number | escape }}</span>
+                      <p class="split-banner__numbered-text">{{ block.settings.text | escape }}</p>
+                    </div>
+
+                  {%- when 'icon_item' -%}
+                    <div class="split-banner__aside" {{ block.shopify_attributes }}>
+                      {%- if block.settings.icon != blank -%}
+                        <span class="split-banner__aside-icon">
+                          {{ block.settings.icon | image_url: width: 120 | image_tag: loading: 'lazy', alt: '' }}
+                        </span>
+                      {%- endif -%}
+                      <div class="split-banner__aside-content">
+                        {%- if block.settings.text != blank -%}
+                          <p class="split-banner__aside-text">{{ block.settings.text | escape }}</p>
+                        {%- endif -%}
+                        {%- if block.settings.highlight_text != blank -%}
+                          <p class="split-banner__highlight">{{ block.settings.highlight_text | escape }}</p>
+                        {%- endif -%}
+                        {%- if block.settings.subtext != blank -%}
+                          <p class="split-banner__highlight-sub">{{ block.settings.subtext | escape }}</p>
+                        {%- endif -%}
+                      </div>
+                    </div>
+
+                  {%- when 'highlight_marker' -%}
+                    <div class="split-banner__marker-wrap" {{ block.shopify_attributes }}>
+                      {%- if block.settings.label != blank -%}
+                        <p class="split-banner__marker-label">{{ block.settings.label | escape }}</p>
+                      {%- endif -%}
+                      {%- if block.settings.text != blank -%}
+                        <span class="split-banner__marker-text">{{ block.settings.text | escape }}</span>
+                      {%- endif -%}
+                    </div>
+
+                  {%- when 'script_text' -%}
+                    <p class="split-banner__script" {{ block.shopify_attributes }}>
+                      {%- if block.settings.line_1 != blank -%}<span>{{ block.settings.line_1 | escape }}</span>{%- endif -%}
+                      {%- if block.settings.line_2 != blank -%}<span{% if block.settings.underline_line_2 %} class="split-banner__script-line--underline"{% endif %}>{{ block.settings.line_2 | escape }}</span>{%- endif -%}
+                    </p>
+
+                  {%- when 'quote' -%}
+                    <div {{ block.shopify_attributes }}>
+                      {%- case block.settings.style -%}
+                        {%- when 'circle' -%}
+                          <p class="split-banner__quote--circle">
+                            &ldquo;{{ block.settings.text | escape }}&rdquo;
+                          </p>
+                        {%- when 'testimonial' -%}
+                          <p class="split-banner__quote--testimonial">
+                            <span class="split-banner__quote-mark--open" aria-hidden="true">&ldquo;</span>{{ block.settings.text | escape }}<span class="split-banner__quote-mark--close-inline" aria-hidden="true">&rdquo;</span>
+                          </p>
+                        {%- else -%}
+                          <p class="split-banner__quote">
+                            <span class="split-banner__quote-mark" aria-hidden="true">&ldquo;</span>{{ block.settings.text | escape }}<span class="split-banner__quote-mark" aria-hidden="true">&rdquo;</span>
+                          </p>
+                      {%- endcase -%}
+                      {%- if block.settings.attribution_name != blank or block.settings.attribution_title != blank -%}
+                        <div class="split-banner__quote-attribution">
+                          {%- if block.settings.attribution_name != blank -%}
+                            <p class="split-banner__quote-attribution-name">{{ block.settings.attribution_name | escape }}</p>
+                          {%- endif -%}
+                          {%- if block.settings.attribution_title != blank -%}
+                            <p class="split-banner__quote-attribution-title">{{ block.settings.attribution_title | escape }}</p>
+                          {%- endif -%}
+                        </div>
+                      {%- endif -%}
+                    </div>
+
+                  {%- when 'icon_row' -%}
+                    <div class="split-banner__icon-row" {{ block.shopify_attributes }}>
+                      {%- for i in (1..4) -%}
+                        {%- liquid
+                          assign icon_key = 'icon_' | append: i
+                          assign label_key = 'label_' | append: i
+                          assign row_icon = block.settings[icon_key]
+                          assign row_label = block.settings[label_key]
+                        -%}
+                        {%- if row_label != blank -%}
+                          <div class="split-banner__icon-row-item">
+                            {%- if row_icon != blank -%}
+                              <span class="split-banner__icon-row-icon">
+                                {{ row_icon | image_url: width: 60 | image_tag: loading: 'lazy', alt: '' }}
+                              </span>
+                            {%- endif -%}
+                            <p class="split-banner__icon-row-label">{{ row_label | escape }}</p>
+                          </div>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </div>
+                {%- endcase -%}
+              {%- endif -%}
+            {%- endfor -%}
+            </div>
+
+            {%- if has_right_side_image -%}
+              {%- for block in section.blocks -%}
+                {%- if block.settings.column == 'right' and block.type == 'side_image' and block.settings.image != blank -%}
+                  <span class="split-banner__side-image" {{ block.shopify_attributes }}>
+                    <img
+                      src="{{ block.settings.image | image_url: width: 280 }}"
+                      srcset="{{ block.settings.image | image_url: width: 140 }} 1x, {{ block.settings.image | image_url: width: 280 }} 2x"
+                      alt="{{ block.settings.image.alt | escape }}"
+                      loading="lazy"
+                      decoding="async"
+                      width="{{ block.settings.image.width }}"
+                      height="{{ block.settings.image.height }}"
+                    >
+                  </span>
+                {%- elsif block.settings.column == 'right' and block.type == 'side_note' -%}
+                  <div class="split-banner__side-note rte" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Split content banner",
+  "class": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "A photo flanked by two text columns. Add blocks below and assign each to the left or right column."
+    },
+    {
+      "type": "header",
+      "content": "Center image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "Inline layout: about 1120px wide. Background layout: 2400 × 1000 px, with the subject in the middle third."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Image (mobile)",
+      "info": "Optional. Falls back to the image above when not set."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Second image",
+      "info": "Optional. When set, shows both images side by side instead of one."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2_mobile",
+      "label": "Second image (mobile)",
+      "info": "Optional. Falls back to the second image above when not set."
+    },
+    {
+      "type": "range",
+      "id": "image_width",
+      "min": 200,
+      "max": 900,
+      "step": 10,
+      "unit": "px",
+      "label": "Image width",
+      "default": 560
+    },
+    {
+      "type": "header",
+      "content": "Image layout"
+    },
+    {
+      "type": "select",
+      "id": "image_layout",
+      "label": "Image layout (desktop)",
+      "info": "Background: the image fills the whole banner behind both text columns and fades into the background colour at the sides. Mobile always stacks: left text, image, right text.",
+      "options": [
+        {
+          "value": "inline",
+          "label": "Inline (between columns)"
+        },
+        {
+          "value": "background",
+          "label": "Background (full width)"
+        }
+      ],
+      "default": "inline"
+    },
+    {
+      "type": "range",
+      "id": "bg_fade_width",
+      "label": "Side fade (background layout)",
+      "info": "How far the background colour fades in from each edge.",
+      "min": 0,
+      "max": 45,
+      "step": 5,
+      "unit": "%",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "bg_content_width",
+      "label": "Text column width (background layout)",
+      "min": 20,
+      "max": 40,
+      "step": 1,
+      "unit": "%",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "bg_min_height",
+      "label": "Banner height (background layout)",
+      "min": 320,
+      "max": 720,
+      "step": 20,
+      "unit": "px",
+      "default": 460
+    },
+    {
+      "type": "select",
+      "id": "bg_focus",
+      "label": "Image focus point (background layout)",
+      "options": [
+        {
+          "value": "center center",
+          "label": "Center"
+        },
+        {
+          "value": "center top",
+          "label": "Top"
+        },
+        {
+          "value": "center bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "left center",
+          "label": "Left"
+        },
+        {
+          "value": "right center",
+          "label": "Right"
+        }
+      ],
+      "default": "center center"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow text color"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color"
+    },
+    {
+      "type": "color",
+      "id": "body_color",
+      "label": "Body / caption text color"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "Highlight / quote-mark color",
+      "default": "#ff6a2a"
+    },
+    {
+      "type": "color",
+      "id": "right_heading_color",
+      "label": "Script heading color"
+    },
+    {
+      "type": "color",
+      "id": "quote_color",
+      "label": "Quote text color"
+    },
+    {
+      "type": "color",
+      "id": "image_border_color",
+      "label": "Image border color"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "eyebrow",
+      "name": "Eyebrow text",
+      "settings": [
+        {
+          "type": "select",
+          "id": "column",
+          "label": "Column",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Eyebrow text"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "name": "Heading (2 lines)",
+      "settings": [
+        {
+          "type": "select",
+          "id": "column",
+          "label": "Column",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "text",
+          "id": "line_1",
+          "label": "Line 1",
+          "default": "Heading line one"
+        },
+        {
+          "type": "text",
+          "id": "line_2",
+          "label": "Line 2"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Paragraph",
+      "settings": [
+        {
+          "type": "select",
+          "id": "column",
+          "label": "Column",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Text",
+          "default": "<p>Add your text here.</p>"
+        }
+      ]
+    },
+    {
+      "type": "divider",
+      "name": "Divider line",
+      "settings": [
+        {
+          "type": "select",
+          "id": "column",
+          "label": "Column",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left"
+        }
+      ]
+    },
+    {
+      "type": "numbered_item",
+      "name": "Numbered step",
+      "settings": [
+        {
+          "type": "select",
+          "id": "column",
+          "label": "Column",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Number",
+          "default": "1"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Step text",
+          "default": "Step description"
+        }
+      ]
+    },
+    {
+      "type": "icon_item",
+      "name": "Icon + text",
+      "settings": [
+        {
+          "type": "select",
+          "id": "column",
+          "label": "Column",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon",
+          "info": "Recommended size: at least 300 x 300px, transparent PNG/SVG."
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Caption text",
+          "default": "Icon caption"
+        },
+        {
+          "type": "text",
+          "id": "highlight_text",
+          "label": "Highlight text",
+          "info": "Optional."
+        },
+        {
+          "type": "text",
+          "id": "subtext",
+          "label": "Subtext",
+          "info": "Optional."
+        }
+      ]
+    },
+    {
+      "type": "highlight_marker",
+      "name": "Highlighted phrase",
+      "settings": [
+        {
+          "type": "select",
+          "id": "column",
+          "label": "Column",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label above (optional)",
+          "default": "5 seconds later..."
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Highlighted text",
+          "default": "Everything collapsed."
+        }
+      ]
+    },
+    {
+      "type": "script_text",
+      "name": "Script heading",
+      "settings": [
+        {
+          "type": "select",
+          "id": "column",
+          "label": "Column",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "right"
+        },
+        {
+          "type": "text",
+          "id": "line_1",
+          "label": "Line 1",
+          "default": "The Question"
+        },
+        {
+          "type": "text",
+          "id": "line_2",
+          "label": "Line 2",
+          "default": "That Started It All"
+        },
+        {
+          "type": "checkbox",
+          "id": "underline_line_2",
+          "label": "Underline line 2",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "quote",
+      "name": "Quote",
+      "settings": [
+        {
+          "type": "select",
+          "id": "column",
+          "label": "Column",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "right"
+        },
+        {
+          "type": "select",
+          "id": "style",
+          "label": "Style",
+          "options": [
+            {
+              "value": "quote_marks",
+              "label": "Large quote marks"
+            },
+            {
+              "value": "circle",
+              "label": "Circled"
+            },
+            {
+              "value": "testimonial",
+              "label": "Testimonial (small quote mark)"
+            }
+          ],
+          "default": "quote_marks"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Quote text",
+          "info": "Quotation marks are added automatically.",
+          "default": "Quote text"
+        },
+        {
+          "type": "text",
+          "id": "attribution_name",
+          "label": "Attribution name",
+          "info": "Optional. e.g. \"Vinit Kumar\"."
+        },
+        {
+          "type": "text",
+          "id": "attribution_title",
+          "label": "Attribution title",
+          "info": "Optional. e.g. \"Founder, Protyze\". Renders smaller and muted."
+        }
+      ]
+    },
+    {
+      "type": "icon_row",
+      "name": "Icon row (up to 4)",
+      "settings": [
+        {
+          "type": "select",
+          "id": "column",
+          "label": "Column",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_1",
+          "label": "Icon 1"
+        },
+        {
+          "type": "text",
+          "id": "label_1",
+          "label": "Label 1",
+          "default": "Refreshing"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_2",
+          "label": "Icon 2"
+        },
+        {
+          "type": "text",
+          "id": "label_2",
+          "label": "Label 2",
+          "default": "Juicy"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_3",
+          "label": "Icon 3"
+        },
+        {
+          "type": "text",
+          "id": "label_3",
+          "label": "Label 3",
+          "default": "Light"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_4",
+          "label": "Icon 4"
+        },
+        {
+          "type": "text",
+          "id": "label_4",
+          "label": "Label 4",
+          "default": "Clean"
+        }
+      ]
+    },
+    {
+      "type": "side_image",
+      "name": "Side image",
+      "settings": [
+        {
+          "type": "select",
+          "id": "column",
+          "label": "Column",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "right"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Renders as a small image beside this column's text, not the full-width center image."
+        }
+      ]
+    },
+    {
+      "type": "side_note",
+      "name": "Side note",
+      "settings": [
+        {
+          "type": "select",
+          "id": "column",
+          "label": "Column",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "info": "Small italic text with a vertical divider line, rendered beside this column's other content.",
+          "default": "<p>Add your note here.</p>"
+        }
+      ]
+    },
+    {
+      "type": "check_item",
+      "name": "Checklist item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "column",
+          "label": "Column",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Checklist item"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Split content banner",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "eyebrow",
+          "settings": {
+            "column": "left",
+            "text": "Every evening looked the same."
+          }
+        },
+        {
+          "type": "heading",
+          "settings": {
+            "column": "left",
+            "line_1": "Chocolate. Vanilla.",
+            "line_2": "Chocolate. Vanilla."
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "column": "left",
+            "content": "<p>I mixed protein with water because I had to, not because I wanted to.</p>"
+          }
+        },
+        {
+          "type": "icon_item",
+          "settings": {
+            "column": "left",
+            "text": "But the drink I genuinely looked forward to every day?",
+            "highlight_text": "My Strawberry Kiwi BCAA.",
+            "subtext": "Refreshing. Juicy. Light."
+          }
+        },
+        {
+          "type": "script_text",
+          "settings": {
+            "column": "right",
+            "line_1": "The Question",
+            "line_2": "That Started It All",
+            "underline_line_2": true
+          }
+        },
+        {
+          "type": "quote",
+          "settings": {
+            "column": "right",
+            "style": "quote_marks",
+            "text": "Why can't protein feel like juice?"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

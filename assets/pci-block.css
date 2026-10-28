@@ -1,0 +1,215 @@
+/* ── Price + Cart Block (pci-block) ─────────────────────────────── */
+
+.pci-block {
+  background: var(--pci-card-bg, #ffffff);
+  border: 1px solid var(--pci-card-border, rgba(var(--color-foreground), 0.1));
+  border-radius: 8px;
+  padding: 2rem 2.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+/* Every row in the card is spaced only by the card's gap above, so strip
+   any margins the children bring with them (e.g. the size selector's own
+   bottom margin) to keep the spacing equal. */
+.pci-block > *,
+.pci-block .pi-option {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* ── Price row: real price (big, first), compare-at, save badge ───── */
+.pci-price-row {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.pci-price {
+  font-family: var(--font-heading-family);
+  font-size: 3.6rem;
+  font-weight: 800;
+  line-height: 1;
+  color: rgb(var(--color-foreground));
+}
+
+.pci-price__compare {
+  font-size: 1.8rem;
+  font-weight: 400;
+  line-height: 1;
+  color: rgba(var(--color-foreground), 0.45);
+}
+
+.pci-price__badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 1rem;
+  background: var(--pci-badge-bg, var(--pi-accent, #f27a21));
+  color: var(--pci-badge-text, #ffffff);
+  font-family: var(--font-body-family);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  border-radius: 5rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.pci-price__compare[hidden],
+.pci-price__badge[hidden] {
+  display: none;
+}
+
+/* ── Buy-buttons wrapper overrides ───────────────────────────────── */
+.pci-block .product-form {
+  margin: 0;
+}
+
+/* Dawn caps .product-form__buttons at 44rem; let the qty + ATC row span
+   the full card width so it lines up with the size buttons above it. */
+.pci-block .product-form,
+.pci-block .product-form__buttons,
+.pci-block .add-quantity-button {
+  max-width: none;
+  width: 100%;
+}
+
+/* Row: qty stepper + ATC button side by side */
+.pci-block .add-quantity-button {
+  display: flex;
+  align-items: stretch;
+  gap: 1.2rem;
+  margin: 0;
+}
+
+/* Hide the quantity label (redundant in this layout) */
+.pci-block .quantity__label {
+  display: none !important;
+}
+
+/* Hide quantity rules text */
+.pci-block .quantity__rules {
+  display: none !important;
+}
+
+/* Quantity input wrapper */
+.pci-block .product-form__quantity {
+  flex: 0 0 auto;
+  padding: 0;
+  margin: 0;
+  max-width: none;
+  min-width: 0;
+}
+
+.pci-block .quantity {
+  border: 1.5px solid rgba(var(--color-foreground), 0.45);
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  height: 4.8rem;
+  min-height: 0;
+}
+
+/* Dawn draws its own border ring on .quantity::after; suppress it here so
+   it doesn't stack with the border above and read as a double line. */
+.pci-block .quantity::after {
+  box-shadow: none;
+  border: 0;
+}
+
+.pci-block .quantity__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: rgb(var(--color-foreground));
+  transition: background 0.15s ease;
+}
+
+.pci-block .quantity__button:hover {
+  background: rgba(var(--color-foreground), 0.05);
+}
+
+.pci-block .quantity__input {
+  width: 4rem;
+  height: 100%;
+  border: none;
+  border-left: 1.5px solid rgba(var(--color-foreground), 0.45);
+  border-right: 1.5px solid rgba(var(--color-foreground), 0.45);
+  text-align: center;
+  font-family: var(--font-body-family);
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: rgb(var(--color-foreground));
+  background: transparent;
+  padding: 0;
+  -moz-appearance: textfield;
+}
+
+.pci-block .quantity__input::-webkit-outer-spin-button,
+.pci-block .quantity__input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* ATC submit button — always plain black, regardless of card style */
+.pci-block .product-form__submit {
+  flex: 1 !important;
+  min-width: 0 !important;
+  width: auto !important;
+  min-height: 4.8rem !important;
+  padding: 0 2rem !important;
+  background: #111111 !important;
+  border-color: #111111 !important;
+  border-radius: 8px !important;
+  font-size: 1.6rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  color: #fff !important;
+  margin: 0 !important;
+}
+
+.pci-block .product-form__submit:hover:not([disabled]) {
+  opacity: 0.88;
+}
+
+/* Hide Dynamic Checkout (Buy Now) buttons inside card */
+.pci-block .shopify-payment-button {
+  display: none;
+}
+
+/* Price-per-item container layout fix */
+.pci-block .price-per-item__container {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* ── Mobile ──────────────────────────────────────────────────────── */
+@media screen and (max-width: 749px) {
+  .pci-block {
+    padding: 1.6rem;
+    gap: 1.4rem;
+  }
+
+  .pci-price {
+    font-size: 2.8rem;
+  }
+
+  .pci-price__compare {
+    font-size: 1.6rem;
+  }
+
+  .pci-block .product-form__submit {
+    font-size: 1.4rem !important;
+    padding: 0 1.4rem !important;
+  }
+}

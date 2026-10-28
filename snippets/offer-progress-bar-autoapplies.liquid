@@ -1,0 +1,408 @@
+{% liquid
+  assign cart_total_before_discount = cart.original_total_price | divided_by: 100
+  assign offer_1_threshold = 0
+  assign offer_2_threshold = 8000
+
+  if cart_total_before_discount >= offer_2_threshold
+    assign discount_applied = "7_percent"
+  else
+    assign discount_applied = "5_percent"
+  endif
+
+  case discount_applied
+    when "7_percent"
+      assign amount_needed = 0
+    else
+      assign amount_needed = offer_2_threshold | minus: cart_total_before_discount
+  endcase
+
+  if amount_needed < 0
+    assign amount_needed = 0
+  endif
+%}
+
+<div class="free-shipping-progress-container">
+  <!-- Price-Based Progress Bar -->
+  <div class="free-shipping-progress-bar price-bar">
+    <div class="free_shipping_progress">
+      {% case discount_applied %}
+        {% when "7_percent" %}
+          {% assign offer_message_price = '🎉 Megaclear! You unlocked 7% off on your order! 🎁' %}
+          {% assign progress_shipping_price = 100 %}
+        {% else %}
+          {% assign offer_message_price = '✨ ClearX! You got 5% off! Spend ₹' | append: amount_needed | append: ' more to unlock Megaclear 7% off! 🛍️' %}
+          {% assign progress_shipping_price = cart_total_before_discount | times: 100 | divided_by: offer_2_threshold %}
+      {% endcase %}
+
+      {% if offer_message_price != '' %}
+        <div class="free_shipping_value price-bar-update">
+          <span class="progress-message">{{ offer_message_price }}</span>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="progress-bar-section {% if discount_applied == '7_percent' %} progress_bar_active {% endif %}">
+      <div class="progress-bar" style="width: {{ progress_shipping_price }}%;">
+        <span></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<style>
+{% if cart_quantity >= 1 %}
+:root {
+  --duration: 800ms;
+}
+.bubble_line {
+    position: relative;
+}
+.sparkle_chingles {
+  display: grid;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  z-index: 1;
+}
+.sparkle {
+  font-size: 1.5vmin;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.bubble_line_code {
+    position: absolute;
+    top: -16px;
+    left: -30px;
+    height: 3rem;
+    width: .2rem;
+    border-radius: 4rem;
+    background-color: #37a900;
+    --percentage: calc(var(--color) / var(--overall));
+    --Θ: calc(var(--percentage) * 1turn);
+    -webkit-transform: translate(-50%, -50%) rotate(var(--Θ)) translateY(0)
+    scaleY(0);
+    transform: translate(-50%, -50%) rotate(var(--Θ)) translateY(0) scaleY(0);
+    -webkit-transition: all var(--duration) ease;
+    transition: all var(--duration) ease;
+    opacity: 0.5;
+}
+  .bubble_line_code_new , .bubble_line_code_new1{
+    position: absolute;
+    top: -16px;
+    left: -120px;
+    height: 3rem;
+    width: .2rem;
+    border-radius: 4rem;
+    background-color: #37a900;
+    --percentage: calc(var(--color) / var(--overall));
+    --Θ: calc(var(--percentage) * 1turn);
+    -webkit-transform: translate(-50%, -50%) rotate(var(--Θ)) translateY(0)
+    scaleY(0);
+    transform: translate(-50%, -50%) rotate(var(--Θ)) translateY(0) scaleY(0);
+    -webkit-transition: all var(--duration) ease;
+    transition: all var(--duration) ease;
+    opacity: 0.5;
+  }
+   .bubble_line_code_new1{
+    left: 80px;
+   }
+.sparkle .bubble_line_code {
+  -webkit-animation: bubble_line calc(var(--duration) * 1.2) ease
+    forwards infinite;
+  animation: bubble_line calc(var(--duration) * 1.2) ease forwards infinite;
+}
+  .sparkle .bubble_line_code_new , .sparkle .bubble_line_code_new1{
+  -webkit-animation: bubble_line calc(var(--duration) * 1.2) ease
+    forwards infinite;
+  animation: bubble_line calc(var(--duration) * 1.2) ease forwards infinite;
+}
+@-webkit-keyframes bubble_line {
+  50% {
+    height: 0.3em;
+  }
+  50%,
+  60% {
+    height: 0.3em;
+    -webkit-transform: translate(-50%, -50%) rotate(var(--Θ)) translateY(0.8em)
+      scale(1);
+    transform: translate(-50%, -50%) rotate(var(--Θ)) translateY(0.8em) scale(1);
+  }
+  60% {
+    height: 0.2em;
+  }
+  100% {
+    -webkit-transform: translate(-50%, -50%) rotate(var(--Θ)) translateY(1em)
+      scale(0);
+    transform: translate(-50%, -50%) rotate(var(--Θ)) translateY(1em) scale(0);
+  }
+}
+@keyframes bubble_line {
+  50% {
+    height: 0.3em;
+  }
+  50%,
+  60% {
+    height: 0.3em;
+    -webkit-transform: translate(-50%, -50%) rotate(var(--Θ)) translateY(0.8em)
+      scale(1);
+    transform: translate(-50%, -50%) rotate(var(--Θ)) translateY(0.8em) scale(1);
+  }
+  60% {
+    height: 0.2em;
+  }
+  100% {
+    -webkit-transform: translate(-50%, -50%) rotate(var(--Θ)) translateY(1em)
+      scale(0);
+    transform: translate(-50%, -50%) rotate(var(--Θ)) translateY(1em) scale(0);
+  }
+}
+  .bubble_line .bubble_line_code {
+    display: block;
+}
+    .bubble_line .bubble_line_code_new , .bubble_line .bubble_line_code_new1 {
+    display: block;
+}
+{% endif %}
+  .progress-bar-section {
+    background-color: #dbdada;
+    display: flex;
+    height: 2px;
+    width: 100%;
+    position: relative;
+    align-items: center;
+}
+  
+  .progress-bar{
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background: linear-gradient(325deg, #3448ff, #f14d4d);
+    transition: all var(--duration-default) linear;
+    max-width: 100%;
+    width: {{ progress_shipping }}%;
+  }
+  .free_shipping_value,
+  .free_shipping{
+    font-family: var(--font-body-family);
+    text-transform: capitalize;
+    color: #000000;
+    line-height: calc(1 + 0.5 / var(--font-body-scale));
+    font-weight: 500;
+    letter-spacing: normal;
+    font-size: 14px;
+    text-align: left;
+    padding-left: 6px;
+    text-align: center;
+    padding: 0 14px;
+}
+  .free_shipping_progress {
+    margin-bottom: 0rem;
+}
+  .free_shipping {
+    color: #37a900;
+}
+  .progress-bar-section.progress_bar_active .progress-bar{
+    background: #37a900;
+  }
+  .free-shipping-progres-bar {
+    margin-bottom: 10px;
+  }
+    .progress-bar-section.progress_bar_active .progress-bar{
+    background: #37a900;
+  }
+  /*.progress-bar-section{
+    display: none;
+  }*/
+
+  .free_shipping_value {
+    font-weight: 700;
+    padding: 0px 8px 0px 8px;
+    line-height: normal;
+}
+  span.progress-message {
+    font-weight: 700;
+}
+
+</style>
+
+
+
+<style>
+{% if cart_quantity >= 1 %}
+:root {
+  --duration: 800ms;
+}
+.bubble_line {
+    position: relative;
+}
+.sparkle_chingles {
+  display: grid;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  z-index: 1;
+}
+.sparkle {
+  font-size: 1.5vmin;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.bubble_line_code {
+    position: absolute;
+    top: -16px;
+    left: -30px;
+    height: 3rem;
+    width: .2rem;
+    border-radius: 4rem;
+    background-color: #37a900;
+    --percentage: calc(var(--color) / var(--overall));
+    --Θ: calc(var(--percentage) * 1turn);
+    -webkit-transform: translate(-50%, -50%) rotate(var(--Θ)) translateY(0)
+    scaleY(0);
+    transform: translate(-50%, -50%) rotate(var(--Θ)) translateY(0) scaleY(0);
+    -webkit-transition: all var(--duration) ease;
+    transition: all var(--duration) ease;
+    opacity: 0.5;
+}
+  .bubble_line_code_new , .bubble_line_code_new1{
+    position: absolute;
+    top: -16px;
+    left: -120px;
+    height: 3rem;
+    width: .2rem;
+    border-radius: 4rem;
+    background-color: #37a900;
+    --percentage: calc(var(--color) / var(--overall));
+    --Θ: calc(var(--percentage) * 1turn);
+    -webkit-transform: translate(-50%, -50%) rotate(var(--Θ)) translateY(0)
+    scaleY(0);
+    transform: translate(-50%, -50%) rotate(var(--Θ)) translateY(0) scaleY(0);
+    -webkit-transition: all var(--duration) ease;
+    transition: all var(--duration) ease;
+    opacity: 0.5;
+  }
+   .bubble_line_code_new1{
+    left: 80px;
+   }
+.sparkle .bubble_line_code {
+  -webkit-animation: bubble_line calc(var(--duration) * 1.2) ease
+    forwards infinite;
+  animation: bubble_line calc(var(--duration) * 1.2) ease forwards infinite;
+}
+  .sparkle .bubble_line_code_new , .sparkle .bubble_line_code_new1{
+  -webkit-animation: bubble_line calc(var(--duration) * 1.2) ease
+    forwards infinite;
+  animation: bubble_line calc(var(--duration) * 1.2) ease forwards infinite;
+}
+@-webkit-keyframes bubble_line {
+  50% {
+    height: 0.3em;
+  }
+  50%,
+  60% {
+    height: 0.3em;
+    -webkit-transform: translate(-50%, -50%) rotate(var(--Θ)) translateY(0.8em)
+      scale(1);
+    transform: translate(-50%, -50%) rotate(var(--Θ)) translateY(0.8em) scale(1);
+  }
+  60% {
+    height: 0.2em;
+  }
+  100% {
+    -webkit-transform: translate(-50%, -50%) rotate(var(--Θ)) translateY(1em)
+      scale(0);
+    transform: translate(-50%, -50%) rotate(var(--Θ)) translateY(1em) scale(0);
+  }
+}
+@keyframes bubble_line {
+  50% {
+    height: 0.3em;
+  }
+  50%,
+  60% {
+    height: 0.3em;
+    -webkit-transform: translate(-50%, -50%) rotate(var(--Θ)) translateY(0.8em)
+      scale(1);
+    transform: translate(-50%, -50%) rotate(var(--Θ)) translateY(0.8em) scale(1);
+  }
+  60% {
+    height: 0.2em;
+  }
+  100% {
+    -webkit-transform: translate(-50%, -50%) rotate(var(--Θ)) translateY(1em)
+      scale(0);
+    transform: translate(-50%, -50%) rotate(var(--Θ)) translateY(1em) scale(0);
+  }
+}
+  .bubble_line .bubble_line_code {
+    display: block;
+}
+    .bubble_line .bubble_line_code_new , .bubble_line .bubble_line_code_new1 {
+    display: block;
+}
+{% endif %}
+  .progress-bar-section {
+    background-color: #dbdada;
+    display: flex;
+    height: 7px;
+    width: 100%;
+    position: relative;
+    align-items: center;
+    margin-bottom: 6px;
+}
+  
+  .progress-bar{
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background: linear-gradient(325deg, #3448ff, #f14d4d);
+    transition: all var(--duration-default) linear;
+    max-width: 100%;
+    width: 100%;
+  }
+  .free_shipping_value,
+  .free_shipping{
+    font-family: var(--font-body-family);
+    text-transform: capitalize;
+    color: #000000;
+    line-height: calc(1 + 0.5 / var(--font-body-scale));
+    font-weight: 500;
+    letter-spacing: normal;
+    font-size: 14px;
+    padding: 0 14px;
+}
+  .free_shipping_progress {
+    margin-bottom: 0rem;
+}
+  .free_shipping {
+    color: #37a900;
+}
+  .progress-bar-section.progress_bar_active .progress-bar{
+    background: #37a900;
+  }
+  .free-shipping-progres-bar {
+    margin-bottom: 10px;
+  }
+    .progress-bar-section.progress_bar_active .progress-bar{
+    background: #37a900;
+  }
+  /*.progress-bar-section{
+    display: none;
+  }*/
+
+  .free_shipping_value.price-bar-update{
+    margin-bottom: 10px;
+  }
+
+</style>

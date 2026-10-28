@@ -1,0 +1,123 @@
+{%- comment -%}
+  Product card shared by the Combo deals and Shop by goal sections.
+  Styles live in assets/combo-deal-card.css; each section sets the colours through --card-* variables.
+
+  Accepts:
+  - product: {Object} Product
+  - autoapply_percent: {Number} Extra % off shown in the "Get it at" note (0 or empty hides it)
+  - autoapply_label: {String} Note text; [price] is replaced with the discounted price
+  - button_label: {String} Add to cart button text
+
+  Bullet points come from the product metafield custom.combo_includes
+  (list of single-line text, or multi-line text with one item per line). Without it, the
+  serving size (custom.serving_size / custom.size_name) is shown instead.
+  A "New" tag shows when the product is tagged "new".
+
+  Usage:
+  {% render 'combo-deal-card', product: product, autoapply_percent: 1, autoapply_label: 'Get it at [price] · code auto-applies', button_label: 'Add to cart' %}
+{%- endcomment -%}
+
+{%- liquid
+  assign cd_variant = product.selected_or_first_available_variant
+  assign cd_price = cd_variant.price
+  assign cd_compare = cd_variant.compare_at_price
+  assign cd_tags = product.tags | join: ',' | downcase | split: ','
+
+  assign cd_save_pct = 0
+  if cd_compare > cd_price
+    assign cd_save_pct = cd_compare | minus: cd_price | times: 100 | divided_by: cd_compare | round
+  endif
+
+  assign cd_mf = product.metafields.custom.combo_includes
+  if cd_mf.type contains 'list'
+    assign cd_points = cd_mf.value
+  elsif cd_mf.value != blank
+    assign cd_points = cd_mf.value | newline_to_br | split: '<br />'
+  else
+    assign cd_serving = product.metafields.custom.serving_size.value | default: product.metafields.custom.size_name.value
+    if cd_serving != blank
+      assign cd_points = cd_serving | split: '|||'
+    else
+      assign cd_points = nil
+    endif
+  endif
+-%}
+
+<li class="cd__card">
+  <a class="cd__card-media" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
+    {%- if product.featured_image != blank -%}
+      {{
+        product.featured_image
+        | image_url: width: 800
+        | image_tag: widths: '320, 480, 640, 800', sizes: '(min-width: 990px) 25vw, (min-width: 750px) 45vw, 110px', loading: 'lazy', alt: ''
+      }}
+    {%- endif -%}
+    {%- if cd_tags contains 'new' -%}
+      <span class="cd__card-tag">New</span>
+    {%- endif -%}
+    {%- if cd_save_pct > 0 -%}
+      <span class="cd__card-save">
+        <span class="cd__card-save-full">Save {{ cd_save_pct }}%</span>
+        <span class="cd__card-save-short">-{{ cd_save_pct }}%</span>
+      </span>
+    {%- endif -%}
+  </a>
+
+  <div class="cd__card-body">
+    <a class="cd__card-title" href="{{ product.url }}">{{ product.title | escape }}</a>
+
+    {%- if cd_points.size > 0 -%}
+      <ul class="cd__card-points list-unstyled" role="list">
+        {%- for point in cd_points -%}
+          {%- assign point_text = point | strip -%}
+          {%- if point_text != blank -%}
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 12.5 9.5 18 20 6"/></svg>
+              {{ point_text | escape }}
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    <p class="cd__card-price">
+      <span class="cd__card-now">{{ cd_price | money_without_trailing_zeros }}</span>
+      {%- if cd_compare > cd_price %}
+        <s class="cd__card-was">{{ cd_compare | money_without_trailing_zeros }}</s>
+      {%- endif -%}
+      {%- if cd_save_pct > 0 %}
+        {%- comment -%} Shown next to the price on mobile; desktop uses the badge on the image. {%- endcomment %}
+        <span class="cd__card-save-inline">Save {{ cd_save_pct }}%</span>
+      {%- endif -%}
+    </p>
+
+    {%- if autoapply_percent > 0 -%}
+      {%- liquid
+        # Rounded to whole currency units (e.g. ₹5,939, not ₹5,939.01).
+        assign cd_multiplier = 100 | minus: autoapply_percent | divided_by: 100.0
+        assign cd_auto_price = cd_price | times: cd_multiplier | divided_by: 100.0 | round | times: 100 | money_without_trailing_zeros
+        assign cd_note = autoapply_label | default: 'Get it at [price] · code auto-applies'
+      -%}
+      <p class="cd__card-note">{{ cd_note | escape | replace: '[price]', cd_auto_price }}</p>
+    {%- endif -%}
+
+    <form class="cd__add" action="{{ routes.cart_add_url }}" method="post">
+      <input type="hidden" name="id" value="{{ cd_variant.id }}">
+      <input type="hidden" name="quantity" value="1">
+      <button
+        type="submit"
+        class="cd__add-btn"
+        aria-label="{{ button_label | default: 'Add to cart' | escape }}: {{ product.title | escape }}"
+        {% unless cd_variant.available %}
+          disabled
+        {% endunless %}
+      >
+        {%- if cd_variant.available -%}
+          {{ button_label | default: 'Add to cart' | escape }}
+        {%- else -%}
+          {{ 'products.product.sold_out' | t }}
+        {%- endif -%}
+      </button>
+    </form>
+  </div>
+</li>

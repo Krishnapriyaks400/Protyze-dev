@@ -1,0 +1,220 @@
+
+
+
+{%  if section.settings.th1 != blank or section.settings.th2 != blank or section.settings.th3 != blank or section.settings.th4 != blank %}
+  <section class="table-{{  section.id }} page-width section-{{ section.id }}-padding">
+    <table>
+      <thead>
+        <tr>
+          <th>
+            {{ section.settings.th1 }}
+          </th>
+          <th>
+            {{ section.settings.th2 }}
+          </th>
+          <th>
+            {{ section.settings.th3 }}
+          </th>
+          <th>
+            {{ section.settings.th4 }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if section.blocks.size > 0 %}
+          {%  for block in section.blocks %}
+            <tr>
+              <td>{{ block.settings.col1 }}</td>
+              <td>{{ block.settings.col2 }}</td>
+              <td>{{ block.settings.col3 }}</td>
+              <td><a href="{{ block.settings.col4 }}" target="_blank">Download</a></td>
+            </tr>
+            {%  endfor %}
+        {%  endif %}
+      </tbody>
+    </table>
+  </section>
+  <style>
+   /* .table-{{  section.id }}{
+      padding: 40px 0;
+    } */
+    .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+    .table-{{  section.id }} table {
+      width: 100%; 
+      border: none;
+      box-shadow: 0 0 0;
+      table-layout: fixed; /* Ensure columns divide evenly */
+    }
+    .table-{{  section.id }} thead tr th {
+      background: {{- section.settings.color_th | default: '#eee' -}};
+      color: {{- section.settings.color_th_text | default: '#fff' -}};
+      text-align: left;
+      border: none;
+      line-height: normal;
+      white-space: nowrap; /* Prevent text wrapping */
+      text-overflow: ellipsis; /* Handle long text with ellipsis */
+      overflow: hidden; /* Hide overflowing text */
+    }
+    .table-{{  section.id }} tbody tr td {
+      background: {{- section.settings.color_even | default: '#fff' -}};
+      color: {{- section.settings.color_even_text | default: '#fff' -}};
+      text-align: left;
+      line-height: normal;
+      word-wrap: break-word;
+      white-space: nowrap; /* Prevent text wrapping */
+      text-overflow: ellipsis; /* Handle long text with ellipsis */
+      overflow: hidden; /* Hide overflowing text */
+    }
+    .table-{{  section.id }} tbody tr td a{
+      color: {{- section.settings.color_even_text | default: '#fff' -}};
+    }
+    .table-{{  section.id }} tbody tr:nth-child(odd) td {
+      background: {{- section.settings.color_odd | default: '#fff' -}};
+      color: {{- section.settings.color_odd_text | default: '#fff' -}};
+      
+    }
+    @media(max-width: 749px){
+      .table-{{  section.id }}{
+        margin: 40px auto;
+        overflow-x: auto;
+      }
+      .table-{{  section.id }} table {
+        width: auto;
+      }
+    }
+    
+  </style>
+{%  endif %}
+{% schema %}
+  {
+    "name": "t:sections.report-table.name",
+    "settings": [
+       {
+          "type": "text",
+          "id": "th1",
+          "label": "t:sections.report-table.settings.header.header__1.label"
+        },
+        {
+          "type": "text",
+          "id": "th2",
+          "label": "t:sections.report-table.settings.header.header__2.label"
+        },
+        {
+          "type": "text",
+          "id": "th3",
+          "label": "t:sections.report-table.settings.header.header__3.label"
+        },
+        {
+          "type": "text",
+          "id": "th4",
+          "label": "t:sections.report-table.settings.header.header__4.label"
+        },
+        {
+        "type": "color",
+        "id": "color_th",
+        "label": "t:sections.report-table.settings.header.table_header_color.label"
+       },
+      {
+        "type": "color",
+        "id": "color_th_text",
+        "label": "t:sections.report-table.settings.header.table_header_text_color.label"
+       },
+      {
+        "type": "color",
+        "id": "color_even",
+        "label": "t:sections.report-table.settings.header.even_row_color.label"
+       },
+      {
+        "type": "color",
+        "id": "color_even_text",
+        "label": "t:sections.report-table.settings.header.even_row_text_color.label"
+       },
+      {
+        "type": "color",
+        "id": "color_odd",
+        "label": "t:sections.report-table.settings.header.odd_row_color.label"
+       },
+      {
+        "type": "color",
+        "id": "color_odd_text",
+        "label": "t:sections.report-table.settings.header.odd_row_text_color.label"
+       },
+       {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 52
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "t:sections.main-product.blocks.icon_with_text.settings.custom_class.label",
+      "info": "t:sections.main-product.blocks.icon_with_text.settings.custom_class.info"
+   }
+  ],
+  "blocks": [
+    {
+      "type": "rows",
+      "name": "Row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "col1",
+          "label": "Col 1"
+        },
+        {
+          "type": "text",
+          "id": "col2",
+          "label": "Col 2"
+        },
+        {
+          "type": "text",
+          "id": "col3",
+          "label": "Col 3"
+        },
+        {
+          "type": "text",
+          "id": "col4",
+          "label": "Col 4"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Report-Table",
+      "blocks": [
+        
+      ]
+    }
+  ]
+  }
+{% endschema %}

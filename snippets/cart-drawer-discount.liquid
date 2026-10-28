@@ -1,0 +1,295 @@
+{% comment %}
+  Renders the discount code form, applied code tags and discount/total summary in the cart drawer.
+  Codes are applied/removed through the Cart AJAX API (`discount` param on /cart/update.js),
+  then the cart drawer section is re-rendered.
+
+  Usage:
+  {% render 'cart-drawer-discount' %}
+{% endcomment %}
+
+{%- liquid
+  assign applied_codes = ''
+  for discount_code in cart.discount_codes
+    if discount_code.applicable
+      assign applied_codes = applied_codes | append: discount_code.code | append: ','
+    endif
+  endfor
+-%}
+
+{%- if cart != empty -%}
+<cart-drawer-discount class="cart-discount" data-codes="{{ applied_codes | escape }}">
+  <form class="cart-discount__form" novalidate>
+    <label class="visually-hidden" for="CartDrawer-DiscountCode">Discount code or gift card</label>
+    <input
+      id="CartDrawer-DiscountCode"
+      class="cart-discount__input"
+      type="text"
+      name="discount"
+      placeholder="Discount code or gift card"
+      autocomplete="off"
+      autocapitalize="characters"
+      spellcheck="false"
+    >
+    <button type="submit" class="cart-discount__apply">
+      <span class="cart-discount__apply-label">Apply</span>
+      <span class="cart-discount__spinner" aria-hidden="true"></span>
+    </button>
+  </form>
+
+  <p class="cart-discount__error" role="alert" hidden></p>
+
+  {%- if cart.discount_codes.size > 0 -%}
+    <ul class="cart-discount__tags list-unstyled" role="list" aria-label="{{ 'customer.order.discount' | t }}">
+      {%- for discount_code in cart.discount_codes -%}
+        {%- if discount_code.applicable -%}
+          <li class="cart-discount__tag">
+            {{- 'icon-discount.svg' | inline_asset_content -}}
+            <span>{{ discount_code.code | escape }}</span>
+            <button
+              type="button"
+              class="cart-discount__remove"
+              data-remove-code="{{ discount_code.code | escape }}"
+              aria-label="Remove discount {{ discount_code.code | escape }}"
+            >
+              &times;
+            </button>
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+
+  {%- if cart.total_discount > 0 -%}
+    <div class="cart-discount__row">
+      <span>Discount:</span>
+      <span>-{{ cart.total_discount | money }}</span>
+    </div>
+  {%- endif -%}
+  {% comment %} <div class="cart-discount__row">
+    <span>Total:</span>
+    <span>{{ cart.total_price | money_with_currency }}</span>
+  </div> {% endcomment %}
+</cart-drawer-discount>
+{%- endif -%}
+
+<style>
+  .cart-discount {
+    display: block;
+    margin-top: 2rem;
+    text-align: left;
+  }
+  .cart-discount__form {
+    display: flex;
+    gap: 1.2rem;
+  }
+  .cart-discount__input {
+    flex: 1;
+    min-width: 0;
+    height: 5rem;
+    padding: 0 1.6rem;
+    font-size: 1.5rem;
+    font-family: inherit;
+    color: rgb(var(--color-foreground));
+    background: #fff;
+    border: 1px solid rgba(var(--color-foreground), 0.3);
+    border-radius: 0.4rem;
+    outline: none;
+  }
+  .cart-discount__input:focus {
+    border-color: rgb(var(--color-foreground));
+  }
+  .cart-discount__apply {
+    position: relative;
+    min-width: 10rem;
+    height: 5rem;
+    padding: 0 2.4rem;
+    font-size: 1.6rem;
+    font-family: inherit;
+    color: #fff;
+    background: #17c03f;
+    border: 0;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .cart-discount__apply:hover {
+    background: #12a535;
+  }
+  .cart-discount__apply[disabled] {
+    cursor: wait;
+    opacity: 0.8;
+  }
+  .cart-discount__spinner {
+    display: none;
+    position: absolute;
+    inset: 0;
+    width: 1.8rem;
+    height: 1.8rem;
+    margin: auto;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: cart-discount-spin 0.7s linear infinite;
+  }
+  .cart-discount.is-loading .cart-discount__spinner {
+    display: block;
+  }
+  .cart-discount.is-loading .cart-discount__apply-label {
+    visibility: hidden;
+  }
+  @keyframes cart-discount-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  .cart-discount__error {
+    margin: 0.8rem 0 0;
+    font-size: 1.3rem;
+    color: #d72c0d;
+  }
+  .cart-discount__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin: 1.2rem 0 0;
+  }
+  .cart-discount__tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.6rem 0.5rem 0.8rem;
+    font-size: 1.3rem;
+    color: rgb(var(--color-foreground));
+    background: rgba(var(--color-foreground), 0.12);
+    border-radius: 0.4rem;
+  }
+  .cart-discount__tag svg {
+    width: 1.4rem;
+    height: 1.4rem;
+  }
+  .cart-discount__remove {
+    padding: 0 0.2rem;
+    font-size: 1.6rem;
+    line-height: 1;
+    color: inherit;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    opacity: 0.6;
+  }
+  .cart-discount__remove:hover {
+    opacity: 1;
+  }
+  .cart-discount__row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.2rem;
+    font-size: 1.6rem;
+    color: rgb(var(--color-foreground));
+  }
+  .cart-discount__row + .cart-discount__row {
+    margin-top: 0.6rem;
+  }
+</style>
+
+<script>
+  if (!customElements.get('cart-drawer-discount')) {
+    customElements.define(
+      'cart-drawer-discount',
+      class CartDrawerDiscount extends HTMLElement {
+        connectedCallback() {
+          this.form = this.querySelector('form');
+          this.input = this.querySelector('input');
+          this.form.addEventListener('submit', this.onApply.bind(this));
+          this.querySelectorAll('[data-remove-code]').forEach((button) =>
+            button.addEventListener('click', () => this.onRemove(button.dataset.removeCode))
+          );
+        }
+
+        get appliedCodes() {
+          return (this.dataset.codes || '').split(',').filter(Boolean);
+        }
+
+        async onApply(event) {
+          event.preventDefault();
+          const code = this.input.value.trim();
+          if (!code) return this.showError('Please enter a discount code.');
+
+          const codes = this.appliedCodes;
+          if (codes.some((c) => c.toLowerCase() === code.toLowerCase())) {
+            return this.showError('This discount code is already applied.');
+          }
+
+          const cart = await this.updateDiscounts([...codes, code]);
+          if (!cart) return;
+
+          const applied = (cart.discount_codes || []).find(
+            (d) => d.code.toLowerCase() === code.toLowerCase()
+          );
+          if (applied && applied.applicable) {
+            this.render(cart);
+          } else {
+            // Drop the invalid code so it doesn't linger on the cart, then show the error.
+            const cleaned = await this.updateDiscounts(codes);
+            if (cleaned) this.render(cleaned);
+            this.showError(`"${code}" is not a valid discount code for this cart.`);
+          }
+        }
+
+        async onRemove(code) {
+          const cart = await this.updateDiscounts(this.appliedCodes.filter((c) => c !== code));
+          if (cart) this.render(cart);
+        }
+
+        async updateDiscounts(codes) {
+          this.setLoading(true);
+          try {
+            const response = await fetch(`${routes.cart_update_url}.js`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+              body: JSON.stringify({
+                discount: codes.join(','),
+                sections: ['cart-drawer', 'cart-icon-bubble'],
+                sections_url: window.location.pathname,
+              }),
+            });
+            if (!response.ok) throw new Error(response.statusText);
+            return await response.json();
+          } catch (error) {
+            console.error(error);
+            this.showError('Something went wrong. Please try again.');
+            return null;
+          } finally {
+            this.setLoading(false);
+          }
+        }
+
+        render(cart) {
+          const parse = (html, selector) =>
+            new DOMParser().parseFromString(html, 'text/html').querySelector(selector);
+
+          const drawerInner = document.querySelector('#CartDrawer .drawer__inner');
+          const newInner = cart.sections && parse(cart.sections['cart-drawer'], '.drawer__inner');
+          if (drawerInner && newInner) drawerInner.innerHTML = newInner.innerHTML;
+
+          const bubble = document.getElementById('cart-icon-bubble');
+          const newBubble = cart.sections && parse(cart.sections['cart-icon-bubble'], '.shopify-section');
+          if (bubble && newBubble) bubble.innerHTML = newBubble.innerHTML;
+        }
+
+        showError(message) {
+          // The element may have been replaced by a re-render, so look it up fresh.
+          const error = document.querySelector('cart-drawer-discount .cart-discount__error');
+          if (!error) return;
+          error.textContent = message;
+          error.hidden = false;
+        }
+
+        setLoading(isLoading) {
+          this.classList.toggle('is-loading', isLoading);
+          this.querySelector('.cart-discount__apply').disabled = isLoading;
+        }
+      }
+    );
+  }
+</script>

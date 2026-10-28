@@ -1,0 +1,123 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "breadcrumb_Y4X3Hm": {
+      "type": "breadcrumb",
+      "disabled": true,
+      "name": "t:sections.breadcrumb.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "page_layout": "grid",
+        "padding_top": 8,
+        "padding_bottom": 8
+      }
+    },
+    "image_banner_YhCmme": {
+      "type": "image-banner",
+      "name": "t:sections.image-banner.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/PROTEIN_shake1_1800_x_600.avif",
+        "image_overlay_opacity": 0,
+        "image_height": "adapt",
+        "image_behavior": "none",
+        "desktop_content_position": "middle-center",
+        "desktop_content_alignment": "center",
+        "show_text_box": true,
+        "color_scheme": "",
+        "stack_images_on_mobile": true,
+        "mobile_content_alignment": "center",
+        "show_text_below": true,
+        "custom_class": ""
+      }
+    },
+    "product-grid": {
+      "type": "main-collection-product-grid",
+      "settings": {
+        "products_per_page": 64,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "standard",
+        "enable_filtering": false,
+        "filter_type": "horizontal",
+        "enable_sorting": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "banner": {
+      "type": "main-collection-banner",
+      "settings": {
+        "show_collection_description": true,
+        "show_collection_image": false,
+        "color_scheme": "scheme-1"
+      }
+    },
+    "faq_FUJNab": {
+      "type": "faq",
+      "blocks": {
+        "faq_item_RD7jVp": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Is this whey protein isolate or concentrate?",
+            "answer": "<p>Anytime Clear Whey is made using whey protein isolate, offering high protein purity with minimal lactose and fats.</p>",
+            "card_bg_color": ""
+          }
+        },
+        "faq_item_KY7H7D": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Is clear whey easier to digest than regular whey?",
+            "answer": "<p>Yes, clear whey isolate is lighter on the stomach and digests faster than traditional whey concentrate.</p>",
+            "card_bg_color": ""
+          }
+        },
+        "faq_item_w7UFGt": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can I drink this protein daily?",
+            "answer": "<p>Absolutely. It is safe for daily consumption as part of a balanced diet and training routine.</p>",
+            "card_bg_color": ""
+          }
+        }
+      },
+      "block_order": [
+        "faq_item_RD7jVp",
+        "faq_item_KY7H7D",
+        "faq_item_w7UFGt"
+      ],
+      "name": "FAQ",
+      "settings": {
+        "eyebrow": "GOOD TO KNOW",
+        "heading": "Frequently asked questions",
+        "subheading": "",
+        "color_scheme": "",
+        "accent_color": "#e91e63",
+        "open_first": true,
+        "exclusive_mode": true,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": [
+    "breadcrumb_Y4X3Hm",
+    "image_banner_YhCmme",
+    "product-grid",
+    "banner",
+    "faq_FUJNab"
+  ]
+}

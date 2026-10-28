@@ -1,0 +1,73 @@
+{%- comment -%}
+  Renders ONE option (a flavour swatch or a serving-size button) for
+  product-siblings-selector.liquid. Each option is a plain link to that
+  sibling product's own page (no JS needed).
+
+  Accepts:
+  - kind: 'flavour' | 'size'
+  - option_product: the sibling product to link to
+  - current_product: the product currently being viewed
+
+  Metafields read from the sibling product (all under the "custom" namespace):
+  - flavour_name    (single line text)  swatch tooltip / label, falls back to the product title
+  - flavour_color   (color)             tints the swatch background (optional)
+  - serving_size    (single line text)  e.g. "30 Servings". Falls back to size_name,
+                                        then to the variant / product title.
+
+  Swatch image is always the sibling product's own featured image (no
+  separate flavour-thumbnail metafield).
+{%- endcomment -%}
+{%- liquid
+  assign is_active = false
+  if option_product.id == current_product.id
+    assign is_active = true
+  endif
+-%}
+
+{%- if kind == 'flavour' -%}
+  {%- liquid
+    assign opt_name = option_product.metafields.custom.flavour_name.value | default: option_product.title
+    assign opt_image = option_product.featured_image
+    assign opt_color = option_product.metafields.custom.flavour_color.value
+  -%}
+  <a
+    href="{{ option_product.url }}"
+    class="pi-swatch{% if is_active %} pi-swatch--active{% endif %}"
+    title="{{ opt_name | escape }}"
+    aria-label="{{ opt_name | escape }}"
+    {% if is_active %}aria-current="true"{% endif %}
+    {%- if opt_color != blank %}
+      style="--pi-swatch-tint: {{ opt_color | color_modify: 'alpha', 0.2 }};"
+    {%- endif %}
+  >
+    {%- if opt_image.aspect_ratio -%}
+      {{
+        opt_image
+        | image_url: width: 160
+        | image_tag: loading: 'lazy', width: 80, height: 80, alt: '', class: 'pi-swatch__img'
+      }}
+    {%- else -%}
+      <span class="pi-swatch__text">{{ opt_name | escape }}</span>
+    {%- endif -%}
+  </a>
+{%- else -%}
+  {%- liquid
+    assign opt_label = option_product.metafields.custom.serving_size.value
+    if opt_label == blank
+      assign opt_label = option_product.metafields.custom.size_name.value
+    endif
+    if opt_label == blank
+      assign opt_label = option_product.selected_or_first_available_variant.title
+      if opt_label == 'Default Title'
+        assign opt_label = option_product.title
+      endif
+    endif
+  -%}
+  <a
+    href="{{ option_product.url }}"
+    class="pi-size{% if is_active %} pi-size--active{% endif %}"
+    {% if is_active %}aria-current="true"{% endif %}
+  >
+    {{- opt_label | escape -}}
+  </a>
+{%- endif -%}

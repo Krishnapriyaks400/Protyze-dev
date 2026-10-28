@@ -1,0 +1,93 @@
+{%- comment -%}
+  Metafield-driven "sibling product" selector. Replaces the flavour / serving
+  size swatches that used to come from a third-party app.
+
+  Accepts:
+  - kind: 'flavour' | 'size'
+  - product: the product being viewed
+  - block: the section block (for the label setting + editor attributes)
+  - label: optional override for block.settings.label (used when this is
+    rendered from inside another block, e.g. the Price + Cart card)
+
+  Reads (product metafields, "custom" namespace, type: list of products):
+  - flavour  -> custom.flavor_siblings
+  - size     -> custom.serving_size_variants
+
+  The list may or may not include the current product itself:
+  - if it does, the list order is used as-is
+  - if it does not, the current product is added as the first option
+  A single "product" reference (instead of a list) is handled too.
+  Nothing renders when there is nothing to choose between.
+{%- endcomment -%}
+{%- liquid
+  if kind == 'flavour'
+    assign siblings = product.metafields.custom.flavor_siblings.value
+  else
+    assign siblings = product.metafields.custom.serving_size_variants.value
+  endif
+
+  assign is_single = false
+  if siblings.title != blank
+    assign is_single = true
+  endif
+
+  assign has_self = false
+  assign option_count = 0
+  if is_single
+    assign option_count = 1
+    if siblings.id == product.id
+      assign has_self = true
+    endif
+  else
+    for sibling in siblings
+      assign option_count = option_count | plus: 1
+      if sibling.id == product.id
+        assign has_self = true
+      endif
+    endfor
+  endif
+
+  assign show_selector = true
+  if option_count == 0
+    assign show_selector = false
+  elsif option_count == 1 and has_self
+    assign show_selector = false
+  endif
+
+  if kind == 'flavour'
+    assign current_value = block.settings.current_flavour_text | default: product.metafields.custom.flavour_name.value
+    assign fallback_label = 'Flavour'
+  else
+    assign current_value = product.metafields.custom.serving_size.value | default: product.metafields.custom.size_name.value
+    assign fallback_label = 'Select Size'
+  endif
+
+  assign selector_label = label | default: block.settings.label | default: fallback_label
+-%}
+
+{%- if show_selector -%}
+  <div
+    class="pi-option pi-option--{{ kind }}"
+    role="group"
+    aria-label="{{ selector_label | escape }}"
+    {{ block.shopify_attributes }}
+  >
+    {%- comment -%}
+      No visible label: the flavour and serving size are shown in the product
+      header pills instead (the group keeps its aria-label for screen readers).
+    {%- endcomment -%}
+    <div class="pi-option__list">
+      {%- unless has_self -%}
+        {%- render 'product-sibling-option', kind: kind, option_product: product, current_product: product -%}
+      {%- endunless -%}
+
+      {%- if is_single -%}
+        {%- render 'product-sibling-option', kind: kind, option_product: siblings, current_product: product -%}
+      {%- else -%}
+        {%- for sibling in siblings -%}
+          {%- render 'product-sibling-option', kind: kind, option_product: sibling, current_product: product -%}
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}

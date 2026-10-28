@@ -1,0 +1,48 @@
+<div class="highlight-tags" {{ block.shopify_attributes }}>
+  {%- for i in (1..6) -%}
+    {%- assign tag_text_key = 'tag_' | append: i | append: '_text' -%}
+    {%- assign tag_color_key = 'tag_' | append: i | append: '_color' -%}
+    {%- assign tag_text = block.settings[tag_text_key] -%}
+    {%- assign tag_color = block.settings[tag_color_key] -%}
+    {%- if tag_text != blank -%}
+      <span class="highlight-tags__pill">
+        <span class="highlight-tags__dot" style="background: {{ tag_color }};"></span>
+        {{ tag_text | escape }}
+      </span>
+    {%- endif -%}
+  {%- endfor -%}
+</div>
+
+<style>
+  .highlight-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
+  .highlight-tags__pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.8rem 1.6rem;
+    border: 1px solid rgba(var(--color-foreground), 0.12);
+    border-radius: 5rem;
+    background: rgb(var(--color-background));
+    font-family: var(--font-custom-family, var(--font-body-family));
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: rgb(var(--color-foreground));
+    white-space: nowrap;
+  }
+  .highlight-tags__dot {
+    width: 0.8rem;
+    height: 0.8rem;
+    min-width: 0.8rem;
+    border-radius: 50%;
+  }
+  @media screen and (max-width: 749px) {
+    .highlight-tags__pill {
+      padding: 0.6rem 1.2rem;
+      font-size: 1.3rem;
+    }
+  }
+</style>

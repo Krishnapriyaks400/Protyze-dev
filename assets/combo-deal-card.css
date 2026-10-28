@@ -1,0 +1,250 @@
+/*
+  Shared product card (snippets/combo-deal-card.liquid), used by the Combo deals and
+  Shop by goal sections. Each section sets the colours through these variables:
+
+  --card-bg, --card-border, --card-text, --card-muted, --card-media-bg,
+  --card-badge-bg, --card-badge-text, --card-save, --card-note-bg, --card-note-text,
+  --card-btn-bg, --card-btn-text, --card-display
+
+  Desktop: vertical card (image on top). Mobile: horizontal card (image left).
+*/
+
+.cd__card {
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--card-border, transparent);
+  border-radius: 8px;
+  color: var(--card-text, #2b0a1c);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 0.8rem;
+  text-align: left;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.cd__card:hover {
+  transform: translateY(-2px);
+}
+
+.cd__card-media {
+  aspect-ratio: 4 / 3;
+  background: var(--card-media-bg, #f3eee9);
+  border-radius: 8px;
+  display: block;
+  overflow: hidden;
+  position: relative;
+}
+/* Whole product visible (no cropping); the media background fills any gaps. */
+.cd__card-media img {
+  display: block;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.4s;
+  width: 100%;
+}
+.cd__card:hover .cd__card-media img {
+  transform: scale(1.03);
+}
+.cd__card-save {
+  background: var(--card-badge-bg, #3b0f24);
+  border-radius: 8px;
+  color: var(--card-badge-text, #ffffff);
+  font-size: 1.1rem;
+  font-weight: 800;
+  padding: 0.4rem 0.9rem;
+  position: absolute;
+  right: 0.8rem;
+  top: 0.8rem;
+}
+.cd__card-save-short {
+  display: none;
+}
+.cd__card-tag {
+  background: #e02a2a;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 800;
+  left: 0.8rem;
+  letter-spacing: 0.06em;
+  padding: 0.3rem 0.7rem;
+  position: absolute;
+  text-transform: uppercase;
+  top: 0.8rem;
+}
+
+.cd__card-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  padding: 1.2rem 0.4rem 0.2rem;
+}
+.cd__card-title {
+  -webkit-box-orient: vertical;
+  color: inherit;
+  display: -webkit-box;
+  font-family: var(--card-display, 'Anton', sans-serif);
+  font-size: 1.8rem;
+  font-weight: 400;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  line-height: 1.1;
+  overflow: hidden;
+  text-decoration: none;
+}
+.cd__card-points {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0.8rem 0 0;
+}
+.cd__card-points li {
+  align-items: flex-start;
+  color: var(--card-muted, rgba(43, 10, 28, 0.72));
+  display: flex;
+  font-size: 1.3rem;
+  gap: 0.6rem;
+  line-height: 1.35;
+}
+.cd__card-points svg {
+  color: var(--card-save, #2e9e5b);
+  flex-shrink: 0;
+  height: 1.4rem;
+  margin-top: 0.1rem;
+  width: 1.4rem;
+}
+
+.cd__card-price {
+  align-items: baseline;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.8rem;
+  margin: auto 0 0;
+  padding-top: 1rem;
+}
+.cd__card-now {
+  font-family: var(--card-display, 'Anton', sans-serif);
+  font-size: 2.2rem;
+  white-space: nowrap;
+}
+.cd__card-was {
+  color: var(--card-muted, rgba(43, 10, 28, 0.72));
+  font-size: 1.2rem;
+}
+.cd__card-save-inline {
+  color: var(--card-save, #2e9e5b);
+  display: none;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+.cd__card-note {
+  background: var(--card-note-bg, #fff1d6);
+  border-radius: 8px;
+  color: var(--card-note-text, #2b0a1c);
+  font-size: 1.15rem;
+  margin: 0.8rem 0 0;
+  padding: 0.6rem 0.9rem;
+}
+
+.cd__add {
+  margin: 1rem 0 0;
+}
+.cd__add-btn {
+  background: var(--card-btn-bg, #3b0f24);
+  border: 0;
+  border-radius: 8px;
+  color: var(--card-btn-text, #ffffff);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1.4rem;
+  font-weight: 700;
+  padding: 1.1rem;
+  transition: opacity 0.2s;
+  width: 100%;
+}
+.cd__add-btn:hover {
+  opacity: 0.9;
+}
+.cd__add-btn[disabled] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.cd__add-btn[aria-busy='true'] {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+/* Mobile: horizontal card — image left; name, items, price and Add to cart right. */
+@media screen and (max-width: 749px) {
+  .cd__card {
+    align-items: center;
+    display: grid;
+    gap: 1.4rem;
+    grid-template-columns: 11rem minmax(0, 1fr);
+    padding: 1rem;
+  }
+  .cd__card-media {
+    aspect-ratio: 1 / 1;
+  }
+  /* Compact "-X%" corner badge on the image, opposite the "New" label. */
+  .cd__card-save {
+    font-size: 1rem;
+    line-height: 1.2;
+    padding: 0.2rem 0.5rem;
+    right: 0.5rem;
+    top: 0.5rem;
+  }
+  .cd__card-save-full {
+    display: none;
+  }
+  .cd__card-save-short {
+    display: inline;
+  }
+  .cd__card-tag {
+    font-size: 0.8rem;
+    left: 0.5rem;
+    padding: 0.2rem 0.5rem;
+    top: 0.5rem;
+  }
+  .cd__card-body {
+    padding: 0;
+  }
+  .cd__card-title {
+    font-family: inherit;
+    font-size: 1.6rem;
+    font-weight: 800;
+    line-height: 1.25;
+  }
+  /* Included items on one line, separated by dots. */
+  .cd__card-points {
+    display: block;
+    margin: 0.4rem 0 0;
+  }
+  .cd__card-points li {
+    display: inline;
+    font-size: 1.2rem;
+  }
+  .cd__card-points li + li::before {
+    content: ' · ';
+  }
+  .cd__card-points svg {
+    display: none;
+  }
+  .cd__card-price {
+    padding-top: 0.6rem;
+  }
+  .cd__card-now {
+    font-size: 2rem;
+  }
+  .cd__card-note {
+    font-size: 1.1rem;
+    margin-top: 0.6rem;
+    padding: 0.5rem 0.8rem;
+  }
+  .cd__add {
+    margin-top: 0.8rem;
+  }
+  .cd__add-btn {
+    font-size: 1.3rem;
+    padding: 0.9rem;
+  }
+}

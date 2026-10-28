@@ -1,0 +1,392 @@
+{%- liquid
+  assign collection = section.settings.collection
+  assign protein_key = section.settings.protein_metafield | strip | split: '.'
+  assign tagline_key = section.settings.tagline_metafield | strip | split: '.'
+  assign slider = false
+  if section.settings.layout == 'slider'
+    assign slider = true
+  endif
+  assign root_id = 'FYT-' | append: section.id
+-%}
+
+{% style %}
+  {{ section.settings.heading_font | font_face: font_display: 'swap' }}
+  {{ section.settings.script_font | font_face: font_display: 'swap' }}
+  {{ section.settings.body_font | font_face: font_display: 'swap' }}
+
+  #FYT-{{ section.id }} {
+    --fyt-bg: {{ section.settings.bg_color }};
+    --fyt-heading: {{ section.settings.heading_color }};
+    --fyt-accent: {{ section.settings.accent_color }};
+    --fyt-text: {{ section.settings.text_color }};
+    --fyt-radius: {{ section.settings.card_radius }}px;
+    --fyt-gap: {{ section.settings.card_gap }}px;
+    --fyt-heading-font: {{ section.settings.heading_font.family }}, {{ section.settings.heading_font.fallback_families }};
+    --fyt-script-font: {{ section.settings.script_font.family }}, {{ section.settings.script_font.fallback_families }};
+    --fyt-body-font: {{ section.settings.body_font.family }}, {{ section.settings.body_font.fallback_families }};
+
+    /* variables used by the shared product-card snippet */
+    --pc-card-bg: {{ section.settings.card_bg }};
+    --pc-heading: {{ section.settings.heading_color }};
+    --pc-btn-bg: {{ section.settings.button_bg }};
+    --pc-btn-text: {{ section.settings.button_text }};
+    --pc-radius: {{ section.settings.card_radius }}px;
+    --pc-heading-font: var(--fyt-heading-font);
+    --pc-badge-bg: {{ section.settings.badge_bg }};
+    --pc-badge-text: {{ section.settings.badge_text }};
+    --pc-pill-text: {{ section.settings.pill_text }};
+    --pc-star: {{ section.settings.star_color }};
+
+    background: var(--fyt-bg);
+    padding: {{ section.settings.padding_top }}px 20px {{ section.settings.padding_bottom }}px;
+    font-family: var(--fyt-body-font);
+    color: var(--fyt-text);
+  }
+  #FYT-{{ section.id }} * { box-sizing: border-box; }
+  #FYT-{{ section.id }} .fyt__wrap { max-width: {{ section.settings.max_width }}px; margin: 0 auto; }
+
+  /* Header */
+  #FYT-{{ section.id }} .fyt__head { text-align: center; }
+  #FYT-{{ section.id }} .fyt__eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: {{ section.settings.eyebrow_bg }}; color: {{ section.settings.eyebrow_color }};
+    font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
+    padding: 8px 16px; border-radius: 999px; margin-bottom: 18px;
+  }
+  #FYT-{{ section.id }} .fyt__eyebrow::before {
+    content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--fyt-accent);
+  }
+  #FYT-{{ section.id }} .fyt__title {
+    font-family: var(--fyt-heading-font); color: var(--fyt-heading);
+    font-size: clamp(40px, 7vw, 76px); line-height: 1; margin: 0; text-transform: uppercase; font-weight: 400;
+  }
+  #FYT-{{ section.id }} .fyt__title-accent {
+    font-family: var(--fyt-script-font); color: var(--fyt-accent);
+    text-transform: none; font-size: 1.05em; margin-left: .15em;
+  }
+  #FYT-{{ section.id }} .fyt__sub { max-width: 520px; margin: 16px auto 0; font-size: 15px; line-height: 1.6; }
+
+  /* Group row */
+  #FYT-{{ section.id }} .fyt__group {
+    display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap;
+    gap: 8px 16px; margin: 44px 0 18px;
+  }
+  #FYT-{{ section.id }} .fyt__group-left { display: flex; align-items: baseline; gap: 12px; }
+  #FYT-{{ section.id }} .fyt__group-title {
+    font-family: var(--fyt-heading-font); color: var(--fyt-heading); text-transform: uppercase;
+    font-weight: 400; font-size: clamp(28px, 3.4vw, 38px); line-height: 1; margin: 0;
+  }
+  #FYT-{{ section.id }} .fyt__view-all {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--pc-btn-bg); color: var(--pc-btn-text);
+    font-size: 14px; font-weight: 700; text-decoration: none;
+    padding: 10px 20px; border-radius: 8px; transition: transform .15s, opacity .15s;
+  }
+  #FYT-{{ section.id }} .fyt__view-all:hover { transform: translateY(-1px); opacity: .9; }
+  /* Layout: products area (3 cols) + promo card (1 col) */
+  #FYT-{{ section.id }} .fyt__layout {
+    display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 1fr); gap: var(--fyt-gap); align-items: stretch;
+  }
+  #FYT-{{ section.id }} .fyt__products { min-width: 0; }
+  #FYT-{{ section.id }} .fyt-grid {
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--fyt-gap);
+  }
+
+  /* Promo card (video / image) */
+  #FYT-{{ section.id }} .fyt-promo {
+    position: relative; border-radius: 8px; overflow: hidden; min-height: 420px;
+    background: var(--fyt-heading); display: flex; align-items: flex-end;
+  }
+  #FYT-{{ section.id }} .fyt-promo__media { position: absolute; inset: 0; }
+  #FYT-{{ section.id }} .fyt-promo__media img,
+  #FYT-{{ section.id }} .fyt-promo__media video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  #FYT-{{ section.id }} .fyt-promo__panel {
+    position: relative; width: calc(100% - 28px); margin: 14px; padding: 18px 20px;
+    border-radius: calc(var(--fyt-radius) - 4px); background: {{ section.settings.promo_panel_bg }}; color: {{ section.settings.promo_panel_text }};
+  }
+  #FYT-{{ section.id }} .fyt-promo__script { font-family: var(--fyt-script-font); font-size: 26px; line-height: 1.1; margin: 0; }
+  #FYT-{{ section.id }} .fyt-promo__title {
+    font-family: var(--fyt-heading-font); text-transform: uppercase; font-weight: 400;
+    font-size: clamp(24px, 2.4vw, 32px); line-height: 1; margin: 4px 0 12px;
+  }
+  #FYT-{{ section.id }} .fyt-promo__link { color: inherit; font-weight: 700; font-size: 14px; text-decoration: none; }
+
+  @media (max-width: 989px) {
+    #FYT-{{ section.id }} .fyt__layout { grid-template-columns: 1fr; }
+    #FYT-{{ section.id }} .fyt-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    #FYT-{{ section.id }} .fyt-promo {display: none; }
+  }
+  @media (max-width: 599px) {
+    #FYT-{{ section.id }} { padding-left: 14px; padding-right: 14px; }
+    #FYT-{{ section.id }} .fyt-grid { grid-template-columns: 1fr; }
+    #FYT-{{ section.id }} .fyt__group { margin-top: 32px; }
+    #FYT-{{ section.id }} .pc__offer {
+      margin: 0;  
+    }
+  }
+    /* Product title: max 2 lines with ellipsis */
+  #FYT-{{ section.id }} .pc__name {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+    min-height: calc(1.05em * 2);
+  }
+  #FYT-{{ section.id }} .pc__name a { display: inline; }
+
+  /* Offer line: no margin */
+  /* #FYT-{{ section.id }} .pc__offer {
+    margin: 0;    
+    padding: 10px;
+    background: #fff1d6; } */
+
+  /* Swiper: no top padding */
+  #FYT-{{ section.id }} .fy-swiper.swiper { padding-bottom: 0 !important; }
+  #FYT-{{ section.id }} .pc__name {
+    font-size: clamp(18px, 1.8vw, 22px);
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+    min-height: calc(1.05em * 2);
+  }
+{% endstyle %}
+
+<section id="{{ root_id }}" class="fyt">
+  <div class="fyt__wrap">
+
+    <div class="fyt__head">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="fyt__eyebrow">{{ section.settings.eyebrow }}</span>
+      {%- endif -%}
+      <h2 class="fyt__title">
+        {{ section.settings.heading }}
+        {%- if section.settings.heading_accent != blank -%}
+          <span class="fyt__title-accent">{{ section.settings.heading_accent }}</span>
+        {%- endif -%}
+      </h2>
+      {%- if section.settings.subheading != blank -%}
+        <p class="fyt__sub">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- assign show_view_all = false -%}
+    {%- if section.settings.view_all_label != blank and collection != blank -%}
+      {%- assign show_view_all = true -%}
+    {%- endif -%}
+
+    {%- if section.settings.group_title != blank or show_view_all -%}
+      <div class="fyt__group">
+        <div class="fyt__group-left">
+          <h3 class="fyt__group-title">{{ section.settings.group_title }}</h3>
+        </div>
+        {%- if show_view_all -%}
+          <a href="{{ collection.url }}" class="fyt__view-all">{{ section.settings.view_all_label }} &rarr;</a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="fyt__layout">
+
+      <div class="fyt__products">
+        {%- if collection == blank -%}
+          {%- if request.design_mode -%}
+            <p>Choose a collection in the section settings.</p>
+          {%- endif -%}
+        {%- else -%}
+
+          {%- if slider -%}
+            <div class="fy-swiper swiper"><div class="swiper-wrapper">
+          {%- else -%}
+            <div class="fyt-grid">
+          {%- endif -%}
+
+          {%- for product in collection.products limit: section.settings.max_products -%}
+            {%- liquid
+              assign protein_mf = product.metafields[protein_key[0]][protein_key[1]]
+              assign tagline_mf = product.metafields[tagline_key[0]][tagline_key[1]]
+
+              assign ci = forloop.index0 | modulo: 3
+              case ci
+                when 0
+                  assign pill_bg = section.settings.pill_color_1
+                when 1
+                  assign pill_bg = section.settings.pill_color_2
+                else
+                  assign pill_bg = section.settings.pill_color_3
+              endcase
+
+              assign pill_out = ''
+              if protein_mf.value != blank
+                assign pill_out = protein_mf | metafield_text
+              endif
+              assign tagline_out = ''
+              if tagline_mf.value != blank
+                assign tagline_out = tagline_mf | metafield_text
+              endif
+              assign form_id = section.id | append: '-' | append: product.id
+            -%}
+            <div class="fy-slot{% if slider %} swiper-slide{% endif %}">
+              {%- render 'product-card-main',
+                product: product,
+                layout: 'standard',
+                pill_text: pill_out,
+                pill_bg: pill_bg,
+                tagline: tagline_out,
+                show_title: true,
+                show_price: true,
+                show_reviews: section.settings.show_judgeme,
+                show_atc: true,
+                title_lines: 2,
+                atc_label: section.settings.atc_label,
+                offer_text: section.settings.offer_text,
+                offer_percent: section.settings.offer_percent,
+                form_id: form_id
+              -%}
+            </div>
+          {%- endfor -%}
+
+          {%- if slider -%}
+            </div></div>
+            {%- render 'fy-swiper-init',
+              root_id: root_id,
+              per_view_desktop: 3,
+              per_view_tablet: 2.1,
+              per_view_mobile: 2,
+              gap: section.settings.card_gap,
+              autoplay: section.settings.autoplay,
+              delay: section.settings.autoplay_delay,
+              speed: section.settings.slide_speed,
+              pause_on_hover: section.settings.pause_on_hover,
+              show_arrows: section.settings.show_arrows,
+              show_dots: section.settings.show_dots
+            -%}
+          {%- else -%}
+            </div>
+          {%- endif -%}
+
+        {%- endif -%}
+      </div>
+
+      <div class="fyt-promo">
+        {%- if section.settings.promo_video != blank -%}
+          <div class="fyt-promo__media">
+            {{ section.settings.promo_video | video_tag: image_size: '800x', autoplay: true, loop: true, muted: true, controls: false, playsinline: true }}
+          </div>
+        {%- elsif section.settings.promo_image != blank -%}
+          <div class="fyt-promo__media">
+            {{ section.settings.promo_image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '450, 700, 900' }}
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.promo_script != blank or section.settings.promo_title != blank or section.settings.promo_link_label != blank -%}
+          <div class="fyt-promo__panel">
+            {%- if section.settings.promo_script != blank -%}
+              <p class="fyt-promo__script">{{ section.settings.promo_script }}</p>
+            {%- endif -%}
+            {%- if section.settings.promo_title != blank -%}
+              <h3 class="fyt-promo__title">{{ section.settings.promo_title }}</h3>
+            {%- endif -%}
+            {%- if section.settings.promo_link_label != blank and section.settings.promo_link != blank -%}
+              <a href="{{ section.settings.promo_link }}" class="fyt-promo__link">{{ section.settings.promo_link_label }} &rarr;</a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Try & save",
+  "settings": [
+    { "type": "header", "content": "Heading" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow pill", "default": "Try & Save" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Sip more," },
+    { "type": "text", "id": "heading_accent", "label": "Script accent", "default": "save more" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "New to clear whey? Start with a 6-sachet trial pack. Already hooked? Bundle your favourites and save up to 22%." },
+
+    { "type": "header", "content": "Group row" },
+    { "type": "text", "id": "group_title", "label": "Title", "default": "Trial packs" },
+    { "type": "text", "id": "view_all_label", "label": "View all button label", "default": "View all", "info": "Links to the collection chosen under Products. Leave blank to hide." },
+
+    { "type": "header", "content": "Products" },
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "range", "id": "max_products", "label": "Max products", "min": 3, "max": 9, "step": 1, "default": 6 },
+    {
+      "type": "select", "id": "layout", "label": "Product layout",
+      "options": [
+        { "value": "slider", "label": "Slider (Swiper)" },
+        { "value": "stacked", "label": "Stacked (grid)" }
+      ],
+      "default": "slider"
+    },
+
+    { "type": "header", "content": "Slider" },
+    { "type": "checkbox", "id": "autoplay", "label": "Auto slide", "default": true },
+    { "type": "range", "id": "autoplay_delay", "label": "Seconds between slides", "min": 2, "max": 10, "step": 1, "unit": "s", "default": 4 },
+    { "type": "range", "id": "slide_speed", "label": "Transition speed", "min": 200, "max": 1500, "step": 100, "unit": "ms", "default": 600 },
+    { "type": "checkbox", "id": "pause_on_hover", "label": "Pause on hover", "default": true },
+    { "type": "checkbox", "id": "show_arrows", "label": "Show arrows", "default": true },
+    { "type": "checkbox", "id": "show_dots", "label": "Show dots", "default": true },
+
+    { "type": "header", "content": "Product metafields" },
+    { "type": "paragraph", "content": "Enter as namespace.key. Title, price and image come from the product itself." },
+    { "type": "text", "id": "protein_metafield", "label": "Pill on image (e.g. 15g protein)", "default": "custom.protein" },
+    { "type": "text", "id": "tagline_metafield", "label": "Subtitle (e.g. Probiotics + L-carnitine · gut health)", "default": "custom.tagline" },
+
+    { "type": "header", "content": "Card content" },
+    { "type": "checkbox", "id": "show_judgeme", "label": "Show Judge.me rating", "default": true },
+    { "type": "range", "id": "offer_percent", "label": "Extra discount from code (%)", "min": 0, "max": 30, "step": 1, "default": 1, "info": "Set to 0 to hide the code line." },
+    { "type": "text", "id": "offer_text", "label": "Code line text", "default": "Get it at {price} · code auto-applies", "info": "{price} is replaced with the price after the extra discount." },
+    { "type": "text", "id": "atc_label", "label": "Add to cart label", "default": "Add to cart" },
+
+    { "type": "header", "content": "Promo card (video or image)" },
+    { "type": "video", "id": "promo_video", "label": "Video", "info": "Shopify-hosted. If a video and an image are both added, the video is shown." },
+    { "type": "image_picker", "id": "promo_image", "label": "Image (used if no video)" },
+    { "type": "text", "id": "promo_script", "label": "Script text", "default": "Make your own" },
+    { "type": "text", "id": "promo_title", "label": "Title", "default": "Clear protein mocktails" },
+    { "type": "text", "id": "promo_link_label", "label": "Link label", "default": "Get the recipes" },
+    { "type": "url", "id": "promo_link", "label": "Link" },
+    { "type": "color", "id": "promo_panel_bg", "label": "Panel background", "default": "#3B0A2F" },
+    { "type": "color", "id": "promo_panel_text", "label": "Panel text", "default": "#FFFFFF" },
+
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "card_gap", "label": "Gap", "min": 8, "max": 40, "step": 2, "unit": "px", "default": 16 },
+    { "type": "range", "id": "card_radius", "label": "Corner radius", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 24 },
+    { "type": "range", "id": "max_width", "label": "Max width", "min": 900, "max": 1600, "step": 20, "unit": "px", "default": 1240 },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 56 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 56 },
+
+    { "type": "header", "content": "Colours" },
+    { "type": "color", "id": "bg_color", "label": "Section background", "default": "#FFDDD1" },
+    { "type": "color", "id": "card_bg", "label": "Card background", "default": "#FFFFFF" },
+    { "type": "color", "id": "heading_color", "label": "Headings", "default": "#3B0A2F" },
+    { "type": "color", "id": "accent_color", "label": "Accent", "default": "#E5195E" },
+    { "type": "color", "id": "text_color", "label": "Body text", "default": "#5A3A52" },
+    { "type": "color", "id": "eyebrow_bg", "label": "Eyebrow background", "default": "#3B0A2F" },
+    { "type": "color", "id": "eyebrow_color", "label": "Eyebrow text", "default": "#FFFFFF" },
+    { "type": "color", "id": "button_bg", "label": "Button background", "default": "#3B0A2F" },
+    { "type": "color", "id": "button_text", "label": "Button text", "default": "#FFFFFF" },
+    { "type": "color", "id": "badge_bg", "label": "Badge background", "default": "#E5195E" },
+    { "type": "color", "id": "badge_text", "label": "Badge text", "default": "#FFFFFF" },
+    { "type": "color", "id": "pill_color_1", "label": "Image pill colour (card 1)", "default": "#BFEAD0" },
+    { "type": "color", "id": "pill_color_2", "label": "Image pill colour (card 2)", "default": "#FFB86B" },
+    { "type": "color", "id": "pill_color_3", "label": "Image pill colour (card 3)", "default": "#FFC9B8" },
+    { "type": "color", "id": "pill_text", "label": "Image pill text", "default": "#3B0A2F" },
+    { "type": "color", "id": "star_color", "label": "Judge.me stars", "default": "#F5A623" },
+
+    { "type": "header", "content": "Typography" },
+    { "type": "font_picker", "id": "heading_font", "label": "Heading font", "default": "oswald_n7" },
+    { "type": "font_picker", "id": "script_font", "label": "Script font", "default": "pacifico_n4" },
+    { "type": "font_picker", "id": "body_font", "label": "Body font", "default": "assistant_n4" }
+  ],
+  "presets": [
+    { "name": "Try & save" }
+  ]
+}
+{% endschema %}

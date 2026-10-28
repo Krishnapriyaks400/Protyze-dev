@@ -1,0 +1,505 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "prep_steps_banner_Ch7AeT": {
+      "type": "prep-steps-banner",
+      "blocks": {
+        "stat_zXixU3": {
+          "type": "stat",
+          "settings": {
+            "icon": "shopify://shop_images/FSSAI_2.png",
+            "value": "FSSAI Licensed",
+            "label": ""
+          }
+        },
+        "stat_Gmctcn": {
+          "type": "stat",
+          "settings": {
+            "icon": "shopify://shop_images/GMP_57dbafd5-9602-4f6a-a08e-67c4a11923da.png",
+            "value": "GMP Certified",
+            "label": ""
+          }
+        },
+        "stat_kfXa39": {
+          "type": "stat",
+          "settings": {
+            "icon": "shopify://shop_images/ISO_dd7c93f9-79d4-4000-b759-da50d31a837f.png",
+            "value": "ISO 9001:2015",
+            "label": ""
+          }
+        },
+        "stat_4CL8iK": {
+          "type": "stat",
+          "settings": {
+            "icon": "shopify://shop_images/HACCP_9afa1e11-985d-4896-9685-fc3a921a9c52.png",
+            "value": "HACCP",
+            "label": ""
+          }
+        },
+        "stat_j8CBJE": {
+          "type": "stat",
+          "settings": {
+            "icon": "shopify://shop_images/PATENTED_LOGO.png",
+            "value": "Patent No. 552175",
+            "label": ""
+          }
+        }
+      },
+      "block_order": [
+        "stat_zXixU3",
+        "stat_Gmctcn",
+        "stat_kfXa39",
+        "stat_4CL8iK",
+        "stat_j8CBJE"
+      ],
+      "name": "Prep steps banner",
+      "settings": {
+        "eyebrow": "Our manufacturing",
+        "heading": "India’s patented clear whey protein isolate.",
+        "heading_size": "h1",
+        "subtitle": "<p>Every serving of Protyze Clear Whey Protein Isolate is manufactured by Alphacentric Healthcare Private Limited in our own facility — developed using our granted Indian patent, and produced under FSSAI, GMP, ISO 9001:2015 and HACCP standards.</p>",
+        "image": "shopify://shop_images/Untitled_design_22.avif",
+        "image_width": 420,
+        "color_scheme": "scheme-c02b38ee-c791-4d98-b18a-18922b5fe443",
+        "background_color": "",
+        "eyebrow_color": "#f15524",
+        "subtitle_color": "",
+        "card_background_color": "#fff9dd",
+        "card_heading_color": "#f15524",
+        "card_description_color": "",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "custom_class": ""
+      }
+    },
+    "requirements_list_mXxnpW": {
+      "type": "requirements-list",
+      "blocks": {
+        "item_nAfQXD": {
+          "type": "item",
+          "settings": {
+            "icon": "shopify://shop_images/icons8-marker-1-48.png",
+            "title": "Indian Patent No. 552175",
+            "description": "Developed using a patented clear protein beverage composition and production method."
+          }
+        },
+        "item_bjYY7Q": {
+          "type": "item",
+          "settings": {
+            "icon": "shopify://shop_images/icons8-marker-2-48.png",
+            "title": "Premium Whey Protein Isolate",
+            "description": "High-quality protein in a refreshing, clear beverage format."
+          }
+        },
+        "item_3mbdG4": {
+          "type": "item",
+          "settings": {
+            "icon": "shopify://shop_images/icons8-marker-3-48.png",
+            "title": "Fruit-Inspired Experience",
+            "description": "Designed to deliver a light, enjoyable alternative to traditional creamy protein shakes."
+          }
+        }
+      },
+      "block_order": [
+        "item_nAfQXD",
+        "item_bjYY7Q",
+        "item_3mbdG4"
+      ],
+      "name": "Requirements list",
+      "settings": {
+        "subtext": "Innovation",
+        "heading": "Powered by patented innovation",
+        "intro_description": "<p>Innovation is at the heart of Protyze. Our Clear Whey Protein Isolate is developed using Protyze’s patented “Clear Protein Based Beverage Composition and Method for Producing the Same”, protected under Indian Patent No. 552175 — the result of years of research and development focused on creating a refreshing clear protein beverage while maintaining the nutritional benefits of premium whey protein isolate.</p>",
+        "color_scheme": "scheme-84285399-6321-4a7f-a7a4-14c9dfa98463",
+        "background_color": "",
+        "card_background_color": "#fffced",
+        "subtext_color": "#f15524",
+        "title_color": "",
+        "description_color": "",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "custom_class": ""
+      }
+    },
+    "step_guide_7crtTt": {
+      "type": "step-guide",
+      "blocks": {
+        "step_rTGM8G": {
+          "type": "step",
+          "settings": {
+            "caption": "<h3><strong>Sourcing</strong></h3><p>Premium raw materials selected and checked before they enter production.<br/><br/></p>",
+            "link": ""
+          }
+        },
+        "step_DC8wyf": {
+          "type": "step",
+          "settings": {
+            "caption": "<h3><strong>Blending</strong></h3><p>Formulated and blended in-house under controlled manufacturing processes.</p>",
+            "link": ""
+          }
+        },
+        "step_F3YGF7": {
+          "type": "step",
+          "settings": {
+            "caption": "<h3><strong>Packaging</strong></h3><p>Filled and sealed in our own facility to protect freshness and consistency.</p>",
+            "link": ""
+          }
+        },
+        "step_g6FpEN": {
+          "type": "step",
+          "settings": {
+            "caption": "<h3><strong>Quality checks</strong></h3><p>Final batch checks before release, for consistency batch after batch.</p>",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "step_rTGM8G",
+        "step_DC8wyf",
+        "step_F3YGF7",
+        "step_g6FpEN"
+      ],
+      "name": "Step guide",
+      "settings": {
+        "subtext": "In-house production",
+        "heading": "Manufactured with quality you can trust",
+        "intro_description": "<p>By managing product development and manufacturing in-house, we maintain greater control over ingredient selection, production standards, quality assurance and batch consistency.</p>",
+        "tip_title": "",
+        "tip_text": "",
+        "color_scheme": "scheme-c02b38ee-c791-4d98-b18a-18922b5fe443",
+        "background_color": "",
+        "subtext_color": "#f15524",
+        "card_background_color": "#fff9dd",
+        "caption_color": "",
+        "tip_background_color": "",
+        "tip_text_color": "",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "custom_class": ""
+      }
+    },
+    "requirements_list_YU8dYm": {
+      "type": "requirements-list",
+      "blocks": {
+        "item_DDFiHq": {
+          "type": "item",
+          "settings": {
+            "icon": "shopify://shop_images/FSSAI_2.png",
+            "title": "FSSAI Licensed",
+            "description": "Manufactured in a facility licensed under India’s food safety regulations."
+          }
+        },
+        "item_qgwJJU": {
+          "type": "item",
+          "settings": {
+            "icon": "shopify://shop_images/GMP_57dbafd5-9602-4f6a-a08e-67c4a11923da.png",
+            "title": "GMP Certified",
+            "description": "Produced following Good Manufacturing Practices to help ensure consistent manufacturing quality."
+          }
+        },
+        "item_NgBzzJ": {
+          "type": "item",
+          "settings": {
+            "icon": "shopify://shop_images/ISO_dd7c93f9-79d4-4000-b759-da50d31a837f.png",
+            "title": "ISO 9001:2015",
+            "description": "Quality management systems focused on consistency, process control and continual improvement."
+          }
+        },
+        "item_UJzb48": {
+          "type": "item",
+          "settings": {
+            "icon": "shopify://shop_images/HACCP_9afa1e11-985d-4896-9685-fc3a921a9c52.png",
+            "title": "HACCP Certified",
+            "description": "Food safety management system designed to identify and control potential food safety hazards throughout production."
+          }
+        },
+        "item_exdPU8": {
+          "type": "item",
+          "settings": {
+            "icon": "shopify://shop_images/PATENTED_LOGO.png",
+            "title": "Indian Patent No. 552175",
+            "description": "Innovation backed by a granted Indian patent covering a clear protein beverage composition and method for producing the same."
+          }
+        }
+      },
+      "block_order": [
+        "item_DDFiHq",
+        "item_qgwJJU",
+        "item_NgBzzJ",
+        "item_UJzb48",
+        "item_exdPU8"
+      ],
+      "name": "Requirements list",
+      "settings": {
+        "subtext": "Our quality commitment",
+        "heading": "Certified at every stage",
+        "intro_description": "",
+        "color_scheme": "scheme-84285399-6321-4a7f-a7a4-14c9dfa98463",
+        "background_color": "",
+        "card_background_color": "#fffced",
+        "subtext_color": "#f15524",
+        "title_color": "",
+        "description_color": "",
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "custom_class": ""
+      }
+    },
+    "trust_pills_jm47P4": {
+      "type": "trust-pills",
+      "blocks": {
+        "pill_qrUKWJ": {
+          "type": "pill",
+          "settings": {
+            "text": "Manufactured in our own facility"
+          }
+        },
+        "pill_gg7GCM": {
+          "type": "pill",
+          "settings": {
+            "text": "Patented innovation (Indian Patent No. 552175)"
+          }
+        },
+        "pill_yQiA9j": {
+          "type": "pill",
+          "settings": {
+            "text": "FSSAI licensed manufacturing facility"
+          }
+        },
+        "pill_bewBVJ": {
+          "type": "pill",
+          "settings": {
+            "text": "GMP certified manufacturing"
+          }
+        },
+        "pill_nyWxqV": {
+          "type": "pill",
+          "settings": {
+            "text": "ISO 9001:2015 certified quality management"
+          }
+        },
+        "pill_Ef3qbf": {
+          "type": "pill",
+          "settings": {
+            "text": "HACCP certified food safety system"
+          }
+        },
+        "pill_7wKYab": {
+          "type": "pill",
+          "settings": {
+            "text": "Premium whey protein isolate"
+          }
+        },
+        "pill_ezEJkB": {
+          "type": "pill",
+          "settings": {
+            "text": "Refreshing fruit-inspired protein experience"
+          }
+        }
+      },
+      "block_order": [
+        "pill_qrUKWJ",
+        "pill_gg7GCM",
+        "pill_yQiA9j",
+        "pill_bewBVJ",
+        "pill_nyWxqV",
+        "pill_Ef3qbf",
+        "pill_7wKYab",
+        "pill_ezEJkB"
+      ],
+      "name": "Trust pills",
+      "settings": {
+        "heading": "Why customers choose Protyze",
+        "subtitle": "<p>At Protyze, our goal is simple: combine science, quality and great taste to create protein products that people genuinely enjoy drinking every day.</p>",
+        "color_scheme": "scheme-680e6a53-f05c-40ec-a3b0-8b736094b76e",
+        "background_color": "",
+        "heading_color": "",
+        "subtitle_color": "",
+        "pill_background_color": "",
+        "pill_border_color": "",
+        "pill_text_color": "",
+        "check_color": "",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "custom_class": ""
+      }
+    },
+    "step_guide_gmdwWk": {
+      "type": "step-guide",
+      "blocks": {
+        "step_xYJEKa": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/atc.avif",
+            "caption": "<h3><strong>Anytime </strong></h3><p>Daily protein intake</p>",
+            "link": "shopify://collections/clear-whey-isolate"
+          }
+        },
+        "step_PndkdC": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/diet.avif",
+            "caption": "<h3><strong>Diet</strong></h3><p>With probiotics & fibre</p>",
+            "link": "shopify://collections/clear-protein-isolate-with-probiotics"
+          }
+        },
+        "step_XNitHD": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/nitro.avif",
+            "caption": "<h3><strong>Nitro</strong></h3><p>With creatine</p>",
+            "link": "shopify://collections/clear-whey-isolate-with-creatine"
+          }
+        },
+        "step_xEJVAR": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/hydra.avif",
+            "caption": "<h3><strong>Hydra</strong></h3><p>With electrolytes</p>",
+            "link": "shopify://collections/hydra-collection"
+          }
+        }
+      },
+      "block_order": [
+        "step_xYJEKa",
+        "step_PndkdC",
+        "step_XNitHD",
+        "step_xEJVAR"
+      ],
+      "name": "Step guide",
+      "settings": {
+        "subtext": "Across the range",
+        "heading": "One foundation, four goals",
+        "intro_description": "<p>Every Protyze variant is built on the same premium Clear Whey Protein Isolate and developed using our patented clear protein technology, which makes it free from astringency and palatable. The difference lies in the functional ingredients tailored to different goals.</p>",
+        "tip_title": "",
+        "tip_text": "",
+        "color_scheme": "scheme-84285399-6321-4a7f-a7a4-14c9dfa98463",
+        "background_color": "",
+        "subtext_color": "#f15524",
+        "card_background_color": "#fffced",
+        "caption_color": "",
+        "tip_background_color": "",
+        "tip_text_color": "",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "custom_class": ""
+      }
+    },
+    "badge_text_card_wB8q9r": {
+      "type": "badge-text-card",
+      "blocks": {
+        "heading_xxiBqk": {
+          "type": "heading",
+          "settings": {
+            "heading": "Made by us, start to finish"
+          }
+        },
+        "text_HrQTxP": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Patented innovation, in-house manufacturing and certified quality — in every serving.</p>"
+          }
+        },
+        "button_aVKfpU": {
+          "type": "button",
+          "settings": {
+            "button_label": "Shop Clear Whey",
+            "button_link": "shopify://collections/clear-whey-isolate"
+          }
+        }
+      },
+      "block_order": [
+        "heading_xxiBqk",
+        "text_HrQTxP",
+        "button_aVKfpU"
+      ],
+      "disabled": true,
+      "name": "Heading, text and button card",
+      "settings": {
+        "card_max_width": 900,
+        "color_scheme": "scheme-c02b38ee-c791-4d98-b18a-18922b5fe443",
+        "background_color": "",
+        "card_background_color": "#fff9dd",
+        "text_color": "",
+        "badge_background_color": "",
+        "badge_text_color": "",
+        "button_background_color": "#f15524",
+        "button_text_color": "#ffffff",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "custom_class": ""
+      }
+    },
+    "badge_text_card_YTRfNV": {
+      "type": "badge-text-card",
+      "blocks": {
+        "heading_EgwjLX": {
+          "type": "heading",
+          "settings": {
+            "heading": "Made by us, start to finish"
+          }
+        },
+        "text_zN3Law": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Patented innovation, in-house manufacturing and certified quality — in every serving.</p>"
+          }
+        },
+        "button_ByNkdB": {
+          "type": "button",
+          "settings": {
+            "button_label": "Shop Clear Whey",
+            "button_link": "shopify://collections/clear-whey-isolate"
+          }
+        }
+      },
+      "block_order": [
+        "heading_EgwjLX",
+        "text_zN3Law",
+        "button_ByNkdB"
+      ],
+      "name": "Badge text card",
+      "settings": {
+        "card_max_width": 900,
+        "color_scheme": "scheme-c02b38ee-c791-4d98-b18a-18922b5fe443",
+        "background_color": "",
+        "card_background_color": "#fff9dd",
+        "text_color": "",
+        "badge_background_color": "",
+        "badge_text_color": "",
+        "button_background_color": "#f15524",
+        "button_text_color": "#fffced",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "custom_class": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "prep_steps_banner_Ch7AeT",
+    "requirements_list_mXxnpW",
+    "step_guide_7crtTt",
+    "requirements_list_YU8dYm",
+    "trust_pills_jm47P4",
+    "step_guide_gmdwWk",
+    "badge_text_card_wB8q9r",
+    "badge_text_card_YTRfNV"
+  ]
+}

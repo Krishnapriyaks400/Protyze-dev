@@ -1,0 +1,1006 @@
+{%- liquid
+  assign oq_img = section.settings.image | default: section.settings.image_mobile
+  assign oq_mob = section.settings.image_mobile
+  assign oq_has_mob_source = false
+  if section.settings.image != blank and oq_mob != blank
+    assign oq_has_mob_source = true
+  endif
+
+  assign oq_mob_ratio = 1.3333
+  if oq_mob != blank
+    assign oq_mob_ratio = oq_mob.aspect_ratio
+  endif
+-%}
+
+{%- style -%}
+  .oq-{{ section.id }} {
+    --oq-bg: {{ section.settings.background_color | default: '#f7f5f0' }};
+    --oq-text: {{ section.settings.text_color | default: '#1a1a1a' }};
+    --oq-accent: {{ section.settings.accent_color | default: '#e8541e' }};
+    --oq-fade: {{ section.settings.fade_width }}%;
+    background-color: var(--oq-bg);
+    color: var(--oq-text);
+    overflow: hidden;
+  }
+
+  .oq-{{ section.id }} .oq__grid {
+    display: grid;
+    gap: 2.8rem;
+    grid-template-columns: minmax(0, 1fr);
+    padding-bottom: 3.6rem;
+    padding-top: 3.6rem;
+  }
+
+  /* Each column is a vertical stack of blocks. Mobile centres everything. */
+  .oq-{{ section.id }} .oq__col {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+    text-align: center;
+  }
+
+  .oq-{{ section.id }} .oq__col > * {
+    margin: 0;
+  }
+
+  .oq-{{ section.id }} .oq__eyebrow {
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+
+  .oq-{{ section.id }} .oq__heading {
+    color: var(--oq-text);
+    font-family: var(--font-heading-family);
+    font-size: clamp(2.6rem, 1.9rem + 1.4vw, 3.4rem);
+    font-style: var(--font-heading-style);
+    font-weight: var(--font-heading-weight);
+    letter-spacing: calc(var(--font-heading-scale) * 0.06rem);
+    line-height: 1.12;
+    text-transform: none;
+  }
+
+  .oq-{{ section.id }} .oq__body {
+    font-size: 1.4rem;
+    line-height: 1.5;
+    opacity: 0.85;
+  }
+
+  .oq-{{ section.id }} .oq__body--bold {
+    font-weight: 700;
+    opacity: 1;
+  }
+
+  .oq-{{ section.id }} .oq__steps {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+    text-align: left;
+  }
+
+  .oq-{{ section.id }} .oq__step {
+    align-items: flex-start;
+    display: flex;
+    font-size: 1.4rem;
+    gap: 1rem;
+    line-height: 1.4;
+  }
+
+  .oq-{{ section.id }} .oq__step-num {
+    align-items: center;
+    border: 0.12rem solid currentColor;
+    border-radius: 50%;
+    display: inline-flex;
+    flex-shrink: 0;
+    font-size: 1.1rem;
+    height: 2.2rem;
+    justify-content: center;
+    width: 2.2rem;
+  }
+
+  .oq-{{ section.id }} .oq__aside {
+    align-items: center;
+    display: flex;
+    gap: 1.4rem;
+    justify-content: center;
+    text-align: left;
+  }
+
+  .oq-{{ section.id }} .oq__icon {
+    flex-shrink: 0;
+    height: auto;
+    width: 5.6rem;
+  }
+
+  .oq-{{ section.id }} .oq__aside-text,
+  .oq-{{ section.id }} .oq__highlight-sub {
+    font-size: 1.4rem;
+    line-height: 1.45;
+    margin: 0;
+    opacity: 0.85;
+  }
+
+  .oq-{{ section.id }} .oq__highlight {
+    color: var(--oq-accent);
+    font-size: 1.8rem;
+    font-style: italic;
+    line-height: 1.3;
+    margin: 0.6rem 0 0;
+  }
+
+  .oq-{{ section.id }} .oq__highlight-sub {
+    margin-top: 0.4rem;
+  }
+
+  .oq-{{ section.id }} .oq__hand-img {
+    display: block;
+    height: auto;
+    max-width: 100%;
+    width: calc(var(--oq-w, 240px) * 0.85);
+  }
+
+  .oq-{{ section.id }} .oq__hand-img--inline {
+    margin-top: 0.6rem;
+  }
+
+  /* Typed fallback for handwritten blocks when no image is uploaded. */
+  .oq-{{ section.id }} .oq__hand-text {
+    color: var(--oq-accent);
+    font-size: 2.6rem;
+    font-style: italic;
+    font-weight: 700;
+    line-height: 1.15;
+    margin: 0;
+  }
+
+  .oq-{{ section.id }} .oq__question-title {
+    display: inline-block;
+    font-size: 2.4rem;
+    font-style: italic;
+    line-height: 1.2;
+  }
+
+  .oq-{{ section.id }} .oq__underline {
+    color: var(--oq-text);
+    display: block;
+    height: 1rem;
+    margin-top: 0.4rem;
+    width: 100%;
+  }
+
+  .oq-{{ section.id }} .oq__quote {
+    font-size: clamp(2.4rem, 1.8rem + 1.2vw, 3.2rem);
+    font-weight: 800;
+    line-height: 1.2;
+  }
+
+  .oq-{{ section.id }} .oq__quote-mark {
+    color: var(--oq-accent);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1.6em;
+    font-weight: 700;
+    line-height: 0;
+    position: relative;
+    top: 0.35em;
+  }
+
+  .oq-{{ section.id }} .oq__quote-mark--open {
+    margin-right: 0.1em;
+  }
+
+  .oq-{{ section.id }} .oq__quote-mark--close {
+    margin-left: 0.1em;
+  }
+
+  .oq-{{ section.id }} .oq__arrow {
+    color: var(--oq-text);
+    display: block;
+    width: calc(var(--oq-w, 80px) * 0.8);
+  }
+
+  .oq-{{ section.id }} .oq__arrow svg,
+  .oq-{{ section.id }} .oq__arrow img {
+    display: block;
+    height: auto;
+    width: 100%;
+  }
+
+  .oq-{{ section.id }} .oq__arrow--down-left svg { transform: scaleX(-1); }
+  .oq-{{ section.id }} .oq__arrow--up-right svg { transform: scaleY(-1); }
+  .oq-{{ section.id }} .oq__arrow--up-left svg { transform: scale(-1, -1); }
+  .oq-{{ section.id }} .oq__arrow--right svg { transform: rotate(-40deg); }
+
+  .oq-{{ section.id }} .oq__media {
+    aspect-ratio: {{ oq_mob_ratio }};
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .oq-{{ section.id }} .oq__media img {
+    display: block;
+    height: 100%;
+    object-fit: {{ section.settings.image_fit | default: 'cover' }};
+    object-position: {{ section.settings.image_focus }};
+    width: 100%;
+  }
+
+  @media screen and (max-width: 749px) {
+    .oq-{{ section.id }} .oq__arrow--desktop-only {
+      display: none;
+    }
+  }
+
+  @media screen and (min-width: 750px) {
+    .oq-{{ section.id }} .oq__grid {
+      align-items: stretch;
+      gap: 0;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr) minmax(0, 0.95fr);
+      min-height: {{ section.settings.desktop_height }}px;
+      padding-bottom: 0;
+      padding-top: 0;
+    }
+
+    .oq-{{ section.id }} .oq__col {
+      align-items: flex-start;
+      align-self: center;
+      padding: 4rem 0;
+      position: relative;
+      text-align: left;
+      z-index: 1;
+    }
+
+    .oq-{{ section.id }} .oq__col--right {
+      padding-left: 2.4rem;
+    }
+
+    .oq-{{ section.id }} .oq__aside {
+      justify-content: flex-start;
+    }
+
+    .oq-{{ section.id }} .oq__hand-img {
+      width: var(--oq-w, 240px);
+    }
+
+    .oq-{{ section.id }} .oq__arrow {
+      width: var(--oq-w, 80px);
+    }
+
+    .oq-{{ section.id }} .oq__question-title {
+      font-size: 2.8rem;
+    }
+
+    {%- if section.settings.fade_width > 0 %}
+      /* The image bleeds past its column and fades into the background on both
+         sides, so the photo blends into the text panels. */
+      .oq-{{ section.id }} .oq__media {
+        aspect-ratio: auto;
+        border-radius: 0;
+        margin: 0 -6rem;
+        -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 var(--oq-fade), #000 calc(100% - var(--oq-fade)), transparent 100%);
+        mask-image: linear-gradient(90deg, transparent 0%, #000 var(--oq-fade), #000 calc(100% - var(--oq-fade)), transparent 100%);
+        position: relative;
+      }
+    {%- else %}
+      /* No fade: the image stays inside its own column with a gap either side. */
+      .oq-{{ section.id }} .oq__media {
+        aspect-ratio: auto;
+        margin: 2.4rem 3.2rem;
+        position: relative;
+      }
+    {%- endif %}
+
+    .oq-{{ section.id }} .oq__media img,
+    .oq-{{ section.id }} .oq__media picture {
+      height: 100%;
+      inset: 0;
+      position: absolute;
+      width: 100%;
+    }
+  }
+{%- endstyle -%}
+
+<div class="oq-{{ section.id }}">
+  <div class="page-width oq__grid">
+    <div class="oq__col oq__col--left">
+      {%- for block in section.blocks -%}
+        {%- if block.settings.column != 'right' -%}
+          {%- render 'origin-question-block', block: block -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    {%- if oq_img != blank -%}
+      <div class="oq__media">
+        <picture>
+          {%- if oq_has_mob_source -%}
+            <source
+              media="(max-width: 749px)"
+              srcset="{{ oq_mob | image_url: width: 500 }} 500w, {{ oq_mob | image_url: width: 750 }} 750w, {{ oq_mob | image_url: width: 1080 }} 1080w"
+              sizes="100vw"
+              width="{{ oq_mob.width }}"
+              height="{{ oq_mob.height }}"
+            >
+          {%- endif -%}
+          {{
+            oq_img
+            | image_url: width: 1800
+            | image_tag: widths: '500, 750, 1000, 1400, 1800', sizes: '(min-width: 750px) 55vw, 100vw', loading: 'lazy'
+          }}
+        </picture>
+      </div>
+    {%- endif -%}
+
+    <div class="oq__col oq__col--right">
+      {%- for block in section.blocks -%}
+        {%- if block.settings.column == 'right' -%}
+          {%- render 'origin-question-block', block: block -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Origin Question Banner",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Build each side from blocks — every block has a Column setting (left or right of the photo)."
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "Recommended about 2400 × 1000 px. Its left and right edges fade into the background."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile image",
+      "info": "Optional. Recommended 1080 × 810 px. If empty, the main image is cropped to 4:3 on phones."
+    },
+    {
+      "type": "select",
+      "id": "image_fit",
+      "label": "Image fit",
+      "info": "Fit whole image: nothing is cropped — best for a combined image (e.g. two photos side by side). Fill: the photo fills the column and may be cropped.",
+      "options": [
+        {
+          "value": "cover",
+          "label": "Fill (may crop)"
+        },
+        {
+          "value": "contain",
+          "label": "Fit whole image"
+        }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "select",
+      "id": "image_focus",
+      "label": "Image focus point",
+      "info": "Which part of the photo stays in view when it's cropped.",
+      "options": [
+        {
+          "value": "left center",
+          "label": "Left"
+        },
+        {
+          "value": "35% center",
+          "label": "Left of center"
+        },
+        {
+          "value": "center center",
+          "label": "Center"
+        },
+        {
+          "value": "65% center",
+          "label": "Right of center"
+        },
+        {
+          "value": "right center",
+          "label": "Right"
+        }
+      ],
+      "default": "center center"
+    },
+    {
+      "type": "range",
+      "id": "fade_width",
+      "label": "Side fade",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "%",
+      "default": 18,
+      "info": "0 = no fade: the image stays inside its own column instead of spreading under the text."
+    },
+    {
+      "type": "range",
+      "id": "desktop_height",
+      "label": "Desktop height",
+      "min": 320,
+      "max": 640,
+      "step": 20,
+      "unit": "px",
+      "default": 420
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#f7f5f0"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent",
+      "info": "Highlighted line, typed handwriting fallback and quote marks.",
+      "default": "#e8541e"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "eyebrow",
+      "name": "Eyebrow",
+      "settings": [
+        {
+          "type": "select",
+          "id": "column",
+          "label": "Column",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "Every evening looked the same."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "name": "Heading",
+      "settings": [
+        {
+          "type": "select",
+          "id": "column",
+          "label": "Column",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Heading",
+          "default": "Chocolate. Vanilla.\nChocolate. Vanilla."
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "select",
+          "id": "column",
+          "label": "Column",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "I mixed protein with water because\nI had to, not because I wanted to."
+        },
+        {
+          "type": "checkbox",
+          "id": "bold",
+          "label": "Bold",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "numbered_list",
+      "name": "Numbered list",
+      "settings": [
+        {
+          "type": "select",
+          "id": "column",
+          "label": "Column",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "textarea",
+          "id": "items",
+          "label": "Items",
+          "info": "One item per line. Numbered automatically.",
+          "default": "Took my strawberry whey protein.\nAdded lemon.\nA pinch of salt.\nShook the bottle."
+        }
+      ]
+    },
+    {
+      "type": "aside",
+      "name": "Icon with text",
+      "settings": [
+        {
+          "type": "select",
+          "id": "column",
+          "label": "Column",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon",
+          "info": "Transparent PNG/SVG, about 168 × 168 px."
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "But the drink I genuinely\nlooked forward to every day?"
+        },
+        {
+          "type": "text",
+          "id": "highlight_text",
+          "label": "Highlighted line",
+          "info": "Typed version, and the alt text of the handwritten image.",
+          "default": "My Strawberry Kiwi BCAA."
+        },
+        {
+          "type": "image_picker",
+          "id": "highlight_image",
+          "label": "Highlighted line — handwritten image",
+          "info": "Optional. Transparent PNG, about 640 × 100 px. Replaces the typed line."
+        },
+        {
+          "type": "range",
+          "id": "highlight_image_width",
+          "label": "Handwritten image width",
+          "min": 120,
+          "max": 360,
+          "step": 10,
+          "unit": "px",
+          "default": 220
+        },
+        {
+          "type": "text",
+          "id": "subtext",
+          "label": "Line under highlight",
+          "default": "Refreshing. Juicy. Light."
+        }
+      ]
+    },
+    {
+      "type": "handwritten",
+      "name": "Handwritten image",
+      "settings": [
+        {
+          "type": "select",
+          "id": "column",
+          "label": "Column",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Transparent PNG, e.g. handwriting with a brush stroke or circle. About 640–800px wide."
+        },
+        {
+          "type": "range",
+          "id": "width",
+          "label": "Width",
+          "min": 100,
+          "max": 400,
+          "step": 10,
+          "unit": "px",
+          "default": 220
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "info": "Shown in orange italics if no image is uploaded, and used as the image's alt text.",
+          "default": "Everything collapsed."
+        }
+      ]
+    },
+    {
+      "type": "script_title",
+      "name": "Script title",
+      "settings": [
+        {
+          "type": "select",
+          "id": "column",
+          "label": "Column",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "right"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "The Question\nThat Started It All"
+        },
+        {
+          "type": "checkbox",
+          "id": "underline",
+          "label": "Underline",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "quote",
+      "name": "Quote",
+      "settings": [
+        {
+          "type": "select",
+          "id": "column",
+          "label": "Column",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "right"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Quote",
+          "default": "Why can't protein feel like juice?"
+        }
+      ]
+    },
+    {
+      "type": "arrow",
+      "name": "Arrow",
+      "settings": [
+        {
+          "type": "select",
+          "id": "column",
+          "label": "Column",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "right"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Arrow image",
+          "info": "Optional. Transparent PNG, about 240 × 180 px. If empty, a drawn arrow is used."
+        },
+        {
+          "type": "select",
+          "id": "direction",
+          "label": "Direction (drawn arrow)",
+          "options": [
+            {
+              "value": "right",
+              "label": "Right"
+            },
+            {
+              "value": "down-right",
+              "label": "Down-right"
+            },
+            {
+              "value": "down-left",
+              "label": "Down-left"
+            },
+            {
+              "value": "up-right",
+              "label": "Up-right"
+            },
+            {
+              "value": "up-left",
+              "label": "Up-left"
+            }
+          ],
+          "default": "down-right"
+        },
+        {
+          "type": "range",
+          "id": "width",
+          "label": "Width",
+          "min": 40,
+          "max": 200,
+          "step": 10,
+          "unit": "px",
+          "default": 80
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_on_mobile",
+          "label": "Hide on mobile",
+          "info": "On phones the columns stack, so the arrow no longer points at the photo.",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Origin Question Banner",
+      "blocks": [
+        {
+          "type": "eyebrow",
+          "settings": {
+            "column": "left",
+            "text": "Every evening looked the same."
+          }
+        },
+        {
+          "type": "heading",
+          "settings": {
+            "column": "left",
+            "text": "Chocolate. Vanilla.\nChocolate. Vanilla."
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "column": "left",
+            "text": "I mixed protein with water because\nI had to, not because I wanted to."
+          }
+        },
+        {
+          "type": "aside",
+          "settings": {
+            "column": "left"
+          }
+        },
+        {
+          "type": "script_title",
+          "settings": {
+            "column": "right"
+          }
+        },
+        {
+          "type": "quote",
+          "settings": {
+            "column": "right"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Origin Question Banner — First Experiment",
+      "blocks": [
+        {
+          "type": "eyebrow",
+          "settings": {
+            "column": "left",
+            "text": "The first experiment."
+          }
+        },
+        {
+          "type": "numbered_list",
+          "settings": {
+            "column": "left"
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "column": "left",
+            "text": "5 seconds later...",
+            "bold": true
+          }
+        },
+        {
+          "type": "handwritten",
+          "settings": {
+            "column": "left",
+            "text": "Everything collapsed.",
+            "width": 220
+          }
+        },
+        {
+          "type": "arrow",
+          "settings": {
+            "column": "right",
+            "direction": "down-right"
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "column": "right",
+            "text": "White chunks.\nProtein curdled.\nWater separated."
+          }
+        },
+        {
+          "type": "handwritten",
+          "settings": {
+            "column": "right",
+            "text": "\"What just happened?\"",
+            "width": 240
+          }
+        }
+      ]
+    },
+    {
+      "name": "Origin Question Banner — Food Science",
+      "settings": {
+        "fade_width": 0,
+        "image_fit": "contain"
+      },
+      "blocks": [
+        {
+          "type": "eyebrow",
+          "settings": {
+            "column": "left",
+            "text": "Learning food science\nfrom scratch."
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "column": "left",
+            "text": "I discovered the Isoelectric Point –\nthe tiny window where protein can\nsurvive in an acidic drink."
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "column": "left",
+            "text": "But every article, every paper,\nevery process was about\nliquid whey."
+          }
+        },
+        {
+          "type": "handwritten",
+          "settings": {
+            "column": "left",
+            "text": "I was working with whey powder.",
+            "width": 200
+          }
+        },
+        {
+          "type": "arrow",
+          "settings": {
+            "column": "left",
+            "direction": "right",
+            "width": 70
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "column": "right",
+            "text": "There was no roadmap.\nNo expert to guide."
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "column": "right",
+            "text": "Only trial. And error.",
+            "bold": true
+          }
+        },
+        {
+          "type": "handwritten",
+          "settings": {
+            "column": "right",
+            "text": "Stack of books",
+            "width": 200
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

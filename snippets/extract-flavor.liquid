@@ -1,0 +1,18 @@
+{% comment %}
+  Extracts the flavor name from a Protyze-style product title, e.g.
+  "...Low Carb -Nimbu Pani (30 Servings)" -> "Nimbu Pani"
+  Outputs an empty string if the title doesn't match the expected pattern.
+
+  Usage:
+  {% render 'extract-flavor', title: product.title %}
+{% endcomment %}
+{%- liquid
+  assign dash_split = title | split: ' -'
+  assign flavor = ''
+  if dash_split.size > 1
+    assign flavor_and_servings = dash_split | last
+    assign paren_split = flavor_and_servings | split: ' ('
+    assign flavor = paren_split.first | strip
+  endif
+-%}
+{{- flavor -}}

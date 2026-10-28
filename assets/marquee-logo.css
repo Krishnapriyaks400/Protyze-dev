@@ -1,0 +1,37 @@
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%); /* Half the track to create smooth loop */
+  }
+}
+
+.slider {
+  margin: auto;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  z-index: 1; /* Ensure it's not overlapped */
+}
+
+.slide-track {
+  display: flex;
+  width: max-content; /* Let content define width */
+  animation: scroll 20s linear infinite;
+}
+
+.slide {
+  height: auto;
+  width: 180px;
+  flex-shrink: 0;
+  padding: 0 10px;
+}
+
+.slide img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  display: block;
+}
+

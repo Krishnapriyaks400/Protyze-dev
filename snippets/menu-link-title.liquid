@@ -1,0 +1,27 @@
+{%- comment -%}
+  Renders a menu link title. Any "(...)" portion is wrapped in a lighter-
+  weight, smaller span so bracketed detail text (e.g. "Diet Clear (15g
+  protein with probiotics)") reads thinner than the rest of the title.
+  Titles without parentheses render unchanged.
+
+  Usage:
+  {% render 'menu-link-title', title: link.title %}
+{%- endcomment -%}
+{%- liquid
+  assign safe_title = title | escape
+  assign parts = safe_title | split: '('
+-%}
+{%- if parts.size > 1 -%}
+  {%- liquid
+    assign before = parts[0]
+    assign remainder_parts = parts | slice: 1, 99
+    assign remainder = remainder_parts | join: '('
+    assign close_parts = remainder | split: ')'
+    assign paren_content = close_parts[0]
+    assign after_parts = close_parts | slice: 1, 99
+    assign after = after_parts | join: ')'
+  -%}
+  <span class="header-menu__title-wrap">{{- before -}}<span class="header-menu__parenthetical">({{ paren_content }})</span>{{- after -}}</span>
+{%- else -%}
+  {{- safe_title -}}
+{%- endif -%}

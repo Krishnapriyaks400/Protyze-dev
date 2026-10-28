@@ -1,0 +1,292 @@
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .requirements-list-{{ section.id }} {
+    {%- if section.settings.background_color != blank -%}
+      --rl-bg: {{ section.settings.background_color }};
+    {%- endif -%}
+    {%- if section.settings.card_background_color != blank -%}
+      --rl-card-bg: {{ section.settings.card_background_color }};
+    {%- endif -%}
+    {%- if section.settings.title_color != blank -%}
+      --rl-title-color: {{ section.settings.title_color }};
+    {%- endif -%}
+    {%- if section.settings.description_color != blank -%}
+      --rl-description-color: {{ section.settings.description_color }};
+    {%- endif -%}
+    {%- if section.settings.subtext_color != blank -%}
+      --rl-subtext-color: {{ section.settings.subtext_color }};
+    {%- endif -%}
+  }
+
+  .requirements-list__wrapper {
+    background-color: var(--rl-bg, rgb(var(--color-background)));
+  }
+
+  .requirements-list__intro {
+    margin: 0 auto 2.8rem;
+    max-width: 70rem;
+    text-align: center;
+  }
+
+  .requirements-list__subtext {
+    color: var(--rl-subtext-color, rgb(var(--color-foreground)));
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 0.15rem;
+    margin: 0 0 0.8rem;
+    text-transform: uppercase;
+  }
+
+  .requirements-list__heading {
+    color: rgb(var(--color-foreground));
+    margin: 0;
+    text-align: center;
+    text-transform: none;
+  }
+
+  .requirements-list__intro-description {
+    color: var(--rl-description-color, rgba(var(--color-foreground), 0.7));
+    margin: 1.6rem 0 0;
+  }
+
+  .requirements-list__grid {
+    display: grid;
+    gap: 1.6rem;
+    grid-template-columns: 1fr;
+  }
+
+  @media screen and (min-width: 750px) {
+    .requirements-list__grid {
+      gap: 2.4rem;
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .requirements-list__item {
+    align-items: flex-start;
+    background-color: var(--rl-card-bg, rgba(var(--color-foreground), 0.04));
+    border-radius: 0.8rem;
+    display: flex;
+    gap: 1.6rem;
+    padding: 2rem;
+  }
+
+  .requirements-list__icon {
+    display: block;
+    flex-shrink: 0;
+    height: 4.4rem;
+    width: 4.4rem;
+  }
+
+  .requirements-list__icon img {
+    display: block;
+    height: 100%;
+    object-fit: contain;
+    width: 100%;
+  }
+
+  .requirements-list__title {
+    color: var(--rl-title-color, rgb(var(--color-foreground)));
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 0 0 0.4rem;
+  }
+
+  .requirements-list__description {
+    color: var(--rl-description-color, rgba(var(--color-foreground), 0.7));
+    font-size: 1.3rem;
+    margin: 0;
+  }
+{% endstyle %}
+
+<div class="requirements-list-{{ section.id }} color-{{ section.settings.color_scheme }} gradient {{ section.settings.custom_class }}">
+  <div class="requirements-list__wrapper">
+    <div class="page-width section-{{ section.id }}-padding">
+      {%- if section.settings.subtext != blank or section.settings.heading != blank or section.settings.intro_description != blank -%}
+        <div class="requirements-list__intro">
+          {%- if section.settings.subtext != blank -%}
+            <p class="requirements-list__subtext">{{ section.settings.subtext | escape }}</p>
+          {%- endif -%}
+          {%- if section.settings.heading != blank -%}
+            <h2 class="requirements-list__heading h1">{{ section.settings.heading | escape }}</h2>
+          {%- endif -%}
+          {%- if section.settings.intro_description != blank -%}
+            <div class="requirements-list__intro-description rte">{{ section.settings.intro_description }}</div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      <div class="requirements-list__grid">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'item' -%}
+            <div class="requirements-list__item" {{ block.shopify_attributes }}>
+              {%- if block.settings.icon != blank -%}
+                <span class="requirements-list__icon">
+                  {{
+                    block.settings.icon
+                    | image_url: width: 200
+                    | image_tag: loading: 'lazy', width: 88, height: 88, alt: block.settings.icon.alt
+                  }}
+                </span>
+              {%- endif -%}
+              <div>
+                {%- if block.settings.title != blank -%}
+                  <p class="requirements-list__title">{{ block.settings.title | escape }}</p>
+                {%- endif -%}
+                {%- if block.settings.description != blank -%}
+                  <p class="requirements-list__description">{{ block.settings.description | escape }}</p>
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Requirements list",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "subtext",
+      "label": "Subtext (eyebrow)",
+      "default": "Innovation"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "What you need"
+    },
+    {
+      "type": "richtext",
+      "id": "intro_description",
+      "label": "Description",
+      "default": "<p>Innovation is at the heart of Protyze. Our Clear Whey Protein Isolate is developed using Protyze's patented process, protected under Indian Patent No. 552175.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "info": "Sets the default background and text colors. Use the overrides below to fine-tune individual elements.",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Main background color"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background color"
+    },
+    {
+      "type": "color",
+      "id": "subtext_color",
+      "label": "Subtext (eyebrow) color"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Item title color"
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Item / intro description color"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "A shaker or bottle"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Any shaker works. A blender ball is optional — it mixes clear without one."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Requirements list",
+      "category": "Custom",
+      "blocks": [
+        { "type": "item", "settings": { "title": "A shaker or bottle", "description": "Any shaker works. A blender ball is optional — it mixes clear without one." } },
+        { "type": "item", "settings": { "title": "300–400ml cold water", "description": "Colder is better. Ice-cold water gives the crispest, most refreshing result." } },
+        { "type": "item", "settings": { "title": "One level scoop (33g)", "description": "Level, not heaped — that keeps the flavour balanced and the nutrition accurate." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,191 @@
+{%- style -%}
+     .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.50 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.50 | round: 0 }}px;
+  }
+   @media screen and (min-width: 576px) and (max-width: 749px){
+   .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+   }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+.movingtext {display:flex;flex-direction:column;padding:1vw 0;overflow:hidden;} 
+.movingtext h2 {font-weight: 700;margin: 0;white-space: nowrap;position: relative;left: 100%;}
+.movingtext h2:nth-child(1), .movingtext h2:nth-child(3) {-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: #fff;color: transparent;opacity: 0.4;font-size: 66px;}
+.movingtext h2:nth-child(2) {color: #ffffff;margin: -20px 0;font-size: 80px;font-weight: 500;}
+
+.marquee-moving-section .movingtext h2 {color: #ffffff;margin: -20px 0;font-size: 16px;opacity: 1;
+    letter-spacing: 2px;font-weight: 500;}
+  .marquee-moving-section .movingtext h2 p{margin: 0;}
+.marquee-moving-section .movingtext {align-items: center;justify-content: center;}
+
+.moving-text-info .movingtext h2:nth-child(1), .moving-text-info .movingtext h2:nth-child(3) {font-style: italic;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: #ed882e;color: transparent;opacity: 1;font-size: 36px;}
+.moving-text-info .movingtext h2:nth-child(2) {color: #ed882e;margin: -20px 0;font-size: 80px;font-weight: 500;}
+
+.moving-text-info .movingtext{padding: 4px 0;}
+@media screen and (max-width: 767px){ 
+  .movingtext h2 {font-size:10vw;}
+  .movingtext h2:nth-child(1), .movingtext h2:nth-child(3) {-webkit-text-stroke-width: 1px;font-size: 40px;}
+  .movingtext h2:nth-child(2) {margin:-10px 0;font-size: 46px;}
+  .marquee-moving-section .movingtext h2 {font-size: 16px;}
+      .movingtext {
+        padding: 15px 0;
+    }
+  .moving-text-info .movingtext h2:nth-child(1), .moving-text-info .movingtext h2:nth-child(3) , .moving-text-info .movingtext h2:nth-child(2){
+    font-size: 24px;
+  }
+}
+{%- endstyle -%}
+
+
+<div class="section-{{ section.id }}-padding gradient color-{{ section.settings.section_color_scheme }} gradient{% if section.settings.title == blank %} no-heading{% endif %} {{ section.settings.custom_class }}">
+<div class="movingtext">
+  {%- for block in section.blocks -%}
+  <h2>
+    {{ block.settings.message }}
+  </h2>
+  {% endfor %}
+</div>
+<script src="{{ 'marquee-line.js' | asset_url }}" defer="defer"></script> 
+</div>
+{% schema %}
+{
+  "name": "t:sections.marquee-block.name",
+  "settings": [
+     {
+      "type": "inline_richtext",
+      "id": "title",
+      "default": "Multicolumn",
+      "label": "t:sections.multicolumn.settings.title.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h0",
+          "label": "t:sections.all.heading_size.options__3.label"
+        }
+      ],
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+          "type": "text",
+          "id": "span_text",
+          "label": "t:sections.multicolumn.settings.span_text.label"
+     },
+    {
+      "type": "text",
+      "id": "button_label",
+      "default": "Button label",
+      "label": "t:sections.multicolumn.settings.button_label.label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "t:sections.multicolumn.settings.button_link.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_marquee_bar",
+      "label": "t:sections.marquee-block.settings.title.label"
+    },
+    {
+      "type": "select",
+      "id": "direction",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.marquee-block.settings.right_to_left.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.marquee-block.settings.left_to_right.label"
+        }
+      ],
+      "default": "right",
+      "label": "t:sections.marquee-block.settings.direction.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "t:sections.marquee-block.settings.pause_on_hover.label"
+    },    
+    {
+      "type": "text",
+      "id": "speed",
+      "label": "t:sections.marquee-block.settings.speed.label",
+      "default": "15"
+    },
+     {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    },
+    {
+      "type": "color_scheme",
+      "id": "section_color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "t:sections.slideshow.settings.custom_class.label",
+      "info": "t:sections.slideshow.settings.custom_class.info"
+   }
+],
+"blocks": [
+    {
+      "type": "header",
+      "name": "Message",
+      "settings": [
+          {
+            "id": "message",
+            "type": "textarea",
+           "label": "t:sections.marquee-block.blocks.icon.settings.message.label"
+          }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.marquee-block.presets.name"
+    }
+  ]
+}
+{% endschema %}

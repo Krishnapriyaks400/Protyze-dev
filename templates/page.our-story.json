@@ -1,0 +1,713 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "story_hero_6KWF6K": {
+      "type": "story-hero",
+      "name": "Story Hero",
+      "settings": {
+        "image": "shopify://shop_images/Generative_Fill.png",
+        "image_mobile": "shopify://shop_images/Generative_Fill_2.png",
+        "image_focus": "center center",
+        "desktop_height": 560,
+        "overlay_opacity": 0,
+        "content_position": "left",
+        "logo_width": 160,
+        "heading": "The story of <em>Protyze.</em>",
+        "heading_tag": "h1",
+        "subheading": "From a failed experiment in my kitchen\nto reinventing how the world drinks protein.",
+        "year": "2020",
+        "meta_text": "It all started with one\nsimple question.",
+        "background_color": "#f4efe6",
+        "text_color": "#111111",
+        "accent_color": "#e07b28"
+      }
+    },
+    "origin_question_banner_jPgqde": {
+      "type": "origin-question-banner",
+      "blocks": {
+        "eyebrow_VE7mEM": {
+          "type": "eyebrow",
+          "settings": {
+            "column": "left",
+            "text": "Every evening looked the same."
+          }
+        },
+        "heading_RXK3t9": {
+          "type": "heading",
+          "settings": {
+            "column": "left",
+            "text": "Chocolate. Vanilla.\nChocolate. Vanilla."
+          }
+        },
+        "text_J6jm8G": {
+          "type": "text",
+          "settings": {
+            "column": "left",
+            "text": "I mixed protein with water because\nI had to, not because I wanted to.",
+            "bold": false
+          }
+        },
+        "aside_Gt3W7R": {
+          "type": "aside",
+          "settings": {
+            "column": "left",
+            "icon": "shopify://shop_images/shaker-icon.png",
+            "text": "But the drink I genuinely\nlooked forward to every day?",
+            "highlight_text": "My Strawberry Kiwi BCAA.",
+            "highlight_image": "shopify://shop_images/my_strawberry_kiwi_bcaa_only_640x100_transparent_1.png",
+            "highlight_image_width": 220,
+            "subtext": "Refreshing. Juicy. Light."
+          }
+        },
+        "handwritten_kf3f87": {
+          "type": "handwritten",
+          "settings": {
+            "column": "right",
+            "image": "shopify://shop_images/the_question_that_started_it_all_transparent_800x260_1.png",
+            "width": 220,
+            "text": ""
+          }
+        },
+        "quote_zTLtgV": {
+          "type": "quote",
+          "settings": {
+            "column": "right",
+            "text": "Why can't protein feel like juice?"
+          }
+        }
+      },
+      "block_order": [
+        "eyebrow_VE7mEM",
+        "heading_RXK3t9",
+        "text_J6jm8G",
+        "aside_Gt3W7R",
+        "handwritten_kf3f87",
+        "quote_zTLtgV"
+      ],
+      "name": "Origin Question Banner",
+      "settings": {
+        "image": "shopify://shop_images/Artboard_1s.png",
+        "image_mobile": "shopify://shop_images/Artboard_4_4.png",
+        "image_fit": "cover",
+        "image_focus": "65% center",
+        "fade_width": 18,
+        "desktop_height": 420,
+        "background_color": "#fff9dd",
+        "text_color": "#1a1a1a",
+        "accent_color": "#e8541e"
+      }
+    },
+    "origin_question_banner_qXMB4z": {
+      "type": "origin-question-banner",
+      "blocks": {
+        "eyebrow_RrhfWt": {
+          "type": "eyebrow",
+          "settings": {
+            "column": "left",
+            "text": "The first experiment."
+          }
+        },
+        "numbered_list_LWEcxQ": {
+          "type": "numbered_list",
+          "settings": {
+            "column": "left",
+            "items": "Took my strawberry whey protein.\nAdded lemon.\nA pinch of salt.\nShook the bottle."
+          }
+        },
+        "text_NjMq6i": {
+          "type": "text",
+          "settings": {
+            "column": "left",
+            "text": "5 seconds later...",
+            "bold": true
+          }
+        },
+        "handwritten_K43Fm8": {
+          "type": "handwritten",
+          "settings": {
+            "column": "left",
+            "image": "shopify://shop_images/ChatGPT_Image_Sep_28_2026_05_56_11_PM.png",
+            "width": 220,
+            "text": ""
+          }
+        },
+        "text_LB9C86": {
+          "type": "text",
+          "settings": {
+            "column": "right",
+            "text": "White chunks.\nProtein curdled.\nWater separated.",
+            "bold": false
+          }
+        },
+        "arrow_7mUreX": {
+          "type": "arrow",
+          "settings": {
+            "column": "right",
+            "direction": "down-right",
+            "width": 80,
+            "hide_on_mobile": true
+          }
+        },
+        "handwritten_MhLpMa": {
+          "type": "handwritten",
+          "settings": {
+            "column": "right",
+            "image": "shopify://shop_images/ChatGPT_Image_Sep_28_2026_05_57_23_PM.png",
+            "width": 240,
+            "text": "\"What just happened?\""
+          }
+        }
+      },
+      "block_order": [
+        "eyebrow_RrhfWt",
+        "numbered_list_LWEcxQ",
+        "text_NjMq6i",
+        "handwritten_K43Fm8",
+        "text_LB9C86",
+        "arrow_7mUreX",
+        "handwritten_MhLpMa"
+      ],
+      "name": "Origin Question Banner — First Experiment",
+      "settings": {
+        "image": "shopify://shop_images/Chat.png",
+        "image_mobile": "shopify://shop_images/ChatGPT_Image_Sep_28_2026_05_51_19_PM_1.png",
+        "image_fit": "cover",
+        "image_focus": "center center",
+        "fade_width": 18,
+        "desktop_height": 420,
+        "background_color": "#fffced",
+        "text_color": "#1a1a1a",
+        "accent_color": "#e8541e"
+      }
+    },
+    "story_panels_TyWmfP": {
+      "type": "story-panels",
+      "blocks": {
+        "eyebrow_WR6Fyy": {
+          "type": "eyebrow",
+          "settings": {
+            "panel": "1",
+            "text": "Every night.\nThe same routine."
+          }
+        },
+        "icon_item_nCi7FQ": {
+          "type": "icon_item",
+          "settings": {
+            "panel": "1",
+            "icon": "flask",
+            "label": "Experiment"
+          }
+        },
+        "icon_item_UgifHM": {
+          "type": "icon_item",
+          "settings": {
+            "panel": "1",
+            "icon": "shaker",
+            "label": "Shake"
+          }
+        },
+        "icon_item_Fb7Bwk": {
+          "type": "icon_item",
+          "settings": {
+            "panel": "1",
+            "icon": "snowflake",
+            "label": "Refrigerator"
+          }
+        },
+        "icon_item_3KkBr3": {
+          "type": "icon_item",
+          "settings": {
+            "panel": "1",
+            "icon": "heart",
+            "label": "Hope"
+          }
+        },
+        "eyebrow_KXCLay": {
+          "type": "eyebrow",
+          "settings": {
+            "panel": "2",
+            "text": "Every morning.\nThe same result."
+          }
+        },
+        "text_TCpAF8": {
+          "type": "text",
+          "settings": {
+            "panel": "2",
+            "text": "Protein at the bottom.\nWater on top.",
+            "bold": false,
+            "large": false,
+            "underline": false
+          }
+        },
+        "handwritten_fkaJbT": {
+          "type": "handwritten",
+          "settings": {
+            "panel": "2",
+            "image": "shopify://shop_images/ChatGPT_Image_Sep_28_2026_06_37_50_PM.png",
+            "width": 180,
+            "text": "Again.\nAnd again.\nAnd again."
+          }
+        }
+      },
+      "block_order": [
+        "eyebrow_WR6Fyy",
+        "icon_item_nCi7FQ",
+        "icon_item_UgifHM",
+        "icon_item_Fb7Bwk",
+        "icon_item_3KkBr3",
+        "eyebrow_KXCLay",
+        "text_TCpAF8",
+        "handwritten_fkaJbT"
+      ],
+      "name": "Story Panels",
+      "settings": {
+        "panel_1_image": "shopify://shop_images/ChatGPT_Image_Sep_29_2026_10_45_46_AM.png",
+        "panel_2_image": "shopify://shop_images/ChatGPT_Image_Sep_29_2026_10_46_10_AM.png",
+        "image_focus": "right center",
+        "fade_width": 30,
+        "content_width": 50,
+        "desktop_height": 320,
+        "background_color": "#fffced",
+        "text_color": "#1a1a1a",
+        "accent_color": "#e8541e",
+        "color_scheme": "scheme-84285399-6321-4a7f-a7a4-14c9dfa98463",
+        "padding_top": 24,
+        "padding_bottom": 24
+      }
+    },
+    "origin_question_banner_yEzXxk": {
+      "type": "origin-question-banner",
+      "blocks": {
+        "eyebrow_pjWfV4": {
+          "type": "eyebrow",
+          "settings": {
+            "column": "left",
+            "text": "Learning food science\nfrom scratch."
+          }
+        },
+        "text_edtThi": {
+          "type": "text",
+          "settings": {
+            "column": "left",
+            "text": "I discovered the Isoelectric Point –\nthe tiny window where protein can\nsurvive in an acidic drink.",
+            "bold": false
+          }
+        },
+        "text_Wx4LzV": {
+          "type": "text",
+          "settings": {
+            "column": "left",
+            "text": "But every article, every paper,\nevery process was about\nliquid whey.",
+            "bold": false
+          }
+        },
+        "handwritten_xWAGnJ": {
+          "type": "handwritten",
+          "settings": {
+            "column": "left",
+            "image": "shopify://shop_images/ChatGPT_Image_Sep_29_2026_11_33_02_AM.png",
+            "width": 200,
+            "text": "I was working with whey powder."
+          }
+        },
+        "text_F4YN9L": {
+          "type": "text",
+          "settings": {
+            "column": "right",
+            "text": "There was no roadmap.\nNo expert to guide.",
+            "bold": false
+          }
+        },
+        "text_4k44d6": {
+          "type": "text",
+          "settings": {
+            "column": "right",
+            "text": "Only trial. And error.",
+            "bold": true
+          }
+        },
+        "handwritten_tbLdji": {
+          "type": "handwritten",
+          "settings": {
+            "column": "right",
+            "image": "shopify://shop_images/ChatGPT_Image_Sep_29_2026_11_35_19_AM.png",
+            "width": 200,
+            "text": "Stack of books"
+          }
+        }
+      },
+      "block_order": [
+        "eyebrow_pjWfV4",
+        "text_edtThi",
+        "text_Wx4LzV",
+        "handwritten_xWAGnJ",
+        "text_F4YN9L",
+        "text_4k44d6",
+        "handwritten_tbLdji"
+      ],
+      "name": "Origin Question Banner — Food Science",
+      "settings": {
+        "image": "shopify://shop_images/ChatGPT_Image_Sep_29_2026_11_30_40_AM.png",
+        "image_fit": "contain",
+        "image_focus": "center center",
+        "fade_width": 0,
+        "desktop_height": 420,
+        "background_color": "#fffced",
+        "text_color": "#1a1a1a",
+        "accent_color": "#e8541e"
+      }
+    },
+    "story_panels_UkBVEA": {
+      "type": "story-panels",
+      "blocks": {
+        "eyebrow_cPRUDP": {
+          "type": "eyebrow",
+          "settings": {
+            "panel": "1",
+            "text": "The Eureka moment."
+          }
+        },
+        "text_jdqmMy": {
+          "type": "text",
+          "settings": {
+            "panel": "1",
+            "text": "One day...\nNothing separated.\nI thought I won.",
+            "bold": false,
+            "large": true,
+            "underline": true
+          }
+        },
+        "eyebrow_89TMiX": {
+          "type": "eyebrow",
+          "settings": {
+            "panel": "2",
+            "text": "But the real challenge\nhad just begun."
+          }
+        },
+        "check_item_THJnzP": {
+          "type": "check_item",
+          "settings": {
+            "panel": "2",
+            "text": "Particles were floating."
+          }
+        },
+        "check_item_t9wyaf": {
+          "type": "check_item",
+          "settings": {
+            "panel": "2",
+            "text": "Foam wouldn't disappear."
+          }
+        },
+        "check_item_jQqkYF": {
+          "type": "check_item",
+          "settings": {
+            "panel": "2",
+            "text": "Texture wasn't right."
+          }
+        },
+        "check_item_7BRUfG": {
+          "type": "check_item",
+          "settings": {
+            "panel": "2",
+            "text": "It wasn't juicy."
+          }
+        },
+        "handwritten_dJqtDD": {
+          "type": "handwritten",
+          "settings": {
+            "panel": "2",
+            "image": "shopify://shop_images/ChatGPT_Image_Sep_29_2026_11_51_40_AM.png",
+            "width": 260,
+            "text": "Creating clear protein\nwas just the beginning."
+          }
+        }
+      },
+      "block_order": [
+        "eyebrow_cPRUDP",
+        "text_jdqmMy",
+        "eyebrow_89TMiX",
+        "check_item_THJnzP",
+        "check_item_t9wyaf",
+        "check_item_jQqkYF",
+        "check_item_7BRUfG",
+        "handwritten_dJqtDD"
+      ],
+      "name": "Story Panels — Eureka (dark)",
+      "settings": {
+        "panel_1_image": "shopify://shop_images/ChatGPT_Image_Sep_29_2026_02_46_01_PM.png",
+        "panel_2_image": "shopify://shop_images/ChatGPT_Image_Sep_29_2026_02_47_43_PM.png",
+        "image_focus": "right center",
+        "fade_width": 30,
+        "content_width": 50,
+        "desktop_height": 420,
+        "background_color": "#120603",
+        "text_color": "#ffffff",
+        "accent_color": "#f08a24",
+        "color_scheme": "scheme-680e6a53-f05c-40ec-a3b0-8b736094b76e",
+        "padding_top": 24,
+        "padding_bottom": 24
+      }
+    },
+    "story_finale_MCRYyd": {
+      "type": "story-finale",
+      "blocks": {
+        "eyebrow_icHce9": {
+          "type": "eyebrow",
+          "settings": {
+            "zone": "r1_left",
+            "text": "Two years later..."
+          }
+        },
+        "tick_list_QaENfp": {
+          "type": "tick_list",
+          "settings": {
+            "zone": "r1_left",
+            "items": "Particle size\nMoisture\nBinding\nAgglomeration\nDrying temperature\nTaste\nTexture\nStability"
+          }
+        },
+        "handwritten_9Y6kRJ": {
+          "type": "handwritten",
+          "settings": {
+            "zone": "r1_aside",
+            "image": "shopify://shop_images/ChatGPT_Image_Sep_30_2026_06_58_56_PM.png",
+            "width": 200,
+            "text": "Hundreds of variables.\nThousands of experiments."
+          }
+        },
+        "text_zUEKRD": {
+          "type": "text",
+          "settings": {
+            "zone": "r1_right",
+            "text": "Finally,\nit happened.",
+            "bold": true,
+            "large": true,
+            "underline": false
+          }
+        },
+        "text_9w7RYR": {
+          "type": "text",
+          "settings": {
+            "zone": "r1_right",
+            "text": "Crystal clear.\nRefreshing.\nJuicy.",
+            "bold": false,
+            "large": true,
+            "underline": false
+          }
+        },
+        "text_EEwPwh": {
+          "type": "text",
+          "settings": {
+            "zone": "r1_right",
+            "text": "Exactly how I imagined\nit two years earlier.",
+            "bold": false,
+            "large": false,
+            "underline": true
+          }
+        },
+        "heading_NJVBnj": {
+          "type": "heading",
+          "settings": {
+            "zone": "r2_left",
+            "text": "THIS IS PROTYZE."
+          }
+        },
+        "text_e7dKXk": {
+          "type": "text",
+          "settings": {
+            "zone": "r2_left",
+            "text": "Not just another protein.\nA completely different way to\nexperience protein.",
+            "bold": false,
+            "large": true,
+            "underline": false
+          }
+        },
+        "feature_icons_GhBR6K": {
+          "type": "feature_icons",
+          "settings": {
+            "zone": "r2_left",
+            "icon_1": "leaf",
+            "label_1": "Refreshing",
+            "icon_2": "drop",
+            "label_2": "Juicy",
+            "icon_3": "feather",
+            "label_3": "Light",
+            "icon_4": "check",
+            "label_4": "Clean"
+          }
+        },
+        "testimonial_UTzGaT": {
+          "type": "testimonial",
+          "settings": {
+            "zone": "r2_right",
+            "text": "Every bottle of Protyze carries\ntwo years of failed experiments\nthat no one will ever see—\nbut everyone will taste."
+          }
+        },
+        "handwritten_9hfmhX": {
+          "type": "handwritten",
+          "settings": {
+            "zone": "r2_right",
+            "image": "shopify://shop_images/ChatGPT_Image_Sep_29_2026_04_12_52_PM.png",
+            "width": 140,
+            "text": "Vinit Kumar"
+          }
+        },
+        "text_DMQzyP": {
+          "type": "text",
+          "settings": {
+            "zone": "r2_right",
+            "text": "Founder, Protyze",
+            "bold": false,
+            "large": false,
+            "underline": false
+          }
+        }
+      },
+      "block_order": [
+        "eyebrow_icHce9",
+        "tick_list_QaENfp",
+        "handwritten_9Y6kRJ",
+        "text_zUEKRD",
+        "text_9w7RYR",
+        "text_EEwPwh",
+        "heading_NJVBnj",
+        "text_e7dKXk",
+        "feature_icons_GhBR6K",
+        "testimonial_UTzGaT",
+        "handwritten_9hfmhX",
+        "text_DMQzyP"
+      ],
+      "name": "Story Finale",
+      "settings": {
+        "row_1_image": "shopify://shop_images/protyze_shaker_1000x1000_1.jpg",
+        "row_1_media_width": "1.15",
+        "row_1_image_focus": "center center",
+        "row_1_image_fade": 18,
+        "row_1_bg_focus": "right center",
+        "row_1_bg_color": "#fffced",
+        "show_r1_divider": false,
+        "row_1_height": 340,
+        "row_2_width": "full",
+        "row_2_outer_bg_color": "#e4e1d7",
+        "row_2_bg_image": "shopify://shop_images/ChatGPT_Image_Sep_29_2026_03_42_15_PM.png",
+        "row_2_bg_focus": "center center",
+        "row_2_right_image": "shopify://shop_images/ChatGPT_Image_Sep_29_2026_03_46_07_PM.png",
+        "row_2_right_focus": "right center",
+        "row_2_split": "minmax(0, 1.2fr) minmax(0, 1fr)",
+        "row_2_content_width": 55,
+        "row_2_gap": 2,
+        "row_2_bg_color": "#fff9dd",
+        "row_2_text_fade": 90,
+        "row_2_fade_color": "#f6ead9",
+        "row_2_overlay": 0,
+        "row_2_height": 420,
+        "founder_image": "shopify://shop_images/ChatGPT_Image_Sep_29_2026_03_15_40_PM.png",
+        "founder_height": 160,
+        "founder_space": 18,
+        "founder_on_mobile": false,
+        "heading_size": 38,
+        "text_color": "#1a1a1a",
+        "accent_color": "#e8541e",
+        "tick_color": "#3a8a4a"
+      }
+    },
+    "stats_bar_AQW9E8": {
+      "type": "stats-bar",
+      "blocks": {
+        "stat_i3yLrL": {
+          "type": "stat",
+          "settings": {
+            "icon": "shopify://shop_images/days-of-obsession-96.png",
+            "value": "730+",
+            "label": "Days of obsession"
+          }
+        },
+        "stat_3KLE6d": {
+          "type": "stat",
+          "settings": {
+            "icon": "shopify://shop_images/experiments-96.png",
+            "value": "1000+",
+            "label": "Experiments"
+          }
+        },
+        "stat_UarUkw": {
+          "type": "stat",
+          "settings": {
+            "icon": "shopify://shop_images/failed-recipes-96.png",
+            "value": "50+",
+            "label": "Failed Recipes"
+          }
+        },
+        "stat_ta7aGM": {
+          "type": "stat",
+          "settings": {
+            "icon": "shopify://shop_images/kitchen-96.png",
+            "value": "1",
+            "label": "Kitchen"
+          }
+        },
+        "stat_L3BX9n": {
+          "type": "stat",
+          "settings": {
+            "icon": "shopify://shop_images/mission-96.png",
+            "value": "1",
+            "label": "Mission"
+          }
+        },
+        "stat_TerTRk": {
+          "type": "stat",
+          "settings": {
+            "icon": "shopify://shop_images/servings-today-96.png",
+            "value": "Millions",
+            "label": "Of servings today"
+          }
+        }
+      },
+      "block_order": [
+        "stat_i3yLrL",
+        "stat_3KLE6d",
+        "stat_UarUkw",
+        "stat_ta7aGM",
+        "stat_L3BX9n",
+        "stat_TerTRk"
+      ],
+      "name": "Stats bar",
+      "settings": {
+        "color_scheme": "scheme-c02b38ee-c791-4d98-b18a-18922b5fe443",
+        "background_color": "rgba(0,0,0,0)",
+        "number_color": "#ff6a2a",
+        "label_color": "#120603",
+        "divider_color": "",
+        "padding_top": 24,
+        "padding_bottom": 24,
+        "custom_class": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "story_hero_6KWF6K",
+    "origin_question_banner_jPgqde",
+    "origin_question_banner_qXMB4z",
+    "story_panels_TyWmfP",
+    "origin_question_banner_yEzXxk",
+    "story_panels_UkBVEA",
+    "story_finale_MCRYyd",
+    "stats_bar_AQW9E8"
+  ]
+}

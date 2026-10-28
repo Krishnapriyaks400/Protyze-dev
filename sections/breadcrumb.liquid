@@ -1,0 +1,231 @@
+{{ 'section-breadcrumb.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- unless template == 'index' or template == 'cart' or template == 'list-collections' or template == '404' -%}
+  {%- liquid
+    assign bc_t        = template | split: '.' | first
+    assign bc_shop_url = shop.url
+
+    # Extract flavour from product title
+    # Title format: "Base Name -Flavour Name (Servings)"
+    assign bc_flavour = ''
+    assign bc_keyword = ''
+    if bc_t == 'product'
+      assign bc_title_parts = product.title | split: ' -'
+      if bc_title_parts.size > 1
+        assign bc_flav_raw   = bc_title_parts | last
+        assign bc_flav_parts = bc_flav_raw | split: ' ('
+        assign bc_flavour    = bc_flav_parts | first | strip
+      endif
+
+      # Detect product line keyword from title
+      # Check Hydra-X before Hydra to avoid partial match
+      if product.title contains 'Hydra-X'
+        assign bc_keyword = 'Hydra-X'
+      elsif product.title contains 'HydraX'
+        assign bc_keyword = 'HydraX'
+      elsif product.title contains 'Hydra'
+        assign bc_keyword = 'Hydra'
+      elsif product.title contains 'Anytime'
+        assign bc_keyword = 'Anytime'
+      elsif product.title contains 'Diet'
+        assign bc_keyword = 'Diet'
+      elsif product.title contains 'Nitro'
+        assign bc_keyword = 'Nitro'
+      endif
+    endif
+
+   # Find best collection for product pages
+    assign bc_col = nil
+    if bc_t == 'product'
+      # Iterate all collections without break so bc_col ends up as the last (most recent) one
+      for c in product.collections
+        if c.handle != 'all'
+          assign bc_col = c
+        endif
+      endfor
+    endif
+  -%}
+
+  {%- comment -%} ── BreadcrumbList JSON-LD ──────────────────────────── {%- endcomment -%}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": {{ bc_shop_url | json }} }
+      {%- if bc_t == 'product' -%}
+      {%- assign bc_pos = 2 -%}
+      ,{ "@type": "ListItem", "position": {{ bc_pos }}, "name": "All Products", "item": {{ bc_shop_url | append: routes.all_products_collection_url | json }} }
+      {%- if bc_col != nil -%}{%- assign bc_pos = bc_pos | plus: 1 -%}
+      ,{ "@type": "ListItem", "position": {{ bc_pos }}, "name": {{ bc_col.title | json }}, "item": {{ bc_shop_url | append: bc_col.url | json }} }
+      {%- endif -%}
+      {%- if bc_keyword != blank -%}{%- assign bc_pos = bc_pos | plus: 1 -%}
+      ,{ "@type": "ListItem", "position": {{ bc_pos }}, "name": {{ bc_keyword | json }} }
+      {%- endif -%}
+      {%- assign bc_pos = bc_pos | plus: 1 -%}
+      {%- if bc_flavour != blank -%}
+      ,{ "@type": "ListItem", "position": {{ bc_pos }}, "name": {{ bc_flavour | json }}, "item": {{ bc_shop_url | append: product.url | json }} }
+      {%- else -%}
+      ,{ "@type": "ListItem", "position": {{ bc_pos }}, "name": {{ product.title | json }}, "item": {{ bc_shop_url | append: product.url | json }} }
+      {%- endif -%}
+      {%- elsif bc_t == 'collection' -%}
+      ,{ "@type": "ListItem", "position": 2, "name": {{ collection.title | json }}, "item": {{ bc_shop_url | append: collection.url | json }} }
+      {%- elsif bc_t == 'blog' -%}
+      ,{ "@type": "ListItem", "position": 2, "name": {{ blog.title | json }}, "item": {{ bc_shop_url | append: blog.url | json }} }
+      {%- elsif bc_t == 'article' -%}
+      ,{ "@type": "ListItem", "position": 2, "name": {{ blog.title | json }}, "item": {{ bc_shop_url | append: blog.url | json }} }
+      ,{ "@type": "ListItem", "position": 3, "name": {{ article.title | json }}, "item": {{ bc_shop_url | append: article.url | json }} }
+      {%- elsif bc_t == 'page' -%}
+      ,{ "@type": "ListItem", "position": 2, "name": {{ page.title | json }}, "item": {{ bc_shop_url | append: page.url | json }} }
+      {%- else -%}
+      ,{ "@type": "ListItem", "position": 2, "name": {{ page_title | json }} }
+      {%- endif -%}
+    ]
+  }
+  </script>
+
+{%- comment -%} ── Visual breadcrumb ───────────────────────────────── {%- endcomment -%}
+  <div class="breadcrumb_section color-{{ section.settings.color_scheme }} isolate gradient section-{{ section.id }}-padding">
+  <nav
+    class="breadcrumb_section__inner
+      {%- if section.settings.page_layout == 'grid' %} page-width
+      {%- elsif section.settings.page_layout == 'full_bleed' %} full_bleed
+      {%- else %} fluid
+      {%- endif %}"
+    aria-label="Breadcrumb"
+  >
+    {%- case bc_t -%}
+
+      {%- when 'product' -%}
+        <a href="{{ routes.root_url }}">{{ 'general.breadcrumb.home_page' | t }}</a>
+        <span aria-hidden="true"> / </span>
+        <a href="{{ routes.all_products_collection_url }}">All Products</a>
+        {%- if bc_col != nil -%}
+          <span aria-hidden="true"> / </span>
+          <a href="{{ bc_col.url }}">{{ bc_col.title }}</a>
+        {%- endif -%}
+        {%- if bc_keyword != blank -%}
+          <span aria-hidden="true"> / </span>
+          <span>{{ bc_keyword }}</span>
+        {%- endif -%}
+        <span aria-hidden="true"> - </span>
+        {%- if bc_flavour != blank -%}
+          <span>{{ bc_flavour }}</span>
+        {%- else -%}
+          <span>{{ product.title }}</span>
+        {%- endif -%}
+
+      {%- when 'collection' -%}
+        <a href="{{ routes.root_url }}">{{ 'general.breadcrumb.home_page_link' | t }}</a>
+        {%- if current_tags -%}
+          <span aria-hidden="true"> / </span>
+          <a href="{{ collection.url }}">{{ collection.title }}</a>
+          <span aria-hidden="true"> / </span>
+          <span>{{ current_tags | join: ' + ' }}</span>
+        {%- else -%}
+          <span aria-hidden="true"> / </span>
+          <span>{{ collection.title }}</span>
+        {%- endif -%}
+
+      {%- when 'blog' -%}
+        <a href="{{ routes.root_url }}">{{ 'general.breadcrumb.home_page' | t }}</a>
+        <span aria-hidden="true"> / </span>
+        {%- if current_tags -%}
+          <a href="{{ blog.url }}">{{ blog.title }}</a>
+          <span aria-hidden="true"> / </span>
+          <a href="{{ blog.url }}/tagged/{{ current_tags | join: '+' }}">{{ current_tags | join: ' + ' }}</a>
+        {%- else -%}
+          <span>{{ blog.title }}</span>
+        {%- endif -%}
+
+      {%- when 'article' -%}
+        <a href="{{ routes.root_url }}">{{ 'general.breadcrumb.home_page' | t }}</a>
+        <span aria-hidden="true"> / </span>
+        <a href="{{ blog.url }}">{{ blog.title }}</a>
+        <span aria-hidden="true"> / </span>
+        <span>{{ article.title }}</span>
+
+      {%- else -%}
+        <a href="{{ routes.root_url }}">{{ 'general.breadcrumb.home_page' | t }}</a>
+        <span aria-hidden="true"> / </span>
+        <span>{{ page_title }}</span>
+
+    {%- endcase -%}
+  </nav>
+  </div>
+
+{%- endunless -%}
+
+
+{% schema %}
+{
+  "name": "t:sections.breadcrumb.name",
+  "class": "section",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "info": "t:sections.all.colors.has_cards_info",
+      "default": "background-1"
+    },
+    {
+      "type": "select",
+      "id": "page_layout",
+      "label": "Layout width",
+      "options": [
+        { "value": "grid",       "label": "Page width" },
+        { "value": "full_bleed", "label": "Full bleed" },
+        { "value": "fluid",      "label": "Fluid" }
+      ],
+      "default": "grid"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 8
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.breadcrumb.presets.name"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,1070 @@
+{%- comment -%}
+════════════════════════════════════════════════════════════════════════════
+  sections/huel-product-hero.liquid
+  Huel-inspired two-column product hero. Assign via template
+  templates/product.huel-style.json — existing product pages unchanged.
+
+  METAFIELDS  (namespace: custom — create in Admin › Settings › Custom data)
+  ┌──────────────────────────┬──────────────────┬─────────────────────────┐
+  │ Key                      │ Type             │ Purpose                 │
+  ├──────────────────────────┼──────────────────┼─────────────────────────┤
+  │ custom.pitch             │ single_line_text │ One-line tagline        │
+  │ custom.servings          │ number_integer   │ Per-serving calculation │
+  │ custom.flavour_name      │ single_line_text │ Short name in flavour   │
+  │                          │                  │ list (replaces title)   │
+  └──────────────────────────┴──────────────────┴─────────────────────────┘
+
+  PRODUCT TAGS
+  ┌────────────────┬──────────────────────────────────────────────────────┐
+  │ Tag            │ Effect                                               │
+  ├────────────────┼──────────────────────────────────────────────────────┤
+  │ size:30-jar    │ Show this product in the flavour list (set matching  │
+  │ size:15-pouch  │ value in the "Size tag" section setting)             │
+  │ bestseller     │ Shows "Bestseller" badge on that flavour row         │
+  │ new            │ Shows "New" badge on that flavour row                │
+  └────────────────┴──────────────────────────────────────────────────────┘
+════════════════════════════════════════════════════════════════════════════
+{%- endcomment -%}
+
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+
+{%- comment -%} Expose shop money format to JS without Liquid re-interpolation issues {%- endcomment -%}
+<script>window.huelHeroMoneyFmt = {{ shop.money_format | json }};</script>
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign product_form_id  = 'huel-form-' | append: section.id
+  assign current_variant  = product.selected_or_first_available_variant
+  assign servings_val     = product.metafields.custom.servings.value
+  assign pitch_val        = product.metafields.custom.pitch.value
+  assign flavour_col      = section.settings.flavour_collection
+  assign size_tag         = section.settings.size_tag
+-%}
+
+<section
+  id="huel-hero-{{ section.id }}"
+  class="huel-hero color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding"
+  data-section="{{ section.id }}"
+  data-servings="{{ servings_val | default: 0 }}"
+  data-per-serving-text="{{ section.settings.per_serving_prefix | escape }}|PRICE|{{ section.settings.per_serving_suffix | escape }}"
+  data-add-label="{{ section.settings.add_label | escape }}"
+  data-sold-label="{{ 'products.product.sold_out' | t | escape }}"
+>
+  <div class="huel-hero__layout page-width">
+
+    {%- comment -%}════ LEFT: gallery ════{%- endcomment -%}
+    <div class="huel-hero__gallery">
+      {%- if product.media.size > 0 -%}
+        {%- for media in product.media -%}
+          {%- assign m_w = media.preview_image.width  | default: 1200 -%}
+          {%- assign m_h = media.preview_image.height | default: 1200 -%}
+          <div
+            class="huel-hero__gallery-item"
+            style="aspect-ratio: {{ m_w }} / {{ m_h }}"
+          >
+            {%- case media.media_type -%}
+
+              {%- when 'image' -%}
+                <img
+                  src="{{ media | image_url: width: 900 }}"
+                  srcset="{{ media | image_url: width: 450 }} 450w,
+                          {{ media | image_url: width: 900 }} 900w,
+                          {{ media | image_url: width: 1400 }} 1400w"
+                  sizes="(max-width: 749px) 100vw, 55vw"
+                  alt="{{ media.alt | escape | default: product.title | escape }}"
+                  width="{{ m_w }}"
+                  height="{{ m_h }}"
+                  class="huel-hero__gallery-img"
+                  {%- if forloop.first %}
+                    loading="eager"
+                    fetchpriority="high"
+                  {%- else %}
+                    loading="lazy"
+                  {%- endif %}
+                >
+
+              {%- when 'video' -%}
+                <video
+                  class="huel-hero__gallery-video"
+                  autoplay muted loop playsinline
+                  preload="none"
+                  poster="{{ media.preview_image | image_url: width: 900 }}"
+                  width="{{ m_w }}"
+                  height="{{ m_h }}"
+                >
+                  {%- for source in media.sources -%}
+                    <source src="{{ source.url }}" type="{{ source.mime_type }}">
+                  {%- endfor -%}
+                </video>
+
+              {%- when 'external_video' -%}
+                <div class="huel-hero__gallery-ext" style="aspect-ratio: 16/9">
+                  {%- if media.host == 'youtube' -%}
+                    <iframe
+                      src="https://www.youtube.com/embed/{{ media.external_id }}?mute=1&autoplay=0"
+                      loading="lazy"
+                      frameborder="0"
+                      allow="autoplay; encrypted-media"
+                      allowfullscreen
+                      title="{{ media.alt | escape }}"
+                    ></iframe>
+                  {%- elsif media.host == 'vimeo' -%}
+                    <iframe
+                      src="https://player.vimeo.com/video/{{ media.external_id }}?muted=1"
+                      loading="lazy"
+                      frameborder="0"
+                      allow="autoplay; fullscreen"
+                      allowfullscreen
+                      title="{{ media.alt | escape }}"
+                    ></iframe>
+                  {%- endif -%}
+                </div>
+
+            {%- endcase -%}
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        <div class="huel-hero__gallery-placeholder">
+          {{ 'product-1' | placeholder_svg_tag: 'huel-hero__placeholder-svg' }}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%}════ RIGHT: product info ════{%- endcomment -%}
+    <div class="huel-hero__right">
+
+      {%- comment -%}─ 1. Title + pitch ─{%- endcomment -%}
+      <div class="huel-hero__title-block">
+        <h1 class="huel-hero__title">{{ product.title }}</h1>
+        {%- if pitch_val != blank -%}
+          <p class="huel-hero__pitch">{{ pitch_val | escape }}</p>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%}─ 2. Price ─{%- endcomment -%}
+      <div class="huel-hero__price-block">
+        <div class="huel-hero__price-row">
+          <span class="huel-hero__price-current">{{ current_variant.price | money }}</span>
+          {%- if current_variant.compare_at_price > current_variant.price -%}
+            <s class="huel-hero__price-compare">{{ current_variant.compare_at_price | money }}</s>
+            {%- assign save_pct = current_variant.compare_at_price | minus: current_variant.price
+                                    | times: 100
+                                    | divided_by: current_variant.compare_at_price -%}
+            <span class="huel-hero__price-badge">Save {{ save_pct }}%</span>
+          {%- endif -%}
+        </div>
+        {%- if servings_val != blank -%}
+          {%- assign servings_int = servings_val | plus: 0 -%}
+          {%- if servings_int > 0 -%}
+            {%- assign per_serving_price = current_variant.price | divided_by: servings_int -%}
+            <p class="huel-hero__price-serving">
+              {{ section.settings.per_serving_prefix }}
+              {{ per_serving_price | money }}
+              {{ section.settings.per_serving_suffix }}
+            </p>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+
+      {%- comment -%}─ 3. Flavour list ─{%- endcomment -%}
+      {%- if flavour_col != blank -%}
+        <div class="huel-hero__flavour-section">
+          {%- if section.settings.flavour_heading != blank -%}
+            <h2 class="huel-hero__flavour-heading">{{ section.settings.flavour_heading | escape }}</h2>
+          {%- endif -%}
+
+          <div class="huel-hero__flavour-list">
+            {%- for sibling in flavour_col.products -%}
+
+              {%- comment -%} Filter by size tag {%- endcomment -%}
+              {%- if size_tag != blank -%}
+                {%- unless sibling.tags contains size_tag -%}
+                  {%- continue -%}
+                {%- endunless -%}
+              {%- endif -%}
+
+              {%- assign is_current    = false -%}
+              {%- if sibling.id == product.id -%}
+                {%- assign is_current = true -%}
+              {%- endif -%}
+
+              {%- assign flavour_name = sibling.metafields.custom.flavour_name.value -%}
+              {%- if flavour_name == blank -%}
+                {%- assign flavour_name = sibling.title -%}
+              {%- endif -%}
+
+              {%- assign sib_variant = sibling.first_available_variant -%}
+              {%- if sib_variant == blank -%}
+                {%- assign sib_variant = sibling.variants | first -%}
+              {%- endif -%}
+
+              {%- assign thumb = sibling.featured_media.preview_image | default: sibling.featured_image -%}
+              {%- assign has_bestseller = false -%}
+              {%- if sibling.tags contains 'bestseller' -%}{%- assign has_bestseller = true -%}{%- endif -%}
+              {%- assign has_new = false -%}
+              {%- if sibling.tags contains 'new' -%}{%- assign has_new = true -%}{%- endif -%}
+
+              <div
+                class="huel-hero__flavour-row{% if is_current %} huel-hero__flavour-row--current{% endif %}"
+                data-product-id="{{ sibling.id }}"
+              >
+                {%- comment -%} Thumbnail {%- endcomment -%}
+                <a href="{{ sibling.url }}" class="huel-hero__flavour-thumb-link" aria-label="{{ flavour_name | escape }}" tabindex="-1">
+                  <div class="huel-hero__flavour-thumb">
+                    {%- if thumb != blank -%}
+                      <img
+                        src="{{ thumb | image_url: width: 128 }}"
+                        srcset="{{ thumb | image_url: width: 64 }} 64w, {{ thumb | image_url: width: 128 }} 128w"
+                        sizes="64px"
+                        alt="{{ thumb.alt | escape | default: flavour_name | escape }}"
+                        width="64"
+                        height="64"
+                        loading="lazy"
+                      >
+                    {%- else -%}
+                      <div class="huel-hero__flavour-thumb-placeholder"></div>
+                    {%- endif -%}
+                  </div>
+                </a>
+
+                {%- comment -%} Name + badges + price {%- endcomment -%}
+                <div class="huel-hero__flavour-info">
+                  <div class="huel-hero__flavour-name-row">
+                    <a href="{{ sibling.url }}" class="huel-hero__flavour-name">
+                      {{- flavour_name | escape -}}
+                    </a>
+                    {%- if has_bestseller -%}
+                      <span class="huel-hero__badge huel-hero__badge--bestseller">Bestseller</span>
+                    {%- elsif has_new -%}
+                      <span class="huel-hero__badge huel-hero__badge--new">New</span>
+                    {%- endif -%}
+                  </div>
+                  <div class="huel-hero__flavour-price">
+                    {{ sib_variant.price | money }}
+                    {%- if sib_variant.compare_at_price > sib_variant.price -%}
+                      <s class="huel-hero__flavour-compare">{{ sib_variant.compare_at_price | money }}</s>
+                    {%- endif -%}
+                  </div>
+                </div>
+
+                {%- comment -%} Per-row quantity control (starts at 0; JS toggles active state) {%- endcomment -%}
+                <div class="huel-hero__fq" data-variant-id="{{ sib_variant.id }}">
+                  {%- if sib_variant.available -%}
+                    <button class="huel-hero__fq-dec" type="button"
+                      aria-label="{{ 'products.product.quantity.decrease' | t: product: flavour_name | escape }}">−</button>
+                    <span class="huel-hero__fq-count" aria-live="polite">0</span>
+                    <button class="huel-hero__fq-inc" type="button"
+                      aria-label="{{ section.settings.add_label | escape }} {{ flavour_name | escape }}">+</button>
+                  {%- else -%}
+                    <span class="huel-hero__fq-oos">{{ 'products.product.sold_out' | t }}</span>
+                  {%- endif -%}
+                </div>
+
+              </div>
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- comment -%}─ 4. Buy box ─{%- endcomment -%}
+      <div class="huel-hero__buy-box">
+
+        {%- comment -%} Variant selector {%- endcomment -%}
+        {%- unless product.has_only_default_variant -%}
+          <div class="huel-hero__variants">
+            {%- for option in product.options_with_values -%}
+              <div class="huel-hero__option">
+                <label class="huel-hero__option-label" for="HuelOption-{{ section.id }}-{{ forloop.index0 }}">
+                  {{- option.name -}}
+                </label>
+                <select
+                  id="HuelOption-{{ section.id }}-{{ forloop.index0 }}"
+                  class="huel-hero__option-select"
+                  name="options[{{ option.name | escape }}]"
+                >
+                  {%- for value in option.values -%}
+                    <option
+                      value="{{ value | escape }}"
+                      {% if option.selected_value == value %}selected{% endif %}
+                    >{{ value | escape }}</option>
+                  {%- endfor -%}
+                </select>
+              </div>
+            {%- endfor -%}
+          </div>
+          <script type="application/json" id="HuelVariantData-{{ section.id }}">
+            {{ product.variants | json }}
+          </script>
+        {%- endunless -%}
+
+        {%- comment -%} Single bulk Add to Cart button — JS collects all rows with qty > 0 {%- endcomment -%}
+        <button
+          id="HuelMultiAdd-{{ section.id }}"
+          class="huel-hero__buy-btn"
+          type="button"
+          disabled
+        >
+          <span class="huel-hero__buy-label">{{ section.settings.add_label | default: 'Add to cart' | escape }}</span>
+          <div class="huel-hero__spinner hidden" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 66 66">
+              <circle fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"
+                style="stroke-dasharray:150;stroke-dashoffset:50;animation:huel-spin 0.75s linear infinite;"></circle>
+            </svg>
+          </div>
+        </button>
+        <p class="huel-hero__buy-status" role="status" aria-live="polite" hidden></p>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+{%- comment -%}════ CSS ════{%- endcomment -%}
+<style>
+/* ── Layout ──────────────────────────────────────────────────────── */
+.huel-hero { box-sizing: border-box; }
+
+.huel-hero__layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3.2rem;
+}
+
+@media screen and (min-width: 990px) {
+  .huel-hero__layout {
+    grid-template-columns: 55fr 45fr;
+    gap: 4.8rem;
+    align-items: start;
+  }
+  .huel-hero__gallery {
+    position: sticky;
+    top: var(--header-height, 6.4rem);
+    align-self: start;
+  }
+}
+
+/* ── Gallery ─────────────────────────────────────────────────────── */
+.huel-hero__gallery-item {
+  width: 100%;
+  border-radius: 1.6rem;
+  overflow: hidden;
+  background: rgba(var(--color-foreground), 0.04);
+  margin-bottom: 1.2rem;
+}
+.huel-hero__gallery-item:last-child { margin-bottom: 0; }
+
+.huel-hero__gallery-img,
+.huel-hero__gallery-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.huel-hero__gallery-ext iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.huel-hero__gallery-placeholder {
+  aspect-ratio: 1/1;
+  border-radius: 1.6rem;
+  overflow: hidden;
+  background: rgba(var(--color-foreground), 0.04);
+}
+.huel-hero__placeholder-svg { display: block; width: 100%; height: auto; }
+
+/* ── Right column ────────────────────────────────────────────────── */
+.huel-hero__right {
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+}
+
+/* ── Title ───────────────────────────────────────────────────────── */
+.huel-hero__title-block { display: flex; flex-direction: column; gap: 0.8rem; }
+
+.huel-hero__title {
+  font-family: var(--font-heading-family);
+  font-weight: var(--font-heading-weight);
+  font-size: clamp(2.4rem, 4vw, 3.6rem);
+  color: rgb(var(--color-foreground));
+  line-height: 1.15;
+  margin: 0;
+}
+
+.huel-hero__pitch {
+  font-family: var(--font-body-family);
+  font-size: 1.6rem;
+  color: rgba(var(--color-foreground), 0.6);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ── Price ───────────────────────────────────────────────────────── */
+.huel-hero__price-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.huel-hero__price-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.huel-hero__price-current {
+  font-family: var(--font-heading-family);
+  font-weight: 700;
+  font-size: 2.8rem;
+  color: rgb(var(--color-foreground));
+  line-height: 1;
+}
+
+.huel-hero__price-compare {
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: rgba(var(--color-foreground), 0.4);
+  text-decoration: line-through;
+  line-height: 1;
+}
+
+.huel-hero__price-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.9rem;
+  background: #000;
+  color: #fff;
+  font-family: var(--font-body-family);
+  font-size: 1.2rem;
+  font-weight: 700;
+  border-radius: 5rem;
+  letter-spacing: 0.04em;
+}
+
+.huel-hero__price-serving {
+  font-family: var(--font-body-family);
+  font-size: 1.4rem;
+  color: rgba(var(--color-foreground), 0.55);
+  margin: 0;
+}
+
+/* ── Flavour section ─────────────────────────────────────────────── */
+.huel-hero__flavour-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.huel-hero__flavour-heading {
+  font-family: var(--font-body-family);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(var(--color-foreground), 0.5);
+  margin: 0;
+}
+
+.huel-hero__flavour-list {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Flavour row ─────────────────────────────────────────────────── */
+.huel-hero__flavour-row {
+  display: grid;
+  grid-template-columns: 6.4rem 1fr auto;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 1.2rem 0;
+  border-bottom: 1px solid #e5e5e5;
+  transition: background 0.15s ease;
+}
+
+.huel-hero__flavour-row:first-child { border-top: 1px solid #e5e5e5; }
+
+.huel-hero__flavour-row--current {
+  background: rgba(var(--color-foreground), 0.03);
+  border-radius: 1.2rem;
+  padding: 1.2rem;
+  border-top: 1px solid #e5e5e5;
+  margin: 0 -1.2rem;
+}
+.huel-hero__flavour-row--current:first-child { margin-top: 0; }
+
+/* Thumbnail */
+.huel-hero__flavour-thumb-link { flex-shrink: 0; }
+.huel-hero__flavour-thumb {
+  width: 6.4rem;
+  height: 6.4rem;
+  border-radius: 50%;
+  overflow: hidden;
+  background: rgba(var(--color-foreground), 0.06);
+  flex-shrink: 0;
+}
+.huel-hero__flavour-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.huel-hero__flavour-thumb-placeholder {
+  width: 100%;
+  height: 100%;
+  background: rgba(var(--color-foreground), 0.08);
+}
+
+/* Flavour info */
+.huel-hero__flavour-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.huel-hero__flavour-name-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.huel-hero__flavour-name {
+  font-family: var(--font-body-family);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: rgb(var(--color-foreground));
+  text-decoration: none;
+  line-height: 1.3;
+}
+.huel-hero__flavour-name:hover { text-decoration: underline; }
+
+.huel-hero__flavour-price {
+  font-family: var(--font-body-family);
+  font-size: 1.4rem;
+  color: rgba(var(--color-foreground), 0.65);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.huel-hero__flavour-compare {
+  font-size: 1.2rem;
+  text-decoration: line-through;
+  color: rgba(var(--color-foreground), 0.35);
+}
+
+/* Badges */
+.huel-hero__badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.7rem;
+  font-family: var(--font-body-family);
+  font-size: 1.1rem;
+  font-weight: 700;
+  border-radius: 5rem;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+.huel-hero__badge--bestseller { background: #fff3cd; color: #856404; }
+.huel-hero__badge--new        { background: #d1f5d3; color: #1a6b22; }
+
+/* ── Per-row qty control ─────────────────────────────────────────── */
+.huel-hero__fq {
+  display: inline-flex;
+  align-items: center;
+  height: 3.6rem;
+  border: 1.5px solid rgba(var(--color-foreground), 0.18);
+  border-radius: 0.8rem;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.huel-hero__fq-dec,
+.huel-hero__fq-inc {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.6rem;
+  height: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: rgb(var(--color-foreground));
+  padding: 0;
+  transition: background 0.12s ease;
+  flex-shrink: 0;
+}
+.huel-hero__fq-dec:hover,
+.huel-hero__fq-inc:hover { background: rgba(var(--color-foreground), 0.05); }
+
+.huel-hero__fq-dec,
+.huel-hero__fq-count { display: none; }
+
+.huel-hero__fq--active .huel-hero__fq-dec,
+.huel-hero__fq--active .huel-hero__fq-count { display: flex; }
+
+.huel-hero__fq-count {
+  width: 3.2rem;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: var(--font-body-family);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: rgb(var(--color-foreground));
+  border-left: 1px solid rgba(var(--color-foreground), 0.12);
+  border-right: 1px solid rgba(var(--color-foreground), 0.12);
+}
+
+.huel-hero__fq-oos {
+  font-family: var(--font-body-family);
+  font-size: 1.3rem;
+  color: rgba(var(--color-foreground), 0.45);
+  padding: 0 0.8rem;
+}
+
+/* ── Variant selects ─────────────────────────────────────────────── */
+.huel-hero__variants { display: flex; flex-direction: column; gap: 1.2rem; }
+
+.huel-hero__option { display: flex; flex-direction: column; gap: 0.6rem; }
+
+.huel-hero__option-label {
+  font-family: var(--font-body-family);
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: rgba(var(--color-foreground), 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.huel-hero__option-select {
+  height: 4.8rem;
+  padding: 0 1.4rem;
+  border: 1.5px solid rgba(var(--color-foreground), 0.2);
+  border-radius: 0.8rem;
+  background: rgb(var(--color-background));
+  color: rgb(var(--color-foreground));
+  font-family: var(--font-body-family);
+  font-size: 1.5rem;
+  cursor: pointer;
+  width: 100%;
+  appearance: auto;
+}
+
+/* ATC button */
+.huel-hero__buy-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  min-height: 5.6rem;
+  padding: 0 2.4rem;
+  background: #000;
+  color: #fff;
+  font-family: var(--font-body-family);
+  font-size: 1.6rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 1.6rem;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+  letter-spacing: 0.02em;
+}
+.huel-hero__buy-btn:hover:not(:disabled) { opacity: 0.82; }
+.huel-hero__buy-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Loading spinner */
+.huel-hero__buy-btn .loading__spinner {
+  width: 1.8rem;
+  height: 1.8rem;
+  display: flex;
+}
+.huel-hero__buy-btn .spinner {
+  animation: huel-spin 0.75s linear infinite;
+  stroke: #fff;
+  width: 100%;
+  height: 100%;
+}
+.huel-hero__buy-btn .path { stroke-dasharray: 150; stroke-dashoffset: 50; }
+@keyframes huel-spin { to { transform: rotate(360deg); } }
+
+/* Form error */
+.huel-hero__form-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  padding: 1.2rem 1.4rem;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 0.8rem;
+  font-family: var(--font-body-family);
+  font-size: 1.4rem;
+  color: #b91c1c;
+}
+.huel-hero__form-error[hidden] { display: none; }
+
+/* Buy status message */
+.huel-hero__buy-status {
+  text-align: center;
+  font-family: var(--font-body-family);
+  font-size: 1.4rem;
+  color: rgba(var(--color-foreground), 0.7);
+  margin: 0;
+}
+.huel-hero__buy-status[hidden] { display: none; }
+
+/* ── Mobile ──────────────────────────────────────────────────────── */
+@media screen and (max-width: 749px) {
+  .huel-hero__flavour-row {
+    grid-template-columns: 5.6rem 1fr auto;
+  }
+  .huel-hero__flavour-thumb { width: 5.6rem; height: 5.6rem; }
+  .huel-hero__fq { height: 3.2rem; }
+  .huel-hero__fq-dec, .huel-hero__fq-inc { width: 3.2rem; font-size: 1.6rem; }
+}
+</style>
+
+{%- comment -%}════ JS ════{%- endcomment -%}
+<script defer>
+(function () {
+  'use strict';
+
+  var sec      = document.getElementById('huel-hero-{{ section.id }}');
+  if (!sec) return;
+
+  var shopRoot = (window.Shopify && Shopify.routes && Shopify.routes.root) || '/';
+  var buyBtn   = document.getElementById('HuelMultiAdd-{{ section.id }}');
+  var labelEl  = buyBtn && buyBtn.querySelector('.huel-hero__buy-label');
+  var spinner  = buyBtn && buyBtn.querySelector('.huel-hero__spinner');
+  var statusEl = sec.querySelector('.huel-hero__buy-status');
+  var baseLabel = labelEl ? labelEl.textContent.trim() : 'Add to cart';
+
+  /* ── Format money ──────────────────────────────────────────────── */
+  function money(cents) {
+    if (window.Shopify && Shopify.formatMoney && window.huelHeroMoneyFmt) {
+      return Shopify.formatMoney(cents, window.huelHeroMoneyFmt);
+    }
+    return '₹' + Math.round(cents / 100);
+  }
+
+  /* ── Cart refresh helpers ─────────────────────────────────────── */
+  function refreshCartBubble() {
+    fetch(shopRoot + 'cart.js', { headers: { 'Content-Type': 'application/json' } })
+      .then(function (r) { return r.json(); })
+      .then(function (cart) {
+        var n = cart.item_count;
+        document.querySelectorAll('.cart-count-bubble').forEach(function (el) {
+          el.classList.toggle('hidden', n === 0);
+          var span = el.querySelector('span:first-child');
+          if (span) span.textContent = n;
+        });
+      });
+  }
+
+  function updateSections(sections) {
+    if (!sections) return;
+    ['cart-notification-product', 'cart-notification-button', 'cart-icon-bubble'].forEach(function (id) {
+      if (!sections[id]) return;
+      var el = document.getElementById('shopify-section-' + id);
+      if (el) el.innerHTML = sections[id];
+    });
+  }
+
+  /* ── Qty controls ─────────────────────────────────────────────── */
+  function getQtyEls() {
+    return Array.from(sec.querySelectorAll('.huel-hero__fq'));
+  }
+
+  function totalSelected() {
+    return getQtyEls().reduce(function (sum, fq) {
+      return sum + parseInt(fq.dataset.qty || 0, 10);
+    }, 0);
+  }
+
+  function updateBuyBtn() {
+    if (!buyBtn) return;
+    var total = totalSelected();
+    buyBtn.disabled = total === 0;
+    if (labelEl) {
+      labelEl.textContent = total > 0 ? baseLabel + ' (' + total + ')' : baseLabel;
+    }
+  }
+
+  function setQty(fqEl, newQty) {
+    var q = Math.max(0, newQty);
+    fqEl.dataset.qty = q;
+    var countEl = fqEl.querySelector('.huel-hero__fq-count');
+    if (countEl) countEl.textContent = q;
+    fqEl.classList.toggle('huel-hero__fq--active', q > 0);
+    updateBuyBtn();
+  }
+
+  getQtyEls().forEach(function (fqEl) {
+    fqEl.dataset.qty = '0';
+
+    var incBtn = fqEl.querySelector('.huel-hero__fq-inc');
+    if (incBtn) {
+      incBtn.addEventListener('click', function () {
+        setQty(fqEl, parseInt(fqEl.dataset.qty || 0, 10) + 1);
+      });
+    }
+
+    var decBtn = fqEl.querySelector('.huel-hero__fq-dec');
+    if (decBtn) {
+      decBtn.addEventListener('click', function () {
+        setQty(fqEl, parseInt(fqEl.dataset.qty || 0, 10) - 1);
+      });
+    }
+  });
+
+  /* ── Bulk Add to Cart ─────────────────────────────────────────── */
+  if (buyBtn) {
+    buyBtn.addEventListener('click', function () {
+      var items = [];
+      getQtyEls().forEach(function (fqEl) {
+        var qty = parseInt(fqEl.dataset.qty || 0, 10);
+        var vid = parseInt(fqEl.dataset.variantId, 10);
+        if (qty > 0 && vid) items.push({ id: vid, quantity: qty });
+      });
+      if (!items.length) return;
+
+      buyBtn.disabled = true;
+      if (spinner)  spinner.classList.remove('hidden');
+      if (labelEl)  labelEl.textContent = '…';
+      if (statusEl) statusEl.hidden = true;
+
+      /* Collect section IDs Dawn expects, so renderContents works correctly */
+      var cartEl = document.querySelector('cart-notification') || document.querySelector('cart-drawer');
+      var sectionIds = ['cart-notification-product', 'cart-notification-button', 'cart-icon-bubble'];
+      if (cartEl && typeof cartEl.getSectionsToRender === 'function') {
+        sectionIds = cartEl.getSectionsToRender().map(function (s) { return s.section; });
+      }
+
+      fetch(shopRoot + 'cart/add.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: JSON.stringify({
+          items: items,
+          sections: sectionIds,
+          sections_url: window.location.pathname
+        })
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (spinner) spinner.classList.add('hidden');
+          if (data.status) {
+            if (statusEl) { statusEl.textContent = data.description || 'Error adding to cart.'; statusEl.hidden = false; }
+            if (labelEl)  labelEl.textContent = baseLabel;
+            buyBtn.disabled = false;
+            return;
+          }
+          /* Open Dawn's cart notification/drawer */
+          var cartEl2 = document.querySelector('cart-notification') || document.querySelector('cart-drawer');
+          if (cartEl2 && typeof cartEl2.renderContents === 'function') {
+            try {
+              cartEl2.renderContents(data);
+            } catch (e) {
+              updateSections(data.sections);
+              refreshCartBubble();
+            }
+          } else {
+            updateSections(data.sections);
+            refreshCartBubble();
+          }
+          document.dispatchEvent(new CustomEvent('cart:refresh', { bubbles: true }));
+          getQtyEls().forEach(function (fqEl) { setQty(fqEl, 0); });
+          if (statusEl) {
+            statusEl.textContent = 'Added to cart!';
+            statusEl.hidden = false;
+            setTimeout(function () { statusEl.hidden = true; }, 3000);
+          }
+          if (labelEl) labelEl.textContent = baseLabel;
+          buyBtn.disabled = true;
+        })
+        .catch(function (err) {
+          console.error('[HuelHero] cart/add.js error:', err);
+          if (spinner) spinner.classList.add('hidden');
+          if (labelEl) labelEl.textContent = baseLabel;
+          if (statusEl) { statusEl.textContent = 'Something went wrong. Please try again.'; statusEl.hidden = false; }
+          buyBtn.disabled = false;
+        });
+    });
+  }
+
+  /* ── Variant selector (current product's buy box) ─────────────── */
+  var variantDataEl = document.getElementById('HuelVariantData-{{ section.id }}');
+  if (!variantDataEl) return;
+
+  var variants  = JSON.parse(variantDataEl.textContent);
+  var selects   = sec.querySelectorAll('.huel-hero__option-select');
+  var idInput   = sec.querySelector('[data-huel-variant-input]');
+  var priceEl   = sec.querySelector('.huel-hero__price-current');
+  var compareEl = sec.querySelector('.huel-hero__price-compare');
+  var badgeEl   = sec.querySelector('.huel-hero__price-badge');
+  var servingEl = sec.querySelector('.huel-hero__price-serving');
+  var servings  = parseInt(sec.dataset.servings || 0, 10);
+  var perServTpl = (sec.dataset.perServingText || '||').split('|');
+
+  function findVariant() {
+    var opts = Array.from(selects).map(function (s) { return s.value; });
+    return variants.find(function (v) {
+      return v.options.every(function (o, i) { return o === opts[i]; });
+    });
+  }
+
+  if (selects.length) {
+    selects.forEach(function (s) {
+      s.addEventListener('change', function () {
+        var v = findVariant();
+        if (!v) return;
+        if (idInput)   idInput.value       = v.id;
+        if (priceEl)   priceEl.textContent  = money(v.price);
+        if (compareEl) {
+          var onSale = v.compare_at_price > v.price;
+          compareEl.hidden = !onSale;
+          if (onSale) compareEl.textContent = money(v.compare_at_price);
+        }
+        if (badgeEl) {
+          var onSale2 = v.compare_at_price > v.price;
+          badgeEl.hidden = !onSale2;
+          if (onSale2) {
+            var pct = Math.round((v.compare_at_price - v.price) * 100 / v.compare_at_price);
+            badgeEl.textContent = 'Save ' + pct + '%';
+          }
+        }
+        if (servingEl && servings > 0) {
+          var ps = money(Math.round(v.price / servings));
+          servingEl.textContent = (perServTpl[0] || '') + ' ' + ps + ' ' + (perServTpl[2] || '');
+        }
+      });
+    });
+  }
+
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Huel-style hero",
+  "tag": "section",
+  "class": "section-huel-product-hero",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Colour scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Flavour list"
+    },
+    {
+      "type": "collection",
+      "id": "flavour_collection",
+      "label": "Sibling products collection",
+      "info": "Collection containing all products in this flavour line"
+    },
+    {
+      "type": "text",
+      "id": "size_tag",
+      "label": "Size tag filter",
+      "info": "Only products tagged with this value appear in the list, e.g. size:30-jar",
+      "default": "size:30-jar"
+    },
+    {
+      "type": "text",
+      "id": "flavour_heading",
+      "label": "Flavour list heading",
+      "default": "Choose your flavour"
+    },
+    {
+      "type": "text",
+      "id": "add_label",
+      "label": "Quick-add button label",
+      "default": "Add"
+    },
+    {
+      "type": "header",
+      "content": "Per-serving price"
+    },
+    {
+      "type": "text",
+      "id": "per_serving_prefix",
+      "label": "Prefix",
+      "default": "From",
+      "info": "Text before the price, e.g. 'From'"
+    },
+    {
+      "type": "text",
+      "id": "per_serving_suffix",
+      "label": "Suffix",
+      "default": "per serving",
+      "info": "Text after the price, e.g. 'per serving'"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Huel-style hero",
+      "settings": {
+        "size_tag": "size:30-jar",
+        "flavour_heading": "Choose your flavour",
+        "add_label": "Add",
+        "per_serving_prefix": "From",
+        "per_serving_suffix": "per serving"
+      }
+    }
+  ]
+}
+{% endschema %}

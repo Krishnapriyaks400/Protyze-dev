@@ -1,0 +1,902 @@
+{%- liquid
+  assign nt_rows = section.blocks | where: 'type', 'row'
+  assign nt_audience = section.blocks | where: 'type', 'audience'
+  assign nt_descriptions = section.blocks | where: 'type', 'description'
+
+  assign nt_accent = section.settings.accent_color
+  if nt_accent == blank and product
+    assign nt_accent = product.metafields.custom.flavour_color.value
+  endif
+  if nt_accent == blank
+    assign nt_accent = '#f07c23'
+  endif
+
+  assign nt_bg = section.settings.background_color
+  if nt_bg == blank and product
+    assign nt_bg = product.metafields.custom.product_bg_color.value
+  endif
+
+  assign nt_has_aside = false
+  if nt_audience.size > 0
+    assign nt_has_aside = true
+  endif
+
+  comment
+    Table columns: 3 by default (Nutrient | column 2 | column 3).
+    If the 3rd column heading and every row's 3rd value are empty, the table falls back to 2 columns.
+  endcomment
+  assign nt_has_col3 = false
+  if section.settings.col3_heading != blank
+    assign nt_has_col3 = true
+  endif
+  for block in nt_rows
+    if block.settings.value_2 != blank
+      assign nt_has_col3 = true
+    endif
+  endfor
+
+  assign nt_has_col_heads = false
+  if section.settings.col1_heading != blank or section.settings.col2_heading != blank or section.settings.col3_heading != blank
+    assign nt_has_col_heads = true
+  endif
+-%}
+
+{%- style -%}
+  .nt-{{ section.id }} {
+    --nt-accent: {{ nt_accent }};
+    --nt-panel-start: {{ section.settings.panel_start_color | default: '#ffe1a3' }};
+    --nt-panel-end: {{ section.settings.panel_end_color | default: '#f7a63c' }};
+    --nt-label-bg: {{ section.settings.label_bg_color | default: '#ffffff' }};
+    --nt-label-ink: {{ section.settings.label_ink_color | default: '#111111' }};
+    --nt-ring: #111111;
+    --nt-center-bg: {{ section.settings.center_bg_color | default: '#2d2875' }};
+    --nt-center-q: {{ section.settings.center_q_color | default: '#ffd23f' }};
+    --nt-tilt: {{ section.settings.label_tilt }}deg;
+    {% if nt_bg != blank %}background-color: {{ nt_bg }};{% endif %}
+    padding-top: {{ section.settings.padding_top | times: 0.7 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.7 | round: 0 }}px;
+  }
+
+  .nt-{{ section.id }} .nt__layout {
+    align-items: center;
+    display: grid;
+    gap: 3.2rem;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* ── Left: gradient panel with a printed nutrition label ───────────── */
+  .nt-{{ section.id }} .nt__panel {
+    background: linear-gradient(160deg, var(--nt-panel-start) 0%, var(--nt-panel-end) 100%);
+    border-radius: 8px;
+    padding: 3.2rem 2rem 4rem;
+  }
+
+  .nt-{{ section.id }} .nt__label {
+    background: var(--nt-label-bg);
+    border: 0.3rem solid var(--nt-label-ink);
+    box-shadow: 1.2rem 1.2rem 0 rgba(0, 0, 0, 0.16);
+    color: var(--nt-label-ink);
+    margin: 0 auto;
+    max-width: 48rem;
+    padding: 1.6rem 1.8rem 1.4rem;
+    transform: rotate(var(--nt-tilt));
+  }
+
+  .nt-{{ section.id }} .nt__label-title {
+    color: var(--nt-label-ink);
+    font-family: 'Arial Narrow', 'Roboto Condensed', 'Helvetica Neue', Arial, sans-serif;
+    font-size: clamp(2.8rem, 2.2rem + 1.4vw, 3.6rem);
+    font-stretch: condensed;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin: 0;
+    text-transform: none;
+  }
+
+  .nt-{{ section.id }} .nt__serving {
+    border-bottom: 1rem solid var(--nt-label-ink);
+    font-size: 1.2rem;
+    margin: 0.4rem 0 0;
+    padding-bottom: 0.6rem;
+  }
+
+  /* ── Table: 3 columns (nutrient | column 2 | column 3) ─────────────── */
+  .nt-{{ section.id }} .nt__cols,
+  .nt-{{ section.id }} .nt__row {
+    align-items: baseline;
+    column-gap: 1.2rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  /* Falls back to two columns when there is no third column content. */
+  .nt-{{ section.id }} .nt__label--2col .nt__cols,
+  .nt-{{ section.id }} .nt__label--2col .nt__row {
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  }
+
+  /* Column heading row */
+  .nt-{{ section.id }} .nt__cols {
+    border-bottom: 0.3rem solid var(--nt-label-ink);
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+    padding: 0.8rem 0 0.6rem;
+    text-transform: uppercase;
+  }
+
+  .nt-{{ section.id }} .nt__cols > span:not(:first-child),
+  .nt-{{ section.id }} .nt__row > span:not(:first-child) {
+    text-align: right;
+  }
+
+  .nt-{{ section.id }} .nt__rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nt-{{ section.id }} .nt__row {
+    border-bottom: 0.1rem solid var(--nt-label-ink);
+    font-size: 1.4rem;
+    font-weight: 700;
+    padding: 0.7rem 0;
+  }
+
+  .nt-{{ section.id }} .nt__row--sub {
+    font-weight: 400;
+  }
+
+  .nt-{{ section.id }} .nt__row--sub > span:first-child {
+    padding-left: 1.6rem;
+  }
+
+  .nt-{{ section.id }} .nt__row--sub .nt__row-value {
+    font-weight: 400;
+  }
+
+  /* First row (e.g. Energy) is set large with a heavy rule under it. */
+  .nt-{{ section.id }} .nt__row--featured {
+    border-bottom-width: 0.5rem;
+    font-size: 1.8rem;
+    font-weight: 900;
+  }
+
+  .nt-{{ section.id }} .nt__row--featured .nt__row-value {
+    font-size: 2.2rem;
+  }
+
+  .nt-{{ section.id }} .nt__row-value {
+    font-weight: 800;
+    white-space: nowrap;
+  }
+
+  /* Description block, after all rows */
+  .nt-{{ section.id }} .nt__desc p{
+    border-top: 0.1rem solid var(--nt-label-ink);
+    font-size: 1rem !important;
+    line-height: 1.5;
+    margin-top: 1rem;
+    padding-top: 1rem;
+  }
+
+  .nt-{{ section.id }} .nt__desc p {
+    margin: 0 0 0.6rem;
+  }
+
+  .nt-{{ section.id }} .nt__desc p:last-child {
+    margin-bottom: 0;
+  }
+
+  .nt-{{ section.id }} .nt__label-foot {
+    font-size: 1.1rem;
+    line-height: 1.4;
+    margin: 0.8rem 0 0;
+  }
+
+  /* ── Right: heading and who it's for ──────────────────────────────── */
+  .nt-{{ section.id }} .nt__aside {
+    text-align: center;
+  }
+
+  /* Section heading, centred above both columns. */
+  .nt-{{ section.id }} .nt__head {
+    margin: 0 auto 2.8rem;
+    max-width: 72rem;
+    text-align: center;
+  }
+
+  /* Same style as the product title. */
+  .nt-{{ section.id }} .nt__heading {
+    font-family: var(--font-fourth-family, var(--font-body-family));
+    font-size: clamp(2.8rem, 2.2rem + 1.6vw, 4.2rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin: 0;
+    text-transform: none;
+  }
+
+  .nt-{{ section.id }} .nt__subheading {
+    color: rgba(var(--color-foreground), 0.65);
+    font-size: 1.3rem;
+    margin: 0.6rem 0 0;
+  }
+
+  .nt-{{ section.id }} .nt__group-heading {
+    font-family: var(--font-fourth-family, var(--font-body-family));
+    font-size: clamp(2.2rem, 1.8rem + 0.8vw, 2.8rem);
+    font-weight: 800;
+    line-height: 1.2;
+    margin: 2.8rem 0 1.4rem;
+    text-transform: none;
+  }
+
+  .nt-{{ section.id }} .nt__group-heading--center {
+    margin-bottom: 0.4rem;
+    margin-top: 0;
+    text-align: center;
+  }
+
+  /* ── Who it's for: photos placed around a slowly turning dashed ring,
+     with a "?" in the middle. Works for 3–6 items at every screen size.
+     Each item's position on the ring comes from the inline --x / --y. ── */
+  .nt-{{ section.id }} .nt__ring-wrap {
+    container-type: inline-size;
+    margin: 0 auto;
+    max-width: 48rem;
+  }
+
+  .nt-{{ section.id }} .nt__ring {
+    --nt-photo: min(28cqw, 14rem);
+    aspect-ratio: 1;
+    list-style: none;
+    margin: 0 auto calc(var(--nt-photo) * 0.45);
+    padding: 0;
+    position: relative;
+    width: 100%;
+  }
+
+  /* With 4 items the photos sit on the diagonals, leaving empty space above
+     and below the ring box; pull it in so there's no extra gap. */
+  .nt-{{ section.id }} .nt__ring--4 {
+    margin-bottom: 0;
+    margin-top: -7%;
+  }
+
+  /* Dashed ring through the photo centres (radius 38% of the box). */
+  .nt-{{ section.id }} .nt__ring::before {
+    animation: nt-ring-spin-{{ section.id }} 40s linear infinite;
+    border: 0.2rem dashed var(--nt-ring);
+    border-radius: 50%;
+    content: '';
+    inset: 12%;
+    pointer-events: none;
+    position: absolute;
+  }
+
+  .nt-{{ section.id }} .nt__ring-center {
+    align-items: center;
+    background: var(--nt-center-bg);
+    border-radius: 50%;
+    display: flex;
+    height: 28%;
+    justify-content: center;
+    left: 50%;
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 28%;
+  }
+
+  .nt-{{ section.id }} .nt__ring-q {
+    color: var(--nt-center-q);
+    font-family: var(--font-fourth-family, var(--font-body-family));
+    font-size: min(16cqw, 7.2rem);
+    font-weight: 900;
+    line-height: 1;
+  }
+
+  /* Photo centre sits on the ring point; the title hangs below it. */
+  .nt-{{ section.id }} .nt__who {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    left: var(--x);
+    position: absolute;
+    text-align: center;
+    top: var(--y);
+    transform: translate(-50%, calc(var(--nt-photo) / -2));
+    width: max(var(--nt-photo), 11rem);
+    z-index: 1;
+  }
+
+  .nt-{{ section.id }} .nt__who-media {
+    background: var(--nt-accent);
+    border: 0.4rem solid #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 0.8rem 2rem rgba(0, 0, 0, 0.12);
+    box-sizing: border-box;
+    flex-shrink: 0;
+    height: var(--nt-photo);
+    position: relative;
+    width: var(--nt-photo);
+  }
+
+  .nt-{{ section.id }} .nt__who-media img {
+    border-radius: 50%;
+    display: block;
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .nt-{{ section.id }} .nt__who-title {
+    font-size: clamp(1.2rem, 3.4cqw, 1.6rem);
+    font-weight: 800;
+    line-height: 1.2;
+  }
+
+  /* Mobile: heading and side content first, nutrition label second. */
+  @media screen and (max-width: 749px) {
+    .nt-{{ section.id }} .nt__panel {
+      order: 2;
+    }
+  }
+
+  @media screen and (min-width: 750px) {
+    .nt-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+
+    .nt-{{ section.id }} .nt__layout--split {
+      gap: 5.6rem;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+
+    .nt-{{ section.id }} .nt__panel {
+      padding: 4rem 4rem 4.8rem;
+    }
+
+    .nt-{{ section.id }} .nt__label {
+      padding: 2rem 2.4rem 1.6rem;
+    }
+
+    .nt-{{ section.id }} .nt__cols {
+      font-size: 1.2rem;
+    }
+
+    .nt-{{ section.id }} .nt__row {
+      font-size: 1.5rem;
+    }
+
+    .nt-{{ section.id }} .nt__row--featured {
+      font-size: 2rem;
+    }
+
+    .nt-{{ section.id }} .nt__row--featured .nt__row-value {
+      font-size: 2.6rem;
+    }
+
+    .nt-{{ section.id }} .nt__desc {
+      font-size: 1.3rem;
+    }
+
+    .nt-{{ section.id }} .nt__head {
+      margin-bottom: 4rem;
+    }
+
+    .nt-{{ section.id }} .nt__group-heading {
+      margin-top: 2.4rem;
+    }
+
+  }
+
+  @keyframes nt-ring-spin-{{ section.id }} {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nt-{{ section.id }} .nt__ring::before {
+      animation: none;
+    }
+  }
+{%- endstyle -%}
+
+<div class="nt-{{ section.id }} color-{{ section.settings.color_scheme }} gradient {{ section.settings.custom_class }}">
+  <div class="page-width">
+    {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
+      <div class="nt__head">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="nt__heading">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <p class="nt__subheading">{{ section.settings.subheading | escape }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    <div class="nt__layout{% if nt_has_aside %} nt__layout--split{% endif %}">
+      {%- if nt_rows.size > 0 -%}
+        <div id="nutrition-facts" class="nt__panel">
+          <div class="nt__label{% unless nt_has_col3 %} nt__label--2col{% endunless %}">
+            {%- if section.settings.label_title != blank -%}
+              <h3 class="nt__label-title">{{ section.settings.label_title | escape }}</h3>
+            {%- endif -%}
+            {%- if section.settings.value_header != blank -%}
+              <p class="nt__serving">{{ section.settings.value_header | escape }}</p>
+            {%- endif -%}
+
+            {%- if nt_has_col_heads -%}
+              <div class="nt__cols">
+                <span>{{ section.settings.col1_heading | escape }}</span>
+                <span>{{ section.settings.col2_heading | escape }}</span>
+                {%- if nt_has_col3 -%}
+                  <span>{{ section.settings.col3_heading | escape }}</span>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+
+            <ul class="nt__rows" role="list">
+              {%- for block in nt_rows -%}
+                <li
+                  class="nt__row{% if forloop.first and section.settings.feature_first_row %} nt__row--featured{% endif %}{% if block.settings.is_subrow %} nt__row--sub{% endif %}"
+                  {{ block.shopify_attributes }}
+                >
+                  <span>{{ block.settings.label | escape }}</span>
+                  <span class="nt__row-value">{{ block.settings.value | escape }}</span>
+                  {%- if nt_has_col3 -%}
+                    <span class="nt__row-value">{{ block.settings.value_2 | escape }}</span>
+                  {%- endif -%}
+                </li>
+              {%- endfor -%}
+            </ul>
+
+            {%- for block in nt_descriptions -%}
+              {%- if block.settings.text != blank -%}
+                <div class="nt__desc rte" {{ block.shopify_attributes }}>
+                  {{ block.settings.text }}
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+
+            {%- if section.settings.footnote != blank -%}
+              <p class="nt__label-foot">{{ section.settings.footnote | escape }}</p>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- if nt_has_aside -%}
+        <div id="nutrition-audience" class="nt__aside">
+
+          {%- if nt_audience.size > 0 -%}
+            {%- if section.settings.audience_heading != blank -%}
+              <h3 class="nt__group-heading nt__group-heading--center">{{ section.settings.audience_heading | escape }}</h3>
+            {%- endif -%}
+            <div class="nt__ring-wrap">
+              {%- liquid
+                case nt_audience.size
+                  when 3
+                    assign nt_pos = '50,12|82.9,69|17.1,69'
+                  when 4
+                    assign nt_pos = '23.1,23.1|76.9,23.1|23.1,76.9|76.9,76.9'
+                  when 5
+                    assign nt_pos = '50,12|86.1,38.3|72.3,80.7|27.7,80.7|13.9,38.3'
+                  when 6
+                    assign nt_pos = '50,12|82.9,31|82.9,69|50,88|17.1,69|17.1,31'
+                  else
+                    assign nt_pos = '50,12|50,88'
+                endcase
+                assign nt_pos = nt_pos | split: '|'
+              -%}
+              <ul class="nt__ring nt__ring--{{ nt_audience.size }}" role="list">
+                <li class="nt__ring-center" aria-hidden="true"><span class="nt__ring-q">?</span></li>
+                {%- for block in nt_audience -%}
+                  {%- assign nt_xy = nt_pos[forloop.index0] | split: ',' -%}
+                  <li class="nt__who" style="--x: {{ nt_xy[0] }}%; --y: {{ nt_xy[1] }}%;" {{ block.shopify_attributes }}>
+                    <span class="nt__who-media{% if block.settings.image == blank %} nt__who-media--empty{% endif %}">
+                      {%- if block.settings.image != blank -%}
+                        {{ block.settings.image | image_url: width: 400 | image_tag: widths: '160, 240, 320, 400', sizes: '(min-width: 750px) 140px, 28vw', loading: 'lazy', alt: '' }}
+                      {%- endif -%}
+                    </span>
+                    {%- if block.settings.title != blank -%}
+                      <span class="nt__who-title">{{ block.settings.title | escape }}</span>
+                    {%- endif -%}
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
+
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Nutrition & usage",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Every text field (including each nutrition value) can be bound to a metafield with its \"…\" menu → Connect dynamic source."
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Science Backed Nutrition"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Nutritional Information"
+    },
+    {
+      "type": "header",
+      "content": "Nutrition label"
+    },
+    {
+      "type": "text",
+      "id": "label_title",
+      "label": "Label title",
+      "default": "Nutrition Facts"
+    },
+    {
+      "type": "text",
+      "id": "value_header",
+      "label": "Serving line",
+      "default": "Serving size: 30g (1 scoop)"
+    },
+    {
+      "type": "header",
+      "content": "Table column headings"
+    },
+    {
+      "type": "text",
+      "id": "col1_heading",
+      "label": "Column 1 heading",
+      "default": "Nutrient"
+    },
+    {
+      "type": "text",
+      "id": "col2_heading",
+      "label": "Column 2 heading",
+      "default": "Per 30g"
+    },
+    {
+      "type": "text",
+      "id": "col3_heading",
+      "label": "Column 3 heading",
+      "info": "Leave this and every row's column 3 value empty to show a 2-column table.",
+      "default": "Per 100g"
+    },
+    {
+      "type": "checkbox",
+      "id": "feature_first_row",
+      "label": "Make the first row large",
+      "info": "e.g. Energy, with a heavy rule underneath.",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "footnote",
+      "label": "Footnote",
+      "default": "24g protein · 0g added sugar in every scoop"
+    },
+    {
+      "type": "range",
+      "id": "label_tilt",
+      "label": "Label tilt",
+      "min": -6,
+      "max": 6,
+      "step": 1,
+      "unit": "°",
+      "default": -2
+    },
+    {
+      "type": "header",
+      "content": "Side column"
+    },
+    {
+      "type": "text",
+      "id": "audience_heading",
+      "label": "\"Who it's for\" heading",
+      "default": "Who It's For"
+    },
+    {
+      "type": "color",
+      "id": "center_bg_color",
+      "label": "Centre circle background",
+      "default": "#2d2875"
+    },
+    {
+      "type": "color",
+      "id": "center_q_color",
+      "label": "Centre \"?\" colour",
+      "default": "#ffd23f"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "panel_start_color",
+      "label": "Panel gradient — top",
+      "default": "#ffe1a3"
+    },
+    {
+      "type": "color",
+      "id": "panel_end_color",
+      "label": "Panel gradient — bottom",
+      "default": "#f7a63c"
+    },
+    {
+      "type": "color",
+      "id": "label_bg_color",
+      "label": "Label background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "label_ink_color",
+      "label": "Label ink (text and rules)",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent",
+      "info": "Fills a \"Who it's for\" circle that has no photo yet. Leave empty to use the product's custom.flavour_color metafield."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background",
+      "info": "Leave empty to use the product's custom.product_bg_color metafield."
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 56
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Nutrition row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Nutrient (column 1)",
+          "default": "Protein"
+        },
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Value (column 2)",
+          "default": "24 g"
+        },
+        {
+          "type": "text",
+          "id": "value_2",
+          "label": "Value (column 3)",
+          "default": "80 g"
+        },
+        {
+          "type": "checkbox",
+          "id": "is_subrow",
+          "label": "Indented sub-row",
+          "info": "For lines like \"Total Sugar\" under Carbohydrate.",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "description",
+      "name": "Table description",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Description",
+          "info": "Shown under the last table row, e.g. ingredients, allergen note or how the values were measured.",
+          "default": "<p>Values are averages. Allergen and ingredient details are on the pack.</p>"
+        }
+      ]
+    },
+    {
+      "type": "audience",
+      "name": "Who it's for",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Photo",
+          "info": "Shown in a circle on the ring. Upload a square image, 400 × 400 px (JPG/WebP, keep the subject centred). Add 3 to 6 items (4 or 5 looks best)."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Protein goals"
+        }
+      ]
+    },
+    {
+      "type": "occasion",
+      "name": "Unused – old pills",
+      "limit": 9,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Morning"
+        },
+        {
+          "type": "color",
+          "id": "dot_color",
+          "label": "Dot colour",
+          "info": "Leave empty to use the accent colour."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Nutrition & usage",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "row",
+          "settings": {
+            "label": "Energy",
+            "value": "100 kcal",
+            "value_2": "333 kcal"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "label": "Protein",
+            "value": "24 g",
+            "value_2": "80 g"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "label": "Carbohydrate",
+            "value": "1.2 g",
+            "value_2": "4 g"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "label": "Total Sugar",
+            "value": "0 g",
+            "value_2": "0 g",
+            "is_subrow": true
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "label": "Added Sugar",
+            "value": "0 g",
+            "value_2": "0 g",
+            "is_subrow": true
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "label": "Total Fat",
+            "value": "0.4 g",
+            "value_2": "1.3 g"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "label": "BCAA",
+            "value": "7.2 g",
+            "value_2": "24 g"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "label": "Leucine",
+            "value": "3.8 g",
+            "value_2": "12.7 g"
+          }
+        },
+        {
+          "type": "description"
+        },
+        {
+          "type": "audience",
+          "settings": {
+            "title": "Protein goals"
+          }
+        },
+        {
+          "type": "audience",
+          "settings": {
+            "title": "Gym & recovery"
+          }
+        },
+        {
+          "type": "audience",
+          "settings": {
+            "title": "Shake-haters"
+          }
+        },
+        {
+          "type": "audience",
+          "settings": {
+            "title": "On the go"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

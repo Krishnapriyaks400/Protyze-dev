@@ -1,0 +1,282 @@
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .icon-feature-grid-{{ section.id }} {
+    {%- if section.settings.background_color != blank -%}
+      --ifg-bg: {{ section.settings.background_color }};
+    {%- endif -%}
+    {%- if section.settings.heading_color != blank -%}
+      --ifg-heading-color: {{ section.settings.heading_color }};
+    {%- endif -%}
+    {%- if section.settings.title_color != blank -%}
+      --ifg-title-color: {{ section.settings.title_color }};
+    {%- endif -%}
+    {%- if section.settings.subtext_color != blank -%}
+      --ifg-subtext-color: {{ section.settings.subtext_color }};
+    {%- endif -%}
+    --ifg-mobile-columns: {{ section.settings.mobile_columns | default: 2 }};
+  }
+
+  .icon-feature-grid__wrapper {
+    background-color: var(--ifg-bg, rgb(var(--color-background)));
+  }
+
+  .icon-feature-grid__heading {
+    color: var(--ifg-heading-color, rgb(var(--color-foreground)));
+    margin: 0 auto 2rem;
+    /* max-width: 27rem; */
+    text-align: center;
+    text-transform: none;
+  }
+
+  @media screen and (min-width: 750px) {
+    .icon-feature-grid__heading {
+      margin: 0 auto 3.2rem;
+      max-width: none;
+    }
+  }
+
+  .icon-feature-grid__grid {
+    display: grid;
+    gap: 1.6rem 1.2rem;
+    grid-template-columns: repeat(var(--ifg-mobile-columns, 2), 1fr);
+  }
+
+  @media screen and (min-width: 750px) {
+    .icon-feature-grid__grid {
+      gap: 2.8rem 2rem;
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .icon-feature-grid__item {
+    text-align: center;
+  }
+
+  .icon-feature-grid__icon {
+    display: block;
+    height: 4rem;
+    margin: 0 auto 0.8rem;
+    width: 4rem;
+  }
+
+  @media screen and (min-width: 750px) {
+    .icon-feature-grid__icon {
+      height: 5.6rem;
+      margin: 0 auto 1.2rem;
+      width: 5.6rem;
+    }
+  }
+
+  .icon-feature-grid__icon img {
+    display: block;
+    height: 100%;
+    margin: 0 auto;
+    object-fit: contain;
+    width: 100%;
+  }
+
+  .icon-feature-grid__title {
+    color: var(--ifg-title-color, rgb(var(--color-foreground)));
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 0.4rem;
+  }
+
+  @media screen and (min-width: 750px) {
+    .icon-feature-grid__title {
+      font-size: 1.8rem;
+    }
+  }
+
+  .icon-feature-grid__subtext {
+    color: var(--ifg-subtext-color, rgba(var(--color-foreground), 0.65));
+    font-size: 1.2rem;
+    margin: 0;
+  }
+
+  @media screen and (min-width: 750px) {
+    .icon-feature-grid__subtext {
+      font-size: 1.4rem;
+    }
+  }
+{% endstyle %}
+
+<div class="icon-feature-grid-{{ section.id }} color-{{ section.settings.color_scheme }} gradient {{ section.settings.custom_class }}">
+  <div class="icon-feature-grid__wrapper">
+    <div class="page-width section-{{ section.id }}-padding">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="icon-feature-grid__heading h1">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+
+      <div class="icon-feature-grid__grid">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'feature' -%}
+            <div class="icon-feature-grid__item" {{ block.shopify_attributes }}>
+              {%- if block.settings.icon != blank -%}
+                <span class="icon-feature-grid__icon">
+                  {{
+                    block.settings.icon
+                    | image_url: width: 200
+                    | image_tag: loading: 'lazy', width: 64, height: 64, alt: block.settings.icon.alt
+                  }}
+                </span>
+              {%- endif -%}
+              {%- if block.settings.title != blank -%}
+                <p class="icon-feature-grid__title">{{ block.settings.title | escape }}</p>
+              {%- endif -%}
+              {%- if block.settings.subtext != blank -%}
+                <p class="icon-feature-grid__subtext">{{ block.settings.subtext | escape }}</p>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Icon feature grid",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Where the difference actually shows up"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "mobile_columns",
+      "label": "Columns on mobile",
+      "options": [
+        { "value": "2", "label": "2 columns" },
+        { "value": "3", "label": "3 columns" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "info": "Sets the default background and text colors. Use the overrides below to fine-tune individual elements.",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Item title color"
+    },
+    {
+      "type": "color",
+      "id": "subtext_color",
+      "label": "Item subtext color"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Texture"
+        },
+        {
+          "type": "text",
+          "id": "subtext",
+          "label": "Subtext",
+          "default": "Clear and juice-like, not thick"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Icon feature grid",
+      "category": "Custom",
+      "blocks": [
+        { "type": "feature", "settings": { "title": "Texture", "subtext": "Clear and juice-like, not thick" } },
+        { "type": "feature", "settings": { "title": "Mixability", "subtext": "Shaker and water. 15 seconds" } },
+        { "type": "feature", "settings": { "title": "Digestion", "subtext": "99% lactose-free, sits light" } },
+        { "type": "feature", "settings": { "title": "Absorption", "subtext": "Clears the stomach quickly" } },
+        { "type": "feature", "settings": { "title": "Ingredients", "subtext": "No gums. No added sugar" } },
+        { "type": "feature", "settings": { "title": "Hot weather", "subtext": "Chilled and refreshing, not filling" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,1018 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "breadcrumb_egFdac": {
+      "type": "breadcrumb",
+      "disabled": true,
+      "settings": {
+        "color_scheme": "scheme-79c60b1d-849e-45e9-91e2-f2d13dea14b4",
+        "page_layout": "grid",
+        "padding_top": 12,
+        "padding_bottom": 4
+      }
+    },
+    "main": {
+      "type": "main-product-clear",
+      "blocks": {
+        "product_header_jGaHFd": {
+          "type": "product_header",
+          "settings": {
+            "title_text": "Protyze Anytime Clear whey Isolate"
+          }
+        },
+        "judge_me_reviews_preview_badge_9hMQDm": {
+          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {}
+        },
+        "short_description_QKKdMK": {
+          "type": "short_description",
+          "settings": {
+            "text": "A light, refreshing, juice-like protein drink made with 100% whey protein isolate."
+          }
+        },
+        "key_stats_7LAP63": {
+          "type": "key_stats",
+          "settings": {
+            "value_1": "24g",
+            "label_1": "Protein",
+            "value_2": "100",
+            "label_2": "Kcal",
+            "value_3": "0g",
+            "label_3": "Added Sugar",
+            "value_4": "99%",
+            "label_4": "Lactose Free",
+            "bg_color": "#ffffff",
+            "value_color": "",
+            "label_color": ""
+          }
+        },
+        "flavour_selector_gXETpd": {
+          "type": "flavour_selector",
+          "settings": {
+            "label": "Flavour",
+            "current_flavour_text": ""
+          }
+        },
+        "price_cart_4mYVzi": {
+          "type": "price_cart",
+          "settings": {
+            "card_bg_color": "#ffffff",
+            "card_border_color": "#e8e8e8",
+            "show_size_selector_in_card": true,
+            "size_selector_label": "Select Size",
+            "badge_bg_color": "{{ product.metafields.custom.custom_product_bg_color.value }}",
+            "badge_text_color": "#000000",
+            "show_per_serving": true,
+            "per_serving_note": "inclusive of all taxes",
+            "autoapply_percent": 1,
+            "autoapply_lead": "Get this @",
+            "offer_show_badge": true,
+            "autoapply_save_label": "Save [amount] off",
+            "autoapply_text": "code auto applies.",
+            "offer_bg_color": "{{ product.metafields.custom.flavour_color.value }}",
+            "offer_text_color": "#ffffff",
+            "save_card_bg_color": "rgba(0,0,0,0)",
+            "save_card_text_color": "#000000",
+            "show_trust_row_in_card": false
+          }
+        },
+        "selleasy_lb_upsell_fbt_block_UGwrRY": {
+          "type": "shopify://apps/selleasy/blocks/lb-upsell-fbt-block/790c1a03-a71f-4bc1-9869-00dad526d3c2",
+          "settings": {}
+        },
+        "trust_badges_8HJYrJ": {
+          "type": "trust_badges",
+          "settings": {
+            "icon_1": "truck",
+            "title_1": "Free Shipping",
+            "subtitle_1": "on all orders above ₹999",
+            "icon_2": "shield",
+            "title_2": "Secure Payments",
+            "subtitle_2": "100% safe",
+            "icon_3": "return",
+            "title_3": "Easy Returns",
+            "subtitle_3": "Hassle-free",
+            "footnote": ""
+          }
+        },
+        "copy_text_PPqHbN": {
+          "type": "copy_text",
+          "disabled": true,
+          "settings": {
+            "offer_text": true
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "disabled": true,
+          "settings": {
+            "show_dynamic_checkout": false,
+            "show_gift_card_recipient": true
+          }
+        },
+        "logo_row_4nGgYL": {
+          "type": "logo_row",
+          "disabled": true,
+          "settings": {
+            "image_1": "shopify://shop_images/fssai_2_38f65365-683c-438d-a172-259c944c2213.png",
+            "image_2": "shopify://shop_images/gmp_1.png",
+            "image_3": "shopify://shop_images/iso_certified_c20714a0-c60b-4e3a-986e-36fb22eb53c3.png",
+            "image_4": "shopify://shop_images/haccp.png",
+            "image_5": "shopify://shop_images/kosher_1.png",
+            "image_6": "shopify://shop_images/make_in_india_1.png",
+            "tile_bg_color": "#1a1a1a",
+            "tile_padding": 10,
+            "logo_height": 40,
+            "gap": 10
+          }
+        },
+        "image_picker_bKpwTi": {
+          "type": "image_picker",
+          "disabled": true,
+          "settings": {
+            "upload_image": "shopify://shop_images/payment_icon_21b91eb5-e056-4d17-b334-a880014adcb0.png",
+            "custom_class_new": "payment_image"
+          }
+        },
+        "section_jump_WUHgQt": {
+          "type": "section_jump",
+          "settings": {
+            "heading": "",
+            "subheading": "",
+            "show_review_count": true,
+            "scroll_offset": 90,
+            "panel_color": "rgba(0,0,0,0)",
+            "tile_color": "#fffced",
+            "icon_bg_color": "{{ product.metafields.custom.custom_product_bg_color.value }}",
+            "icon_color": "#000000",
+            "text_color": "#000000",
+            "description_color": "#716761",
+            "border_color": "#f6dfd0",
+            "accent_color": "#df702f",
+            "link_1_label": "How to use",
+            "link_1_target": "#shopify-section-template--21144001609895__steps_spotlight_UUcCBB",
+            "link_1_description": "Serving guide",
+            "link_1_icon": "shaker",
+            "link_2_label": "Benefits",
+            "link_2_target": "#story-benefits",
+            "link_2_icon": "heart",
+            "link_3_label": "Ingredients",
+            "link_3_target": "#story-ingredients",
+            "link_3_icon": "leaf",
+            "link_4_label": "Nutrition",
+            "link_4_target": "#nutrition-facts",
+            "link_4_icon": "document",
+            "link_5_label": "FAQs",
+            "link_5_target": "#shopify-section-template--21144001609895__faq_section_VFTTqz",
+            "link_5_icon": "question",
+            "link_6_label": "Reviews",
+            "link_6_target": "#shopify-section-template--21144001609895__17133320016c7f51c9",
+            "link_6_icon": "star",
+            "link_7_label": "",
+            "link_7_target": "",
+            "link_7_icon": "person",
+            "link_8_label": "",
+            "link_8_target": "",
+            "link_8_icon": "clock"
+          }
+        }
+      },
+      "block_order": [
+        "product_header_jGaHFd",
+        "judge_me_reviews_preview_badge_9hMQDm",
+        "short_description_QKKdMK",
+        "key_stats_7LAP63",
+        "flavour_selector_gXETpd",
+        "price_cart_4mYVzi",
+        "selleasy_lb_upsell_fbt_block_UGwrRY",
+        "trust_badges_8HJYrJ",
+        "copy_text_PPqHbN",
+        "buy_buttons",
+        "logo_row_4nGgYL",
+        "image_picker_bKpwTi",
+        "section_jump_WUHgQt"
+      ],
+      "settings": {
+        "enable_sticky_info": true,
+        "enable_sticky_atc": true,
+        "sticky_atc_label": "Add to cart",
+        "color_scheme": "scheme-857886e4-62eb-4ba7-bbc8-cc1ef484ba97",
+        "media_size": "small",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "gallery_layout": "thumbnail_slider",
+        "mobile_thumbnails": "show",
+        "media_position": "left",
+        "image_zoom": "lightbox",
+        "hide_variants": true,
+        "enable_video_looping": false,
+        "product_bg_color": "{{ product.metafields.custom.custom_product_bg_color.value }}",
+        "accent_color": "{{ product.metafields.custom.flavour_color.value }}",
+        "padding_top": 36,
+        "padding_bottom": 12
+      }
+    },
+    "comparison_spotlight_6JaTiR": {
+      "type": "comparison-spotlight",
+      "blocks": {
+        "card_mVPhbp": {
+          "type": "card",
+          "settings": {
+            "chapter_label": "",
+            "title": "Regular Whey",
+            "card_subtitle": "",
+            "image": "shopify://shop_images/Artboard_1_18.png",
+            "highlight": false,
+            "item_1": "Thick & creamy",
+            "item_2": "Feels heavy",
+            "item_3": "Milky taste",
+            "item_4": "Can cause bloating",
+            "item_5": ""
+          }
+        },
+        "card_hJMXi3": {
+          "type": "card",
+          "settings": {
+            "chapter_label": "",
+            "title": "Clear Whey",
+            "card_subtitle": "",
+            "image": "{{ product.metafields.custom.flavor_thumbnail.value }}",
+            "highlight": true,
+            "item_1": "Light & refreshing",
+            "item_2": "Easy to drink",
+            "item_3": "No milky taste",
+            "item_4": "Gentle on stomach",
+            "item_5": ""
+          }
+        }
+      },
+      "block_order": [
+        "card_mVPhbp",
+        "card_hJMXi3"
+      ],
+      "name": "Comparison Spotlight",
+      "settings": {
+        "heading": "The Clear Difference",
+        "subheading": "Same protein. A completely different experience.",
+        "button_label": "Read the full comparison",
+        "button_link": "shopify://pages/clear-whey-protein-vs-regular-whey-protein",
+        "button_bg_color": "{{ product.metafields.custom.custom_product_bg_color.value }}",
+        "button_text_color": "",
+        "side_media": "compare",
+        "side_image": "{{ product.metafields.custom.clear_whey_image.value }}",
+        "compare_before_image": "shopify://shop_images/regular_whey_1.png",
+        "compare_before_label": "",
+        "compare_after_label": "",
+        "compare_before_label_color": "#b9643c",
+        "compare_after_label_color": "#f5b81e",
+        "compare_start": 50,
+        "compare_animate": true,
+        "card_style": "panels",
+        "book_page_color": "#efebe4",
+        "book_highlight_color": "#fff4df",
+        "vs_text": "VS",
+        "vs_circle": false,
+        "vs_color": "#1a1a1a",
+        "card_image_height": 110,
+        "accent_color": "{{ product.metafields.custom.flavour_color.value }}",
+        "background_color": "#fffced",
+        "card_bg_color": "#dedede",
+        "card_border_color": "#e6e2d6",
+        "color_scheme": "scheme-1",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    },
+    "product_story_accordion_wbBrcQ": {
+      "type": "product-story-accordion",
+      "blocks": {
+        "benefits_YMBdpy": {
+          "type": "benefits",
+          "settings": {
+            "card_bg_color": "{{ product.metafields.custom.custom_product_bg_color.value }}",
+            "pin_color": "",
+            "heading": "Key benefits",
+            "subtitle": "",
+            "benefit_1_icon": "shopify://shop_images/Muscle_Growth_Recovery.png",
+            "benefit_1_color": "#e8336d",
+            "benefit_1_title": "Muscle growth and recovery",
+            "benefit_1_desc": "",
+            "benefit_2_icon": "shopify://shop_images/Help_Reduce_Bloating.png",
+            "benefit_2_color": "#1a8a63",
+            "benefit_2_title": "Helps reduce bloating",
+            "benefit_2_desc": "",
+            "benefit_3_icon": "shopify://shop_images/Easy_to_Digest.png",
+            "benefit_3_color": "#7b5cf0",
+            "benefit_3_title": "Easy to digest",
+            "benefit_3_desc": "",
+            "benefit_4_icon": "shopify://shop_images/Rapid_Absorbtion.png",
+            "benefit_4_color": "#c98a1e",
+            "benefit_4_title": "Rapid absorption",
+            "benefit_4_desc": "",
+            "benefit_5_icon": "shopify://shop_images/Juicy_Clear_Formula.png",
+            "benefit_5_color": "#3fb96e",
+            "benefit_5_title": "Juicy-clear formula",
+            "benefit_5_desc": "",
+            "benefit_6_color": "#e07b28",
+            "benefit_6_title": "",
+            "benefit_6_desc": "",
+            "points": "",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "ingredients_ELgx9A": {
+          "type": "ingredients",
+          "settings": {
+            "card_bg_color": "{{ product.metafields.custom.custom_product_bg_color.value }}",
+            "pin_color": "",
+            "heading": "Ingredients",
+            "subtitle": "",
+            "badge_text": "",
+            "items": "Whey Protein Isolate | | The protein. 24g per scoop.\nNatural & nature-identical flavours | | The mango peach taste.\nCitric acid | INS 330 | Acidity regulator for a fresh, tangy finish.\nNatural fruit & vegetable colours | | Gives the drink its colour.\nSucralose | INS 955 | Sweetener, so there's 0g added sugar.",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "steps_xXVqgq": {
+          "type": "steps",
+          "disabled": true,
+          "settings": {
+            "card_bg_color": "{{ product.metafields.custom.custom_product_bg_color.value }}",
+            "pin_color": "",
+            "heading": "How to use",
+            "subtitle": "",
+            "step_1_title": "SCOOP",
+            "step_1_text": "Add 1 scoop (30g) to your shaker",
+            "step_2_title": "POUR",
+            "step_2_text": "Pour in 250-300ml cold water",
+            "step_3_title": "SHAKE",
+            "step_3_text": "Shake 30-40 seconds until clear",
+            "step_4_title": "SIP",
+            "step_4_text": "Sip post-workout or anytime",
+            "step_5_title": "",
+            "step_5_text": "",
+            "step_6_title": "",
+            "step_6_text": "",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "description_wCfqaA": {
+          "type": "description",
+          "settings": {
+            "card_bg_color": "{{ product.metafields.custom.custom_product_bg_color.value }}",
+            "pin_color": "",
+            "heading": "Description",
+            "subtitle": "",
+            "use_product_description": false,
+            "custom_description": "{{ product.metafields.custom.product_information | metafield_tag }}",
+            "button_label": "",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "benefits_YMBdpy",
+        "ingredients_ELgx9A",
+        "steps_xXVqgq",
+        "description_wCfqaA"
+      ],
+      "name": "Product Story Accordion",
+      "settings": {
+        "caption": "",
+        "heading": "&nbsp;What's In Protyze Clear Whey?",
+        "columns_desktop": 3,
+        "color_scheme": "scheme-857886e4-62eb-4ba7-bbc8-cc1ef484ba97",
+        "background_color": "#dedede",
+        "card_bg_color": "#241e1a",
+        "card_text_color": "#120603",
+        "accent_color": "",
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "steps_spotlight_UUcCBB": {
+      "type": "steps-spotlight",
+      "blocks": {
+        "step_rJyhmD": {
+          "type": "step",
+          "settings": {
+            "title": "Add water",
+            "text": "Pour 300–400 ml water into a shaker.",
+            "number_color": "#6c5ce7"
+          }
+        },
+        "step_nhTi7U": {
+          "type": "step",
+          "settings": {
+            "title": "Add one scoop",
+            "text": "Add 1 scoop or sachet protein.",
+            "number_color": "#e8336d"
+          }
+        },
+        "step_hiy7aw": {
+          "type": "step",
+          "settings": {
+            "title": "Shake",
+            "text": "Shake well for 30–40 seconds.",
+            "number_color": "#1a8a63"
+          }
+        },
+        "step_NdywH7": {
+          "type": "step",
+          "settings": {
+            "title": "Wait",
+            "text": "Let it rest until the foam settles.",
+            "number_color": "#c98a1e"
+          }
+        },
+        "step_GCQyBU": {
+          "type": "step",
+          "settings": {
+            "title": "Sip",
+            "text": "Sip and enjoy your refreshing drink.",
+            "number_color": "#e07b28"
+          }
+        }
+      },
+      "block_order": [
+        "step_rJyhmD",
+        "step_nhTi7U",
+        "step_hiy7aw",
+        "step_NdywH7",
+        "step_GCQyBU"
+      ],
+      "name": "Steps Spotlight",
+      "settings": {
+        "heading": "How To Use?",
+        "subheading": "Quick. Easy. Refreshing.",
+        "layout": "timeline",
+        "button_label": "See the full preparation guide",
+        "button_link": "",
+        "button_bg_color": "{{ product.metafields.custom.custom_product_bg_color.value }}",
+        "button_text_color": "",
+        "side_image": "{{ product.metafields.custom.drink_image.value }}",
+        "image_position": "right",
+        "media_panel": true,
+        "panel_start_color": "{{ product.metafields.custom.custom_product_bg_color.value }}",
+        "panel_end_color": "{{ product.metafields.custom.flavour_color.value }}",
+        "frame_color": "#ffffff",
+        "image_tilt": 2,
+        "number_color": "#1a1a1a",
+        "last_number_color": "{{ product.metafields.custom.flavour_color.value }}",
+        "line_color": "{{ product.metafields.custom.custom_product_bg_color.value }}",
+        "per_step_colors": false,
+        "background_color": "#fffced",
+        "color_scheme": "scheme-97f4300d-b05e-45ca-aefd-836820f46483",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    },
+    "nutrition_table_7U49LK": {
+      "type": "nutrition-table",
+      "blocks": {
+        "row_BhkdBH": {
+          "type": "row",
+          "settings": {
+            "label": "Energy",
+            "value": "100 kcal",
+            "value_2": "5",
+            "is_subrow": false
+          }
+        },
+        "row_mHNKFA": {
+          "type": "row",
+          "settings": {
+            "label": "Protein",
+            "value": "24 g",
+            "value_2": "44.4",
+            "is_subrow": false
+          }
+        },
+        "row_m7r8xz": {
+          "type": "row",
+          "settings": {
+            "label": "Carbohydrate",
+            "value": "1 g",
+            "value_2": "--",
+            "is_subrow": false
+          }
+        },
+        "row_gAbFJF": {
+          "type": "row",
+          "settings": {
+            "label": "Total Sugar",
+            "value": "0.5 g",
+            "value_2": "--",
+            "is_subrow": true
+          }
+        },
+        "row_qzmaLD": {
+          "type": "row",
+          "settings": {
+            "label": "Added Sugar",
+            "value": "0 g",
+            "value_2": "--",
+            "is_subrow": true
+          }
+        },
+        "row_LTpV3D": {
+          "type": "row",
+          "settings": {
+            "label": "Total Fat",
+            "value": "0 g",
+            "value_2": "--",
+            "is_subrow": false
+          }
+        },
+        "row_w4GzLc": {
+          "type": "row",
+          "settings": {
+            "label": "Cholesterol",
+            "value": "5 mg",
+            "value_2": "--",
+            "is_subrow": false
+          }
+        },
+        "row_TFdFMm": {
+          "type": "row",
+          "settings": {
+            "label": "Sodium",
+            "value": "30 mg",
+            "value_2": "1.5",
+            "is_subrow": false
+          }
+        },
+        "description_ifDBMg": {
+          "type": "description",
+          "settings": {
+            "text": "<p>%RDA value per serving established by ICMR 2020, Men-Moderate Work.(As per ICMR, RDA of Protein is 0.83 g/kg/day for Healthy Indian Adults)*%RDA values per serving is based on 2000 kcal diet for average adult.-%RDA values not established. All nutrition info are approx. values.</p>"
+          }
+        },
+        "audience_ifmUdp": {
+          "type": "audience",
+          "settings": {
+            "image": "shopify://shop_images/WEBSITE_INF_2.avif",
+            "title": "Fitness enthusiast"
+          }
+        },
+        "audience_EFN8zp": {
+          "type": "audience",
+          "settings": {
+            "image": "shopify://shop_images/WEBSITE_INF_4.avif",
+            "title": "Active individual"
+          }
+        },
+        "audience_qzD3Yg": {
+          "type": "audience",
+          "settings": {
+            "image": "shopify://shop_images/WEBSITE_INF_1.avif",
+            "title": "On-the-go person"
+          }
+        },
+        "audience_EmQ8AE": {
+          "type": "audience",
+          "settings": {
+            "image": "shopify://shop_images/WEBSITE_INF_3.avif",
+            "title": "Health-conscious lifestyle"
+          }
+        }
+      },
+      "block_order": [
+        "row_BhkdBH",
+        "row_mHNKFA",
+        "row_m7r8xz",
+        "row_gAbFJF",
+        "row_qzmaLD",
+        "row_LTpV3D",
+        "row_w4GzLc",
+        "row_TFdFMm",
+        "description_ifDBMg",
+        "audience_ifmUdp",
+        "audience_EFN8zp",
+        "audience_qzD3Yg",
+        "audience_EmQ8AE"
+      ],
+      "name": "Nutrition & usage",
+      "settings": {
+        "heading": "Who Can Consume It?",
+        "subheading": "",
+        "label_title": "Nutrition Facts",
+        "value_header": "Per 30g (1 scoop/sachet)",
+        "col1_heading": "Nutrient",
+        "col2_heading": "Qty/Serving",
+        "col3_heading": "%RDA",
+        "feature_first_row": true,
+        "footnote": "",
+        "label_tilt": -2,
+        "audience_heading": "",
+        "center_bg_color": "{{ product.metafields.custom.flavour_color.value }}",
+        "center_q_color": "#ffd23f",
+        "panel_start_color": "{{ product.metafields.custom.custom_product_bg_color.value }}",
+        "panel_end_color": "{{ product.metafields.custom.flavour_color.value }}",
+        "label_bg_color": "#ffffff",
+        "label_ink_color": "#111111",
+        "accent_color": "#120603",
+        "background_color": "{{ product.metafields.custom.custom_product_bg_color.value }}",
+        "color_scheme": "scheme-857886e4-62eb-4ba7-bbc8-cc1ef484ba97",
+        "padding_top": 56,
+        "padding_bottom": 56,
+        "custom_class": ""
+      }
+    },
+    "when_to_drink_azHLTw": {
+      "type": "when-to-drink",
+      "blocks": {
+        "moment_Qmw9K4": {
+          "type": "moment",
+          "settings": {
+            "title": "Morning",
+            "icon": "sun",
+            "circle_color": "",
+            "icon_color": "#f59e0b"
+          }
+        },
+        "moment_KtQxY8": {
+          "type": "moment",
+          "settings": {
+            "title": "Before workout",
+            "icon": "bolt",
+            "circle_color": "",
+            "icon_color": "#7c3aed"
+          }
+        },
+        "moment_ktfBNJ": {
+          "type": "moment",
+          "settings": {
+            "title": "During workout",
+            "icon": "dumbbell",
+            "circle_color": "",
+            "icon_color": "#15803d"
+          }
+        },
+        "moment_RaG6kt": {
+          "type": "moment",
+          "settings": {
+            "title": "After workout",
+            "icon": "glass",
+            "circle_color": "",
+            "icon_color": ""
+          }
+        },
+        "moment_G7nCad": {
+          "type": "moment",
+          "settings": {
+            "title": "Between meals",
+            "icon": "clock",
+            "circle_color": "",
+            "icon_color": "#1d4ed8"
+          }
+        },
+        "moment_mNQBLJ": {
+          "type": "moment",
+          "settings": {
+            "title": "Evening",
+            "icon": "moon",
+            "circle_color": "#2a1f4f",
+            "icon_color": "#ffd23f"
+          }
+        }
+      },
+      "block_order": [
+        "moment_Qmw9K4",
+        "moment_KtQxY8",
+        "moment_ktfBNJ",
+        "moment_RaG6kt",
+        "moment_G7nCad",
+        "moment_mNQBLJ"
+      ],
+      "name": "When to drink",
+      "settings": {
+        "eyebrow": "",
+        "heading": "When Can You Consume?",
+        "center_image": "shopify://shop_images/anytime_protein_time_3718e098-e32d-44db-a231-c96f8de95959.png",
+        "center_image_width": 34,
+        "center_image_top": 62,
+        "center_image_mobile": "shopify://shop_images/anytime_protein_time_smaller_text_transparent_600x400_682ce50b-aeff-4d32-b143-d05af99f99df.png",
+        "center_mobile_inside": true,
+        "center_image_width_mobile": 60,
+        "center_mobile_top": 68,
+        "bg_image": "shopify://shop_images/Artboard_3_5.avif",
+        "overlay_opacity": 0,
+        "accent_color": "#c81414",
+        "line_color": "#615f5d",
+        "arc_flat": false,
+        "background_color": "#dedede",
+        "gradient_start": "rgba(0,0,0,0)",
+        "gradient_end": "rgba(0,0,0,0)",
+        "gradient_angle": 160,
+        "color_scheme": "scheme-857886e4-62eb-4ba7-bbc8-cc1ef484ba97",
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "facility_spotlight_gaxwt4": {
+      "type": "facility-spotlight",
+      "blocks": {
+        "detail_L474DN": {
+          "type": "detail",
+          "settings": {
+            "label": "Manufactured by",
+            "value": "Alphacentric Healthcare"
+          }
+        },
+        "detail_6FBztH": {
+          "type": "detail",
+          "settings": {
+            "label": "Location",
+            "value": "Bangalore, India"
+          }
+        },
+        "detail_bFzbzd": {
+          "type": "detail",
+          "settings": {
+            "label": "Patent",
+            "value": "Indian Patent No. 552175"
+          }
+        },
+        "detail_9anUbj": {
+          "type": "detail",
+          "settings": {
+            "label": "Testing",
+            "value": "Third-party lab, every batch"
+          }
+        },
+        "logo_xidakN": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/fssai_2_38f65365-683c-438d-a172-259c944c2213.png",
+            "name": "Certification logo",
+            "link": ""
+          }
+        },
+        "logo_V3FhV6": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/gmp_1.png",
+            "name": "Certification logo",
+            "link": ""
+          }
+        },
+        "logo_NKaJRQ": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/iSO_Certified_a8174a3f-8fed-478e-92c5-ed64cab13452.png",
+            "name": "Certification logo",
+            "link": ""
+          }
+        },
+        "logo_QDbz6T": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/haccp.png",
+            "name": "Certification logo",
+            "link": ""
+          }
+        },
+        "logo_PacLfx": {
+          "type": "logo",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/PATENTED_white.png",
+            "name": "Certification logo",
+            "link": ""
+          }
+        },
+        "logo_fC9yhM": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/Make_in_India_1_9716fc60-0438-453d-ae31-dc530cc76f51.png",
+            "name": "Certification logo",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "detail_L474DN",
+        "detail_6FBztH",
+        "detail_bFzbzd",
+        "detail_9anUbj",
+        "logo_xidakN",
+        "logo_V3FhV6",
+        "logo_NKaJRQ",
+        "logo_QDbz6T",
+        "logo_PacLfx",
+        "logo_fC9yhM"
+      ],
+      "name": "Facility Spotlight",
+      "settings": {
+        "heading": "Made In Our Own Facility",
+        "subheading": "Not white-labelled. Developed and produced by our own team.",
+        "image": "shopify://shop_images/Mango_Jar_Product_listing_6_08f7726f-2fd1-4765-baa0-d45299443891.png",
+        "image_position": "right",
+        "logos_heading": "",
+        "logo_height": 36,
+        "logos_white": false,
+        "button_1_label": "Inside our manufacturing",
+        "button_1_link": "shopify://pages/manufacturing",
+        "button_2_label": "View third-party lab reports",
+        "button_2_link": "shopify://pages/lab-report",
+        "button_2_new_tab": true,
+        "background_color": "#231a12",
+        "text_color": "#ffffff",
+        "muted_color": "#c9a07a",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "17133320016c7f51c9": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_review_widget_PXCFb7": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "review_data": "sample_data",
+            "max_width": 1200,
+            "show_shop_reviews": true,
+            "empty_state": "hide_widget"
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_PXCFb7"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "faq_section_VFTTqz": {
+      "type": "faq-section",
+      "blocks": {
+        "collapsible_row_GtWDyY": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "1. Can I take whey protein everyday ?",
+            "icon": "none",
+            "row_content": "<p>Yes, you can take whey protein daily to support muscle recovery and growth. It's a convenient and effective way to meet your protein needs, aiding overall fitness and well-being.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_XkHG9h": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "2. What happens after stopping whey protein ?",
+            "icon": "none",
+            "row_content": "<p>After discontinuing whey protein, your body retains muscle gains if you maintain a balanced diet and regular exercise. Adjust your protein intake from whole foods for sustained results.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_UR8j6G": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "3. How many times a day can I take protein powder ?",
+            "icon": "none",
+            "row_content": "<p>Optimal protein intake depends on your goals and lifestyle. Generally, consume protein powder 1 times a day to support muscle growth, recovery, and overall nutritional needs.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_iyTnqC": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "4. Where do the amino acids in protyze anytime Whey come from ?",
+            "icon": "none",
+            "row_content": "<p>The amino acids in Protyze Anytime Clear Whey are sourced from high-quality whey protein, providing a complete profile of essential amino acids vital for muscle repair, recovery, and growth.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_XMHV6Y": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "5. Do your products contain banned substances ?",
+            "icon": "none",
+            "row_content": "<p>No, our products are rigorously tested to ensure they are free from banned substances. We prioritize safety and quality, offering you trusted supplements for your health and fitness journey.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_PqzejH": {
+          "type": "collapsible_row",
+          "disabled": true,
+          "settings": {
+            "heading": "6. Can I take whey protein everyday?",
+            "icon": "none",
+            "row_content": "<p>Yes, it's safe to consume whey protein daily as it provides essential amino acids crucial for muscle repair and growth, supporting your fitness goals effectively. Protyze clear whey protein is free from artificial colors, low in carbs, 99% lactose-free, fat-free, and contains zero added sugar which is ideal for fitness enthusiasts.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_gVaq7i": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "6. Can i make clear protein drink with 100 ml water?",
+            "icon": "none",
+            "row_content": "<p>No, to prepare the clear protein drink you must take a minimum of 300 ml of water add one scoop shake it vigorously, and let it rest for 30-50 sec for the foam to settle, and then your drink is ready.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_GtWDyY",
+        "collapsible_row_XkHG9h",
+        "collapsible_row_UR8j6G",
+        "collapsible_row_iyTnqC",
+        "collapsible_row_XMHV6Y",
+        "collapsible_row_PqzejH",
+        "collapsible_row_gVaq7i"
+      ],
+      "settings": {
+        "caption": "",
+        "heading": "FAQ'S",
+        "heading_size": "h1",
+        "span_text": "",
+        "heading_alignment": "center",
+        "style": "classic",
+        "accent_color": "",
+        "card_bg_color": "#ffffff",
+        "layout": "none",
+        "color_scheme": "scheme-857886e4-62eb-4ba7-bbc8-cc1ef484ba97",
+        "container_color_scheme": "scheme-97f4300d-b05e-45ca-aefd-836820f46483",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "disabled": true,
+      "settings": {
+        "heading": "Recommended Products",
+        "heading_size": "h1",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "standard",
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "featured_collection_nB6q6F": {
+      "type": "featured-collection",
+      "disabled": true,
+      "name": "t:sections.featured-collection.presets.name",
+      "settings": {
+        "collection": "clear-whey-isolate",
+        "products_to_show": 4,
+        "title": "Best Seller",
+        "heading_size": "h1",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 4,
+        "enable_desktop_slider": false,
+        "full_width": false,
+        "show_view_all": false,
+        "view_all_style": "solid",
+        "color_scheme": "scheme-79c60b1d-849e-45e9-91e2-f2d13dea14b4",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "standard",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "breadcrumb_egFdac",
+    "main",
+    "comparison_spotlight_6JaTiR",
+    "product_story_accordion_wbBrcQ",
+    "steps_spotlight_UUcCBB",
+    "nutrition_table_7U49LK",
+    "when_to_drink_azHLTw",
+    "facility_spotlight_gaxwt4",
+    "17133320016c7f51c9",
+    "faq_section_VFTTqz",
+    "related-products",
+    "featured_collection_nB6q6F"
+  ]
+}

@@ -1,0 +1,661 @@
+{%- liquid
+  assign fallback_1 = section.settings.panel_1_image | default: section.settings.panel_1_image_mobile
+  assign desktop_1 = section.settings.panel_1_image | default: fallback_1
+  assign mobile_1 = section.settings.panel_1_image_mobile | default: fallback_1
+
+  assign fallback_2 = section.settings.panel_2_image | default: section.settings.panel_2_image_mobile
+  assign desktop_2 = section.settings.panel_2_image | default: fallback_2
+  assign mobile_2 = section.settings.panel_2_image_mobile | default: fallback_2
+
+  assign image_width_1x = section.settings.image_width | default: 150
+  assign image_width_2x = image_width_1x | times: 2
+-%}
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .two-col-{{ section.id }} {
+    --tc-image-width: {{ image_width_1x }}px;
+    --tc-border-color: {{ section.settings.border_color | default: 'rgba(0, 0, 0, 0.1)' }};
+    --tc-panel-1-bg: {{ section.settings.panel_1_bg_color | default: '#ffffff' }};
+    --tc-panel-1-text: {{ section.settings.panel_1_text_color | default: '#101010' }};
+    --tc-panel-2-bg: {{ section.settings.panel_2_bg_color | default: '#fdece2' }};
+    --tc-panel-2-text: {{ section.settings.panel_2_text_color | default: '#101010' }};
+    {%- if section.settings.highlight_color != blank -%}
+      --tc-highlight-color: {{ section.settings.highlight_color }};
+    {%- endif -%}
+    {%- if section.settings.eyebrow_color != blank -%}
+      --tc-eyebrow-color: {{ section.settings.eyebrow_color }};
+    {%- endif -%}
+    {%- if section.settings.marker_bg_color != blank -%}
+      --tc-marker-bg: {{ section.settings.marker_bg_color }};
+    {%- endif -%}
+    {%- if section.settings.marker_text_color != blank -%}
+      --tc-marker-color: {{ section.settings.marker_text_color }};
+    {%- endif -%}
+  }
+
+  .two-col__wrapper {
+    border-bottom: 0.1rem solid var(--tc-border-color);
+    border-top: 0.1rem solid var(--tc-border-color);
+  }
+
+  .two-col__panel--1 {
+    background-color: var(--tc-panel-1-bg);
+    color: var(--tc-panel-1-text);
+  }
+
+  .two-col__panel--2 {
+    background-color: var(--tc-panel-2-bg);
+    color: var(--tc-panel-2-text);
+  }
+
+  .two-col__grid {
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media screen and (min-width: 750px) {
+    .two-col__grid {
+      flex-direction: row;
+    }
+  }
+
+  .two-col__panel {
+    padding: 2.8rem 0;
+  }
+
+  @media screen and (min-width: 750px) {
+    .two-col__panel {
+      flex: 1 1 0;
+      min-width: 0;
+      padding: 3.6rem 3rem;
+    }
+
+    .two-col__panel--1 {
+      border-right: 0.1rem solid var(--tc-border-color);
+    }
+  }
+
+  .two-col__panel-inner {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+  }
+
+  @media screen and (min-width: 750px) {
+    .two-col__panel-inner {
+      flex-direction: row;
+      gap: 2rem;
+    }
+  }
+
+  .two-col__text {
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+    gap: 1rem;
+    min-width: 0;
+  }
+
+  .two-col__eyebrow {
+    color: var(--tc-eyebrow-color, inherit);
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.1rem;
+    line-height: 1.4;
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  .two-col__heading {
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    font-size: 1.8rem;
+    font-weight: 800;
+    line-height: 1.3;
+    margin: 0;
+    text-transform: none;
+  }
+
+  .two-col__body {
+    color: inherit;
+    font-size: 1.3rem;
+    line-height: 1.5;
+    margin: 0;
+    opacity: 0.85;
+  }
+
+  .two-col__body p {
+    margin: 0;
+  }
+
+  .two-col__divider {
+    background-color: currentColor;
+    border: 0;
+    height: 0.1rem;
+    margin: 0;
+    opacity: 0.15;
+    width: 100%;
+  }
+
+  .two-col__aside {
+    align-items: center;
+    display: flex;
+    gap: 0.8rem;
+  }
+
+  .two-col__aside-icon {
+    flex-shrink: 0;
+    height: 2rem;
+    width: 2rem;
+  }
+
+  .two-col__aside-icon img {
+    display: block;
+    height: 100%;
+    object-fit: contain;
+    width: 100%;
+  }
+
+  .two-col__aside-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .two-col__aside-text {
+    color: inherit;
+    font-size: 1.3rem;
+    margin: 0;
+  }
+
+  .two-col__aside-highlight {
+    color: var(--tc-highlight-color, #ff6a2a);
+    font-size: 1.3rem;
+    font-style: italic;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .two-col__aside-subtext {
+    color: inherit;
+    font-size: 1.2rem;
+    margin: 0;
+    opacity: 0.75;
+  }
+
+  .two-col__marker-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .two-col__marker-label {
+    color: inherit;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .two-col__marker-text {
+    background-color: var(--tc-marker-bg, #f6cc9b);
+    border-radius: 0.3rem;
+    color: var(--tc-marker-color, #1a1a1a);
+    display: inline-block;
+    font-size: 1.6rem;
+    font-style: italic;
+    font-weight: 700;
+    margin: 0;
+    padding: 0.2rem 0.7rem;
+    width: fit-content;
+  }
+
+  .two-col__check {
+    align-items: flex-start;
+    display: flex;
+    gap: 0.8rem;
+  }
+
+  .two-col__check-icon {
+    color: var(--tc-highlight-color, #ff6a2a);
+    flex-shrink: 0;
+    height: 1.4rem;
+    margin-top: 0.3rem;
+    width: 1.4rem;
+  }
+
+  .two-col__check-text {
+    color: inherit;
+    font-size: 1.3rem;
+    margin: 0;
+  }
+
+  .two-col__pill {
+    border: 0.1rem solid var(--tc-highlight-color, #ff6a2a);
+    border-radius: 2rem;
+    color: inherit;
+    display: inline-block;
+    font-size: 1.2rem;
+    font-style: italic;
+    margin: 0;
+    padding: 0.9rem 1.6rem;
+    width: fit-content;
+  }
+
+  .two-col__script {
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    font-size: 1.6rem;
+    font-style: italic;
+    line-height: 1.35;
+    margin: 0;
+  }
+
+  .two-col__script-line--underline {
+    border-bottom: 0.1rem solid currentColor;
+    padding-bottom: 0.3rem;
+    width: fit-content;
+  }
+
+  .two-col__image-wrap {
+    aspect-ratio: 3 / 4;
+    border-radius: 0.6rem;
+    flex-shrink: 0;
+    overflow: hidden;
+    width: min(55%, 220px);
+  }
+
+  @media screen and (min-width: 750px) {
+    .two-col__image-wrap {
+      width: min(38%, var(--tc-image-width, 150px));
+    }
+  }
+
+  .two-col__image {
+    display: block;
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+  }
+{% endstyle %}
+
+<div class="two-col-{{ section.id }} color-{{ section.settings.color_scheme }} gradient {{ section.settings.custom_class }}">
+  <div class="two-col__wrapper">
+    <div class="page-width section-{{ section.id }}-padding">
+    <div class="two-col__grid">
+      {%- for panel_key in (1..2) -%}
+        {%- liquid
+          assign panel_value = 'panel_' | append: panel_key
+          if panel_key == 1
+            assign panel_image = fallback_1
+            assign panel_image_desktop = desktop_1
+            assign panel_image_mobile = mobile_1
+          else
+            assign panel_image = fallback_2
+            assign panel_image_desktop = desktop_2
+            assign panel_image_mobile = mobile_2
+          endif
+        -%}
+        <div class="two-col__panel two-col__panel--{{ panel_key }}">
+          <div class="two-col__panel-inner">
+            <div class="two-col__text">
+              {%- for block in section.blocks -%}
+                {%- if block.settings.panel == panel_value -%}
+                  {%- case block.type -%}
+                    {%- when 'eyebrow' -%}
+                      <p class="two-col__eyebrow" {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</p>
+
+                    {%- when 'heading' -%}
+                      <h2 class="two-col__heading" {{ block.shopify_attributes }}>
+                        {%- if block.settings.line_1 != blank -%}<span>{{ block.settings.line_1 | escape }}</span>{%- endif -%}
+                        {%- if block.settings.line_2 != blank -%}<span>{{ block.settings.line_2 | escape }}</span>{%- endif -%}
+                      </h2>
+
+                    {%- when 'text' -%}
+                      <div class="two-col__body rte" {{ block.shopify_attributes }}>{{ block.settings.content }}</div>
+
+                    {%- when 'divider' -%}
+                      <hr class="two-col__divider" {{ block.shopify_attributes }}>
+
+                    {%- when 'icon_item' -%}
+                      <div class="two-col__aside" {{ block.shopify_attributes }}>
+                        {%- if block.settings.icon != blank -%}
+                          <span class="two-col__aside-icon">
+                            {{ block.settings.icon | image_url: width: 80 | image_tag: loading: 'lazy', alt: '' }}
+                          </span>
+                        {%- endif -%}
+                        <div class="two-col__aside-content">
+                          {%- if block.settings.text != blank -%}
+                            <p class="two-col__aside-text">{{ block.settings.text | escape }}</p>
+                          {%- endif -%}
+                          {%- if block.settings.highlight_text != blank -%}
+                            <p class="two-col__aside-highlight">{{ block.settings.highlight_text | escape }}</p>
+                          {%- endif -%}
+                          {%- if block.settings.subtext != blank -%}
+                            <p class="two-col__aside-subtext">{{ block.settings.subtext | escape }}</p>
+                          {%- endif -%}
+                        </div>
+                      </div>
+
+                    {%- when 'highlight_marker' -%}
+                      <div class="two-col__marker-wrap" {{ block.shopify_attributes }}>
+                        {%- if block.settings.label != blank -%}
+                          <p class="two-col__marker-label">{{ block.settings.label | escape }}</p>
+                        {%- endif -%}
+                        {%- if block.settings.text != blank -%}
+                          <p class="two-col__marker-text">{{ block.settings.text | escape }}</p>
+                        {%- endif -%}
+                      </div>
+
+                    {%- when 'check_item' -%}
+                      <div class="two-col__check" {{ block.shopify_attributes }}>
+                        <svg class="two-col__check-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                          <path d="M6 6L18 18M18 6L6 18" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+                        </svg>
+                        <p class="two-col__check-text">{{ block.settings.text | escape }}</p>
+                      </div>
+
+                    {%- when 'outline_pill' -%}
+                      <p class="two-col__pill" {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</p>
+
+                    {%- when 'script_text' -%}
+                      <p class="two-col__script" {{ block.shopify_attributes }}>
+                        {%- if block.settings.line_1 != blank -%}<span>{{ block.settings.line_1 | escape }}</span>{%- endif -%}
+                        {%- if block.settings.line_2 != blank -%}<span{% if block.settings.underline_line_2 %} class="two-col__script-line--underline"{% endif %}>{{ block.settings.line_2 | escape }}</span>{%- endif -%}
+                      </p>
+                  {%- endcase -%}
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+
+            {%- if panel_image != blank -%}
+              <span class="two-col__image-wrap">
+                <picture>
+                  {%- if panel_image_mobile != blank -%}
+                    <source media="(max-width: 749px)" srcset="{{ panel_image_mobile | image_url: width: image_width_1x }} 1x, {{ panel_image_mobile | image_url: width: image_width_2x }} 2x">
+                  {%- endif -%}
+                  {%- if panel_image_desktop != blank -%}
+                    <source media="(min-width: 750px)" srcset="{{ panel_image_desktop | image_url: width: image_width_1x }} 1x, {{ panel_image_desktop | image_url: width: image_width_2x }} 2x">
+                  {%- endif -%}
+                  <img
+                    src="{{ panel_image | image_url: width: image_width_1x }}"
+                    srcset="{{ panel_image | image_url: width: image_width_1x }} 1x, {{ panel_image | image_url: width: image_width_2x }} 2x"
+                    alt="{{ panel_image.alt | escape }}"
+                    class="two-col__image"
+                    loading="lazy"
+                    decoding="async"
+                    width="{{ panel_image.width }}"
+                    height="{{ panel_image.height }}"
+                  >
+                </picture>
+              </span>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Two column panels",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Two independent half-width panels, each with its own background, text, and image. Add blocks below and assign each to Panel 1 or Panel 2."
+    },
+    {
+      "type": "header",
+      "content": "Panel 1"
+    },
+    {
+      "type": "color",
+      "id": "panel_1_bg_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "panel_1_text_color",
+      "label": "Text color",
+      "default": "#101010"
+    },
+    {
+      "type": "image_picker",
+      "id": "panel_1_image",
+      "label": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "panel_1_image_mobile",
+      "label": "Image (mobile)"
+    },
+    {
+      "type": "header",
+      "content": "Panel 2"
+    },
+    {
+      "type": "color",
+      "id": "panel_2_bg_color",
+      "label": "Background color",
+      "default": "#fdece2"
+    },
+    {
+      "type": "color",
+      "id": "panel_2_text_color",
+      "label": "Text color",
+      "default": "#101010"
+    },
+    {
+      "type": "image_picker",
+      "id": "panel_2_image",
+      "label": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "panel_2_image_mobile",
+      "label": "Image (mobile)"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "image_width",
+      "min": 80,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "label": "Image width",
+      "default": 150
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "Highlight / accent color",
+      "default": "#ff6a2a"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow text color",
+      "info": "Optional. Leave blank to use each panel's own text color.",
+      "default": "#ff6a2a"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border color",
+      "info": "Used for the top/bottom borders and the vertical divider between panels (desktop only).",
+      "default": "#e0d8ce"
+    },
+    {
+      "type": "color",
+      "id": "marker_bg_color",
+      "label": "Highlighted phrase background",
+      "default": "#f6cc9b"
+    },
+    {
+      "type": "color",
+      "id": "marker_text_color",
+      "label": "Highlighted phrase text color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 0
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "eyebrow",
+      "name": "Eyebrow text",
+      "settings": [
+        { "type": "select", "id": "panel", "label": "Panel", "options": [{ "value": "panel_1", "label": "Panel 1" }, { "value": "panel_2", "label": "Panel 2" }], "default": "panel_1" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Eyebrow text" }
+      ]
+    },
+    {
+      "type": "heading",
+      "name": "Heading (2 lines)",
+      "settings": [
+        { "type": "select", "id": "panel", "label": "Panel", "options": [{ "value": "panel_1", "label": "Panel 1" }, { "value": "panel_2", "label": "Panel 2" }], "default": "panel_1" },
+        { "type": "text", "id": "line_1", "label": "Line 1", "default": "Heading line one" },
+        { "type": "text", "id": "line_2", "label": "Line 2" }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Paragraph",
+      "settings": [
+        { "type": "select", "id": "panel", "label": "Panel", "options": [{ "value": "panel_1", "label": "Panel 1" }, { "value": "panel_2", "label": "Panel 2" }], "default": "panel_1" },
+        { "type": "richtext", "id": "content", "label": "Text", "default": "<p>Add your text here.</p>" }
+      ]
+    },
+    {
+      "type": "divider",
+      "name": "Divider line",
+      "settings": [
+        { "type": "select", "id": "panel", "label": "Panel", "options": [{ "value": "panel_1", "label": "Panel 1" }, { "value": "panel_2", "label": "Panel 2" }], "default": "panel_1" }
+      ]
+    },
+    {
+      "type": "icon_item",
+      "name": "Icon + text",
+      "settings": [
+        { "type": "select", "id": "panel", "label": "Panel", "options": [{ "value": "panel_1", "label": "Panel 1" }, { "value": "panel_2", "label": "Panel 2" }], "default": "panel_1" },
+        { "type": "image_picker", "id": "icon", "label": "Icon" },
+        { "type": "text", "id": "text", "label": "Caption text", "default": "Icon caption" },
+        { "type": "text", "id": "highlight_text", "label": "Highlight text", "info": "Optional." },
+        { "type": "text", "id": "subtext", "label": "Subtext", "info": "Optional." }
+      ]
+    },
+    {
+      "type": "highlight_marker",
+      "name": "Highlighted phrase",
+      "settings": [
+        { "type": "select", "id": "panel", "label": "Panel", "options": [{ "value": "panel_1", "label": "Panel 1" }, { "value": "panel_2", "label": "Panel 2" }], "default": "panel_1" },
+        { "type": "text", "id": "label", "label": "Label above (optional)" },
+        { "type": "text", "id": "text", "label": "Highlighted text", "default": "Highlighted text" }
+      ]
+    },
+    {
+      "type": "check_item",
+      "name": "Checklist item",
+      "settings": [
+        { "type": "select", "id": "panel", "label": "Panel", "options": [{ "value": "panel_1", "label": "Panel 1" }, { "value": "panel_2", "label": "Panel 2" }], "default": "panel_1" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Checklist item" }
+      ]
+    },
+    {
+      "type": "outline_pill",
+      "name": "Outline pill text",
+      "settings": [
+        { "type": "select", "id": "panel", "label": "Panel", "options": [{ "value": "panel_1", "label": "Panel 1" }, { "value": "panel_2", "label": "Panel 2" }], "default": "panel_1" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Pill text" }
+      ]
+    },
+    {
+      "type": "script_text",
+      "name": "Script heading",
+      "settings": [
+        { "type": "select", "id": "panel", "label": "Panel", "options": [{ "value": "panel_1", "label": "Panel 1" }, { "value": "panel_2", "label": "Panel 2" }], "default": "panel_1" },
+        { "type": "text", "id": "line_1", "label": "Line 1", "default": "Line one" },
+        { "type": "text", "id": "line_2", "label": "Line 2" },
+        { "type": "checkbox", "id": "underline_line_2", "label": "Underline line 2", "default": false }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Two column panels",
+      "category": "Custom",
+      "blocks": [
+        { "type": "eyebrow", "settings": { "panel": "panel_1", "text": "Every night. The same routine." } },
+        { "type": "icon_item", "settings": { "panel": "panel_1", "text": "Experiment" } },
+        { "type": "icon_item", "settings": { "panel": "panel_1", "text": "Shake" } },
+        { "type": "icon_item", "settings": { "panel": "panel_1", "text": "Refrigerator" } },
+        { "type": "icon_item", "settings": { "panel": "panel_1", "text": "Hope" } },
+        { "type": "eyebrow", "settings": { "panel": "panel_2", "text": "Every morning. The same result." } },
+        { "type": "text", "settings": { "panel": "panel_2", "content": "<p>Protein at the bottom. Water on top.</p>" } },
+        { "type": "highlight_marker", "settings": { "panel": "panel_2", "text": "Again. And again. And again." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

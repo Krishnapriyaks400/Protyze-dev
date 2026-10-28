@@ -1,0 +1,85 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "breadcrumb_ztWxbj": {
+      "type": "breadcrumb",
+      "settings": {
+        "color_scheme": "",
+        "page_layout": "grid",
+        "padding_top": 12,
+        "padding_bottom": 20
+      }
+    },
+    "image_banner_rrCcUW": {
+      "type": "image-banner",
+      "blocks": {
+        "heading_UGQdRh": {
+          "type": "heading",
+          "settings": {
+            "heading": "Best Whey Protein | Best Whey Isolate | Best Protein Powder | Protyze",
+            "heading_size": "h1"
+          }
+        }
+      },
+      "block_order": [
+        "heading_UGQdRh"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/banner_anytime_orange_1_a90c15f0-4dd8-469c-9f19-1b7423ad3c62.webp",
+        "image_overlay_opacity": 0,
+        "image_height": "adapt",
+        "image_behavior": "none",
+        "desktop_content_position": "middle-center",
+        "desktop_content_alignment": "center",
+        "show_text_box": false,
+        "color_scheme": "",
+        "stack_images_on_mobile": true,
+        "mobile_content_alignment": "center",
+        "show_text_below": false,
+        "custom_class": ""
+      }
+    },
+    "product-grid": {
+      "type": "main-collection-product-grid",
+      "settings": {
+        "products_per_page": 56,
+        "columns_desktop": 6,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "standard",
+        "enable_filtering": false,
+        "filter_type": "horizontal",
+        "enable_sorting": false,
+        "padding_top": 16,
+        "padding_bottom": 36
+      }
+    },
+    "banner": {
+      "type": "main-collection-banner",
+      "settings": {
+        "show_collection_description": true,
+        "show_collection_image": false,
+        "color_scheme": "scheme-1"
+      }
+    }
+  },
+  "order": [
+    "breadcrumb_ztWxbj",
+    "image_banner_rrCcUW",
+    "product-grid",
+    "banner"
+  ]
+}

@@ -1,0 +1,1520 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "breadcrumb_egFdac": {
+      "type": "breadcrumb",
+      "settings": {
+        "color_scheme": "",
+        "text_alignment": "center",
+        "padding_top": 4,
+        "padding_bottom": 4
+      }
+    },
+    "main": {
+      "type": "main-product-offer",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "judge_me_reviews_preview_badge_9hMQDm": {
+          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {}
+        },
+        "icon_with_text_tDT9tQ": {
+          "type": "icon-with-text",
+          "settings": {
+            "layout": "vertical",
+            "icon_1": "none",
+            "image_1": "shopify://shop_images/Muscle.png",
+            "heading_1": "Muscle Growth Recovery",
+            "icon_2": "none",
+            "image_2": "shopify://shop_images/Reduce_bloating.png",
+            "heading_2": "Help Reduce Bloating",
+            "icon_3": "none",
+            "image_3": "shopify://shop_images/digest.png",
+            "heading_3": "Easy to Digest",
+            "icon_4": "none",
+            "image_4": "shopify://shop_images/Rapid_absorption.png",
+            "heading_4": "Rapid Absorbtion",
+            "custom_class": "icon-with-text-new"
+          }
+        },
+        "variant_picker_ieNbHW": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "dropdown",
+            "swatch_shape": "circle"
+          }
+        },
+        "platmart_swatches_platmart_product_colors_NJLfkD": {
+          "type": "shopify://apps/platmart-swatches/blocks/platmart-product-colors/3d4801b8-13e2-488f-8d06-69ca04fc155d",
+          "settings": {
+            "product": ""
+          }
+        },
+        "price_kfUzD9": {
+          "type": "price",
+          "settings": {}
+        },
+        "copy_text_PPqHbN": {
+          "type": "copy_text",
+          "settings": {
+            "offer_text": true
+          }
+        },
+        "image_picker_Ce7PzK": {
+          "type": "image_picker",
+          "disabled": true,
+          "settings": {
+            "upload_image": "shopify://shop_images/christmas_offer_gif_1.gif",
+            "custom_class_new": "chritsmas-offer-image"
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": false,
+            "show_gift_card_recipient": true
+          }
+        },
+        "image_picker_bKpwTi": {
+          "type": "image_picker",
+          "settings": {
+            "custom_class_new": "payment_image"
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "judge_me_reviews_preview_badge_9hMQDm",
+        "icon_with_text_tDT9tQ",
+        "variant_picker_ieNbHW",
+        "platmart_swatches_platmart_product_colors_NJLfkD",
+        "price_kfUzD9",
+        "copy_text_PPqHbN",
+        "image_picker_Ce7PzK",
+        "buy_buttons",
+        "image_picker_bKpwTi"
+      ],
+      "settings": {
+        "enable_sticky_info": true,
+        "color_scheme": "scheme-1",
+        "media_size": "small",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "gallery_layout": "thumbnail_slider",
+        "mobile_thumbnails": "show",
+        "media_position": "left",
+        "image_zoom": "lightbox",
+        "hide_variants": true,
+        "enable_video_looping": false,
+        "product_bg_color": "{{ product.metafields.custom.custom_product_bg_color.value }}",
+        "padding_top": 36,
+        "padding_bottom": 12
+      }
+    },
+    "brand_logo_6TeHHb": {
+      "type": "brand-logo",
+      "blocks": {
+        "column_NAB6Fn": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/kosher.png"
+          }
+        },
+        "column_ENPdPw": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/gmp.png"
+          }
+        },
+        "column_H6dqTb": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/fssai.png"
+          }
+        },
+        "column_jWAWXQ": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/iso_certified.png"
+          }
+        },
+        "column_969jdB": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/haccp.png"
+          }
+        },
+        "column_z88EBY": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/make_in_india.png"
+          }
+        }
+      },
+      "block_order": [
+        "column_NAB6Fn",
+        "column_ENPdPw",
+        "column_H6dqTb",
+        "column_jWAWXQ",
+        "column_969jdB",
+        "column_z88EBY"
+      ],
+      "settings": {
+        "title": "",
+        "heading_size": "h1",
+        "image_width": "full",
+        "image_ratio": "adapt",
+        "columns_desktop": 3,
+        "column_alignment": "left",
+        "background_style": "primary",
+        "button_label": "Button label",
+        "button_link": "",
+        "color_scheme": "scheme-3",
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 16,
+        "padding_bottom": 16,
+        "custom_class": "brand-logo1"
+      }
+    },
+    "1717676116638cc108": {
+      "type": "apps",
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "number_counter_XYQ9zT": {
+      "type": "number-counter",
+      "blocks": {
+        "icon_QARTGp": {
+          "type": "icon",
+          "settings": {
+            "title": "Protein",
+            "text": "",
+            "value": "24",
+            "value_text": "g",
+            "column_alignment": "center"
+          }
+        },
+        "icon_K46MtM": {
+          "type": "icon",
+          "settings": {
+            "title": "Glutamine",
+            "text": "",
+            "value": "5",
+            "value_text": "g",
+            "column_alignment": "center"
+          }
+        },
+        "icon_Ngie3j": {
+          "type": "icon",
+          "settings": {
+            "title": "Leucine",
+            "text": "",
+            "value": "3800",
+            "value_text": "mg",
+            "column_alignment": "center"
+          }
+        },
+        "icon_fcUVib": {
+          "type": "icon",
+          "settings": {
+            "title": "BCAA",
+            "text": "",
+            "value": "7200",
+            "value_text": "mg",
+            "column_alignment": "center"
+          }
+        }
+      },
+      "block_order": [
+        "icon_QARTGp",
+        "icon_K46MtM",
+        "icon_Ngie3j",
+        "icon_fcUVib"
+      ],
+      "settings": {
+        "title": "3X Absorption with 2-in1 Benefits",
+        "heading_size": "h1",
+        "span_text": "",
+        "button_label": "",
+        "button_link": "",
+        "column_alignment": "center",
+        "columns_desktop": 4,
+        "section_color_scheme": "scheme-4",
+        "counter_style": "grid",
+        "padding_top": 20,
+        "padding_bottom": 8,
+        "custom_class": ""
+      }
+    },
+    "image_with_text_htbiq4": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_G4wetc": {
+          "type": "heading",
+          "settings": {
+            "heading": "{{ product.metafields.custom.product_description_title1.value }}",
+            "heading_size": "h1"
+          }
+        },
+        "text_NgGmHP": {
+          "type": "text",
+          "settings": {
+            "text": "<p>{{ product.metafields.custom.product_description_content1 | metafield_tag }}</p><p></p>",
+            "text_style": "body"
+          }
+        }
+      },
+      "block_order": [
+        "heading_G4wetc",
+        "text_NgGmHP"
+      ],
+      "settings": {
+        "image": "{{ product.metafields.custom.product_description_image1.value }}",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "text_first",
+        "image_behavior": "none",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "left",
+        "section_color_scheme": "scheme-2",
+        "color_scheme": "scheme-2",
+        "padding_top": 36,
+        "padding_bottom": 16,
+        "custom_class": "image-width-text1"
+      }
+    },
+    "image_with_text_ADkUXN": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_B4HtYL": {
+          "type": "heading",
+          "settings": {
+            "heading": "{{ product.metafields.custom.product_description_title2.value }}",
+            "heading_size": "h1"
+          }
+        },
+        "text_izxTwb": {
+          "type": "text",
+          "settings": {
+            "text": "<p>{{ product.metafields.custom.product_description_content2 | metafield_tag }}</p>",
+            "text_style": "body"
+          }
+        }
+      },
+      "block_order": [
+        "heading_B4HtYL",
+        "text_izxTwb"
+      ],
+      "settings": {
+        "image": "{{ product.metafields.custom.product_description_image2.value }}",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "image_behavior": "none",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "left",
+        "section_color_scheme": "background-1",
+        "color_scheme": "background-1",
+        "padding_top": 32,
+        "padding_bottom": 20,
+        "custom_class": "image-width-text2"
+      }
+    },
+    "grid_banner_DUXqdE": {
+      "type": "grid-banner",
+      "blocks": {
+        "text_zpKFxr": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/clear_protein_swimmer.webp",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_LK4qRe": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/clear_protein_office.webp",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_d44p9W": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/clear_protein_dance.webp",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_dgRdqp": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/clear_protein_Intra-workout.webp",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_bQ4riC": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/clear_protein_runners.webp",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_4aYjFF": {
+          "type": "text",
+          "disabled": true,
+          "settings": {
+            "block_image": "shopify://shop_images/clear_protein_pre-workout.webp",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_JmY3i8": {
+          "type": "text",
+          "disabled": true,
+          "settings": {
+            "block_image": "shopify://shop_images/clear_protein_badminton.webp",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_XxwNNa": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/clear_protein_cyclists.webp",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        }
+      },
+      "block_order": [
+        "text_zpKFxr",
+        "text_LK4qRe",
+        "text_d44p9W",
+        "text_dgRdqp",
+        "text_bQ4riC",
+        "text_4aYjFF",
+        "text_JmY3i8",
+        "text_XxwNNa"
+      ],
+      "settings": {
+        "title": "When Can You Consume?",
+        "heading_size": "h1",
+        "span_text": "",
+        "image_width": "full",
+        "button_label": "",
+        "button_link": "",
+        "column_alignment": "center",
+        "background_style": "none",
+        "grid-column": "4",
+        "column_gap": "30",
+        "color_scheme": "scheme-2",
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "custom_class": "grid-banner-consume",
+        "swiper_enable": true,
+        "desktop_column": 3,
+        "laptop_column": 3,
+        "tablet_column": 3,
+        "mobile_column": 1,
+        "centered_slide": false,
+        "swiper_pagination": false,
+        "swiper_navigation": false
+      }
+    },
+    "image_with_text_HMxMbB": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_CC99Pb": {
+          "type": "heading",
+          "settings": {
+            "heading": "Clear Whey VS Regular Whey",
+            "heading_size": "h1"
+          }
+        },
+        "text_dyVrf8": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Introducing Anytime Clear Whey Protein: Free from gums or thickeners, it ensures easy absorption and digestion. With 3.8 g of leucine for optimal protein synthesis and 30% higher absorption, plus a 40% increase in BCAA content, it's your key to enhanced muscle building and recovery.</p>",
+            "text_style": "body"
+          }
+        }
+      },
+      "block_order": [
+        "heading_CC99Pb",
+        "text_dyVrf8"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/graph_clear_whey.webp",
+        "height": "small",
+        "desktop_image_width": "medium",
+        "layout": "text_first",
+        "image_behavior": "none",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "left",
+        "section_color_scheme": "scheme-1",
+        "color_scheme": "scheme-1",
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "custom_class": "image-with-text-compare"
+      }
+    },
+    "rich_text_dpY9KC": {
+      "type": "rich-text",
+      "blocks": {
+        "text_xzaVQw": {
+          "type": "text",
+          "settings": {
+            "text": "<h2>INGREDIENTS </h2><p><strong>ANYTIME CLEAR WHEY ISOLATE </strong></p><p>Whey Protein Isolate, natural and nature identical flavors, acidity regulator(INS330), natural fruit and vegetable colors, sweeteners(INS955), anticaking agent(INS551)</p><p><strong>DIET CLEAR PROTEIN</strong></p><p>Whey Protein Isolate, L-Carnitine Tartrate, Probiotic Mixture, Dietary Fibre, Acidity Regulator (INS 330), Micro Nutrients, Sweetener (INS 955), Fruit and Vegetable Extract Colour, Anti-Caking Agent (INS 551).</p>"
+          }
+        }
+      },
+      "block_order": [
+        "text_xzaVQw"
+      ],
+      "settings": {
+        "desktop_content_position": "left",
+        "content_alignment": "left",
+        "color_scheme": "scheme-2",
+        "full_width": true,
+        "padding_top": 28,
+        "padding_bottom": 4,
+        "custom_class": ""
+      }
+    },
+    "grid_banner_fqxWay": {
+      "type": "grid-banner",
+      "blocks": {
+        "text_iKHrcA": {
+          "type": "text",
+          "settings": {
+            "show_content": true,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "Clear Whey Isolate Protein",
+            "block_description": "Builds and repairs tissues, maintains muscle mass, prevents breakdown, and supports immune function by synthesizing enzymes, hormones, antibodies, and immune cells.",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "left",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_86DzCg": {
+          "type": "text",
+          "settings": {
+            "show_content": true,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "Leucine",
+            "block_description": "A BCAA crucial for muscle protein synthesis, growth, and recovery. It activates muscle-building pathways, aids in muscle repair, and supports muscle mass preservation, especially in aging individuals.",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "left",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_xWQW6Q": {
+          "type": "text",
+          "settings": {
+            "show_content": true,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "Isoleucine",
+            "block_description": "Regulates blood sugar levels, facilitating energy metabolism, promoting glucose uptake by muscles, aiding in muscle repair and growth, and enhancing immune cell function for comprehensive physiological support.",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "left",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_8gh9Rb": {
+          "type": "text",
+          "settings": {
+            "show_content": true,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "Valine",
+            "block_description": "Aid nitrogen balance, crucial for protein synthesis & muscle mass. It converts to glucose via gluconeogenesis & serves as a precursor for neurotransmitters, impacting brain function.",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "left",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_EfVYpr": {
+          "type": "text",
+          "settings": {
+            "show_content": true,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "Glutamine",
+            "block_description": "An abundant amino acid, fuels immune cells, boosts immune function, and fights infections. Maintains nitrogen balance, crucial for protein synthesis, and prevents muscle breakdown.",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "left",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        }
+      },
+      "block_order": [
+        "text_iKHrcA",
+        "text_86DzCg",
+        "text_xWQW6Q",
+        "text_8gh9Rb",
+        "text_EfVYpr"
+      ],
+      "settings": {
+        "title": "",
+        "heading_size": "h1",
+        "span_text": "",
+        "image_width": "full",
+        "button_label": "",
+        "button_link": "",
+        "column_alignment": "center",
+        "background_style": "none",
+        "grid-column": "4",
+        "column_gap": "30",
+        "color_scheme": "scheme-2",
+        "padding_top": 24,
+        "padding_bottom": 28,
+        "custom_class": "grid-block-carousel",
+        "swiper_enable": true,
+        "desktop_column": 2,
+        "laptop_column": 2,
+        "tablet_column": 1,
+        "mobile_column": 1,
+        "centered_slide": false,
+        "swiper_pagination": false,
+        "swiper_navigation": false
+      }
+    },
+    "image_with_text_pB9XMG": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_DUbcbP": {
+          "type": "heading",
+          "settings": {
+            "heading": "DEVELOPED AT OUR MANUFACTURING CENTER",
+            "heading_size": "h1"
+          }
+        },
+        "text_ckK6tC": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Protyze Anytime Clear Whey is crafted in our advanced R&D center, ensuring top-notch quality. Unlike white-labeled brands, each batch undergoes rigorous testing and continuous improvement for exceptional results.</p>",
+            "text_style": "body"
+          }
+        }
+      },
+      "block_order": [
+        "heading_DUbcbP",
+        "text_ckK6tC"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/Product_Page_Lander_600_x_400_px.jpg",
+        "height": "small",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "image_behavior": "none",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "left",
+        "section_color_scheme": "scheme-1",
+        "color_scheme": "scheme-1",
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "custom_class": "image-with-text-manfacture"
+      }
+    },
+    "collage_with_text_L4aVYA": {
+      "type": "collage-with-text",
+      "blocks": {
+        "image_pMrMx6": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/nutrition_fact_anytime.webp"
+          }
+        },
+        "column_dNFcwV": {
+          "type": "column",
+          "settings": {
+            "title": "Indian Patented",
+            "text": "<p>Introducing our Patented Clear Whey Protein Isolate an advanced, innovative formula designed for maximum absorption and digestion. This light, refreshing, and easy-to-mix protein supplement is crafted for seamless use anytime, offering a perfect solution for muscle recovery, growth, and everyday performance, helping you elevate your fitness goals.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_AyKpwX": {
+          "type": "column",
+          "settings": {
+            "title": "Our Own State of Art Facility",
+            "before_image": "shopify://shop_images/science_backed_tech-01.png",
+            "text": "<p>Alphacentric Healthcare Pvt Ltd, based in Bangalore, is the proud manufacturer of Protyze, a premium health and wellness brand. With a commitment to quality and innovation, we bring you scientifically formulated products that empower your journey to a healthier, happier life.</p>",
+            "link_label": "",
+            "link": "",
+            "after_image2": "shopify://shop_images/ISO.png",
+            "after_image4": "shopify://shop_images/FSSAI_2.png"
+          }
+        }
+      },
+      "block_order": [
+        "image_pMrMx6",
+        "column_dNFcwV",
+        "column_AyKpwX"
+      ],
+      "settings": {
+        "heading": "",
+        "heading_size": "h1",
+        "span_text": "",
+        "desktop_layout": "left",
+        "mobile_layout": "column",
+        "card_styles": "product-card-wrapper",
+        "color_scheme": "scheme-2",
+        "enable_quick_add": false,
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "custom_class": "collage-with-text"
+      }
+    },
+    "image_with_text_tzeMq9": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_gYegMm": {
+          "type": "heading",
+          "settings": {
+            "heading": "Recommended Serving",
+            "heading_size": "h1"
+          }
+        },
+        "text_LTgjzp": {
+          "type": "text",
+          "settings": {
+            "text": "<p><strong>Dosage: </strong>For optimal results, consume Protyze Anytime Clear Whey Protein according to your fitness goals. Generally, take one scoop with water for post-workout or as a protein supplement.</p><p><strong>Preparation: </strong>Shake one scoop of Protyze Anytime Clear Whey Protein with water for a juicy & refreshing protein-packed drink to fuel your fitness.</p><p><strong>Consumption: </strong>Experience the benefits of Protyze Anytime Clear Whey Protein by consuming one scoop either in your pre, intra or post-workout as a convenient protein supplement. Elevate your nutrition with this transparent and effective protein solution.</p>",
+            "text_style": "body"
+          }
+        }
+      },
+      "block_order": [
+        "heading_gYegMm",
+        "text_LTgjzp"
+      ],
+      "disabled": true,
+      "settings": {
+        "image": "shopify://shop_images/how_to_make_image.webp",
+        "height": "medium",
+        "desktop_image_width": "medium",
+        "layout": "text_first",
+        "image_behavior": "none",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "left",
+        "section_color_scheme": "scheme-1",
+        "color_scheme": "scheme-1",
+        "padding_top": 20,
+        "padding_bottom": 8,
+        "custom_class": "image-with-text-recommended"
+      }
+    },
+    "grid_banner_RQT9hp": {
+      "type": "grid-banner",
+      "blocks": {
+        "text_XywbMz": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/clear_whey_making_banner_image.jpg",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_Ng4bKm": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/pouch_image.jpg",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_qbtjWV": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/juice_image.jpg",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_XH9dyw": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/scoop_image.jpg",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_Rqitp3": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/shake_image.jpg",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_dfNFNJ": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/clock_image.jpg",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_tneLUw": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/drink_glass_image.jpg",
+            "show_content": false,
+            "block_title": "",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        }
+      },
+      "block_order": [
+        "text_XywbMz",
+        "text_Ng4bKm",
+        "text_qbtjWV",
+        "text_XH9dyw",
+        "text_Rqitp3",
+        "text_dfNFNJ",
+        "text_tneLUw"
+      ],
+      "name": "t:sections.grid-banner.presets.name",
+      "settings": {
+        "title": "",
+        "heading_size": "h1",
+        "span_text": "",
+        "image_width": "full",
+        "button_label": "",
+        "button_link": "",
+        "column_alignment": "center",
+        "background_style": "none",
+        "grid-column": "4",
+        "column_gap": "30",
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "custom_class": "grid-image-making-image",
+        "swiper_enable": false,
+        "desktop_column": 4,
+        "laptop_column": 4,
+        "tablet_column": 3,
+        "mobile_column": 1,
+        "centered_slide": false,
+        "swiper_pagination": false,
+        "swiper_navigation": false
+      }
+    },
+    "grid_banner_wybDH6": {
+      "type": "grid-banner",
+      "blocks": {
+        "text_aPGtwq": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/influencer_image1.webp",
+            "show_content": false,
+            "block_title": "Title",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_TrNbwJ": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/infulencer_image-5.webp",
+            "show_content": false,
+            "block_title": "Title",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_T8wAQf": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/infulencer_image-1.webp",
+            "show_content": false,
+            "block_title": "Title",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_wearmm": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/influencer_image2.webp",
+            "show_content": false,
+            "block_title": "Title",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_YhTRVN": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/infulencer_image-9.webp",
+            "show_content": false,
+            "block_title": "Title",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_7XCHCL": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/influencer_image3.webp",
+            "show_content": false,
+            "block_title": "Title",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_GPN9FJ": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/infulencer_image-11.webp",
+            "show_content": false,
+            "block_title": "Title",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_FQzHxP": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/infulencer_image-10.webp",
+            "show_content": false,
+            "block_title": "Title",
+            "enable_title_link": false,
+            "block_sub_title": "",
+            "block_description": "",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        }
+      },
+      "block_order": [
+        "text_aPGtwq",
+        "text_TrNbwJ",
+        "text_T8wAQf",
+        "text_wearmm",
+        "text_YhTRVN",
+        "text_7XCHCL",
+        "text_GPN9FJ",
+        "text_FQzHxP"
+      ],
+      "settings": {
+        "title": "TRUSTED BY OUR FITNESS ENTHUSIASTS",
+        "heading_size": "h1",
+        "span_text": "",
+        "image_width": "full",
+        "button_label": "",
+        "button_link": "",
+        "column_alignment": "center",
+        "background_style": "none",
+        "grid-column": "4",
+        "column_gap": "30",
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "custom_class": "",
+        "swiper_enable": true,
+        "desktop_column": 4,
+        "laptop_column": 4,
+        "tablet_column": 2,
+        "mobile_column": 2,
+        "centered_slide": false,
+        "swiper_pagination": false,
+        "swiper_navigation": false
+      }
+    },
+    "collapsible_content_7TKPdU": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_row_76epJh": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "1. Can I take whey protein everyday ?",
+            "icon": "none",
+            "row_content": "<p>Yes, you can take whey protein daily to support muscle recovery and growth. It's a convenient and effective way to meet your protein needs, aiding overall fitness and well-being.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_g7m67n": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "2. What happens after stopping whey protein ?",
+            "icon": "none",
+            "row_content": "<p>After discontinuing whey protein, your body retains muscle gains if you maintain a balanced diet and regular exercise. Adjust your protein intake from whole foods for sustained results. </p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_hiULQq": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "3. How many times a day can I take protein powder ?",
+            "icon": "none",
+            "row_content": "<p>Optimal protein intake depends on your goals and lifestyle. Generally, consume protein powder 1 times a day to support muscle growth, recovery, and overall nutritional needs. </p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_8Bc3RD": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "4. Where do the amino acids in protyze anytime Whey come from ?",
+            "icon": "none",
+            "row_content": "<p>The amino acids in Protyze Anytime Clear Whey are sourced from high-quality whey protein, providing a complete profile of essential amino acids vital for muscle repair, recovery, and growth. </p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_x8x6nd": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "5. Do your products contain banned substances ?",
+            "icon": "none",
+            "row_content": "<p>No, our products are rigorously tested to ensure they are free from banned substances. We prioritize safety and quality, offering you trusted supplements for your health and fitness journey.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_KYKEg8": {
+          "type": "collapsible_row",
+          "disabled": true,
+          "settings": {
+            "heading": "6. Can I take whey protein everyday?",
+            "icon": "none",
+            "row_content": "<p>Yes, it's safe to consume whey protein daily as it provides essential amino acids crucial for muscle repair and growth, supporting your fitness goals effectively. Protyze clear whey protein is free from artificial colors, low in carbs, 99% lactose-free, fat-free, and contains zero added sugar which is ideal for fitness enthusiasts.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_tN4Xpc": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "6. Can i make clear protein drink with 100 ml water?",
+            "icon": "none",
+            "row_content": "<p>No, to prepare the clear protein drink you must take a minimum of 300 ml of water add one scoop shake it vigorously, and let it rest for 30-50 sec for the foam to settle, and then your drink is ready.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_76epJh",
+        "collapsible_row_g7m67n",
+        "collapsible_row_hiULQq",
+        "collapsible_row_8Bc3RD",
+        "collapsible_row_x8x6nd",
+        "collapsible_row_KYKEg8",
+        "collapsible_row_tN4Xpc"
+      ],
+      "disabled": true,
+      "settings": {
+        "caption": "",
+        "heading": "FAQ'S",
+        "heading_size": "h1",
+        "heading_alignment": "left",
+        "layout": "section",
+        "container_color_scheme": "scheme-2",
+        "color_scheme": "scheme-2",
+        "open_first_collapsible_row": true,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "faq_section_XwTRYp": {
+      "type": "faq-section",
+      "blocks": {
+        "collapsible_row_9cyttX": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "1. Can I take whey protein everyday ?",
+            "icon": "none",
+            "row_content": "<p>Yes, you can take whey protein daily to support muscle recovery and growth. It's a convenient and effective way to meet your protein needs, aiding overall fitness and well-being.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_7DfNpA": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "2. What happens after stopping whey protein ?",
+            "icon": "none",
+            "row_content": "<p>After discontinuing whey protein, your body retains muscle gains if you maintain a balanced diet and regular exercise. Adjust your protein intake from whole foods for sustained results.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_6iUDxC": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "3. How many times a day can I take protein powder ?",
+            "icon": "none",
+            "row_content": "<p>Optimal protein intake depends on your goals and lifestyle. Generally, consume protein powder 1 times a day to support muscle growth, recovery, and overall nutritional needs.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_FH6NG8": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "4. Where do the amino acids in protyze anytime Whey come from ?",
+            "icon": "none",
+            "row_content": "<p>The amino acids in Protyze Anytime Clear Whey are sourced from high-quality whey protein, providing a complete profile of essential amino acids vital for muscle repair, recovery, and growth.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_Wix7gW": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "5. Do your products contain banned substances ?",
+            "icon": "none",
+            "row_content": "<p>No, our products are rigorously tested to ensure they are free from banned substances. We prioritize safety and quality, offering you trusted supplements for your health and fitness journey.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_TwnxUL": {
+          "type": "collapsible_row",
+          "disabled": true,
+          "settings": {
+            "heading": "6. Can I take whey protein everyday?",
+            "icon": "none",
+            "row_content": "<p>Yes, it's safe to consume whey protein daily as it provides essential amino acids crucial for muscle repair and growth, supporting your fitness goals effectively. Protyze clear whey protein is free from artificial colors, low in carbs, 99% lactose-free, fat-free, and contains zero added sugar which is ideal for fitness enthusiasts.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_bxiWai": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "6. Can i make clear protein drink with 100 ml water?",
+            "icon": "none",
+            "row_content": "<p>No, to prepare the clear protein drink you must take a minimum of 300 ml of water add one scoop shake it vigorously, and let it rest for 30-50 sec for the foam to settle, and then your drink is ready.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_9cyttX",
+        "collapsible_row_7DfNpA",
+        "collapsible_row_6iUDxC",
+        "collapsible_row_FH6NG8",
+        "collapsible_row_Wix7gW",
+        "collapsible_row_TwnxUL",
+        "collapsible_row_bxiWai"
+      ],
+      "settings": {
+        "caption": "",
+        "heading": "FAQ'S",
+        "heading_size": "h1",
+        "span_text": "",
+        "heading_alignment": "center",
+        "layout": "section",
+        "color_scheme": "scheme-2",
+        "container_color_scheme": "",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 4,
+        "padding_bottom": 8
+      }
+    },
+    "17133320016c7f51c9": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_review_widget_PXCFb7": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "review_data": "sample_data",
+            "max_width": 1200,
+            "show_shop_reviews": false,
+            "empty_state": "empty_widget"
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_PXCFb7"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "disabled": true,
+      "settings": {
+        "heading": "Recommended Products",
+        "heading_size": "h1",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "standard",
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "featured_collection_Mtzbbk": {
+      "type": "featured-collection",
+      "name": "t:sections.featured-collection.presets.name",
+      "settings": {
+        "collection": "best-selling-clear-protein",
+        "products_to_show": 4,
+        "title": "Best Seller",
+        "heading_size": "h1",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 4,
+        "enable_desktop_slider": false,
+        "full_width": false,
+        "show_view_all": false,
+        "view_all_style": "solid",
+        "color_scheme": "scheme-857886e4-62eb-4ba7-bbc8-cc1ef484ba97",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "standard",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "breadcrumb_egFdac",
+    "main",
+    "brand_logo_6TeHHb",
+    "1717676116638cc108",
+    "number_counter_XYQ9zT",
+    "image_with_text_htbiq4",
+    "image_with_text_ADkUXN",
+    "grid_banner_DUXqdE",
+    "image_with_text_HMxMbB",
+    "rich_text_dpY9KC",
+    "grid_banner_fqxWay",
+    "image_with_text_pB9XMG",
+    "collage_with_text_L4aVYA",
+    "image_with_text_tzeMq9",
+    "grid_banner_RQT9hp",
+    "grid_banner_wybDH6",
+    "collapsible_content_7TKPdU",
+    "faq_section_XwTRYp",
+    "17133320016c7f51c9",
+    "related-products",
+    "featured_collection_Mtzbbk"
+  ]
+}

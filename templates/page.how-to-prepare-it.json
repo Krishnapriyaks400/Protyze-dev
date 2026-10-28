@@ -1,0 +1,405 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "prep_steps_banner_Qg966z": {
+      "type": "prep-steps-banner",
+      "blocks": {
+        "stat_rUdzdY": {
+          "type": "stat",
+          "settings": {
+            "value": "300–400ml",
+            "label": "water"
+          }
+        },
+        "stat_Jdhmfa": {
+          "type": "stat",
+          "settings": {
+            "value": "1 scoop",
+            "label": "level 33g"
+          }
+        },
+        "stat_Mx6Ayc": {
+          "type": "stat",
+          "settings": {
+            "value": "30–40s",
+            "label": "shake"
+          }
+        },
+        "stat_NFi9BF": {
+          "type": "stat",
+          "settings": {
+            "value": "1 min+",
+            "label": "rest"
+          }
+        }
+      },
+      "block_order": [
+        "stat_rUdzdY",
+        "stat_Jdhmfa",
+        "stat_Mx6Ayc",
+        "stat_NFi9BF"
+      ],
+      "name": "Prep steps banner",
+      "settings": {
+        "eyebrow": "How to prepare it",
+        "heading": "A clear, refreshing shake in 30 seconds.",
+        "heading_size": "h1",
+        "subtitle": "<p>No blender. No clumps. Just water, one scoop and a shaker — then a short rest while the foam settles.</p>",
+        "image": "shopify://shop_images/img_1_section_1.avif",
+        "image_width": 420,
+        "color_scheme": "scheme-c02b38ee-c791-4d98-b18a-18922b5fe443",
+        "background_color": "",
+        "eyebrow_color": "#f15524",
+        "subtitle_color": "",
+        "card_background_color": "#fff9dd",
+        "card_heading_color": "#f15524",
+        "card_description_color": "",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "custom_class": ""
+      }
+    },
+    "video_MzTwQL": {
+      "type": "video",
+      "name": "t:sections.video.presets.name",
+      "settings": {
+        "heading": "The 30-second method",
+        "heading_size": "h1",
+        "enable_video_looping": false,
+        "video_url": "https://youtu.be/P9Q7eXI80e4?si=iY1g5TBRbQig39kk",
+        "cover_image": "shopify://shop_images/yt_thumbanail.avif",
+        "description": "Preparation Video",
+        "full_width": false,
+        "color_scheme": "scheme-84285399-6321-4a7f-a7a4-14c9dfa98463",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "requirements_list_9QNRLj": {
+      "type": "requirements-list",
+      "blocks": {
+        "item_4GCBkw": {
+          "type": "item",
+          "settings": {
+            "icon": "shopify://shop_images/icon_1.png",
+            "title": "A shaker or bottle",
+            "description": "Any shaker works. A blender ball is optional — it mixes clear without one."
+          }
+        },
+        "item_HgfFPD": {
+          "type": "item",
+          "settings": {
+            "icon": "shopify://shop_images/icon2.png",
+            "title": "300–400ml water",
+            "description": "Regular water is enough for a smooth, refreshing drink."
+          }
+        },
+        "item_DCDWPQ": {
+          "type": "item",
+          "settings": {
+            "icon": "shopify://shop_images/icon3.png",
+            "title": "One level scoop or sachet",
+            "description": "Use one level scoop or one sachet for the recommended serving."
+          }
+        }
+      },
+      "block_order": [
+        "item_4GCBkw",
+        "item_HgfFPD",
+        "item_DCDWPQ"
+      ],
+      "name": "Requirements list",
+      "settings": {
+        "subtext": "",
+        "heading": "What you need",
+        "intro_description": "",
+        "color_scheme": "scheme-c02b38ee-c791-4d98-b18a-18922b5fe443",
+        "background_color": "",
+        "card_background_color": "#fff9dd",
+        "subtext_color": "",
+        "title_color": "",
+        "description_color": "",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "custom_class": ""
+      }
+    },
+    "step_guide_jHhHqg": {
+      "type": "step-guide",
+      "blocks": {
+        "step_wUDng4": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/o55wtbuqi4e9zcuagyhv.avif",
+            "caption": "<p>Pour 300–400 ml <strong>water</strong> into a shaker.</p>",
+            "link": ""
+          }
+        },
+        "step_PXDF8E": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/rjl7wsovprncqyqykyi8.avif",
+            "caption": "<p>Add 1 scoop or sachet of <strong>Protyze Clear Whey Protein</strong>.</p>",
+            "link": ""
+          }
+        },
+        "step_nRPcXL": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/hwxhlywxttbt9rml6xad.avif",
+            "caption": "<p><strong>Shake well</strong> for 30–40 seconds.</p>",
+            "link": ""
+          }
+        },
+        "step_HiWrG9": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/plb7nn99fsxv61w2srbl.avif",
+            "caption": "<p>Let it rest for <strong>more than 1 minute</strong> for the foam to settle.</p>",
+            "link": ""
+          }
+        },
+        "step_kLJGRn": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/Artboard_2_copy_5_1.png",
+            "caption": "<p>Sip and enjoy your refreshing <strong>protein drink</strong>.<br/></p>",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "step_wUDng4",
+        "step_PXDF8E",
+        "step_nRPcXL",
+        "step_HiWrG9",
+        "step_kLJGRn"
+      ],
+      "name": "Step guide",
+      "settings": {
+        "subtext": "",
+        "heading": "Five steps to a clear, refreshing shake",
+        "intro_description": "",
+        "tip_title": "Pro Tip",
+        "tip_text": "<p>For an even more refreshing experience, add ice cubes or chill your prepared drink in the refrigerator for 10–15 minutes before serving.</p>",
+        "color_scheme": "scheme-84285399-6321-4a7f-a7a4-14c9dfa98463",
+        "background_color": "",
+        "subtext_color": "",
+        "card_background_color": "",
+        "caption_color": "",
+        "tip_background_color": "#f15524",
+        "tip_text_color": "#ffffff",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "custom_class": ""
+      }
+    },
+    "requirements_list_gyEGjm": {
+      "type": "requirements-list",
+      "blocks": {
+        "item_84TLJp": {
+          "type": "item",
+          "settings": {
+            "icon": "shopify://shop_images/icons8-cross-48.png",
+            "title": "Using warm water",
+            "description": "Warm water can increase foaming. Use regular water for the best mixing and refreshing taste."
+          }
+        },
+        "item_B68qE3": {
+          "type": "item",
+          "settings": {
+            "icon": "shopify://shop_images/icons8-cross-48.png",
+            "title": "Too little water",
+            "description": "Using less than 300 ml can make the flavour stronger and the drink less refreshing. Use 300–400 ml of water per serving."
+          }
+        },
+        "item_WJbjwX": {
+          "type": "item",
+          "settings": {
+            "icon": "shopify://shop_images/icons8-cross-48.png",
+            "title": "Blending or stirring with a spoon",
+            "description": "Clear whey is designed to mix easily in a shaker or bottle. Avoid using a blender or spoon, as shaking gives the best consistency."
+          }
+        },
+        "item_iP4BP4": {
+          "type": "item",
+          "settings": {
+            "icon": "shopify://shop_images/icons8-cross-48.png",
+            "title": "Drinking it straight away",
+            "description": "Shake well, then let it rest for more than 1 minute to allow the foam to settle before drinking."
+          }
+        },
+        "item_FXmmgx": {
+          "type": "item",
+          "settings": {
+            "icon": "shopify://shop_images/icons8-cross-48.png",
+            "title": "Mixing with milk",
+            "description": "Milk changes the light, refreshing character of clear whey. Mix with water for the intended taste and texture."
+          }
+        }
+      },
+      "block_order": [
+        "item_84TLJp",
+        "item_B68qE3",
+        "item_WJbjwX",
+        "item_iP4BP4",
+        "item_FXmmgx"
+      ],
+      "name": "Requirements list",
+      "settings": {
+        "subtext": "Troubleshooting",
+        "heading": "Five mistakes to avoid",
+        "intro_description": "",
+        "color_scheme": "scheme-c02b38ee-c791-4d98-b18a-18922b5fe443",
+        "background_color": "",
+        "card_background_color": "#fff9dd",
+        "subtext_color": "#f15524",
+        "title_color": "",
+        "description_color": "",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "custom_class": ""
+      }
+    },
+    "requirements_list_Xt9ETz": {
+      "type": "requirements-list",
+      "blocks": {
+        "item_6tMChV": {
+          "type": "item",
+          "settings": {
+            "title": "Over ice",
+            "description": "Fill the glass with ice and pour over for the most refreshing version — ideal in summer."
+          }
+        },
+        "item_JQiVRa": {
+          "type": "item",
+          "settings": {
+            "title": "Chilled in the fridge",
+            "description": "Prepare it and rest it in the fridge for 10–15 minutes before drinking."
+          }
+        },
+        "item_eDaVQN": {
+          "type": "item",
+          "settings": {
+            "title": "Intra-workout",
+            "description": "Sip through your session — it clears the stomach fast and won't sit heavy."
+          }
+        },
+        "item_UFVDx3": {
+          "type": "item",
+          "settings": {
+            "title": "Post-workout",
+            "description": "Straight after training when a creamy shake feels like too much."
+          }
+        },
+        "item_TWmRHX": {
+          "type": "item",
+          "settings": {
+            "title": "Between meals",
+            "description": "A light protein top-up during the working day."
+          }
+        },
+        "item_pRqzg6": {
+          "type": "item",
+          "settings": {
+            "title": "Sparkling water",
+            "description": "Top it up with sparkling water for a refreshing, soda-style drink."
+          }
+        }
+      },
+      "block_order": [
+        "item_6tMChV",
+        "item_JQiVRa",
+        "item_eDaVQN",
+        "item_UFVDx3",
+        "item_TWmRHX",
+        "item_pRqzg6"
+      ],
+      "name": "Requirements list",
+      "settings": {
+        "subtext": "",
+        "heading": "Ways to serve it",
+        "intro_description": "",
+        "color_scheme": "scheme-680e6a53-f05c-40ec-a3b0-8b736094b76e",
+        "background_color": "",
+        "card_background_color": "#172730",
+        "subtext_color": "#f15524",
+        "title_color": "",
+        "description_color": "",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "custom_class": ""
+      }
+    },
+    "badge_text_card_akLUhH": {
+      "type": "badge-text-card",
+      "blocks": {
+        "heading_G69zkb": {
+          "type": "heading",
+          "settings": {
+            "heading": "Ready to mix your first one?"
+          }
+        },
+        "text_Bwbffr": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Eight fruit-inspired flavours, 24g of whey isolate per serving.</p>"
+          }
+        },
+        "button_7imNKH": {
+          "type": "button",
+          "settings": {
+            "button_label": "Shop Clear Whey",
+            "button_link": "shopify://collections/clear-whey-isolate"
+          }
+        }
+      },
+      "block_order": [
+        "heading_G69zkb",
+        "text_Bwbffr",
+        "button_7imNKH"
+      ],
+      "name": "Badge text card",
+      "settings": {
+        "card_max_width": 900,
+        "color_scheme": "scheme-c02b38ee-c791-4d98-b18a-18922b5fe443",
+        "background_color": "",
+        "card_background_color": "#fff9dd",
+        "text_color": "",
+        "badge_background_color": "",
+        "badge_text_color": "",
+        "button_background_color": "#f15524",
+        "button_text_color": "#ffffff",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "custom_class": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "prep_steps_banner_Qg966z",
+    "video_MzTwQL",
+    "requirements_list_9QNRLj",
+    "step_guide_jHhHqg",
+    "requirements_list_gyEGjm",
+    "requirements_list_Xt9ETz",
+    "badge_text_card_akLUhH"
+  ]
+}

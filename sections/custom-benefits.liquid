@@ -1,0 +1,264 @@
+
+{% style %}
+    .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.50 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.50 | round: 0 }}px;
+  }
+   @media screen and (min-width: 576px) and (max-width: 749px){
+   .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+   }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .custom-benefits-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 1200px;
+    margin: auto;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .custom-benefits-icons {
+    flex: 1 1 250px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .custom-benefits-media {
+    flex: 1 1 350px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .custom-benefits-media img , .custom-benefits-media video {
+    max-width: 100%;
+    border-radius: 12px;
+    min-height: 400px;
+    height: 400px;
+    width: auto;
+  }
+
+  .custom-benefit {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .custom-benefit img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+  }
+
+  .custom-benefit h3 {
+    margin: 0 0 4px;
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .custom-benefit p {
+    margin: 0;
+    font-size: 15px;
+  }
+
+  .custom-benefits-icons.left-column .custom-benefit{
+    flex-direction: row-reverse;
+  }
+
+  .custom-benefits-icons.left-column .custom-content-benefit{
+    text-align: right;
+  }
+
+
+  @media screen and (max-width: 768px) {
+    .custom-benefits-wrapper {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .custom-benefits-icons {
+      align-items: center;
+    }
+
+    .custom-benefit {
+      flex-direction: row;
+      align-items: center;
+      text-align: center;
+    }
+
+    .custom-benefit img {
+      margin-bottom: 10px;
+    }
+    .custom-benefits-icons.left-column .custom-benefit{
+    flex-direction: row;
+  }
+
+  .custom-benefits-icons.left-column .custom-content-benefit , .custom-benefits-icons.right-column .custom-content-benefit{
+    text-align: left;
+  }
+  }
+{% endstyle %}
+
+<div class="custom-benefits-section {{ section.settings.custom_class }} color-{{ section.settings.color_scheme }} gradient{% if section.settings.title == blank %} no-heading{% endif %} {{ section.settings.custom_class_name }} ">
+ <div class="{% if section.settings.page_full_width %} page-full-width {% else %} page-width {% endif %} {% if section.settings.page_full_width_spacing %} page-full-width_spacing {% endif %}section-{{ section.id }}-padding isolate grid-banner-padding">
+  <div class="custom-benefits-wrapper">
+
+    <!-- LEFT BLOCKS (first 3) -->
+    <div class="custom-benefits-icons left-column">
+      {% for block in section.blocks limit: 3 %}
+        <div class="custom-benefit" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <img src="{{ block.settings.icon | image_url: width: 100 }}" alt="" loading="lazy" width="100%" height="100%">
+          <div class="custom-content-benefit">
+            <h3 itemprop="name">{{ block.settings.title }}</h3>
+            <p itemprop="description">{{ block.settings.text }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- CENTER IMAGE/VIDEO -->
+    <div class="custom-benefits-media">
+     {% if section.settings.video_url != blank and section.settings.show_video %}
+        <video autoplay loop muted playsinline>
+          <source src="{{ section.settings.video_url }}" type="video/mp4">
+        </video>
+      {% elsif section.settings.image != blank %}
+        <img src="{{ section.settings.image | image_url: width: 800 }}" alt="Benefits Visual" width="100%" height="100%">
+      {% endif %}
+    </div>
+
+    <!-- RIGHT BLOCKS (remaining blocks) -->
+    <div class="custom-benefits-icons right-column">
+      {% for block in section.blocks offset:3 %}
+        <div class="custom-benefit" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <img src="{{ block.settings.icon | image_url: width: 100 }}" alt="" loading="lazy" width="100%" height="100%">
+          <div class="custom-content-benefit">
+            <h3 itemprop="name">{{ block.settings.title }}</h3>
+            <p itemprop="description">{{ block.settings.text }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+  </div>
+  </div>
+
+  </div>
+
+{% schema %}
+{
+  "name": "Custom Benefits",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Fallback Image"
+    },
+    {
+      "type": "url",
+      "id": "video_url",
+      "label": "Video URL"
+    },
+        {
+      "type": "checkbox",
+      "id": "show_video",
+      "label": "Show video",
+      "default": false
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+     {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "t:sections.slideshow.settings.custom_class.label",
+      "info": "t:sections.slideshow.settings.custom_class.info"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Description"
+        },
+        {
+          "type": "select",
+          "id": "position",
+          "label": "Column Position",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Custom Benefits",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
+

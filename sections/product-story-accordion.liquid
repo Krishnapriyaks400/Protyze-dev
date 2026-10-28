@@ -1,0 +1,1080 @@
+{{ 'product-story-accordion.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign ps_accent = section.settings.accent_color
+  if ps_accent == blank and product
+    assign ps_accent = product.metafields.custom.flavour_color.value
+  endif
+  if ps_accent == blank
+    assign ps_accent = '#e07b28'
+  endif
+
+  assign ps_card_text = section.settings.card_text_color | default: '#ffffff'
+  assign ps_fg_r = ps_card_text | color_extract: 'red'
+  assign ps_fg_g = ps_card_text | color_extract: 'green'
+  assign ps_fg_b = ps_card_text | color_extract: 'blue'
+-%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  .ps-{{ section.id }} {
+    --ps-accent: {{ ps_accent }};
+    --ps-card-bg: {{ section.settings.card_bg_color | default: '#241e1a' }};
+    --ps-card-fg: {{ ps_fg_r }}, {{ ps_fg_g }}, {{ ps_fg_b }};
+    --ps-cols: {{ section.settings.columns_desktop }};
+    {% if section.settings.background_color != blank %}background-color: {{ section.settings.background_color }};{% endif %}
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="ps-{{ section.id }} color-{{ section.settings.color_scheme }} gradient">
+  <div class="product-story page-width section-{{ section.id }}-padding">
+    {%- if section.settings.caption != blank or section.settings.heading != blank -%}
+      <div class="ps__head">
+        {%- if section.settings.caption != blank -%}
+          <p class="ps__caption">{{ section.settings.caption | escape }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="ps__heading">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Every card is pinned to the board and always shows its content. {%- endcomment -%}
+    <div class="ps__cards">
+      {%- for block in section.blocks -%}
+        {%- assign ps_pin = block.settings.pin_color | default: ps_accent -%}
+        <article
+          id="story-{{ block.type }}"
+          class="ps__card"
+          {{ block.shopify_attributes }}
+          style="--ps-pin: {{ ps_pin }};{% if block.settings.card_bg_color != blank %} --ps-item-bg: {{ block.settings.card_bg_color }};{% endif %}"
+        >
+          <span class="ps__pin" aria-hidden="true"></span>
+          <div class="ps__card-head">
+            <h3 class="ps__card-title">{{ block.settings.heading | escape }}</h3>
+            {%- if block.settings.badge_text != blank -%}
+              <span class="ps__card-badge">{{ block.settings.badge_text | escape }}</span>
+            {%- endif -%}
+          </div>
+          {%- if block.settings.subtitle != blank -%}
+            <p class="ps__card-sub">{{ block.settings.subtitle | escape }}</p>
+          {%- endif -%}
+
+          <div class="product-story__content">
+{%- case block.type -%}
+
+                {%- when 'description' -%}
+                  <div class="product-story__description rte">
+                    {%- if block.settings.use_product_description -%}
+                      {{ product.description }}
+                    {%- else -%}
+                      {{ block.settings.custom_description }}
+                    {%- endif -%}
+                  </div>
+
+                {%- when 'benefits' -%}
+                  <div class="product-story__benefits">
+                    <div class="product-story__benefit-grid">
+                      {%- for i in (1..6) -%}
+                        {%- liquid
+                          assign b_title_key = 'benefit_' | append: i | append: '_title'
+                          assign b_desc_key = 'benefit_' | append: i | append: '_desc'
+                          assign b_icon_key = 'benefit_' | append: i | append: '_icon'
+                          assign b_color_key = 'benefit_' | append: i | append: '_color'
+                          assign b_title = block.settings[b_title_key]
+                          assign b_desc = block.settings[b_desc_key]
+                          assign b_icon = block.settings[b_icon_key]
+                          assign b_color = block.settings[b_color_key]
+                        -%}
+                        {%- if b_title != blank -%}
+                          <div class="product-story__benefit">
+                            <span
+                              class="product-story__benefit-icon"
+                              {% if b_color != blank %}
+                                style="--benefit-bg: {{ b_color }};"
+                              {% endif %}
+                            >
+                              {%- if b_icon != blank -%}
+                                {{ b_icon | image_url: width: 96 | image_tag: widths: '48, 72, 96', loading: 'lazy' }}
+                              {%- endif -%}
+                            </span>
+                            <div class="product-story__benefit-body">
+                              <p class="product-story__benefit-title">{{ b_title | escape }}</p>
+                              {%- if b_desc != blank -%}
+                                <p class="product-story__benefit-desc">{{ b_desc | escape }}</p>
+                              {%- endif -%}
+                            </div>
+                          </div>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </div>
+
+                    {%- if block.settings.points != blank -%}
+                      {%- assign points = block.settings.points | newline_to_br | split: '<br />' -%}
+                      <ul class="product-story__points">
+                        {%- for point in points -%}
+                          {%- assign point_text = point | strip -%}
+                          {%- if point_text != blank -%}
+                            <li>{{ point_text | escape }}</li>
+                          {%- endif -%}
+                        {%- endfor -%}
+                      </ul>
+                    {%- endif -%}
+                  </div>
+
+                {%- when 'ingredients' -%}
+                  {%- assign ing_lines = block.settings.items | newline_to_br | split: '<br />' -%}
+                  {%- assign ing_n = 0 -%}
+                  <ol class="ps__ingredients">
+                    {%- for line in ing_lines -%}
+                      {%- assign ing_line = line | strip -%}
+                      {%- if ing_line != blank -%}
+                        {%- liquid
+                          assign ing_n = ing_n | plus: 1
+                          assign ing_parts = ing_line | split: '|'
+                          assign ing_name = ing_parts[0] | strip
+                          assign ing_note = ing_parts[1] | strip
+                          assign ing_desc = ing_parts[2] | strip
+                        -%}
+                        <li class="ps__ingredient">
+                          <span class="ps__ingredient-num" aria-hidden="true">{{ ing_n | prepend: '0' | slice: -2, 2 }}</span>
+                          <div>
+                            <p class="ps__ingredient-name">
+                              {{- ing_name | escape -}}
+                              {%- if ing_note != blank -%}
+                                <span class="ps__ingredient-note"> · {{ ing_note | escape }}</span>
+                              {%- endif -%}
+                            </p>
+                            {%- if ing_desc != blank -%}
+                              <p class="ps__ingredient-desc">{{ ing_desc | escape }}</p>
+                            {%- endif -%}
+                          </div>
+                        </li>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </ol>
+
+                {%- when 'richtext' -%}
+                  <div class="product-story__richtext rte">
+                    {{ block.settings.content }}
+                  </div>
+
+                {%- when 'steps' -%}
+                  <ol class="product-story__steps">
+                    {%- assign step_number = 0 -%}
+                    {%- for i in (1..6) -%}
+                      {%- liquid
+                        assign step_text_key = 'step_' | append: i | append: '_text'
+                        assign step_title_key = 'step_' | append: i | append: '_title'
+                        assign step_icon_key = 'step_' | append: i | append: '_icon'
+                        assign step_text = block.settings[step_text_key]
+                        assign step_title = block.settings[step_title_key]
+                        assign step_icon = block.settings[step_icon_key]
+                      -%}
+                      {%- if step_text != blank -%}
+                        {%- assign step_number = step_number | plus: 1 -%}
+                        <li class="product-story__step">
+                          <span class="product-story__step-number" aria-hidden="true">{{ step_number }}</span>
+                          {%- if step_icon != blank -%}
+                            <span class="product-story__step-icon">
+                              {{ step_icon | image_url: width: 120 | image_tag: widths: '60, 90, 120', loading: 'lazy' }}
+                            </span>
+                          {%- endif -%}
+                          <div class="product-story__step-body">
+                            {%- if step_title != blank -%}
+                              <p class="product-story__step-title">{{ step_title | escape }}</p>
+                            {%- endif -%}
+                            <p class="product-story__step-text">{{ step_text | escape }}</p>
+                          </div>
+                        </li>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </ol>
+
+                {%- when 'comparison' -%}
+                  <div class="product-story__comparison">
+                    <table class="product-story__table">
+                      <thead>
+                        <tr>
+                          <th class="product-story__th product-story__th--feature">{{ block.settings.feature_label | default: 'Feature' | escape }}</th>
+                          <th class="product-story__th product-story__th--col1">{{ block.settings.column1_label | default: 'Clear Whey' | escape }}</th>
+                          <th class="product-story__th product-story__th--col2">{{ block.settings.column2_label | default: 'Regular Whey' | escape }}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {%- for i in (1..6) -%}
+                          {%- assign row_feature_key = 'row_' | append: i | append: '_feature' -%}
+                          {%- assign row_col1_key = 'row_' | append: i | append: '_col1' -%}
+                          {%- assign row_col2_key = 'row_' | append: i | append: '_col2' -%}
+                          {%- assign row_feature = block.settings[row_feature_key] -%}
+                          {%- if row_feature != blank -%}
+                            <tr>
+                              <td class="product-story__td product-story__td--feature">{{ row_feature | escape }}</td>
+                              <td class="product-story__td product-story__td--col1">{{ block.settings[row_col1_key] | escape }}</td>
+                              <td class="product-story__td product-story__td--col2">{{ block.settings[row_col2_key] | escape }}</td>
+                            </tr>
+                          {%- endif -%}
+                        {%- endfor -%}
+                      </tbody>
+                    </table>
+                    {%- if block.settings.table_footnote != blank -%}
+                      <p class="product-story__footnote">{{ block.settings.table_footnote }}</p>
+                    {%- endif -%}
+                  </div>
+
+              {%- endcase -%}
+          </div>
+
+          {%- if block.settings.button_label != blank -%}
+            <a
+              class="ps__card-link"
+              {% if block.settings.button_link != blank %}
+                href="{{ block.settings.button_link }}"
+              {% else %}
+                href="#" aria-disabled="true"
+              {% endif %}
+            >
+              {{- block.settings.button_label | escape }}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <path d="M4 12h16M14 6l6 6-6 6"/>
+              </svg>
+            </a>
+          {%- endif -%}
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product Story Cards",
+  "tag": "section",
+  "class": "section",
+  "enabled_on": {
+    "templates": [
+      "product"
+    ]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "caption",
+      "label": "Caption",
+      "info": "Small label above the heading. Leave empty to hide.",
+      "default": "Shop by goal"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "What are you working on?"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Cards per row (desktop)",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Colours"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background (the board)",
+      "info": "Optional. Overrides the colour scheme background."
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card background",
+      "default": "#241e1a"
+    },
+    {
+      "type": "color",
+      "id": "card_text_color",
+      "label": "Card text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent colour",
+      "info": "Default pin colour, list dots and step numbers. Leave empty to use the product's custom.flavour_color metafield."
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 52
+    }
+  ],
+  "blocks": [
+    {
+      "type": "description",
+      "name": "Product Description",
+      "settings": [
+        {
+          "type": "color",
+          "id": "card_bg_color",
+          "label": "Card background (optional)",
+          "info": "Overrides the section card colour for this card."
+        },
+        {
+          "type": "color",
+          "id": "pin_color",
+          "label": "Pin colour",
+          "info": "Leave empty to use the accent colour."
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Card title",
+          "default": "Description"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Card subtitle"
+        },
+        {
+          "type": "checkbox",
+          "id": "use_product_description",
+          "label": "Use product description",
+          "info": "Pull description from the product page automatically",
+          "default": true
+        },
+        {
+          "type": "richtext",
+          "id": "custom_description",
+          "label": "Custom description",
+          "info": "Used when 'Use product description' is unchecked"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Link label",
+          "info": "Optional link at the bottom of the card, e.g. \"Anytime Clear Whey\"."
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Link"
+        }
+      ]
+    },
+    {
+      "type": "benefits",
+      "name": "Key Benefits",
+      "settings": [
+        {
+          "type": "color",
+          "id": "card_bg_color",
+          "label": "Card background (optional)",
+          "info": "Overrides the section card colour for this card."
+        },
+        {
+          "type": "color",
+          "id": "pin_color",
+          "label": "Pin colour",
+          "info": "Leave empty to use the accent colour."
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Card title",
+          "default": "Key benefits"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Card subtitle"
+        },
+        {
+          "type": "paragraph",
+          "content": "Benefit cards: use a white/transparent PNG icon (recommended 96 × 96 px). It sits on a coloured tile."
+        },
+        {
+          "type": "header",
+          "content": "Benefit 1"
+        },
+        {
+          "type": "image_picker",
+          "id": "benefit_1_icon",
+          "label": "Icon"
+        },
+        {
+          "type": "color",
+          "id": "benefit_1_color",
+          "label": "Icon tile color",
+          "default": "#e8336d"
+        },
+        {
+          "type": "text",
+          "id": "benefit_1_title",
+          "label": "Title",
+          "default": "Muscle growth and recovery"
+        },
+        {
+          "type": "text",
+          "id": "benefit_1_desc",
+          "label": "Description",
+          "info": "Optional small line under the title."
+        },
+        {
+          "type": "header",
+          "content": "Benefit 2"
+        },
+        {
+          "type": "image_picker",
+          "id": "benefit_2_icon",
+          "label": "Icon"
+        },
+        {
+          "type": "color",
+          "id": "benefit_2_color",
+          "label": "Icon tile color",
+          "default": "#1a8a63"
+        },
+        {
+          "type": "text",
+          "id": "benefit_2_title",
+          "label": "Title",
+          "default": "Helps reduce bloating"
+        },
+        {
+          "type": "text",
+          "id": "benefit_2_desc",
+          "label": "Description",
+          "info": "Optional small line under the title."
+        },
+        {
+          "type": "header",
+          "content": "Benefit 3"
+        },
+        {
+          "type": "image_picker",
+          "id": "benefit_3_icon",
+          "label": "Icon"
+        },
+        {
+          "type": "color",
+          "id": "benefit_3_color",
+          "label": "Icon tile color",
+          "default": "#7b5cf0"
+        },
+        {
+          "type": "text",
+          "id": "benefit_3_title",
+          "label": "Title",
+          "default": "Easy to digest"
+        },
+        {
+          "type": "text",
+          "id": "benefit_3_desc",
+          "label": "Description",
+          "info": "Optional small line under the title."
+        },
+        {
+          "type": "header",
+          "content": "Benefit 4"
+        },
+        {
+          "type": "image_picker",
+          "id": "benefit_4_icon",
+          "label": "Icon"
+        },
+        {
+          "type": "color",
+          "id": "benefit_4_color",
+          "label": "Icon tile color",
+          "default": "#c98a1e"
+        },
+        {
+          "type": "text",
+          "id": "benefit_4_title",
+          "label": "Title",
+          "default": "Rapid absorption"
+        },
+        {
+          "type": "text",
+          "id": "benefit_4_desc",
+          "label": "Description",
+          "info": "Optional small line under the title."
+        },
+        {
+          "type": "header",
+          "content": "Benefit 5"
+        },
+        {
+          "type": "image_picker",
+          "id": "benefit_5_icon",
+          "label": "Icon"
+        },
+        {
+          "type": "color",
+          "id": "benefit_5_color",
+          "label": "Icon tile color",
+          "default": "#e07b28"
+        },
+        {
+          "type": "text",
+          "id": "benefit_5_title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "benefit_5_desc",
+          "label": "Description",
+          "info": "Optional small line under the title."
+        },
+        {
+          "type": "header",
+          "content": "Benefit 6"
+        },
+        {
+          "type": "image_picker",
+          "id": "benefit_6_icon",
+          "label": "Icon"
+        },
+        {
+          "type": "color",
+          "id": "benefit_6_color",
+          "label": "Icon tile color",
+          "default": "#e07b28"
+        },
+        {
+          "type": "text",
+          "id": "benefit_6_title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "benefit_6_desc",
+          "label": "Description",
+          "info": "Optional small line under the title."
+        },
+        {
+          "type": "header",
+          "content": "Bullet list"
+        },
+        {
+          "type": "textarea",
+          "id": "points",
+          "label": "Points",
+          "info": "One point per line. Shown below the benefit cards.",
+          "default": "24g whey protein isolate with 7.2g BCAA and 3.8g leucine per serving.\n99% lactose free, so it stays light on digestion.\nNo gums, thickeners or maltodextrin — mixes clear in water.\n0g added sugar, low carb, around 90 kcal per serving.\n30% higher absorption and 40% more BCAA than regular whey."
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Link label",
+          "info": "Optional link at the bottom of the card, e.g. \"Anytime Clear Whey\"."
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Link"
+        }
+      ]
+    },
+    {
+      "type": "ingredients",
+      "name": "Ingredients list",
+      "settings": [
+        {
+          "type": "color",
+          "id": "card_bg_color",
+          "label": "Card background (optional)",
+          "info": "Overrides the section card colour for this card."
+        },
+        {
+          "type": "color",
+          "id": "pin_color",
+          "label": "Pin colour",
+          "info": "Leave empty to use the accent colour."
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Card title",
+          "default": "Ingredients"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Card subtitle"
+        },
+        {
+          "type": "text",
+          "id": "badge_text",
+          "label": "Handwritten badge",
+          "info": "Small note at the top right, e.g. \"just 5\". Leave empty to hide.",
+          "default": "just 5"
+        },
+        {
+          "type": "textarea",
+          "id": "items",
+          "label": "Ingredients",
+          "info": "One per line, as: Name | code | short description. Code and description are optional, e.g. \"Citric acid | INS 330 | Acidity regulator\".",
+          "default": "Whey Protein Isolate | | The protein. 24g per scoop.\nNatural & nature-identical flavours | | The mango peach taste.\nCitric acid | INS 330 | Acidity regulator for a fresh, tangy finish.\nNatural fruit & vegetable colours | | Gives the drink its colour.\nSucralose | INS 955 | Sweetener, so there's 0g added sugar."
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Link label",
+          "info": "Optional link at the bottom of the card."
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Link"
+        }
+      ]
+    },
+    {
+      "type": "richtext",
+      "name": "Rich Text Content",
+      "settings": [
+        {
+          "type": "color",
+          "id": "card_bg_color",
+          "label": "Card background (optional)",
+          "info": "Overrides the section card colour for this card."
+        },
+        {
+          "type": "color",
+          "id": "pin_color",
+          "label": "Pin colour",
+          "info": "Leave empty to use the accent colour."
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Card title",
+          "default": "Rich Text"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Card subtitle"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Link label",
+          "info": "Optional link at the bottom of the card, e.g. \"Anytime Clear Whey\"."
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Link"
+        }
+      ]
+    },
+    {
+      "type": "steps",
+      "name": "How to Use Steps",
+      "settings": [
+        {
+          "type": "color",
+          "id": "card_bg_color",
+          "label": "Card background (optional)",
+          "info": "Overrides the section card colour for this card."
+        },
+        {
+          "type": "color",
+          "id": "pin_color",
+          "label": "Pin colour",
+          "info": "Leave empty to use the accent colour."
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Card title",
+          "default": "How to use"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Card subtitle"
+        },
+        {
+          "type": "image_picker",
+          "id": "step_1_icon",
+          "label": "Step 1 icon"
+        },
+        {
+          "type": "text",
+          "id": "step_1_title",
+          "label": "Step 1 title",
+          "default": "SCOOP"
+        },
+        {
+          "type": "text",
+          "id": "step_1_text",
+          "label": "Step 1 description",
+          "default": "Add 1 scoop (30g) to your shaker"
+        },
+        {
+          "type": "image_picker",
+          "id": "step_2_icon",
+          "label": "Step 2 icon"
+        },
+        {
+          "type": "text",
+          "id": "step_2_title",
+          "label": "Step 2 title",
+          "default": "POUR"
+        },
+        {
+          "type": "text",
+          "id": "step_2_text",
+          "label": "Step 2 description",
+          "default": "Pour in 250-300ml cold water"
+        },
+        {
+          "type": "image_picker",
+          "id": "step_3_icon",
+          "label": "Step 3 icon"
+        },
+        {
+          "type": "text",
+          "id": "step_3_title",
+          "label": "Step 3 title",
+          "default": "SHAKE"
+        },
+        {
+          "type": "text",
+          "id": "step_3_text",
+          "label": "Step 3 description",
+          "default": "Shake 30-40 seconds until clear"
+        },
+        {
+          "type": "image_picker",
+          "id": "step_4_icon",
+          "label": "Step 4 icon"
+        },
+        {
+          "type": "text",
+          "id": "step_4_title",
+          "label": "Step 4 title",
+          "default": "SIP"
+        },
+        {
+          "type": "text",
+          "id": "step_4_text",
+          "label": "Step 4 description",
+          "default": "Sip post-workout or anytime"
+        },
+        {
+          "type": "image_picker",
+          "id": "step_5_icon",
+          "label": "Step 5 icon"
+        },
+        {
+          "type": "text",
+          "id": "step_5_title",
+          "label": "Step 5 title"
+        },
+        {
+          "type": "text",
+          "id": "step_5_text",
+          "label": "Step 5 description"
+        },
+        {
+          "type": "image_picker",
+          "id": "step_6_icon",
+          "label": "Step 6 icon"
+        },
+        {
+          "type": "text",
+          "id": "step_6_title",
+          "label": "Step 6 title"
+        },
+        {
+          "type": "text",
+          "id": "step_6_text",
+          "label": "Step 6 description"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Link label",
+          "info": "Optional link at the bottom of the card, e.g. \"Anytime Clear Whey\"."
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Link"
+        }
+      ]
+    },
+    {
+      "type": "comparison",
+      "name": "Comparison Table",
+      "settings": [
+        {
+          "type": "color",
+          "id": "card_bg_color",
+          "label": "Card background (optional)",
+          "info": "Overrides the section card colour for this card."
+        },
+        {
+          "type": "color",
+          "id": "pin_color",
+          "label": "Pin colour",
+          "info": "Leave empty to use the accent colour."
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Card title",
+          "default": "Clear Whey vs Regular Whey"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Card subtitle",
+          "default": "Why clear wins for everyday protein"
+        },
+        {
+          "type": "header",
+          "content": "Table headers"
+        },
+        {
+          "type": "text",
+          "id": "feature_label",
+          "label": "Feature column label",
+          "default": "Feature"
+        },
+        {
+          "type": "text",
+          "id": "column1_label",
+          "label": "Column 1 label",
+          "default": "Clear Whey"
+        },
+        {
+          "type": "text",
+          "id": "column2_label",
+          "label": "Column 2 label",
+          "default": "Regular Whey"
+        },
+        {
+          "type": "header",
+          "content": "Row 1"
+        },
+        {
+          "type": "text",
+          "id": "row_1_feature",
+          "label": "Feature",
+          "default": "Texture"
+        },
+        {
+          "type": "text",
+          "id": "row_1_col1",
+          "label": "Column 1 value",
+          "default": "Light & juice-like"
+        },
+        {
+          "type": "text",
+          "id": "row_1_col2",
+          "label": "Column 2 value",
+          "default": "Thick & milky"
+        },
+        {
+          "type": "header",
+          "content": "Row 2"
+        },
+        {
+          "type": "text",
+          "id": "row_2_feature",
+          "label": "Feature",
+          "default": "Digestion"
+        },
+        {
+          "type": "text",
+          "id": "row_2_col1",
+          "label": "Column 1 value",
+          "default": "Fast, easy"
+        },
+        {
+          "type": "text",
+          "id": "row_2_col2",
+          "label": "Column 2 value",
+          "default": "Heavier, slower"
+        },
+        {
+          "type": "header",
+          "content": "Row 3"
+        },
+        {
+          "type": "text",
+          "id": "row_3_feature",
+          "label": "Feature",
+          "default": "Lactose"
+        },
+        {
+          "type": "text",
+          "id": "row_3_col1",
+          "label": "Column 1 value",
+          "default": "99% free"
+        },
+        {
+          "type": "text",
+          "id": "row_3_col2",
+          "label": "Column 2 value",
+          "default": "Often higher"
+        },
+        {
+          "type": "header",
+          "content": "Row 4"
+        },
+        {
+          "type": "text",
+          "id": "row_4_feature",
+          "label": "Feature",
+          "default": "Added sugar"
+        },
+        {
+          "type": "text",
+          "id": "row_4_col1",
+          "label": "Column 1 value",
+          "default": "Zero"
+        },
+        {
+          "type": "text",
+          "id": "row_4_col2",
+          "label": "Column 2 value",
+          "default": "Varies"
+        },
+        {
+          "type": "header",
+          "content": "Row 5"
+        },
+        {
+          "type": "text",
+          "id": "row_5_feature",
+          "label": "Feature",
+          "default": "Best for"
+        },
+        {
+          "type": "text",
+          "id": "row_5_col1",
+          "label": "Column 1 value",
+          "default": "Anytime sipping"
+        },
+        {
+          "type": "text",
+          "id": "row_5_col2",
+          "label": "Column 2 value",
+          "default": "Post-workout only"
+        },
+        {
+          "type": "header",
+          "content": "Row 6"
+        },
+        {
+          "type": "text",
+          "id": "row_6_feature",
+          "label": "Feature"
+        },
+        {
+          "type": "text",
+          "id": "row_6_col1",
+          "label": "Column 1 value"
+        },
+        {
+          "type": "text",
+          "id": "row_6_col2",
+          "label": "Column 2 value"
+        },
+        {
+          "type": "header",
+          "content": "Footnote"
+        },
+        {
+          "type": "richtext",
+          "id": "table_footnote",
+          "label": "Table footnote"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Link label",
+          "info": "Optional link at the bottom of the card, e.g. \"Anytime Clear Whey\"."
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Story Accordion",
+      "blocks": [
+        {
+          "type": "description"
+        },
+        {
+          "type": "benefits"
+        },
+        {
+          "type": "steps"
+        },
+        {
+          "type": "comparison"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

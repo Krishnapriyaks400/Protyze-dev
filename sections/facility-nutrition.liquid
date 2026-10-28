@@ -1,0 +1,407 @@
+{{ 'facility-nutrition.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.section_color_scheme }} gradient">
+  <div class="facility-nutrition__outer page-width section-{{ section.id }}-padding">
+    <div
+      class="facility-nutrition"
+      style="--fn-bg: {{ section.settings.bg_color }};--fn-text: {{ section.settings.text_color }};--fn-badge-bg: {{ section.settings.badge_bg_color }};--fn-badge-text: {{ section.settings.badge_text_color }};"
+    >
+    <div class="facility-nutrition__grid{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+
+      {%- comment -%} Left column — text + badges {%- endcomment -%}
+      <div class="facility-nutrition__text">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="facility-nutrition__heading {{ section.settings.heading_size }}">
+            {{ section.settings.heading }}
+          </h2>
+        {%- endif -%}
+
+        {%- if section.settings.description != blank -%}
+          <div class="facility-nutrition__desc">{{ section.settings.description }}</div>
+        {%- endif -%}
+
+        {%- assign has_badges = false -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'badge' -%}
+            {%- assign has_badges = true -%}
+            {%- break -%}
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- if has_badges -%}
+          <div class="facility-nutrition__badges">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'badge' -%}
+                <span class="facility-nutrition__badge" {{ block.shopify_attributes }}>
+                  {%- if block.settings.badge_image != blank -%}
+                    {{ block.settings.badge_image | image_url: width: 200 | image_tag: widths: '80, 120, 160, 200', loading: 'lazy' }}
+                  {%- endif -%}
+                </span>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.ingredients_text != blank -%}
+          <div class="facility-nutrition__ingredients" style="--fn-ing-bg: {{ section.settings.ingredients_bg_color }};--fn-ing-text: {{ section.settings.ingredients_text_color }};">
+            <p class="facility-nutrition__ingredients-content">
+              <strong>INGREDIENTS :</strong> {{ section.settings.ingredients_text | escape }}
+            </p>
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Right column — nutrition {%- endcomment -%}
+      <div class="facility-nutrition__table-wrap">
+        {%- if section.settings.table_image != blank -%}
+          <div class="facility-nutrition__table-bg">
+            {{ section.settings.table_image | image_url: width: 800 | image_tag: widths: '400, 600, 800', loading: 'lazy' }}
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.nutrition_mode == 'image' and section.settings.nutrition_image != blank -%}
+          <div class="facility-nutrition__nutrition-img">
+            {{ section.settings.nutrition_image | image_url: width: 900 | image_tag: widths: '400, 600, 900', loading: 'lazy' }}
+          </div>
+        {%- else -%}
+          <div class="facility-nutrition__table-card" style="--fn-table-bg: {{ section.settings.table_bg_color }};--fn-table-text: {{ section.settings.table_text_color }};">
+            <h3 class="facility-nutrition__table-heading">NUTRITION INFO</h3>
+            <p class="facility-nutrition__serving">{{ section.settings.serving_size | default: 'Serving size 1 scoop (30g)' | escape }}</p>
+
+            <table class="facility-nutrition__table">
+              <thead>
+                <tr>
+                  <th>Nutrients <span class="fn-small">(approx. values)</span></th>
+                  <th>Qty./Serving</th>
+                  <th>%RDA*</th>
+                </tr>
+              </thead>
+              <tbody>
+                {%- for block in section.blocks -%}
+                  {%- if block.type == 'nutrient' -%}
+                    <tr class="{% if block.settings.indent %}facility-nutrition__indent{% endif %}" {{ block.shopify_attributes }}>
+                      <td>{{ block.settings.nutrient | escape }}</td>
+                      <td>{{ block.settings.qty | escape }}</td>
+                      <td>{{ block.settings.rda | default: '- -' | escape }}</td>
+                    </tr>
+                  {%- endif -%}
+                {%- endfor -%}
+              </tbody>
+            </table>
+
+            {%- if section.settings.footnote != blank -%}
+              <p class="facility-nutrition__footnote">{{ section.settings.footnote | escape }}</p>
+            {%- endif -%}
+
+            {%- assign has_bcaa = false -%}
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'bcaa' -%}
+                {%- assign has_bcaa = true -%}
+                {%- break -%}
+              {%- endif -%}
+            {%- endfor -%}
+
+            {%- if has_bcaa -%}
+              <table class="facility-nutrition__table facility-nutrition__table--bcaa">
+                <thead>
+                  <tr>
+                    <th colspan="3" class="facility-nutrition__bcaa-header">BCAA</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {%- for block in section.blocks -%}
+                    {%- if block.type == 'bcaa' -%}
+                      <tr {{ block.shopify_attributes }}>
+                        <td>{{ block.settings.nutrient | escape }}</td>
+                        <td>{{ block.settings.qty | escape }}</td>
+                        <td>{{ block.settings.rda | escape }}</td>
+                      </tr>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </tbody>
+              </table>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Facility & Nutrition",
+  "tag": "section",
+  "class": "section",
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Made in our own R&D facility"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        { "value": "h2", "label": "Small" },
+        { "value": "h1", "label": "Medium" },
+        { "value": "h0", "label": "Large" }
+      ],
+      "default": "h1",
+      "label": "Heading size"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Crafted at Alphacentric Healthcare, Bangalore. Unlike white-labeled brands, every batch undergoes rigorous testing and continuous improvement. Indian-patented clear whey technology.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Ingredients card"
+    },
+    {
+      "type": "textarea",
+      "id": "ingredients_text",
+      "label": "Ingredients text",
+      "default": "Whey Protein Isolate, natural and nature identical flavors, acidity regulator(INS330), natural fruit and vegetable colors, sweeteners(INS955), anticaking agent(INS551)"
+    },
+    {
+      "type": "color",
+      "id": "ingredients_bg_color",
+      "label": "Ingredients card background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "ingredients_text_color",
+      "label": "Ingredients card text color",
+      "default": "#1a1a2e"
+    },
+    {
+      "type": "color_scheme",
+      "id": "section_color_scheme",
+      "label": "Section background color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Card colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Card background color",
+      "default": "#1a1a2e"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "badge_bg_color",
+      "label": "Badge background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "badge_text_color",
+      "label": "Badge text color",
+      "default": "#1a1a2e"
+    },
+    {
+      "type": "header",
+      "content": "Nutrition info"
+    },
+    {
+      "type": "select",
+      "id": "nutrition_mode",
+      "label": "Nutrition display mode",
+      "options": [
+        { "value": "table", "label": "Table" },
+        { "value": "image", "label": "Image" }
+      ],
+      "default": "table",
+      "info": "Choose table to build dynamically, or image to upload a nutrition label"
+    },
+    {
+      "type": "image_picker",
+      "id": "nutrition_image",
+      "label": "Nutrition label image",
+      "info": "Used only when mode is set to Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "table_image",
+      "label": "Background image",
+      "info": "Displayed behind the nutrition table/image"
+    },
+    {
+      "type": "color",
+      "id": "table_bg_color",
+      "label": "Table background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "table_text_color",
+      "label": "Table text color",
+      "default": "#1a1a2e"
+    },
+    {
+      "type": "text",
+      "id": "serving_size",
+      "label": "Serving size text",
+      "default": "Serving size 1 scoop (30g)"
+    },
+    {
+      "type": "text",
+      "id": "footnote",
+      "label": "Footnote",
+      "default": "%RDA values per serving is based on 2000 kcal diet for average adult."
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "Certification Logo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "badge_image",
+          "label": "Logo image"
+        }
+      ]
+    },
+    {
+      "type": "nutrient",
+      "name": "Nutrient Row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "nutrient",
+          "label": "Nutrient name",
+          "default": "Protein"
+        },
+        {
+          "type": "text",
+          "id": "qty",
+          "label": "Qty./Serving",
+          "default": "24 g"
+        },
+        {
+          "type": "text",
+          "id": "rda",
+          "label": "%RDA",
+          "default": "44.4"
+        },
+        {
+          "type": "checkbox",
+          "id": "indent",
+          "label": "Indent row",
+          "info": "For sub-items like Total Sugars, Added Sugars",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "bcaa",
+      "name": "BCAA Row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "nutrient",
+          "label": "Nutrient name",
+          "default": "Leucine"
+        },
+        {
+          "type": "text",
+          "id": "qty",
+          "label": "Qty./Serving",
+          "default": "3875 mg"
+        },
+        {
+          "type": "text",
+          "id": "rda",
+          "label": "Per 100g",
+          "default": "12110 mg"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Facility & Nutrition",
+      "blocks": [
+        { "type": "badge" },
+        { "type": "badge" },
+        { "type": "badge" },
+        { "type": "badge" },
+        { "type": "badge" },
+        { "type": "badge" },
+        { "type": "nutrient", "settings": { "nutrient": "Energy", "qty": "100 kcal", "rda": "5" } },
+        { "type": "nutrient", "settings": { "nutrient": "Total Fat", "qty": "0 g", "rda": "0.0" } },
+        { "type": "nutrient", "settings": { "nutrient": "Cholesterol", "qty": "5 mg", "rda": "- -" } },
+        { "type": "nutrient", "settings": { "nutrient": "Sodium", "qty": "30 mg", "rda": "1.5" } },
+        { "type": "nutrient", "settings": { "nutrient": "Total Carbohydrate", "qty": "1 g", "rda": "- -" } },
+        { "type": "nutrient", "settings": { "nutrient": "Total Sugars", "qty": "0.5 g", "rda": "- -", "indent": true } },
+        { "type": "nutrient", "settings": { "nutrient": "Added Sugars", "qty": "0 g", "rda": "- -", "indent": true } },
+        { "type": "nutrient", "settings": { "nutrient": "Protein", "qty": "24 g", "rda": "44.4" } },
+        { "type": "bcaa", "settings": { "nutrient": "Leucine", "qty": "3875 mg", "rda": "12110 mg" } },
+        { "type": "bcaa", "settings": { "nutrient": "Isoleucine", "qty": "1756 mg", "rda": "5487.5 mg" } },
+        { "type": "bcaa", "settings": { "nutrient": "Valine", "qty": "1527 mg", "rda": "4772 mg" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

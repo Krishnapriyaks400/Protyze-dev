@@ -1,0 +1,501 @@
+.product-story {
+  max-width: 120rem;
+  margin: 0 auto;
+}
+
+/* ── Layout: image one side, heading + accordion the other ─────────── */
+.product-story__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 5rem;
+  align-items: center;
+}
+
+.product-story__layout--no-image {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.product-story--image-right .product-story__image {
+  order: 2;
+}
+
+.product-story__image {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.product-story__image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ── Header ────────────────────────────────────────────────────────── */
+.product-story__header {
+  margin-bottom: 2rem;
+}
+
+.product-story__caption {
+  font-family: var(--font-custom-family, var(--font-body-family));
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ps-accent, #e07b28);
+  margin: 0 0 0.8rem;
+}
+
+.product-story__heading {
+  font-family: var(--font-heading-family);
+  font-size: clamp(2.8rem, 2rem + 2vw, 4.4rem);
+  font-weight: 800;
+  line-height: 1.1;
+  margin: 0;
+  text-transform: none;
+  color: rgb(var(--color-foreground));
+}
+
+/* ── Accordion: one bordered panel, rows separated by dividers ─────── */
+.product-story__items {
+  background: #ffffff;
+  border: 1px solid rgba(var(--color-foreground), 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.product-story__card {
+  background: var(--card-bg, #ffffff);
+}
+
+.product-story__card + .product-story__card {
+  border-top: 1px solid rgba(var(--color-foreground), 0.1);
+}
+
+.product-story__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.6rem;
+  padding: 1.8rem 2rem;
+  cursor: pointer;
+  list-style: none;
+}
+
+.product-story__summary::-webkit-details-marker {
+  display: none;
+}
+
+.product-story__summary::marker {
+  content: '';
+}
+
+.product-story__summary-left {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+}
+
+.product-story__icon {
+  width: 4rem;
+  height: 4rem;
+  min-width: 4rem;
+  border-radius: 8px;
+  background: rgba(var(--color-foreground), 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.product-story__icon img {
+  width: 2.6rem;
+  height: 2.6rem;
+  object-fit: contain;
+}
+
+.product-story__summary-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.product-story__title {
+  font-family: var(--font-custom-family, var(--font-heading-family));
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0;
+  color: rgb(var(--color-foreground));
+}
+
+.product-story__subtitle {
+  font-family: var(--font-body-family);
+  font-size: 1.3rem;
+  line-height: 1.4;
+  margin: 0;
+  color: rgba(var(--color-foreground), 0.55);
+}
+
+.product-story__toggle {
+  width: 2.4rem;
+  height: 2.4rem;
+  min-width: 2.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ps-accent, #e07b28);
+}
+
+.product-story__toggle svg {
+  width: 16px;
+  height: 16px;
+}
+
+.product-story__plus {
+  display: block;
+}
+
+.product-story__close {
+  display: none;
+}
+
+details[open] > .product-story__summary .product-story__plus {
+  display: none;
+}
+
+details[open] > .product-story__summary .product-story__close {
+  display: block;
+}
+
+.product-story__content {
+  padding: 0 2rem 2rem;
+  animation: productStorySlideDown 0.3s ease;
+}
+
+@keyframes productStorySlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Description / rich text ───────────────────────────────────────── */
+.product-story__description,
+.product-story__richtext {
+  font-family: var(--font-body-family);
+  font-size: 1.4rem;
+  line-height: 1.75;
+  color: rgba(var(--color-foreground), 0.75);
+}
+
+.product-story__description p,
+.product-story__richtext p {
+  margin: 0 0 1.2rem;
+}
+
+.product-story__description p:last-child,
+.product-story__richtext p:last-child {
+  margin-bottom: 0;
+}
+
+/* ── Key benefits: feature cards + bullet list ─────────────────────── */
+.product-story__benefit-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.2rem;
+}
+
+.product-story__benefit {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+  padding: 1.4rem;
+  background: #ffffff;
+  border: 1px solid rgba(var(--color-foreground), 0.1);
+  border-radius: 8px;
+}
+
+.product-story__benefit-icon {
+  width: 5.2rem;
+  height: 5.2rem;
+  min-width: 5.2rem;
+  border-radius: 8px;
+  background: var(--benefit-bg, var(--ps-accent, #e07b28));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-story__benefit-icon img {
+  width: 3rem;
+  height: 3rem;
+  object-fit: contain;
+}
+
+.product-story__benefit-title {
+  font-family: var(--font-custom-family, var(--font-heading-family));
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.35;
+  margin: 0;
+  color: rgb(var(--color-foreground));
+}
+
+.product-story__benefit-desc {
+  font-size: 1.2rem;
+  line-height: 1.4;
+  margin: 0.3rem 0 0;
+  color: rgba(var(--color-foreground), 0.6);
+}
+
+.product-story__points {
+  list-style: none;
+  margin: 1.8rem 0 0;
+  padding: 0;
+}
+
+.product-story__points li {
+  position: relative;
+  padding-left: 1.8rem;
+  margin-bottom: 0.9rem;
+  font-size: 1.4rem;
+  line-height: 1.5;
+  color: rgba(var(--color-foreground), 0.8);
+}
+
+.product-story__points li:last-child {
+  margin-bottom: 0;
+}
+
+.product-story__points li::before {
+  content: '';
+  position: absolute;
+  top: 0.6em;
+  left: 0;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  background: var(--ps-accent, #e07b28);
+}
+
+/* ── How to use: numbered list ─────────────────────────────────────── */
+.product-story__steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.product-story__step {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.2rem;
+}
+
+.product-story__step-number {
+  width: 2.8rem;
+  height: 2.8rem;
+  min-width: 2.8rem;
+  border-radius: 50%;
+  background: var(--ps-accent, #e07b28);
+  color: #ffffff;
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-story__step-icon {
+  width: 4.8rem;
+  min-width: 4.8rem;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.product-story__step-icon img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.product-story__step-title {
+  font-family: var(--font-custom-family, var(--font-heading-family));
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1.4;
+  margin: 0.3rem 0 0.2rem;
+  color: rgb(var(--color-foreground));
+}
+
+.product-story__step-text {
+  font-size: 1.4rem;
+  line-height: 1.5;
+  margin: 0;
+  color: rgba(var(--color-foreground), 0.75);
+}
+
+/* Aligns single-line steps (no title) with the number badge. */
+.product-story__step-body > .product-story__step-text:first-child {
+  margin-top: 0.4rem;
+}
+
+/* ── Comparison table ──────────────────────────────────────────────── */
+.product-story__comparison {
+  overflow-x: auto;
+}
+
+.product-story__table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  font-family: var(--font-body-family);
+}
+
+.product-story__th {
+  padding: 1.4rem 2rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.product-story__th--feature,
+.product-story__th--col2 {
+  background: rgb(var(--color-foreground));
+  color: rgb(var(--color-background));
+}
+
+.product-story__th--col1 {
+  background: var(--ps-accent, #e07b28);
+  color: #ffffff;
+}
+
+.product-story__td {
+  padding: 1.2rem 2rem;
+  font-size: 1.4rem;
+  line-height: 1.5;
+  border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
+}
+
+.product-story__td--feature {
+  font-weight: 600;
+  color: rgb(var(--color-foreground));
+}
+
+.product-story__td--col1 {
+  color: var(--ps-accent, #e07b28);
+  font-weight: 600;
+}
+
+.product-story__td--col2 {
+  color: rgba(var(--color-foreground), 0.55);
+}
+
+.product-story__table tr:last-child .product-story__td {
+  border-bottom: none;
+}
+
+.product-story__footnote {
+  font-size: 1.3rem;
+  line-height: 1.7;
+  color: rgba(var(--color-foreground), 0.6);
+  margin: 1.6rem 0 0;
+}
+
+/* ── Mobile ────────────────────────────────────────────────────────── */
+@media screen and (max-width: 749px) {
+  .product-story__layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.4rem;
+  }
+
+  .product-story__image,
+  .product-story--image-right .product-story__image {
+    order: 2;
+  }
+
+  .product-story__header {
+    margin-bottom: 1.6rem;
+    text-align: center;
+  }
+
+  .product-story__caption {
+    font-size: 1.1rem;
+  }
+
+  .product-story__summary {
+    padding: 1.6rem;
+  }
+
+  .product-story__title {
+    font-size: 1.4rem;
+  }
+
+  .product-story__subtitle {
+    font-size: 1.2rem;
+  }
+
+  .product-story__content {
+    padding: 0 1.6rem 1.6rem;
+  }
+
+  /* The theme's .rte styles set their own size on p/li, so target them too. */
+  .product-story__description,
+  .product-story__description :is(p, li, span, strong, em, a),
+  .product-story__richtext,
+  .product-story__richtext :is(p, li, span, strong, em, a) {
+    font-size: 1.4rem;
+    line-height: 1.65;
+  }
+
+  .product-story__benefit-grid {
+    gap: 1rem;
+  }
+
+  .product-story__benefit {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.2rem;
+  }
+
+  .product-story__benefit-icon {
+    width: 4.4rem;
+    height: 4.4rem;
+    min-width: 4.4rem;
+  }
+
+  .product-story__benefit-icon img {
+    width: 2.6rem;
+    height: 2.6rem;
+  }
+
+  .product-story__benefit-title {
+    font-size: 1.3rem;
+  }
+
+  .product-story__points li {
+    font-size: 1.3rem;
+  }
+
+  .product-story__step-text,
+  .product-story__step-title {
+    font-size: 1.4rem;
+  }
+
+  .product-story__th,
+  .product-story__td {
+    padding: 1rem 1.2rem;
+    font-size: 1.3rem;
+  }
+}

@@ -1,0 +1,23 @@
+.brand-logo1 .swiper-slide .brand-logo-image img , .brand-logo2 .swiper-slide .brand-logo-image img{
+  width: 110px;
+  max-width: 110px;
+}
+
+.template-product-product-nitro .brand-logo1 .swiper-slide .brand-logo-image img, 
+.template-product-product-nitro .brand-logo2 .swiper-slide .brand-logo-image img , 
+.template-product-product-nitro-offer-sale .brand-logo1 .swiper-slide .brand-logo-image img, 
+.template-product-product-nitro-offer-sale .brand-logo2 .swiper-slide .brand-logo-image img{
+  width: 76px;
+  max-width: 76px;
+}
+
+@media (max-width: 749px){
+.brand-logo1 .swiper-slide .brand-logo-image img , .brand-logo2 .swiper-slide .brand-logo-image img{
+  width: 100%;
+  height: 60px;
+}
+}
+
+.brand-logo-media-block .swiper-slide{
+  background: transparent;
+}

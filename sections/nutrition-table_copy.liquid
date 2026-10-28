@@ -1,0 +1,641 @@
+{%- liquid
+  assign nt_rows = section.blocks | where: 'type', 'row'
+  assign nt_audience = section.blocks | where: 'type', 'audience'
+  assign nt_occasions = section.blocks | where: 'type', 'occasion'
+  assign nt_has_second = false
+  if section.settings.second_value_header != blank
+    assign nt_has_second = true
+  endif
+
+  assign nt_accent = section.settings.accent_color
+  if nt_accent == blank and product
+    assign nt_accent = product.metafields.custom.flavour_color.value
+  endif
+  if nt_accent == blank
+    assign nt_accent = '#c98a1e'
+  endif
+
+  assign nt_bg = section.settings.background_color
+  if nt_bg == blank and product
+    assign nt_bg = product.metafields.custom.product_bg_color.value
+  endif
+
+  assign nt_has_aside = false
+  if nt_audience.size > 0 or nt_occasions.size > 0
+    assign nt_has_aside = true
+  endif
+-%}
+
+{%- style -%}
+  .nt-{{ section.id }} {
+    --nt-accent: {{ nt_accent }};
+    --nt-card-bg: {{ section.settings.card_bg_color | default: '#ffffff' }};
+    --nt-card-border: {{ section.settings.card_border_color | default: '#ece6d6' }};
+    --nt-head-bg: {{ section.settings.table_head_bg_color | default: '#fdf6e3' }};
+    {% if nt_bg != blank %}background-color: {{ nt_bg }};{% endif %}
+    padding-top: {{ section.settings.padding_top | times: 0.7 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.7 | round: 0 }}px;
+  }
+
+  .nt-{{ section.id }} .nt__layout {
+    display: grid;
+    gap: 2.8rem;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .nt-{{ section.id }} .nt__heading {
+    font-size: clamp(2.4rem, 1.8rem + 1.6vw, 3.8rem);
+    font-weight: 800;
+    line-height: 1.15;
+    margin: 0 0 0.6rem;
+    text-align: center;
+    text-transform: none;
+  }
+
+  .nt-{{ section.id }} .nt__group .nt__heading {
+    margin-bottom: 1.4rem;
+  }
+
+  .nt-{{ section.id }} .nt__subheading {
+    color: rgba(var(--color-foreground), 0.7);
+    font-size: 1.4rem;
+    margin: 0 0 1.4rem;
+    text-align: center;
+  }
+
+  .nt-{{ section.id }} .nt__subheading span {
+    color: rgba(var(--color-foreground), 0.5);
+  }
+
+  .nt-{{ section.id }} .nt__card {
+    background: var(--nt-card-bg);
+    border: 0.1rem solid var(--nt-card-border);
+    border-radius: 8px;
+    box-sizing: border-box;
+  }
+
+  .nt-{{ section.id }} .nt__table-card {
+    overflow: hidden;
+  }
+
+  .nt-{{ section.id }} .nt__table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  .nt-{{ section.id }} .nt__table th,
+  .nt-{{ section.id }} .nt__table td {
+    border-bottom: 0.1rem solid var(--nt-card-border);
+    font-size: 1.4rem;
+    padding: 1.3rem 1.6rem;
+    text-align: left;
+  }
+
+  .nt-{{ section.id }} .nt__table thead th {
+    background: var(--nt-head-bg);
+    color: rgba(var(--color-foreground), 0.7);
+    font-size: 1.3rem;
+    font-weight: 700;
+  }
+
+  .nt-{{ section.id }} .nt__table tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  .nt-{{ section.id }} .nt__table .nt__value {
+    font-weight: 700;
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .nt-{{ section.id }} .nt__table .nt__value--second {
+    color: rgba(var(--color-foreground), 0.6);
+    font-weight: 400;
+  }
+
+  .nt-{{ section.id }} .nt__table .nt__label--sub {
+    color: rgba(var(--color-foreground), 0.8);
+    padding-left: 3rem;
+  }
+
+  .nt-{{ section.id }} .nt__footnote {
+    color: rgba(var(--color-foreground), 0.55);
+    font-size: 1.3rem;
+    margin: 1.4rem 0 0;
+  }
+
+  .nt-{{ section.id }} .nt__group + .nt__group {
+    margin-top: 2.8rem;
+  }
+
+  .nt-{{ section.id }} .nt__audience {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .nt-{{ section.id }} .nt__audience-item {
+    align-items: center;
+    display: flex;
+    gap: 1.4rem;
+    padding: 1.6rem 1.8rem;
+  }
+
+  .nt-{{ section.id }} .nt__audience-icon {
+    align-items: center;
+    background: color-mix(in srgb, var(--nt-accent) 12%, #ffffff);
+    border-radius: 8px;
+    color: var(--nt-accent);
+    display: flex;
+    flex-shrink: 0;
+    height: 4.8rem;
+    justify-content: center;
+    width: 4.8rem;
+  }
+
+  .nt-{{ section.id }} .nt__occasion-icon {
+    color: rgb(var(--color-foreground));
+    display: flex;
+    height: 2.4rem;
+    justify-content: center;
+  }
+
+  .nt-{{ section.id }} .nt__audience-icon svg,
+  .nt-{{ section.id }} .nt__audience-icon img {
+    height: 2.2rem;
+    width: 2.2rem;
+  }
+
+  .nt-{{ section.id }} .nt__occasion-icon svg,
+  .nt-{{ section.id }} .nt__occasion-icon img {
+    height: 2.4rem;
+    width: 2.4rem;
+  }
+
+  .nt-{{ section.id }} .nt__audience-icon img,
+  .nt-{{ section.id }} .nt__occasion-icon img {
+    object-fit: contain;
+  }
+
+  .nt-{{ section.id }} .nt__audience-text {
+    font-size: 1.4rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .nt-{{ section.id }} .nt__occasions {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .nt-{{ section.id }} .nt__occasion {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
+    padding: 2rem 1rem;
+    text-align: center;
+  }
+
+  .nt-{{ section.id }} .nt__occasion-label {
+    font-size: 1.3rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 0;
+  }
+
+  @media screen and (min-width: 750px) {
+    .nt-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+
+    .nt-{{ section.id }} .nt__layout--split {
+      gap: 5.6rem;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .nt-{{ section.id }} .nt__heading,
+    .nt-{{ section.id }} .nt__subheading {
+      text-align: left;
+    }
+
+    .nt-{{ section.id }} .nt__subheading {
+      margin-bottom: 2rem;
+    }
+
+    .nt-{{ section.id }} .nt__group .nt__heading {
+      margin-bottom: 1.8rem;
+    }
+
+    .nt-{{ section.id }} .nt__group + .nt__group {
+      margin-top: 4rem;
+    }
+
+    .nt-{{ section.id }} .nt__audience,
+    .nt-{{ section.id }} .nt__occasions {
+      gap: 1.2rem;
+    }
+
+    .nt-{{ section.id }} .nt__table th,
+    .nt-{{ section.id }} .nt__table td {
+      font-size: 1.5rem;
+      padding: 1.4rem 2.4rem;
+    }
+
+    .nt-{{ section.id }} .nt__table .nt__label--sub {
+      padding-left: 4rem;
+    }
+
+    .nt-{{ section.id }} .nt__audience {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .nt-{{ section.id }} .nt__audience-text {
+      font-size: 1.5rem;
+    }
+
+    .nt-{{ section.id }} .nt__occasion {
+      padding: 2.4rem 1.2rem;
+    }
+
+    .nt-{{ section.id }} .nt__occasion-label {
+      font-size: 1.4rem;
+    }
+  }
+{%- endstyle -%}
+
+<div class="nt-{{ section.id }} color-{{ section.settings.color_scheme }} gradient {{ section.settings.custom_class }}">
+  <div class="page-width">
+    <div class="nt__layout{% if nt_has_aside %} nt__layout--split{% endif %}">
+      <div class="nt__nutrition">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="nt__heading">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank or section.settings.subheading_note != blank -%}
+          <p class="nt__subheading">
+            {{- section.settings.subheading | escape -}}
+            {%- if section.settings.subheading_note != blank %} <span>{{ section.settings.subheading_note | escape }}</span>{% endif -%}
+          </p>
+        {%- endif -%}
+
+        {%- if nt_rows.size > 0 -%}
+          <div class="nt__card nt__table-card">
+            <table class="nt__table">
+              <thead>
+                <tr>
+                  <th scope="col">{{ section.settings.label_header | escape }}</th>
+                  <th scope="col" class="nt__value">{{ section.settings.value_header | escape }}</th>
+                  {%- if nt_has_second -%}
+                    <th scope="col" class="nt__value">{{ section.settings.second_value_header | escape }}</th>
+                  {%- endif -%}
+                </tr>
+              </thead>
+              <tbody>
+                {%- for block in nt_rows -%}
+                  <tr {{ block.shopify_attributes }}>
+                    <td class="{% if block.settings.is_subrow %}nt__label--sub{% endif %}">{{ block.settings.label | escape }}</td>
+                    <td class="nt__value">{{ block.settings.value | escape }}</td>
+                    {%- if nt_has_second -%}
+                      <td class="nt__value nt__value--second">{{ block.settings.second_value | escape }}</td>
+                    {%- endif -%}
+                  </tr>
+                {%- endfor -%}
+              </tbody>
+            </table>
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.footnote != blank -%}
+          <p class="nt__footnote">{{ section.settings.footnote | escape }}</p>
+        {%- endif -%}
+      </div>
+
+      {%- if nt_has_aside -%}
+        <div class="nt__aside">
+          {%- if nt_audience.size > 0 -%}
+            <div class="nt__group">
+              {%- if section.settings.audience_heading != blank -%}
+                <h2 class="nt__heading">{{ section.settings.audience_heading | escape }}</h2>
+              {%- endif -%}
+              <ul class="nt__audience list-unstyled" role="list">
+                {%- for block in nt_audience -%}
+                  <li class="nt__card nt__audience-item" {{ block.shopify_attributes }}>
+                    <span class="nt__audience-icon">
+                      {%- if block.settings.icon_image != blank -%}
+                        {{ block.settings.icon_image | image_url: width: 66 | image_tag: widths: '22, 44, 66', sizes: '22px', loading: 'lazy', alt: '' }}
+                      {%- else -%}
+                        {%- render 'icon-usage', icon: block.settings.icon -%}
+                      {%- endif -%}
+                    </span>
+                    <p class="nt__audience-text">{{ block.settings.text | escape }}</p>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
+
+          {%- if nt_occasions.size > 0 -%}
+            <div class="nt__group">
+              {%- if section.settings.occasion_heading != blank -%}
+                <h2 class="nt__heading">{{ section.settings.occasion_heading | escape }}</h2>
+              {%- endif -%}
+              <ul class="nt__occasions list-unstyled" role="list">
+                {%- for block in nt_occasions -%}
+                  <li class="nt__card nt__occasion" {{ block.shopify_attributes }}>
+                    <span class="nt__occasion-icon">
+                      {%- if block.settings.icon_image != blank -%}
+                        {{ block.settings.icon_image | image_url: width: 72 | image_tag: widths: '24, 48, 72', sizes: '24px', loading: 'lazy', alt: '' }}
+                      {%- else -%}
+                        {%- render 'icon-usage', icon: block.settings.icon -%}
+                      {%- endif -%}
+                    </span>
+                    <p class="nt__occasion-label">{{ block.settings.label | escape }}</p>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Nutrition & usage",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Every text field (including each nutrition value) can be bound to a metafield with its \"…\" menu → Connect dynamic source."
+    },
+    {
+      "type": "header",
+      "content": "Nutrition table"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Science Backed Nutrition"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Nutritional Information"
+    },
+    {
+      "type": "text",
+      "id": "subheading_note",
+      "label": "Subheading note",
+      "info": "Shown lighter, after the subheading.",
+      "default": "(Approx. values)"
+    },
+    {
+      "type": "text",
+      "id": "label_header",
+      "label": "First column header",
+      "info": "Leave empty for a blank header cell."
+    },
+    {
+      "type": "text",
+      "id": "value_header",
+      "label": "Value column header",
+      "default": "Per 30g (1 scoop)"
+    },
+    {
+      "type": "text",
+      "id": "second_value_header",
+      "label": "Second value column header",
+      "info": "Optional, e.g. \"Per 100g\". The column only appears when this is filled in."
+    },
+    {
+      "type": "text",
+      "id": "footnote",
+      "label": "Footnote",
+      "default": "Values may vary slightly by flavour."
+    },
+    {
+      "type": "header",
+      "content": "Side column"
+    },
+    {
+      "type": "text",
+      "id": "audience_heading",
+      "label": "\"Who it's for\" heading",
+      "default": "Who It's For"
+    },
+    {
+      "type": "text",
+      "id": "occasion_heading",
+      "label": "\"When to drink\" heading",
+      "default": "When To Drink"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Icon accent color",
+      "info": "\"Who it's for\" icons and their tile tint. Leave empty to use the product's custom.flavour_color metafield."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background",
+      "info": "Leave empty to use the product's custom.product_bg_color metafield."
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card border",
+      "default": "#ece6d6"
+    },
+    {
+      "type": "color",
+      "id": "table_head_bg_color",
+      "label": "Table header background",
+      "default": "#fdf6e3"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 56
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Nutrition row",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Nutrient", "default": "Protein" },
+        { "type": "text", "id": "value", "label": "Value", "default": "24 g" },
+        {
+          "type": "text",
+          "id": "second_value",
+          "label": "Second value",
+          "info": "Only shown when the section's second value column header is set."
+        },
+        {
+          "type": "checkbox",
+          "id": "is_subrow",
+          "label": "Indented sub-row",
+          "info": "For lines like \"Total Sugar\" under Carbohydrate.",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "audience",
+      "name": "Who it's for",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "person", "label": "Person" },
+            { "value": "dumbbell", "label": "Dumbbell" },
+            { "value": "cup", "label": "Cup" },
+            { "value": "bottle", "label": "Bottle" },
+            { "value": "sun", "label": "Sun" },
+            { "value": "loop", "label": "Loop" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "glass", "label": "Glass" },
+            { "value": "moon", "label": "Moon" },
+            { "value": "clock", "label": "Clock" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "check", "label": "Check" }
+          ],
+          "default": "person"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Custom icon",
+          "info": "Optional — replaces the icon above. Transparent PNG/SVG, 66 × 66 px."
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Looking to increase daily protein."
+        }
+      ]
+    },
+    {
+      "type": "occasion",
+      "name": "When to drink",
+      "limit": 9,
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "sun", "label": "Sun" },
+            { "value": "dumbbell", "label": "Dumbbell" },
+            { "value": "loop", "label": "Loop" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "glass", "label": "Glass" },
+            { "value": "moon", "label": "Moon" },
+            { "value": "cup", "label": "Cup" },
+            { "value": "bottle", "label": "Bottle" },
+            { "value": "person", "label": "Person" },
+            { "value": "clock", "label": "Clock" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "check", "label": "Check" }
+          ],
+          "default": "sun"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Custom icon",
+          "info": "Optional — replaces the icon above. Transparent PNG/SVG, 72 × 72 px."
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Morning"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Nutrition & usage",
+      "category": "Custom",
+      "blocks": [
+        { "type": "row", "settings": { "label": "Energy", "value": "90 kcal" } },
+        { "type": "row", "settings": { "label": "Protein", "value": "24 g" } },
+        { "type": "row", "settings": { "label": "Carbohydrate", "value": "1.2 g" } },
+        { "type": "row", "settings": { "label": "Total Sugar", "value": "0 g", "is_subrow": true } },
+        { "type": "row", "settings": { "label": "Added Sugar", "value": "0 g", "is_subrow": true } },
+        { "type": "row", "settings": { "label": "Total Fat", "value": "0.4 g" } },
+        { "type": "row", "settings": { "label": "BCAA", "value": "7.2 g" } },
+        { "type": "row", "settings": { "label": "Leucine", "value": "3.8 g" } },
+        { "type": "audience", "settings": { "icon": "person", "text": "Looking to increase daily protein." } },
+        { "type": "audience", "settings": { "icon": "dumbbell", "text": "For post-workout or everyday use." } },
+        { "type": "audience", "settings": { "icon": "cup", "text": "A lighter, more refreshing alternative." } },
+        { "type": "audience", "settings": { "icon": "bottle", "text": "Easy to carry and drink anywhere." } },
+        { "type": "occasion", "settings": { "icon": "sun", "label": "Morning" } },
+        { "type": "occasion", "settings": { "icon": "dumbbell", "label": "Before workout" } },
+        { "type": "occasion", "settings": { "icon": "loop", "label": "During workout" } },
+        { "type": "occasion", "settings": { "icon": "heart", "label": "After workout" } },
+        { "type": "occasion", "settings": { "icon": "glass", "label": "Between meals" } },
+        { "type": "occasion", "settings": { "icon": "moon", "label": "Evening" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

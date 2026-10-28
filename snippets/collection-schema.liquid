@@ -1,0 +1,58 @@
+
+
+{%- comment -%}── 2. CollectionPage + ItemList ─────────────────────────────────{%- endcomment -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": {{ collection.title | json }},
+  "url": {{ shop.url | append: collection.url | json }},
+  "description": {{ collection.description | strip_html | truncate: 300 | json }},
+  {%- if collection.image -%}
+  "image": {{ collection.image | image_url: width: 1200 | prepend: "https:" | json }},
+  {%- endif -%}
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": {{ shop.name | json }},
+    "url": {{ shop.url | json }}
+  },
+  "mainEntity": {
+    "@type": "ItemList",
+    "numberOfItems": {{ collection.products_count }},
+    "itemListElement": [
+      {%- for product in collection.products limit: 24 -%}
+      {
+        "@type": "ListItem",
+        "position": {{ forloop.index }},
+        "url": {{ shop.url | append: product.url | json }},
+        "name": {{ product.title | json }}
+      }{%- unless forloop.last -%},{%- endunless -%}
+      {%- endfor -%}
+    ]
+  }
+}
+</script>
+
+
+{%- comment -%}── 3. FAQPage ───────────────────────────────────────────────────{%- endcomment -%}
+{%- assign _faqs = collection.metafields.custom.faqs.value -%}
+{%- if _faqs != blank -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {%- for faq in _faqs -%}
+    {
+      "@type": "Question",
+      "name": {{ faq.question | json }},
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": {{ faq.answer | strip_html | json }}
+      }
+    }{%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
+  ]
+}
+</script>
+{%- endif -%}

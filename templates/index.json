@@ -1,0 +1,1467 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "flavour_hero_carousal_hq9cYy": {
+      "type": "flavour_hero_carousal",
+      "blocks": {
+        "slide_UhBiyq": {
+          "type": "slide",
+          "settings": {
+            "tab_title": "Anytime",
+            "tab_subtitle": "Everyday protein",
+            "tab_image": "shopify://shop_images/atc-1.jpg",
+            "tab_bg_color": "#fff5ef",
+            "pill_text": "Anytime Clear Protein",
+            "eyebrow": "Clear whey protein isolate",
+            "heading_before": "Protein that",
+            "heading_script": "feels",
+            "heading_after": "like juice",
+            "description": "24g protein per scoop. Light, refreshing and easy to drink any time of day.",
+            "button_label": "Shop Anytime",
+            "button_link": "",
+            "meta_text": "From ₹999 · ★ 4.6",
+            "watermark_text": "Anytime",
+            "image": "shopify://shop_images/atc-1.jpg",
+            "image_alt": "",
+            "badge_big": "24g",
+            "badge_small": "Protein",
+            "float_label": "0g added sugar",
+            "bg_color": "#ffe9dc",
+            "accent_color": "#e8590c",
+            "heading_color": "#1b0a14",
+            "text_color": "#3d1f2e",
+            "watermark_color": "#e8590c",
+            "watermark_opacity": 12,
+            "pill_bg_color": "#ffffff",
+            "button_bg_color": "#e8590c",
+            "button_text_color": "#ffffff",
+            "badge_bg_color": "#e8590c",
+            "badge_text_color": "#ffffff",
+            "float_bg_color": "#ffffff",
+            "float_text_color": "#1b0a14",
+            "circle_border_color": "#ffffff"
+          }
+        },
+        "slide_qgrLnF": {
+          "type": "slide",
+          "settings": {
+            "tab_title": "Diet",
+            "tab_subtitle": "Gut & weight",
+            "tab_image": "shopify://shop_images/diet_assorted_1.jpg",
+            "tab_bg_color": "#f3faee",
+            "pill_text": "Diet Clear Protein",
+            "eyebrow": "Clear whey protein with probiotics",
+            "heading_before": "Protein +",
+            "heading_script": "probiotics",
+            "heading_after": "for a happy gut",
+            "description": "15g protein with 4.5bn CFU probiotics, 500mg L-carnitine and fibre — light enough for every day.",
+            "button_label": "Shop Diet",
+            "button_link": "",
+            "meta_text": "From ₹799 · ★ 4.5",
+            "watermark_text": "Diet",
+            "image": "shopify://shop_images/diet_assorted_1.jpg",
+            "image_alt": "",
+            "badge_big": "15g",
+            "badge_small": "Protein",
+            "float_label": "4.5bn CFU probiotics",
+            "bg_color": "#e4f5d9",
+            "accent_color": "#2e7d32",
+            "heading_color": "#1b0a14",
+            "text_color": "#3d1f2e",
+            "watermark_color": "#2e7d32",
+            "watermark_opacity": 12,
+            "pill_bg_color": "#ffffff",
+            "button_bg_color": "#2e7d32",
+            "button_text_color": "#ffffff",
+            "badge_bg_color": "#2e7d32",
+            "badge_text_color": "#ffffff",
+            "float_bg_color": "#ffffff",
+            "float_text_color": "#1b0a14",
+            "circle_border_color": "#ffffff"
+          }
+        },
+        "slide_NWjgyT": {
+          "type": "slide",
+          "settings": {
+            "tab_title": "Nitro",
+            "tab_subtitle": "Strength",
+            "tab_image": "shopify://shop_images/nitro_assorted_1.jpg",
+            "tab_bg_color": "#fff3e8",
+            "pill_text": "Nitro Clear Protein",
+            "eyebrow": "Clear whey with creatine",
+            "heading_before": "Protein +",
+            "heading_script": "creatine",
+            "heading_after": "for peak strength",
+            "description": "Protein with creatine and BCAAs for stronger, faster recovery.",
+            "button_label": "Shop Nitro",
+            "button_link": "",
+            "meta_text": "From ₹1,099 · ★ 4.7",
+            "watermark_text": "Nitro",
+            "image": "shopify://shop_images/nitro_assorted_1.jpg",
+            "image_alt": "",
+            "badge_big": "25g",
+            "badge_small": "Protein",
+            "float_label": "3g creatine",
+            "bg_color": "#ffe3cc",
+            "accent_color": "#d9480f",
+            "heading_color": "#1b0a14",
+            "text_color": "#3d1f2e",
+            "watermark_color": "#d9480f",
+            "watermark_opacity": 12,
+            "pill_bg_color": "#ffffff",
+            "button_bg_color": "#d9480f",
+            "button_text_color": "#ffffff",
+            "badge_bg_color": "#d9480f",
+            "badge_text_color": "#ffffff",
+            "float_bg_color": "#ffffff",
+            "float_text_color": "#1b0a14",
+            "circle_border_color": "#ffffff"
+          }
+        },
+        "slide_XNnEdX": {
+          "type": "slide",
+          "settings": {
+            "tab_title": "Hydra",
+            "tab_subtitle": "Hydration",
+            "tab_image": "shopify://shop_images/Hydra_lemon_Lime_Pack_of_15__1.jpg",
+            "tab_bg_color": "#fff1f0",
+            "pill_text": "Hydra Clear Protein",
+            "eyebrow": "Clear whey with electrolytes",
+            "heading_before": "Hydra meets",
+            "heading_script": "protein",
+            "heading_after": "power",
+            "description": "Protein and electrolytes in one refreshing, easy-to-sip drink.",
+            "button_label": "Shop Hydra",
+            "button_link": "",
+            "meta_text": "From ₹1,199 · ★ 4.5",
+            "watermark_text": "Hydra",
+            "image": "shopify://shop_images/Hydra_lemon_Lime_Pack_of_15__1.jpg",
+            "image_alt": "",
+            "badge_big": "20g",
+            "badge_small": "Protein",
+            "float_label": "Electrolytes",
+            "bg_color": "#ffe1e0",
+            "accent_color": "#c92a2a",
+            "heading_color": "#1b0a14",
+            "text_color": "#3d1f2e",
+            "watermark_color": "#c92a2a",
+            "watermark_opacity": 12,
+            "pill_bg_color": "#ffffff",
+            "button_bg_color": "#c92a2a",
+            "button_text_color": "#ffffff",
+            "badge_bg_color": "#c92a2a",
+            "badge_text_color": "#ffffff",
+            "float_bg_color": "#ffffff",
+            "float_text_color": "#1b0a14",
+            "circle_border_color": "#ffffff"
+          }
+        }
+      },
+      "block_order": [
+        "slide_UhBiyq",
+        "slide_qgrLnF",
+        "slide_NWjgyT",
+        "slide_XNnEdX"
+      ],
+      "name": "Flavour hero carousel",
+      "settings": {
+        "autoplay": true,
+        "autoplay_interval": 12,
+        "show_tabs": true,
+        "show_arrows": true,
+        "aria_label": "Flavour categories",
+        "ring_speed": 30,
+        "arrow_prev_color": "#1b0a14",
+        "arrow_next_bg": "#1b0a14",
+        "arrow_next_icon": "#ffffff",
+        "min_height": 520,
+        "load_fonts": true,
+        "padding_top": 40,
+        "padding_bottom": 24
+      }
+    },
+    "find_flavour_fhF6it": {
+      "type": "find-flavour",
+      "blocks": {
+        "flavour_card_PCGQE4": {
+          "type": "flavour_card",
+          "settings": {
+            "product": "anytime-clear-whey-isolate-nimbu-pani-30-servings",
+            "placeholder_text": "[Product photo]"
+          }
+        },
+        "flavour_card_kcKTT7": {
+          "type": "flavour_card",
+          "settings": {
+            "product": "anytime-clear-whey-isolate-orange-squash-30-servings",
+            "placeholder_text": "[Product photo]"
+          }
+        },
+        "flavour_card_LqEkTF": {
+          "type": "flavour_card",
+          "settings": {
+            "product": "anytime-clear-whey-isolate-mango-peach-30-servings",
+            "placeholder_text": "[Product photo]"
+          }
+        },
+        "flavour_card_YjYMGK": {
+          "type": "flavour_card",
+          "settings": {
+            "product": "anytime-clear-whey-protein-isolate-pink-guava-30-servings",
+            "placeholder_text": "[Product photo]"
+          }
+        }
+      },
+      "block_order": [
+        "flavour_card_PCGQE4",
+        "flavour_card_kcKTT7",
+        "flavour_card_LqEkTF",
+        "flavour_card_YjYMGK"
+      ],
+      "name": "Find your flavour",
+      "settings": {
+        "eyebrow": "Anytime Clear Whey Isolate",
+        "heading": "Find your",
+        "heading_accent": "flavour",
+        "subheading": "Every scoop: 24g whey protein isolate, 5.2g BCAA and 0g added sugar. Four flavours — the only hard part is picking one.",
+        "show_image_badge": true,
+        "image_badge_text": "26g protein",
+        "image_badge_position": "left",
+        "image_badge_size": 84,
+        "image_badge_bg": "#6baa2b",
+        "image_badge_color": "#ffffff",
+        "layout": "slider",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "card_gap": 20,
+        "card_radius": 20,
+        "max_width": 1200,
+        "padding_top": 24,
+        "padding_bottom": 24,
+        "autoplay": true,
+        "autoplay_delay": 4,
+        "slide_speed": 600,
+        "pause_on_hover": true,
+        "show_arrows": false,
+        "show_dots": false,
+        "bg_color": "#fff5ee",
+        "heading_color": "#3b0a2f",
+        "accent_color": "#e5195e",
+        "text_color": "#3b0a2f",
+        "eyebrow_bg": "#ffe0d6",
+        "eyebrow_color": "#3b0a2f",
+        "button_bg": "#3b0a2f",
+        "button_text": "#ffffff",
+        "heading_font": "oswald_n7",
+        "script_font": "pacifico_n4",
+        "body_font": "assistant_n4",
+        "flavour_metafield": "custom.flavour_name",
+        "card_color_metafield": "custom.custom_product_bg_color",
+        "show_product_title": true,
+        "product_title_size": 15,
+        "truncate_title": true,
+        "title_lines": "2",
+        "show_price": true,
+        "show_judgeme": true,
+        "star_color": "#f5a623",
+        "show_atc": true,
+        "atc_label": "Add to cart",
+        "show_arrow": true,
+        "offer_percent": 1,
+        "offer_text": "Get it at {price} · code auto-applies",
+        "show_promo": true,
+        "promo_image": "shopify://shop_images/Refreshing_Outdoor_Sports_Drink_Moment.png",
+        "promo_script": "Make it a mocktail",
+        "promo_text_body": "One scoop + chilled soda + ice + a squeeze of lime. Protein that feels like a party drink.",
+        "promo_btn_label": "Explore more",
+        "promo_collection": "best-seller-collection",
+        "promo_bg": "#3b0a2f",
+        "promo_text": "#ffffff",
+        "promo_btn_bg": "#ff8fb1",
+        "promo_btn_text": "#3b0a2f"
+      }
+    },
+    "shop_by_goal_A7rynN": {
+      "type": "shop-by-goal",
+      "blocks": {
+        "goal_cTGLn3": {
+          "type": "goal",
+          "settings": {
+            "tab_title": "Gut health & weight",
+            "tab_subtitle": "",
+            "icon": "shield",
+            "accent_color": "#7fd6b5",
+            "accent_text_color": "#2b0a1c",
+            "collection": "clear-protein-isolate-with-probiotics",
+            "packs": [
+              "diet-clear-protein-juicy-lychee-30-serving",
+              "diet-clear-protein-juicy-mango-pack-of-15",
+              "protyze-diet-clear-protein-assorted-pack"
+            ],
+            "packs_label": "Pick your pack",
+            "best_for": "Best for · Gut health & weight management",
+            "title": "",
+            "description": "",
+            "stat_1_value": "15g",
+            "stat_1_label": "Protein",
+            "stat_2_value": "4.5bn",
+            "stat_2_label": "Probiotics",
+            "stat_3_value": "500mg",
+            "stat_3_label": "L-carnitine",
+            "starts_label": "Starts at",
+            "starts_at": "",
+            "starts_note": "",
+            "button_label": "Shop All",
+            "badge_value": "15g",
+            "badge_label": "Protein",
+            "chip_1": "",
+            "chip_2": "",
+            "chip_3": ""
+          }
+        },
+        "goal_9dmMaf": {
+          "type": "goal",
+          "settings": {
+            "tab_title": "Build muscle",
+            "tab_subtitle": "",
+            "icon": "dumbbell",
+            "accent_color": "#ffb36b",
+            "accent_text_color": "#2b0a1c",
+            "collection": "clear-whey-isolate-with-creatine",
+            "packs": [
+              "nitro-clear-whey-protein-isolate-mango-delight-26-servings-jar",
+              "nitro-clear-whey-isolate-orange-delight-494g",
+              "nitro-clear-whey-protein-isolate-assorted-pack"
+            ],
+            "packs_label": "Pick your pack",
+            "best_for": "Best for · Strength & muscle growth",
+            "title": "",
+            "description": "",
+            "stat_1_value": "30g",
+            "stat_1_label": "Protein",
+            "stat_2_value": "3g",
+            "stat_2_label": "Creatine",
+            "stat_3_value": "5g",
+            "stat_3_label": "Glutamine",
+            "starts_label": "Starts at",
+            "starts_at": "",
+            "starts_note": "",
+            "button_label": "Shop All",
+            "badge_value": "30g",
+            "badge_label": "Protein",
+            "chip_1": "",
+            "chip_2": "",
+            "chip_3": ""
+          }
+        },
+        "goal_KmHnGh": {
+          "type": "goal",
+          "settings": {
+            "tab_title": "Stay hydrated",
+            "tab_subtitle": "",
+            "icon": "drop",
+            "accent_color": "#ff8a7a",
+            "accent_text_color": "#2b0a1c",
+            "collection": "hydration",
+            "packs": [
+              "hydra-clear-whey-protein-pinneapple-pack-of-15-sachets",
+              "hydra-x-clear-whey-protein-fruit-punch-pack-of-12-sachets",
+              "hydra-clear-whey-protein-assorted-flavours"
+            ],
+            "packs_label": "Pick your pack",
+            "best_for": "Best for · Hydration & endurance",
+            "title": "",
+            "description": "",
+            "stat_1_value": "20g",
+            "stat_1_label": "Protein",
+            "stat_2_value": "810mg",
+            "stat_2_label": "Electrolytes",
+            "stat_3_value": "7.6g",
+            "stat_3_label": "BCAA",
+            "starts_label": "Starts at",
+            "starts_at": "",
+            "starts_note": "",
+            "button_label": "Shop All",
+            "badge_value": "20g",
+            "badge_label": "Protein",
+            "chip_1": "",
+            "chip_2": "",
+            "chip_3": ""
+          }
+        }
+      },
+      "block_order": [
+        "goal_cTGLn3",
+        "goal_9dmMaf",
+        "goal_KmHnGh"
+      ],
+      "name": "Shop by goal",
+      "settings": {
+        "eyebrow": "Shop by goal",
+        "heading": "A clear protein for every",
+        "heading_script": "goal",
+        "subheading": "Gut health, peak strength or all-day hydration — pick your goal and meet the clear whey made for it.",
+        "load_fonts": true,
+        "open_goal": 2,
+        "autoapply_percent": 1,
+        "autoapply_label": "Get it at [price] · code auto-applies",
+        "note_bg_color": "#fff1d6",
+        "note_text_color": "#2b0a1c",
+        "color_scheme": "scheme-3",
+        "background_color": "#2b0a1c",
+        "card_color": "#3e1028",
+        "text_color": "#fbeee4",
+        "script_color": "#f37aa8",
+        "eyebrow_bg_color": "#5a1a3a",
+        "padding_top": 64,
+        "padding_bottom": 40
+      }
+    },
+    "why_clear_whey_QGenew": {
+      "type": "why-clear-whey",
+      "blocks": {
+        "row_mP7KxP": {
+          "type": "row",
+          "settings": {
+            "label": "Texture",
+            "regular": "Thick & milky",
+            "clear": "Light & juice-like"
+          }
+        },
+        "row_LG4Y6V": {
+          "type": "row",
+          "settings": {
+            "label": "Taste",
+            "regular": "Creamy flavours",
+            "clear": "Fresh fruit flavours"
+          }
+        },
+        "row_769mMY": {
+          "type": "row",
+          "settings": {
+            "label": "How it feels",
+            "regular": "Can feel heavy",
+            "clear": "Refreshing, easy to digest"
+          }
+        },
+        "row_wFqBzi": {
+          "type": "row",
+          "settings": {
+            "label": "Lactose",
+            "regular": "Varies by type",
+            "clear": "99% lactose-free*"
+          }
+        },
+        "row_wcHKan": {
+          "type": "row",
+          "settings": {
+            "label": "Added sugar",
+            "regular": "Varies by brand",
+            "clear": "0g added sugar"
+          }
+        }
+      },
+      "block_order": [
+        "row_mP7KxP",
+        "row_LG4Y6V",
+        "row_769mMY",
+        "row_wFqBzi",
+        "row_wcHKan"
+      ],
+      "name": "Why clear whey",
+      "settings": {
+        "eyebrow": "Why clear whey",
+        "heading_before": "Upgrade your whey",
+        "heading_script": "protein",
+        "heading_after": "powder",
+        "description": "<p>Protyze Clear Whey Protein Isolate is a refreshing, fruit-flavoured clear whey protein powder designed for faster absorption, easy digestion and everyday performance — <strong>15g to 30g protein per serving</strong>, without the heaviness of regular whey.</p>",
+        "more_text": "",
+        "more_label": "Read more",
+        "less_label": "Read less",
+        "button_label": "Upgrade now",
+        "button_link": "",
+        "trust_text": "",
+        "card_title": "Regular whey vs clear whey",
+        "regular_label": "Regular whey shake",
+        "highlight_label": "Protyze Clear",
+        "footnote": "GMP-certified · Patented process · 50,000+ fans",
+        "load_fonts": true,
+        "color_scheme": "",
+        "background_color": "#fff5f0",
+        "text_color": "#3b0f24",
+        "accent_color": "#e0457b",
+        "eyebrow_bg_color": "#ffdcd3",
+        "button_bg_color": "#3b0f24",
+        "button_text_color": "#ffffff",
+        "card_color": "#ffffff",
+        "highlight_bg_color": "#3b0f24",
+        "highlight_text_color": "#ffffff",
+        "highlight_heading_color": "#ff9ec4",
+        "max_width": 1280,
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "try_and_save_GtL8ME": {
+      "type": "try-and-save",
+      "name": "Try & save",
+      "settings": {
+        "eyebrow": "Try & Save",
+        "heading": "Sip more,",
+        "heading_accent": "save more",
+        "subheading": "New to clear whey? Start with a 6-sachet trial pack. Already hooked? Bundle your favourites and save up to 22%.",
+        "group_title": "Trial packs",
+        "view_all_label": "View all",
+        "collection": "clear-protein-isolate-with-probiotics",
+        "max_products": 6,
+        "layout": "slider",
+        "autoplay": true,
+        "autoplay_delay": 4,
+        "slide_speed": 600,
+        "pause_on_hover": true,
+        "show_arrows": false,
+        "show_dots": false,
+        "protein_metafield": "custom.protein",
+        "tagline_metafield": "custom.tagline",
+        "show_judgeme": true,
+        "offer_percent": 1,
+        "offer_text": "Get it at {price} · code auto-applies",
+        "atc_label": "Add to cart",
+        "promo_image": "shopify://shop_images/Artboard_1_18.png",
+        "promo_script": "",
+        "promo_title": "",
+        "promo_link_label": "",
+        "promo_link": "#",
+        "promo_panel_bg": "#3b0a2f",
+        "promo_panel_text": "#ffffff",
+        "card_gap": 16,
+        "card_radius": 24,
+        "max_width": 1240,
+        "padding_top": 56,
+        "padding_bottom": 56,
+        "bg_color": "#FDE4D8",
+        "card_bg": "#ffffff",
+        "heading_color": "#3b0a2f",
+        "accent_color": "#e5195e",
+        "text_color": "#5a3a52",
+        "eyebrow_bg": "#3b0a2f",
+        "eyebrow_color": "#ffffff",
+        "button_bg": "#3b0a2f",
+        "button_text": "#ffffff",
+        "badge_bg": "#e5195e",
+        "badge_text": "#ffffff",
+        "pill_color_1": "#bfead0",
+        "pill_color_2": "#ffb86b",
+        "pill_color_3": "#ffc9b8",
+        "pill_text": "#3b0a2f",
+        "star_color": "#f5a623",
+        "heading_font": "oswald_n7",
+        "script_font": "pacifico_n4",
+        "body_font": "assistant_n4"
+      }
+    },
+    "combo_deals_hjWYpm": {
+      "type": "combo-deals",
+      "blocks": {
+        "tab_aVkVkT": {
+          "type": "tab",
+          "settings": {
+            "label": "Anytime",
+            "subtitle": "Everyday protein",
+            "products": [
+              "protyze-clear-whey-isolate-anytime-jar-hydra-x-assorted-pack-of-6-shaker",
+              "protyze-clear-whey-isolate-anytime-jar-nitro-clear-whey-protein-jar",
+              "protyze-clear-whey-isolate-anytime-jar-combo",
+              "protyze-clear-whey-mega-jumbo-offer"
+            ]
+          }
+        },
+        "tab_wCapgf": {
+          "type": "tab",
+          "settings": {
+            "label": "Diet",
+            "subtitle": "Everyday protein",
+            "products": [
+              "protyze-clear-protein-diet-30-serving-pouch-hydra-assorted-pack-of-6-shaker",
+              "protyze-diet-clear-protein-combo",
+              "protyze-clear-whey-assorted-shaker-combo",
+              "protyze-clear-whey-jumbo-2-anytime-assorted-diet-assorted-nitro-assorted-hydra-assorted-hydra-x-assorted-shaker"
+            ]
+          }
+        },
+        "tab_yxWkTB": {
+          "type": "tab",
+          "settings": {
+            "label": "Nitro",
+            "subtitle": "Everyday protein",
+            "products": [
+              "nitro-clear-whey-protein-isolate-26-servings-jar-hydra-assorted-pack-of-6-shaker",
+              "protyze-clear-whey-assorted-shaker-combo",
+              "protyze-clear-whey-isolate-anytime-jar-nitro-clear-whey-protein-jar",
+              "protyze-nitro-clear-whey-isolate-combo"
+            ]
+          }
+        },
+        "tab_CVXGRn": {
+          "type": "tab",
+          "settings": {
+            "label": "Hydra",
+            "subtitle": "Everyday protein",
+            "products": [
+              "protyze-clear-whey-assorted-shaker-combo",
+              "protyze-clear-whey-mega-jumbo-offer",
+              "protyze-clear-whey-jumbo-2-anytime-assorted-diet-assorted-nitro-assorted-hydra-assorted-hydra-x-assorted-shaker",
+              "protyze-clear-protein-diet-30-serving-pouch-hydra-assorted-pack-of-6-shaker"
+            ]
+          }
+        }
+      },
+      "block_order": [
+        "tab_aVkVkT",
+        "tab_wCapgf",
+        "tab_yxWkTB",
+        "tab_CVXGRn"
+      ],
+      "name": "Combo deals",
+      "settings": {
+        "title": "Combo deals",
+        "title_script": "deals",
+        "hero_product": "nitro-clear-whey-protein-isolate-26-servings-jar-hydra-assorted-pack-of-6-shaker",
+        "hero_pill": "Best way to start",
+        "hero_heading": "Taste all 4",
+        "hero_script": "clear proteins",
+        "hero_description": "<p>Try every flavour in one box and find your favourite clear protein.</p>",
+        "hero_save_label": "You save",
+        "hero_button": "Grab the combo",
+        "hero_link": "shopify://collections/best-whey-isolate-combo",
+        "autoapply_percent": 1,
+        "autoapply_label": "Get it at [price] · code auto-applies",
+        "add_label": "Add to cart",
+        "view_all_label": "View all combos",
+        "view_all_link": "",
+        "load_fonts": true,
+        "color_scheme": "",
+        "background_color": "#fde4d8",
+        "text_color": "#2b0a1c",
+        "accent_color": "#f37aa8",
+        "dark_color": "#3b0f24",
+        "card_color": "#FFFFFF",
+        "note_bg_color": "#fff1d6",
+        "save_bg_color": "#d6f5e3",
+        "save_text_color": "#14653a",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    },
+    "slideshow_g46KcD": {
+      "type": "slideshow",
+      "blocks": {
+        "slide_BfQaLi": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/A_LITTLE_1800_x_600.avif",
+            "mobile_image": "shopify://shop_images/gd.avif",
+            "image_overlay_opacity": 0,
+            "heading": "Orange Protein",
+            "heading_size": "h1",
+            "subheading": "",
+            "button_label": "",
+            "link": "shopify://collections/anytime-clear-whey-protein",
+            "button_style_secondary": false,
+            "show_text_box": true,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": "scheme-1"
+          }
+        },
+        "slide_qCpHjU": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/diet_1.avif",
+            "mobile_image": "shopify://shop_images/reszie_diet_banner.avif",
+            "image_overlay_opacity": 0,
+            "heading": "Creatine with Protein light and Refreshing",
+            "heading_size": "h1",
+            "subheading": "",
+            "button_label": "",
+            "link": "shopify://collections/nitro-clear-whey-protein",
+            "button_style_secondary": false,
+            "show_text_box": true,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": "scheme-1"
+          }
+        },
+        "slide_Hd6FfK": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/NITRO_2.avif",
+            "mobile_image": "shopify://shop_images/NITRO_MOB_2_1.avif",
+            "image_overlay_opacity": 0,
+            "heading": "Protein + Electrolytes for Hydration and Muscles",
+            "heading_size": "h1",
+            "subheading": "",
+            "button_label": "",
+            "link": "shopify://collections/hydra-clear-whey-protein",
+            "button_style_secondary": false,
+            "show_text_box": false,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": "scheme-1"
+          }
+        },
+        "slide_XeVWwX": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/hydra_p_1.avif",
+            "mobile_image": "shopify://shop_images/hydra_mob_copy_p_1.avif",
+            "image_overlay_opacity": 0,
+            "heading": "",
+            "heading_size": "h1",
+            "subheading": "",
+            "button_label": "",
+            "link": "shopify://collections/diet-clear-protein",
+            "button_style_secondary": false,
+            "show_text_box": true,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": "scheme-1"
+          }
+        }
+      },
+      "block_order": [
+        "slide_BfQaLi",
+        "slide_qCpHjU",
+        "slide_Hd6FfK",
+        "slide_XeVWwX"
+      ],
+      "disabled": true,
+      "settings": {
+        "layout": "full_bleed",
+        "slide_height": "adapt_image",
+        "slider_visual": "dots",
+        "auto_rotate": false,
+        "change_slides_speed": 3,
+        "image_behavior": "none",
+        "show_text_below": false,
+        "accessibility_info": "Slideshow about our brand",
+        "custom_class": "main-slider"
+      }
+    },
+    "image_and_video_section_mdFarf": {
+      "type": "image-and-video-section",
+      "disabled": true,
+      "name": "Collection With Video",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "heading": "Anytime Clear Protein",
+        "media_on_right": false,
+        "enable_video": false,
+        "media_video_file": "",
+        "media_image": "shopify://shop_images/anytime_poster_image.webp",
+        "collection": "clear-whey-isolate",
+        "columns_desktop": 3,
+        "columns_mobile": 2,
+        "show_navigation_arrows": false,
+        "show_view_all_button": true,
+        "quick_add": "standard",
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "custom_class": ""
+      }
+    },
+    "image_with_featured_collection_6HRV6a": {
+      "type": "image-with-featured-collection",
+      "disabled": true,
+      "name": "Custom Featured Collection",
+      "settings": {
+        "color_scheme": "",
+        "heading": "Diet Clear Protein",
+        "media_on_right": true,
+        "enable_video": false,
+        "media_video_file": "",
+        "button_link": "",
+        "collection": "diet-clear-protein",
+        "columns_desktop": 3,
+        "columns_mobile": 2,
+        "show_navigation_arrows": false,
+        "show_view_all_button": true,
+        "quick_add": "standard",
+        "padding_top": 20,
+        "padding_bottom": 36,
+        "custom_class": ""
+      }
+    },
+    "image_with_featured_collection_UQ3DLz": {
+      "type": "image-with-featured-collection",
+      "disabled": true,
+      "name": "Custom Featured Collection",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "heading": "Nitro Clear Protein",
+        "media_on_right": false,
+        "enable_video": false,
+        "media_video_file": "",
+        "button_link": "",
+        "collection": "nitro-clear-whey-protein",
+        "columns_desktop": 3,
+        "columns_mobile": 2,
+        "show_navigation_arrows": false,
+        "show_view_all_button": true,
+        "quick_add": "standard",
+        "padding_top": 20,
+        "padding_bottom": 36,
+        "custom_class": ""
+      }
+    },
+    "image_with_featured_collection_fjEVWc": {
+      "type": "image-with-featured-collection",
+      "disabled": true,
+      "name": "Custom Featured Collection",
+      "settings": {
+        "color_scheme": "",
+        "heading": "Hydra Clear Protein",
+        "media_on_right": true,
+        "enable_video": false,
+        "media_video_file": "",
+        "button_link": "",
+        "collection": "hydra-clear-whey-protein",
+        "columns_desktop": 3,
+        "columns_mobile": 2,
+        "show_navigation_arrows": false,
+        "show_view_all_button": true,
+        "quick_add": "standard",
+        "padding_top": 20,
+        "padding_bottom": 36,
+        "custom_class": ""
+      }
+    },
+    "image_with_featured_collection_wicNAF": {
+      "type": "image-with-featured-collection",
+      "disabled": true,
+      "name": "Custom Featured Collection",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "heading": "Hydra-X Clear Protein",
+        "media_on_right": false,
+        "enable_video": false,
+        "media_video_file": "",
+        "button_link": "",
+        "collection": "hydra-x-clear-whey-protein",
+        "columns_desktop": 3,
+        "columns_mobile": 2,
+        "show_navigation_arrows": false,
+        "show_view_all_button": true,
+        "quick_add": "standard",
+        "padding_top": 20,
+        "padding_bottom": 36,
+        "custom_class": ""
+      }
+    },
+    "image_with_featured_collection_dHQWwB": {
+      "type": "image-with-featured-collection",
+      "disabled": true,
+      "name": "Custom Featured Collection",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "heading": "All Assorted Packs",
+        "media_on_right": true,
+        "enable_video": false,
+        "media_video_file": "",
+        "button_link": "",
+        "collection": "protyze-assorted-collection",
+        "columns_desktop": 3,
+        "columns_mobile": 2,
+        "show_navigation_arrows": false,
+        "show_view_all_button": true,
+        "quick_add": "standard",
+        "padding_top": 20,
+        "padding_bottom": 36,
+        "custom_class": ""
+      }
+    },
+    "image_with_featured_collection_Vtda37": {
+      "type": "image-with-featured-collection",
+      "disabled": true,
+      "name": "Custom Featured Collection",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "heading": "Combo Deals",
+        "media_on_right": false,
+        "enable_video": false,
+        "media_video_file": "",
+        "button_link": "shopify://products/protyze-clear-whey-assorted-shaker-combo",
+        "collection": "clear-protein-combo-offers",
+        "columns_desktop": 3,
+        "columns_mobile": 2,
+        "show_navigation_arrows": false,
+        "show_view_all_button": true,
+        "quick_add": "none",
+        "padding_top": 10,
+        "padding_bottom": 36,
+        "custom_class": ""
+      }
+    },
+    "marquee_logo_WhB4wE": {
+      "type": "marquee-logo",
+      "blocks": {
+        "image_slide_9Lre7P": {
+          "type": "image_slide",
+          "settings": {
+            "slide_image": "shopify://shop_images/google_logo.png"
+          }
+        },
+        "image_slide_fzAMbR": {
+          "type": "image_slide",
+          "settings": {
+            "slide_image": "shopify://shop_images/Print_logo.png"
+          }
+        },
+        "image_slide_Fp4VJk": {
+          "type": "image_slide",
+          "settings": {
+            "slide_image": "shopify://shop_images/Yahoo_logo.png"
+          }
+        },
+        "image_slide_QbFip4": {
+          "type": "image_slide",
+          "settings": {
+            "slide_image": "shopify://shop_images/logmath_logo.png"
+          }
+        },
+        "image_slide_chGmF9": {
+          "type": "image_slide",
+          "settings": {
+            "slide_image": "shopify://shop_images/business_standard_logo.png"
+          }
+        },
+        "image_slide_R3imWW": {
+          "type": "image_slide",
+          "settings": {
+            "slide_image": "shopify://shop_images/Karostartup_logo.png"
+          }
+        },
+        "image_slide_fNwfkW": {
+          "type": "image_slide",
+          "settings": {
+            "slide_image": "shopify://shop_images/Deccan_logo.png"
+          }
+        },
+        "image_slide_xLw3Ym": {
+          "type": "image_slide",
+          "settings": {
+            "slide_image": "shopify://shop_images/hindustan_logo.png"
+          }
+        },
+        "image_slide_jXCzX7": {
+          "type": "image_slide",
+          "settings": {
+            "slide_image": "shopify://shop_images/Tribune_logo.png"
+          }
+        },
+        "image_slide_Lxm6Pm": {
+          "type": "image_slide",
+          "settings": {
+            "slide_image": "shopify://shop_images/Ani_Logo.png"
+          }
+        },
+        "image_slide_pKx78U": {
+          "type": "image_slide",
+          "settings": {
+            "slide_image": "shopify://shop_images/Latelty_logo.png"
+          }
+        },
+        "image_slide_AyW89H": {
+          "type": "image_slide",
+          "settings": {
+            "slide_image": "shopify://shop_images/revol_logo.png"
+          }
+        },
+        "image_slide_MJaHgW": {
+          "type": "image_slide",
+          "settings": {}
+        },
+        "image_slide_kqAtGE": {
+          "type": "image_slide",
+          "settings": {}
+        },
+        "image_slide_mUjG99": {
+          "type": "image_slide",
+          "settings": {}
+        },
+        "image_slide_EGPHgB": {
+          "type": "image_slide",
+          "settings": {}
+        },
+        "image_slide_wEBmMb": {
+          "type": "image_slide",
+          "settings": {}
+        },
+        "image_slide_nhxxr4": {
+          "type": "image_slide",
+          "settings": {}
+        },
+        "image_slide_y6rPiw": {
+          "type": "image_slide",
+          "settings": {}
+        },
+        "image_slide_9D4pjg": {
+          "type": "image_slide",
+          "settings": {}
+        },
+        "image_slide_QT3efb": {
+          "type": "image_slide",
+          "settings": {}
+        },
+        "image_slide_fcrww8": {
+          "type": "image_slide",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "image_slide_9Lre7P",
+        "image_slide_fzAMbR",
+        "image_slide_Fp4VJk",
+        "image_slide_QbFip4",
+        "image_slide_chGmF9",
+        "image_slide_R3imWW",
+        "image_slide_fNwfkW",
+        "image_slide_xLw3Ym",
+        "image_slide_jXCzX7",
+        "image_slide_Lxm6Pm",
+        "image_slide_pKx78U",
+        "image_slide_AyW89H",
+        "image_slide_MJaHgW",
+        "image_slide_kqAtGE",
+        "image_slide_mUjG99",
+        "image_slide_EGPHgB",
+        "image_slide_wEBmMb",
+        "image_slide_nhxxr4",
+        "image_slide_y6rPiw",
+        "image_slide_9D4pjg",
+        "image_slide_QT3efb",
+        "image_slide_fcrww8"
+      ],
+      "disabled": true,
+      "name": "t:sections.marqueelogo.presets.name",
+      "settings": {
+        "padding_top": 8,
+        "padding_bottom": 8,
+        "section_color_scheme": "",
+        "custom_class": ""
+      }
+    },
+    "171767599492366713": {
+      "type": "apps",
+      "disabled": true,
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "rich_text_RNfQdd": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_VffpkV": {
+          "type": "heading",
+          "settings": {
+            "heading": "Upgrade Your Whey Protein Powder",
+            "heading_size": "h1"
+          }
+        },
+        "text_fqt6KP": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Upgrade your traditional protein shakes with Protyze Clear Whey Protein Isolate — a refreshing, fruit-flavoured clear whey protein powder designed for faster absorption, easy digestion, and everyday performance. Our range of clear whey protein and functional whey protein products delivers 15g to 30g protein per serving, supporting muscle recovery, <a href=\"/collections/diet-clear-protein\" title=\"Best Whey Protein for Weight Loss & Gut Health [Whey Protein with Probiotics]\">gut health</a>, lean muscle growth, <a href=\"/collections/hydra-clear-whey-protein\" title=\"Best Protein Electrolyte Drink for Hydration & Recovery in India [Whey Protein With Electrolytes]\">hydration</a>, and daily protein intake without the heaviness of regular whey protein. Made with premium whey protein isolate and advanced formulations featuring probiotics, <a href=\"/collections/nitro-clear-whey-protein\" title=\"Best Whey Protein With Creatine for Muscle Growth & Strength [Protyze Nitro Clear Whey Isolate]\">creatine</a>, electrolytes, and glutamine, Protyze offers some of the best clear whey protein isolate options in India. Manufactured in a GMP Certified facility using a patented process, Protyze Clear Whey is trusted by 50,000+ fitness enthusiasts for clean, effective, and great-tasting protein nutrition.<br/><br/></p>"
+          }
+        },
+        "button_mfKmCb": {
+          "type": "button",
+          "settings": {
+            "button_label": "Upgrade Now",
+            "button_link": "shopify://collections/anytime-clear-whey-protein",
+            "button_style_secondary": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_VffpkV",
+        "text_fqt6KP",
+        "button_mfKmCb"
+      ],
+      "disabled": true,
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "scheme-2",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52,
+        "custom_class": "rich-text-section"
+      }
+    },
+    "multicolumn_zPrmgW": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_8DnUC6": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/2_8d9f344d-e87b-4e70-abad-8d421d876f46.png",
+            "title": "Great Muscle Protein Synthesis",
+            "text": "<h4>7.2GM of BCAA and 12GM of EAA's in 24GM of complete protein to maximally stimulate protein synthesis.</h4>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_H6fQxb": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/We_Are_Back_1721_x_1100_px.jpg",
+            "title": "3800MG Leucine Per Serving",
+            "text": "<h4>Supports faster and better muscle repair and growth. Unmatched post workout protein beverage.</h4>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_YmYJqV": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/We_Are_Back_2.png",
+            "title": "Backed By Science & In-house Research",
+            "text": "<h4>We have been focusing on clear protein for over 2 years with a consistent research and development.</h4>",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_8DnUC6",
+        "column_H6fQxb",
+        "column_YmYJqV"
+      ],
+      "disabled": true,
+      "settings": {
+        "title": "",
+        "heading_size": "h1",
+        "image_width": "full",
+        "image_ratio": "adapt",
+        "button_label": "",
+        "button_link": "",
+        "columns_desktop": 3,
+        "column_alignment": "left",
+        "background_style": "primary",
+        "color_scheme": "",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "featured_product_AAWxDY": {
+      "type": "featured-product",
+      "blocks": {
+        "text_cFwnFD": {
+          "type": "text",
+          "disabled": true,
+          "settings": {
+            "text": "{{ section.settings.product.vendor }}",
+            "text_style": "uppercase"
+          }
+        },
+        "title_gwEjbc": {
+          "type": "title",
+          "settings": {
+            "heading_size": "h1"
+          }
+        },
+        "price_zxYG4h": {
+          "type": "price",
+          "settings": {}
+        },
+        "variant_picker_cGVHmJ": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "circle"
+          }
+        },
+        "quantity_selector_6cLzTB": {
+          "type": "quantity_selector",
+          "disabled": true,
+          "settings": {}
+        },
+        "buy_buttons_pw7Ghe": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true
+          }
+        },
+        "share_RyiJLX": {
+          "type": "share",
+          "disabled": true,
+          "settings": {
+            "share_label": "Share"
+          }
+        }
+      },
+      "block_order": [
+        "text_cFwnFD",
+        "title_gwEjbc",
+        "price_zxYG4h",
+        "variant_picker_cGVHmJ",
+        "quantity_selector_6cLzTB",
+        "buy_buttons_pw7Ghe",
+        "share_RyiJLX"
+      ],
+      "disabled": true,
+      "name": "t:sections.featured-product.presets.name",
+      "settings": {
+        "product": "protyze-tritan-shaker",
+        "color_scheme": "scheme-2",
+        "secondary_background": false,
+        "media_size": "medium",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "media_position": "left",
+        "image_zoom": "lightbox",
+        "hide_variants": false,
+        "enable_video_looping": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "featured_blog_3YpYBF": {
+      "type": "featured-blog",
+      "disabled": true,
+      "settings": {
+        "heading": "Blog posts",
+        "heading_size": "h1",
+        "blog": "clear-whey-protein-isolate",
+        "post_limit": 3,
+        "columns_desktop": 3,
+        "color_scheme": "",
+        "show_image": true,
+        "show_date": true,
+        "show_author": false,
+        "show_view_all": true,
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "custom_class": ""
+      }
+    },
+    "faq_section_f4GBRg": {
+      "type": "faq-section",
+      "blocks": {
+        "collapsible_row_WnJWed": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "1.How is clear whey better than regular whey protein ?",
+            "icon": "none",
+            "row_content": "<p>No, clear whey isolate is a healthy option when compared to traditional whey isolate. Protyze Clear Whey Isolate undergoes microfiltration processing to remove excess fats and lactose, making it a suitable option for those with lactose intolerance or seeking a low-fat protein source.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_qtb8yC": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "2.Who can consume Protyze clear whey protein?",
+            "icon": "none",
+            "row_content": "<p>Protyze Clear Whey Protein is suitable for individuals looking to supplement their protein intake. It can be consumed by athletes, fitness enthusiasts, or anyone seeking a refreshing and clean protein source. It offers 24 G of Protein, 7.2 G of BCAA, 3.8 G of Leucine, and 5 G of Glutamine in each serving. However, it is essential to consider individual dietary needs and consult with a healthcare professional for specific health concerns.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_waCd3g": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "3.Does clear whey isolate build muscle?",
+            "icon": "none",
+            "row_content": "<p>Yes, Clear Whey Isolate contributes to muscle building. Protyze Clear Whey Protein offering 3.8 G of Leucine plays a major role in muscle protein synthesis, muscle building, and repair. Consuming it as a part of a balanced diet and along with regular strength training can support muscle development.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_Ur7YWi": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "4.Is it safe to take clear whey protein isolate every day?",
+            "icon": "none",
+            "row_content": "<p>Yes, it is safe to consume clear whey protein daily. However, it's essential to adhere to recommended serving sizes and consult with healthcare professionals if you have any existing health concerns or conditions. As with any dietary supplement, consuming them in moderation is the key to maintaining a balanced lifestyle.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_U4LJwH": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "5. What kind of testing do you do on clear whey protein and how can we assure on the quality?",
+            "icon": "none",
+            "row_content": "<p>At Protyze, we ensure the highest quality of our clear whey protein supplements through rigorous protein, microbial, and heavy metal testing. It is certified by third-party labs. With transparent labeling and industry-standard certifications, we provide a product you can trust for your health and fitness goals.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_TpJFcA": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "6. Does Protyze Whey Protein have a complete Amino Acid Profile?",
+            "icon": "none",
+            "row_content": "<p>Yes, Protyze Clear Whey Protein offers a complete amino acid profile, including all 9 essential amino acids and BCAAs, ensuring optimal muscle recovery and growth.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_CwrfBd": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "7. How can I incorporate Clear whey protein into my daily routine?",
+            "icon": "none",
+            "row_content": "<p>Incorporate Clear Whey Protein into your daily routine as a refreshing, light, and versatile way to meet your protein needs anytime, anywhere.<br/>1. <strong>Morning Boost:</strong> Start your day with a refreshing clear protein shake to fuel your morning.<br/>2. <strong>Post-Workout Recovery:</strong> Sip on it after workouts for quick muscle recovery.<br/>3. <strong>Midday Snack:</strong> Replace sugary drinks with clear whey protein to stay energized.<br/>4. <strong>On-the-Go:</strong> Carry it to work, hikes, or commutes for a light and nutritious pick-me-up.<br/>5. <strong>Meal Companion:</strong> Pair it with meals to meet your daily protein goals effortlessly.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_Hr6NCG": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "8. Do I need to be working out to consume Clear whey protein powder?",
+            "icon": "none",
+            "row_content": "<p>No, you don’t need to work out to enjoy Clear Whey Protein. It’s a refreshing drink you can sip anytime—like a refreshing fruity juice packed with all the benefits of protein. Perfect for adding protein to your day without any fuss!</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_TyiKWz": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "9. What's the difference between regular whey protein and clear whey protein",
+            "icon": "none",
+            "row_content": "<p>Clear whey protein is a light, refreshing alternative to traditional creamy whey. It’s easy to digest, offers fruity flavors, and fits seamlessly into your active lifestyle without bloating or heaviness.<br/><strong>Texture:</strong>Regular whey protein is creamy, while clear whey protein is light and refreshing, like a fruit juice.<br/><strong>Digestibility:</strong>Clear whey protein is easier on the stomach, leaving no bloating or heaviness.<br/><strong>Flavor:</strong>Regular whey comes in heavy flavors like chocolate; clear whey offers fruity, vibrant options.<br/><strong>Usage:</strong>Regular whey feels like a meal; clear whey fits into your active lifestyle, anytime, anywhere.<br/><strong>Appearance:</strong>Regular whey is opaque; clear whey is translucent and mixes cleanly with water.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_chkcRp": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "10. Does it help in weight loss/weight gain?",
+            "icon": "none",
+            "row_content": "<p>Clear whey protein supports muscle building and recovery, which can influence weight based on your body goals. For those aiming to tone or lose fat, it helps preserve muscle during calorie deficits. For those aiming to gain weight, it contributes to lean muscle growth when paired with a calorie surplus. Your results depend on how you align your diet and exercise with your goals.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_9itdMJ": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "11. Can I have Protyze clear whey protein Pre - intra- post-workout?",
+            "icon": "none",
+            "row_content": "<p>Yes, you can consume Protyze Clear Whey Protein in your pre, intra, and post-workout! The light, water-based texture ensures rapid absorption, keeping you energized and feeling light throughout your workout.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_9YfGNz": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "12. Do I need to be working out to consume Clear whey protein powder?",
+            "icon": "none",
+            "row_content": "<p>No, you don’t need to work out to enjoy Clear Whey Protein. It’s a refreshing drink you can sip anytime—like a refreshing fruity juice packed with all the benefits of protein. Perfect for adding protein to your day without any fuss!</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_KqYacG": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "13. What's the difference between regular whey protein and clear whey protein",
+            "icon": "none",
+            "row_content": "<p>Clear whey protein is a light, refreshing alternative to traditional creamy whey. It’s easy to digest, offers fruity flavors, and fits seamlessly into your active lifestyle without bloating or heaviness.<br/><strong>Texture:</strong>Regular whey protein is creamy, while clear whey protein is light and refreshing, like a fruit juice.<br/><strong>Digestibility:</strong>Clear whey protein is easier on the stomach, leaving no bloating or heaviness.<br/><strong>Flavor:</strong>Regular whey comes in heavy flavors like chocolate; clear whey offers fruity, vibrant options.<br/><strong>Usage:</strong>Regular whey feels like a meal; clear whey fits into your active lifestyle, anytime, anywhere.<br/><strong>Appearance:</strong>Regular whey is opaque; clear whey is translucent and mixes cleanly with water.<br/><br/></p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_jgP6qK": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "14. Does it help in weight loss/weight gain?",
+            "icon": "none",
+            "row_content": "<p>Clear whey protein supports muscle building and recovery, which can influence weight based on your body goals. For those aiming to tone or lose fat, it helps preserve muscle during calorie deficits. For those aiming to gain weight, it contributes to lean muscle growth when paired with a calorie surplus. Your results depend on how you align your diet and exercise with your goals.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_JRzbCY": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "15. Can I have Protyze clear whey protein Pre - intra- post-workout?",
+            "icon": "none",
+            "row_content": "<p>Yes, you can consume Protyze Clear Whey Protein in your pre, intra, and post-workout! The light, water-based texture ensures rapid absorption, keeping you energized and feeling light throughout your workout.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_WnJWed",
+        "collapsible_row_qtb8yC",
+        "collapsible_row_waCd3g",
+        "collapsible_row_Ur7YWi",
+        "collapsible_row_U4LJwH",
+        "collapsible_row_TpJFcA",
+        "collapsible_row_CwrfBd",
+        "collapsible_row_Hr6NCG",
+        "collapsible_row_TyiKWz",
+        "collapsible_row_chkcRp",
+        "collapsible_row_9itdMJ",
+        "collapsible_row_9YfGNz",
+        "collapsible_row_KqYacG",
+        "collapsible_row_jgP6qK",
+        "collapsible_row_JRzbCY"
+      ],
+      "disabled": true,
+      "settings": {
+        "caption": "",
+        "heading": "Frequently Asked Questions (FAQ)",
+        "heading_size": "h1",
+        "span_text": "",
+        "heading_alignment": "center",
+        "style": "card",
+        "accent_color": "",
+        "card_bg_color": "#ffffff",
+        "layout": "none",
+        "color_scheme": "scheme-2",
+        "container_color_scheme": "",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "flavour_hero_carousal_hq9cYy",
+    "find_flavour_fhF6it",
+    "shop_by_goal_A7rynN",
+    "why_clear_whey_QGenew",
+    "try_and_save_GtL8ME",
+    "combo_deals_hjWYpm",
+    "slideshow_g46KcD",
+    "image_and_video_section_mdFarf",
+    "image_with_featured_collection_6HRV6a",
+    "image_with_featured_collection_UQ3DLz",
+    "image_with_featured_collection_fjEVWc",
+    "image_with_featured_collection_wicNAF",
+    "image_with_featured_collection_dHQWwB",
+    "image_with_featured_collection_Vtda37",
+    "marquee_logo_WhB4wE",
+    "171767599492366713",
+    "rich_text_RNfQdd",
+    "multicolumn_zPrmgW",
+    "featured_product_AAWxDY",
+    "featured_blog_3YpYBF",
+    "faq_section_f4GBRg"
+  ]
+}

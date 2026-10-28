@@ -1,0 +1,405 @@
+{%- liquid
+  assign sh_img = section.settings.image
+  assign sh_mob = section.settings.image_mobile | default: sh_img
+  assign sh_heading_tag = section.settings.heading_tag | default: 'h2'
+
+  assign sh_mob_ratio = 1.3333
+  if section.settings.image_mobile != blank
+    assign sh_mob_ratio = section.settings.image_mobile.aspect_ratio
+  endif
+
+  assign sh_bg = section.settings.background_color | default: '#f4efe6'
+  assign sh_fade_alpha = section.settings.overlay_opacity | divided_by: 100.0
+  assign sh_fade = sh_bg | color_modify: 'alpha', sh_fade_alpha
+-%}
+
+{%- style -%}
+  .sh-{{ section.id }} {
+    --sh-bg: {{ section.settings.background_color | default: '#f4efe6' }};
+    --sh-text: {{ section.settings.text_color | default: '#111111' }};
+    --sh-accent: {{ section.settings.accent_color | default: '#e07b28' }};
+    background-color: var(--sh-bg);
+    color: var(--sh-text);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .sh-{{ section.id }} .sh__media {
+    aspect-ratio: {{ sh_mob_ratio }};
+    overflow: hidden;
+    position: relative;
+  }
+
+  .sh-{{ section.id }} .sh__media img {
+    display: block;
+    height: 100%;
+    object-fit: cover;
+    object-position: {{ section.settings.image_focus }};
+    width: 100%;
+  }
+
+  .sh-{{ section.id }} .sh__content {
+    box-sizing: border-box;
+    padding: 2.8rem 0 3.6rem;
+    text-align: center;
+  }
+
+  .sh-{{ section.id }} .sh__logo {
+    display: block;
+    height: auto;
+    margin: 0 auto 2.4rem;
+    max-width: {{ section.settings.logo_width | times: 0.8 | round: 0 }}px;
+    width: 100%;
+  }
+
+  .sh-{{ section.id }} .sh__heading {
+    color: var(--sh-text);
+    font-family: var(--font-heading-family);
+    font-size: clamp(3.6rem, 2rem + 4.6vw, 7.6rem);
+    font-style: var(--font-heading-style);
+    font-weight: var(--font-heading-weight);
+    letter-spacing: calc(var(--font-heading-scale) * 0.06rem);
+    line-height: 1.08;
+    margin: 0;
+    text-transform: none;
+  }
+
+  /* Words set in italics in the heading get the accent underline instead. */
+  .sh-{{ section.id }} .sh__heading em {
+    font-style: normal;
+    text-decoration: underline;
+    text-decoration-color: var(--sh-accent);
+    text-decoration-skip-ink: none;
+    text-decoration-thickness: 0.06em;
+    text-underline-offset: 0.12em;
+  }
+
+  .sh-{{ section.id }} .sh__subheading {
+    color: var(--sh-text);
+    font-size: 1.5rem;
+    line-height: 1.55;
+    margin: 1.8rem auto 0;
+    max-width: 46rem;
+    opacity: 0.85;
+  }
+
+  .sh-{{ section.id }} .sh__meta {
+    align-items: center;
+    display: flex;
+    gap: 1.4rem;
+    justify-content: center;
+    margin-top: 2.8rem;
+    text-align: left;
+  }
+
+  .sh-{{ section.id }} .sh__year {
+    align-items: center;
+    display: inline-flex;
+    flex-shrink: 0;
+    font-size: 1.6rem;
+    font-style: italic;
+    font-weight: 600;
+    height: 4.6rem;
+    justify-content: center;
+    position: relative;
+    width: 8.8rem;
+  }
+
+  .sh-{{ section.id }} .sh__year svg {
+    color: var(--sh-text);
+    height: 100%;
+    inset: 0;
+    position: absolute;
+    width: 100%;
+  }
+
+  .sh-{{ section.id }} .sh__meta-text {
+    font-size: 1.4rem;
+    line-height: 1.45;
+    margin: 0;
+    opacity: 0.85;
+  }
+
+  @media screen and (min-width: 750px) {
+    .sh-{{ section.id }} {
+      align-items: center;
+      display: flex;
+      min-height: {{ section.settings.desktop_height }}px;
+    }
+
+    .sh-{{ section.id }} .sh__media {
+      aspect-ratio: auto;
+      inset: 0;
+      position: absolute;
+    }
+
+    {%- if section.settings.overlay_opacity > 0 %}
+      .sh-{{ section.id }} .sh__media::after {
+        background: linear-gradient(
+          {% if section.settings.content_position == 'right' %}270deg{% else %}90deg{% endif %},
+          {{ sh_fade }} 0%,
+          transparent 60%
+        );
+        content: '';
+        inset: 0;
+        position: absolute;
+      }
+    {%- endif %}
+
+    .sh-{{ section.id }} .sh__inner {
+      position: relative;
+      width: 100%;
+      z-index: 1;
+    }
+
+    .sh-{{ section.id }} .sh__content {
+      max-width: 56rem;
+      padding: 4.8rem 0;
+      text-align: left;
+    }
+
+    .sh-{{ section.id }} .sh__content--right {
+      margin-left: auto;
+    }
+
+    .sh-{{ section.id }} .sh__logo {
+      margin: 0 0 4rem;
+      max-width: {{ section.settings.logo_width }}px;
+    }
+
+    .sh-{{ section.id }} .sh__subheading {
+      font-size: 1.7rem;
+      margin: 2.4rem 0 0;
+    }
+
+    .sh-{{ section.id }} .sh__meta {
+      justify-content: flex-start;
+      margin-top: 3.6rem;
+    }
+
+    .sh-{{ section.id }} .sh__meta-text {
+      font-size: 1.5rem;
+    }
+  }
+{%- endstyle -%}
+
+<div class="sh-{{ section.id }}">
+  {%- if sh_img != blank -%}
+    <div class="sh__media">
+      <picture>
+        {%- if section.settings.image_mobile != blank -%}
+          <source
+            media="(max-width: 749px)"
+            srcset="{{ sh_mob | image_url: width: 500 }} 500w, {{ sh_mob | image_url: width: 750 }} 750w, {{ sh_mob | image_url: width: 1080 }} 1080w"
+            sizes="100vw"
+            width="{{ sh_mob.width }}"
+            height="{{ sh_mob.height }}"
+          >
+        {%- endif -%}
+        {{
+          sh_img
+          | image_url: width: 2400
+          | image_tag:
+            widths: '750, 1100, 1500, 1920, 2400',
+            sizes: '100vw',
+            loading: 'eager',
+            fetchpriority: 'high'
+        }}
+      </picture>
+    </div>
+  {%- endif -%}
+
+  <div class="sh__inner page-width">
+    <div class="sh__content{% if section.settings.content_position == 'right' %} sh__content--right{% endif %}">
+      {%- if section.settings.logo != blank -%}
+        {{
+          section.settings.logo
+          | image_url: width: 480
+          | image_tag: class: 'sh__logo', widths: '160, 240, 320, 480', sizes: '240px', loading: 'eager'
+        }}
+      {%- endif -%}
+
+      {%- if section.settings.heading != blank -%}
+        <{{ sh_heading_tag }} class="sh__heading">{{ section.settings.heading }}</{{ sh_heading_tag }}>
+      {%- endif -%}
+
+      {%- if section.settings.subheading != blank -%}
+        <p class="sh__subheading">{{ section.settings.subheading | escape | newline_to_br }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.year != blank or section.settings.meta_text != blank -%}
+        <div class="sh__meta">
+          {%- if section.settings.year != blank -%}
+            <span class="sh__year">
+              <svg viewBox="0 0 120 60" preserveAspectRatio="none" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true" focusable="false">
+                <path vector-effect="non-scaling-stroke" d="M22 12C44 3 96 3 112 18c12 12-6 32-48 36C24 57 3 44 8 28 12 16 34 8 60 7"/>
+              </svg>
+              {{ section.settings.year | escape }}
+            </span>
+          {%- endif -%}
+          {%- if section.settings.meta_text != blank -%}
+            <p class="sh__meta-text">{{ section.settings.meta_text | escape | newline_to_br }}</p>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Story Hero",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Desktop image",
+      "info": "Recommended 2400 × 1000 px. Keep the side where the text sits fairly plain."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile image",
+      "info": "Recommended 1080 × 1080 px. Shown above the text on phones. If empty, the desktop image is cropped to 4:3."
+    },
+    {
+      "type": "select",
+      "id": "image_focus",
+      "label": "Image focus point",
+      "info": "Which part of the image stays visible when it's cropped.",
+      "options": [
+        { "value": "left center", "label": "Left" },
+        { "value": "center center", "label": "Center" },
+        { "value": "right center", "label": "Right" },
+        { "value": "center top", "label": "Top" }
+      ],
+      "default": "center center"
+    },
+    {
+      "type": "range",
+      "id": "desktop_height",
+      "label": "Desktop height",
+      "min": 400,
+      "max": 800,
+      "step": 20,
+      "unit": "px",
+      "default": 560
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Desktop fade behind text",
+      "info": "Fades the background colour in from the text side, for busy images. 0 = off.",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "select",
+      "id": "content_position",
+      "label": "Text position (desktop)",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo",
+      "info": "Optional. Transparent PNG/SVG, about 480px wide."
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "Logo width",
+      "min": 80,
+      "max": 320,
+      "step": 10,
+      "unit": "px",
+      "default": 160
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "info": "Italicise a word to give it the accent underline, like \"Protyze.\"",
+      "default": "The story of <em>Protyze.</em>"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading tag (SEO)",
+      "info": "Use H1 when this is the page's main heading, e.g. on the Our Story page.",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "From a failed experiment in my kitchen\nto reinventing how the world drinks protein."
+    },
+    {
+      "type": "text",
+      "id": "year",
+      "label": "Circled year",
+      "info": "Leave empty to hide.",
+      "default": "2020"
+    },
+    {
+      "type": "textarea",
+      "id": "meta_text",
+      "label": "Text next to the year",
+      "default": "It all started with one\nsimple question."
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "info": "Behind the text on mobile, and the colour of the desktop fade.",
+      "default": "#f4efe6"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Underline accent",
+      "default": "#e07b28"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Story Hero"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,305 @@
+.facility-nutrition__outer {
+  max-width: 120rem;
+  margin: 0 auto;
+}
+
+.facility-nutrition {
+  background: var(--fn-bg, #1a1a2e);
+  color: var(--fn-text, #ffffff);
+  border-radius: 3px;
+  overflow: hidden;
+  padding: 4rem;
+}
+
+.facility-nutrition__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+/* Left column */
+.facility-nutrition__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.facility-nutrition__heading {
+  font-family: var(--font-heading-family);
+  font-weight: var(--font-heading-weight);
+  color: var(--fn-text, #ffffff);
+  margin: 0;
+  text-decoration: underline;
+  text-underline-offset: 0.4rem;
+  text-decoration-thickness: 2px;
+}
+
+.facility-nutrition__desc {
+  font-family: var(--font-body-family);
+  font-size: 1.5rem;
+  line-height: 1.7;
+  color: var(--fn-text, #ffffff);
+  opacity: 0.8;
+}
+
+.facility-nutrition__desc p {
+  margin: 0;
+}
+
+/* Badges */
+.facility-nutrition__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.facility-nutrition__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 7rem;
+  height: 7rem;
+}
+
+.facility-nutrition__badge img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Ingredients card */
+.facility-nutrition__ingredients {
+  background: var(--fn-ing-bg, #ffffff);
+  color: var(--fn-ing-text, #1a1a2e);
+  border-radius: 3px;
+  padding: 2rem;
+  margin-top: 0.5rem;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+}
+
+.facility-nutrition__ingredients-content {
+  font-family: var(--font-body-family);
+  font-size: 1.4rem;
+  line-height: 1.7;
+  margin: 0;
+  color: var(--fn-ing-text, #1a1a2e);
+}
+
+.facility-nutrition__ingredients-content strong {
+  font-family: var(--font-custom-family, var(--font-body-family));
+  font-weight: 700;
+}
+
+/* Right column — table/image area */
+.facility-nutrition__table-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.facility-nutrition__table-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.facility-nutrition__table-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Nutrition image mode */
+.facility-nutrition__nutrition-img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 42rem;
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+}
+
+.facility-nutrition__nutrition-img img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Table card */
+.facility-nutrition__table-card {
+  position: relative;
+  z-index: 1;
+  background: var(--fn-table-bg, #ffffff);
+  color: var(--fn-table-text, #1a1a2e);
+  border-radius: 3px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 42rem;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+}
+
+.facility-nutrition__table-heading {
+  font-family: var(--font-heading-family);
+  font-weight: 700;
+  font-size: 2rem;
+  text-align: center;
+  margin: 0 0 0.4rem;
+  color: var(--fn-table-text, #1a1a2e);
+}
+
+.facility-nutrition__serving {
+  font-family: var(--font-custom-family, var(--font-body-family));
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-align: center;
+  margin: 0 0 1.2rem;
+  color: var(--fn-table-text, #1a1a2e);
+}
+
+/* Table */
+.facility-nutrition__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-body-family);
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+
+.facility-nutrition__table thead th {
+  background: rgba(0, 0, 0, 0.05);
+  font-weight: 700;
+  font-size: 1.2rem;
+  padding: 0.8rem 1rem;
+  text-align: left;
+  border-bottom: 2px solid var(--fn-table-text, #1a1a2e);
+  color: var(--fn-table-text, #1a1a2e);
+}
+
+.facility-nutrition__table thead th:nth-child(2),
+.facility-nutrition__table thead th:nth-child(3) {
+  text-align: right;
+}
+
+.facility-nutrition__table tbody td {
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  color: var(--fn-table-text, #333);
+}
+
+.facility-nutrition__table tbody td:nth-child(2),
+.facility-nutrition__table tbody td:nth-child(3) {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.facility-nutrition__table tbody tr:last-child td {
+  border-bottom: 2px solid var(--fn-table-text, #1a1a2e);
+  font-weight: 700;
+}
+
+.facility-nutrition__indent td:first-child {
+  padding-left: 2.4rem;
+}
+
+.fn-small {
+  font-weight: 400;
+  font-size: 1.1rem;
+}
+
+/* BCAA sub-table */
+.facility-nutrition__table--bcaa {
+  margin-bottom: 0;
+}
+
+.facility-nutrition__bcaa-header {
+  background: #9e9e9e !important;
+  color: #ffffff;
+  text-align: center !important;
+  font-size: 1.3rem;
+  font-weight: 700;
+  padding: 0.6rem 1rem;
+  border-bottom: none !important;
+}
+
+.facility-nutrition__table--bcaa tbody td {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.facility-nutrition__table--bcaa tbody tr:last-child td {
+  border-bottom: none;
+  font-weight: 400;
+}
+
+/* Footnote */
+.facility-nutrition__footnote {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--fn-table-text, #666);
+  opacity: 0.6;
+  margin: 1rem 0 0;
+}
+
+/* Mobile */
+@media screen and (max-width: 749px) {
+  .facility-nutrition {
+    border-radius: 3px;
+    padding: 2.4rem 2rem;
+  }
+
+  .facility-nutrition__grid {
+    grid-template-columns: 1fr;
+    gap: 2.4rem;
+  }
+
+  .facility-nutrition__text {
+    gap: 1.6rem;
+  }
+
+  .facility-nutrition__desc {
+    font-size: 1.4rem;
+  }
+
+  .facility-nutrition__badges {
+    gap: 1rem;
+  }
+
+  .facility-nutrition__badge {
+    width: 5.5rem;
+    height: 5.5rem;
+  }
+
+  .facility-nutrition__nutrition-img {
+    max-width: 100%;
+  }
+
+  .facility-nutrition__table-card {
+    padding: 1.6rem;
+    max-width: 100%;
+  }
+
+  .facility-nutrition__table-heading {
+    font-size: 1.7rem;
+  }
+
+  .facility-nutrition__table {
+    font-size: 1.2rem;
+  }
+
+  .facility-nutrition__table thead th {
+    font-size: 1.1rem;
+    padding: 0.6rem 0.8rem;
+  }
+
+  .facility-nutrition__table tbody td {
+    padding: 0.5rem 0.8rem;
+  }
+
+  .facility-nutrition__indent td:first-child {
+    padding-left: 2rem;
+  }
+}

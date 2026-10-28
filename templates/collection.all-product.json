@@ -1,0 +1,196 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "image_banner_YhCmme": {
+      "type": "image-banner",
+      "disabled": true,
+      "name": "t:sections.image-banner.presets.name",
+      "settings": {
+        "image_overlay_opacity": 0,
+        "image_height": "adapt",
+        "image_behavior": "none",
+        "desktop_content_position": "middle-center",
+        "desktop_content_alignment": "center",
+        "show_text_box": true,
+        "color_scheme": "",
+        "stack_images_on_mobile": true,
+        "mobile_content_alignment": "center",
+        "show_text_below": true,
+        "custom_class": ""
+      }
+    },
+    "collection_comparison_qxTUwf": {
+      "type": "collection-comparison",
+      "blocks": {
+        "collection_Na8Yf7": {
+          "type": "collection",
+          "settings": {
+            "collection": "clear-whey-isolate-with-creatine",
+            "display_title": "Nitro Clear",
+            "display_description": "",
+            "display_image": "shopify://shop_images/nitro.avif",
+            "tag": "Strength & muscle",
+            "badge": "30g protein",
+            "accent_color": "#615f5d",
+            "card_color": "#d1cdc8",
+            "button_label": "Shop Now",
+            "show_count": false,
+            "row_1": "<strong>30g</strong>&nbsp;",
+            "row_2": "3g creatine · 5g glutamine&nbsp;",
+            "row_3": "Strength & muscle growth&nbsp;",
+            "row_4": "After workout&nbsp;",
+            "row_5": "Mango Delight, Orange Delight, Pink Guava&nbsp;",
+            "row_6": "13 & 26 servings · pack of 6&nbsp;",
+            "row_7": "★ 4.5 · 94 reviews&nbsp;",
+            "row_8": "<strong>₹1,449</strong>&nbsp;"
+          }
+        },
+        "collection_aF6NMr": {
+          "type": "collection",
+          "settings": {
+            "collection": "clear-whey-isolate",
+            "display_title": "Anytime Clear",
+            "display_description": "",
+            "display_image": "shopify://shop_images/atc-1.jpg",
+            "tag": "Everyday protein",
+            "badge": "24g protein",
+            "accent_color": "#cf7e38",
+            "card_color": "#f1d3b9",
+            "button_label": "Shop Now",
+            "show_count": false,
+            "row_1": "&nbsp;<strong>24g</strong>&nbsp;",
+            "row_2": "&nbsp;7.2g BCAA · 5g glutamine&nbsp;",
+            "row_3": "&nbsp;Everyday protein top-up&nbsp;",
+            "row_4": "&nbsp;Any time of day&nbsp;",
+            "row_5": "Pink Guava, Blueberry Crush, Nimbu Pani, Mango Peach&nbsp;",
+            "row_6": "15 & 30 servings · 5-sachet set&nbsp;",
+            "row_7": "★ 4.5 · 739 reviews&nbsp;",
+            "row_8": "<strong>₹999</strong>&nbsp;"
+          }
+        },
+        "collection_MHfC9x": {
+          "type": "collection",
+          "settings": {
+            "collection": "hydra-collection",
+            "display_title": "Hydra Clear",
+            "display_description": "",
+            "display_image": "shopify://shop_images/Hydra_lemon_Lime_Pack_of_15__1.jpg",
+            "tag": "Hydration",
+            "badge": "20g protein",
+            "accent_color": "#445516",
+            "card_color": "#d7eba3",
+            "button_label": "Shop Now",
+            "show_count": false,
+            "row_1": "<strong>20g</strong>&nbsp;",
+            "row_2": "810mg electrolytes · 7.6g BCAA&nbsp;",
+            "row_3": "Hydration & endurance&nbsp;",
+            "row_4": "During or after training&nbsp;",
+            "row_5": "Pineapple, Fruit Punch&nbsp;",
+            "row_6": "15 & 12 sachets · pack of 6&nbsp;",
+            "row_7": "★ 4.5 · 11 reviews&nbsp;",
+            "row_8": "<strong>₹998</strong>&nbsp;"
+          }
+        },
+        "collection_yXqrXw": {
+          "type": "collection",
+          "settings": {
+            "collection": "clear-protein-isolate-with-probiotics",
+            "display_title": "Diet Clear",
+            "display_description": "",
+            "display_image": "shopify://shop_images/2_10.jpg",
+            "tag": "Gut health & weight",
+            "badge": "15g protein",
+            "accent_color": "#bf9f35",
+            "card_color": "#e6d9ae",
+            "button_label": "Shop Now",
+            "show_count": false,
+            "row_1": "&nbsp;<strong>15g</strong>",
+            "row_2": "4.5bn CFU probiotics · 500mg L-carnitine · fibre&nbsp;",
+            "row_3": "Gut health & weight management&nbsp;",
+            "row_4": "Between meals&nbsp;",
+            "row_5": "Juicy Mango, Juicy Lychee, Juicy Blueberry&nbsp;",
+            "row_6": "15 & 30 servings · pack of 6&nbsp;",
+            "row_7": "★ 4.5 · 94 reviews&nbsp;",
+            "row_8": "<strong>₹799</strong>&nbsp;"
+          }
+        }
+      },
+      "block_order": [
+        "collection_Na8Yf7",
+        "collection_aF6NMr",
+        "collection_MHfC9x",
+        "collection_yXqrXw"
+      ],
+      "name": "Collection comparison",
+      "settings": {
+        "heading": "",
+        "subheading": "",
+        "compare_label": "Compare",
+        "row_1_label": "Protein / serving",
+        "row_1_highlight": true,
+        "row_2_label": "Key ingredients",
+        "row_2_highlight": false,
+        "row_3_label": "Best for",
+        "row_3_highlight": false,
+        "row_4_label": "When to drink",
+        "row_4_highlight": false,
+        "row_5_label": "Flavours",
+        "row_5_highlight": false,
+        "row_6_label": "Pack sizes",
+        "row_6_highlight": false,
+        "row_7_label": "Rating",
+        "row_7_highlight": false,
+        "row_8_label": "Starts at",
+        "row_8_highlight": true,
+        "color_scheme": "scheme-c02b38ee-c791-4d98-b18a-18922b5fe443",
+        "background_color": "#fff9dd",
+        "panel_color": "#fffced",
+        "stripe_color": "#fdf6f4",
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "product-grid": {
+      "type": "main-collection-product-grid",
+      "settings": {
+        "products_per_page": 64,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "standard",
+        "enable_filtering": false,
+        "filter_type": "horizontal",
+        "enable_sorting": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "banner": {
+      "type": "main-collection-banner",
+      "settings": {
+        "show_collection_description": true,
+        "show_collection_image": false,
+        "color_scheme": "scheme-1"
+      }
+    }
+  },
+  "order": [
+    "image_banner_YhCmme",
+    "collection_comparison_qxTUwf",
+    "product-grid",
+    "banner"
+  ]
+}

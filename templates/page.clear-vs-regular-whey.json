@@ -1,0 +1,451 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "text_image_banner_PXnHby": {
+      "type": "text-image-banner",
+      "blocks": {
+        "eyebrow_eGJHbp": {
+          "type": "eyebrow",
+          "settings": {
+            "text": "CLEAR WHEY VS REGULAR WHEY"
+          }
+        },
+        "heading_HFHDhD": {
+          "type": "heading",
+          "settings": {
+            "heading": "Same protein.",
+            "heading_line_2": "A completely different drink.",
+            "heading_size": "h1",
+            "heading_font_size_mobile": 0,
+            "heading_font_size_desktop": 0
+          }
+        },
+        "text_RKchnK": {
+          "type": "text",
+          "settings": {
+            "text": "<p>One is thick and creamy like a milkshake. The other dissolves fully in water and drinks like a fruit squash — light, tangy and refreshing.</p>"
+          }
+        },
+        "buttons_yKiiKb": {
+          "type": "buttons",
+          "settings": {
+            "button_label_1": "Shop Clear Whey",
+            "button_link_1": "shopify://collections/clear-whey-isolate",
+            "button_label_2": "See the comparison",
+            "button_link_2": "#shopify-section-template--21378836955303__comparison_table_8gqzEt"
+          }
+        }
+      },
+      "block_order": [
+        "eyebrow_eGJHbp",
+        "heading_HFHDhD",
+        "text_RKchnK",
+        "buttons_yKiiKb"
+      ],
+      "name": "Text with image banner",
+      "settings": {
+        "content_max_width": 480,
+        "image": "shopify://shop_images/sec_1_resize_mob_1.avif",
+        "image_mobile": "shopify://shop_images/sec_1_resize_mob_1.avif",
+        "image_width": 380,
+        "hide_image_on_mobile": false,
+        "color_scheme": "scheme-c02b38ee-c791-4d98-b18a-18922b5fe443",
+        "background_color": "",
+        "eyebrow_color": "#f15524",
+        "heading_color": "",
+        "text_color": "",
+        "button_primary_bg": "#f15524",
+        "button_primary_text": "#ffffff",
+        "button_secondary_bg": "",
+        "button_secondary_border": "",
+        "button_secondary_text": "",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "custom_class": ""
+      }
+    },
+    "badge_text_card_fKVjje": {
+      "type": "badge-text-card",
+      "blocks": {
+        "badge_VNtrUA": {
+          "type": "badge",
+          "settings": {
+            "text": "The short answer"
+          }
+        },
+        "text_YRLpXx": {
+          "type": "text",
+          "settings": {
+            "text": "<p><strong>Regular whey</strong> (concentrate or blends) keeps more fat and lactose and uses gums or creamers to build a thick, filling, dessert-style shake — usually with milk or water.</p><p><strong>Clear whey isolate</strong> is filtered further to strip out almost all fat, lactose and carbs, with no gums or thickeners. It dissolves clear in water for a light, fruit-flavoured drink that's easier to have every single day.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "badge_VNtrUA",
+        "text_YRLpXx"
+      ],
+      "name": "Badge text card",
+      "settings": {
+        "card_max_width": 900,
+        "color_scheme": "scheme-84285399-6321-4a7f-a7a4-14c9dfa98463",
+        "background_color": "",
+        "card_background_color": "#fffced",
+        "text_color": "",
+        "badge_background_color": "#f15524",
+        "badge_text_color": "#ffffff",
+        "button_background_color": "",
+        "button_text_color": "",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "custom_class": ""
+      }
+    },
+    "comparison_table_8gqzEt": {
+      "type": "comparison-table",
+      "blocks": {
+        "row_UY39bW": {
+          "type": "row",
+          "settings": {
+            "feature_text": "Clear and juicy texture",
+            "protyze_status": "check",
+            "regular_status": "cross"
+          }
+        },
+        "row_wpDehw": {
+          "type": "row",
+          "settings": {
+            "feature_text": "Sweet, tangy, and refreshing",
+            "protyze_status": "check",
+            "regular_status": "cross"
+          }
+        },
+        "row_CC84k4": {
+          "type": "row",
+          "settings": {
+            "feature_text": "It’s light, with no heavy or bloated feeling.",
+            "protyze_status": "check",
+            "regular_status": "cross"
+          }
+        },
+        "row_8EDLXn": {
+          "type": "row",
+          "settings": {
+            "feature_text": "Tastes great when mixed with water",
+            "protyze_status": "check",
+            "regular_status": "cross"
+          }
+        },
+        "row_hUptCH": {
+          "type": "row",
+          "settings": {
+            "feature_text": "Refreshing, fruit-inspired flavours",
+            "protyze_status": "check",
+            "regular_status": "cross"
+          }
+        }
+      },
+      "block_order": [
+        "row_UY39bW",
+        "row_wpDehw",
+        "row_CC84k4",
+        "row_8EDLXn",
+        "row_hUptCH"
+      ],
+      "name": "Comparison table",
+      "settings": {
+        "eyebrow_text": "At a glance",
+        "heading_text": "Us vs them",
+        "feature_header_text": "Why Choose Clear Whey?",
+        "protyze_image": "shopify://shop_images/protyze_clear_whey_copy.png",
+        "protyze_label": "Protyze Clear Whey",
+        "regular_image": "shopify://shop_images/regular_whey_copy.png",
+        "regular_label": "Regular Whey",
+        "color_scheme": "scheme-c02b38ee-c791-4d98-b18a-18922b5fe443",
+        "background_color": "",
+        "card_background_color": "#fff9dd",
+        "eyebrow_color": "#f15524",
+        "protyze_column_background_color": "#fff9dd",
+        "tick_color": "#23b218",
+        "cross_color": "",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "custom_class": ""
+      }
+    },
+    "checklist_comparison_6Nzjaw": {
+      "type": "checklist-comparison",
+      "blocks": {
+        "column_DYpnJM": {
+          "type": "column",
+          "settings": {
+            "title": "Clear whey isolate",
+            "items": "Light and refreshing form of whey isolate\nSweet, tangy, and great with water without precipitation\nIdeal for adding functional ingredients like electrolytes without compromising the protein\nRefreshing taste without gums, thickeners, or a heavy texture\nSuitable for pre-, intra-, or post-workout protein",
+            "muted": false
+          }
+        },
+        "column_4DqBQe": {
+          "type": "column",
+          "settings": {
+            "title": "Regular whey",
+            "items": "Usually concentrate or a blend, retaining more fat and lactose.\nRich and creamy — needs milk or a blender for a smooth mix.\nAdding electrolytes affects texture and stability.\nGums, creamers and thickeners build the milkshake body.\nUsually taken post-workout — heavy to drink mid-session.",
+            "muted": true
+          }
+        }
+      },
+      "block_order": [
+        "column_DYpnJM",
+        "column_4DqBQe"
+      ],
+      "name": "Checklist comparison",
+      "settings": {
+        "heading": "What each one actually is",
+        "color_scheme": "scheme-84285399-6321-4a7f-a7a4-14c9dfa98463",
+        "background_color": "",
+        "card_background_color": "#fffced",
+        "text_color": "",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "custom_class": ""
+      }
+    },
+    "icon_feature_grid_H9rzFU": {
+      "type": "icon-feature-grid",
+      "blocks": {
+        "feature_nHFWzB": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/Texture_copy.png",
+            "title": "Texture",
+            "subtext": "Clear and juice-like, not thick"
+          }
+        },
+        "feature_9UNYXE": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/Mixability_copy.png",
+            "title": "Mixability",
+            "subtext": "Shaker and water. 15 seconds"
+          }
+        },
+        "feature_qgNaMg": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/Digestion_copy.png",
+            "title": "Digestion",
+            "subtext": "99% lactose-free, sits light"
+          }
+        },
+        "feature_nGxWqf": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/Absorption_copy.png",
+            "title": "Functional",
+            "subtext": "Blends with electrolytes, fiber and salts"
+          }
+        },
+        "feature_EC4q6P": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/Ingredients_copy.png",
+            "title": "Ingredients",
+            "subtext": "No gums. No added sugar"
+          }
+        },
+        "feature_RyrmbX": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/hot_copy.png",
+            "title": "Hot weather",
+            "subtext": "Chilled and refreshing, not filling"
+          }
+        }
+      },
+      "block_order": [
+        "feature_nHFWzB",
+        "feature_9UNYXE",
+        "feature_qgNaMg",
+        "feature_nGxWqf",
+        "feature_EC4q6P",
+        "feature_RyrmbX"
+      ],
+      "name": "Icon feature grid",
+      "settings": {
+        "heading": "Where the difference actually shows up",
+        "mobile_columns": "2",
+        "color_scheme": "scheme-680e6a53-f05c-40ec-a3b0-8b736094b76e",
+        "background_color": "",
+        "heading_color": "",
+        "title_color": "",
+        "subtext_color": "",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "custom_class": ""
+      }
+    },
+    "nutrition_table_mNTDtp": {
+      "type": "nutrition-table_copy",
+      "blocks": {
+        "row_dtkKPX": {
+          "type": "row",
+          "settings": {
+            "is_subrow": false
+          }
+        },
+        "row_Bq76W4": {
+          "type": "row",
+          "settings": {
+            "is_subrow": false
+          }
+        },
+        "row_HXEkge": {
+          "type": "row",
+          "settings": {
+            "is_subrow": false
+          }
+        },
+        "row_eJXHAc": {
+          "type": "row",
+          "settings": {
+            "is_subrow": false
+          }
+        },
+        "row_PQGNtw": {
+          "type": "row",
+          "settings": {
+            "is_subrow": false
+          }
+        },
+        "row_XPAizt": {
+          "type": "row",
+          "settings": {
+            "is_subrow": false
+          }
+        }
+      },
+      "block_order": [
+        "row_dtkKPX",
+        "row_Bq76W4",
+        "row_HXEkge",
+        "row_eJXHAc",
+        "row_PQGNtw",
+        "row_XPAizt"
+      ],
+      "name": "Nutrition table",
+      "settings": {
+        "heading": "Typical values per serving",
+        "background_color": "",
+        "color_scheme": "scheme-c02b38ee-c791-4d98-b18a-18922b5fe443",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "custom_class": ""
+      }
+    },
+    "checklist_comparison_zMRpar": {
+      "type": "checklist-comparison",
+      "blocks": {
+        "column_kE9RQA": {
+          "type": "column",
+          "settings": {
+            "title": "Choose clear whey if…",
+            "items": "You want protein you can drink every day without it feeling heavy.\nYou can pair it with your regular meals for a light protein boost.\nYou prefer a sweet, tangy, and refreshing drink made with water.\nYou prefer refreshing fruit flavours over dessert flavours.",
+            "muted": false
+          }
+        },
+        "column_33MLGA": {
+          "type": "column",
+          "settings": {
+            "title": "Regular whey may suit you if…",
+            "items": "You want a filling, meal-style shake.\nYou like dessert flavours mixed with milk.\nYou are using it to add calories as well as protein.\nTexture and creaminess matter more than lightness.",
+            "muted": true
+          }
+        }
+      },
+      "block_order": [
+        "column_kE9RQA",
+        "column_33MLGA"
+      ],
+      "name": "Checklist comparison",
+      "settings": {
+        "heading": "Pick the one that fits your day",
+        "color_scheme": "scheme-84285399-6321-4a7f-a7a4-14c9dfa98463",
+        "background_color": "",
+        "card_background_color": "#fffced",
+        "text_color": "",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "custom_class": ""
+      }
+    },
+    "badge_text_card_44VamJ": {
+      "type": "badge-text-card",
+      "blocks": {
+        "heading_jE3wpe": {
+          "type": "heading",
+          "settings": {
+            "heading": "Try it for yourself"
+          }
+        },
+        "text_64fqh3": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Eight fruit-inspired flavours, 24g of whey isolate per serving.</p>"
+          }
+        },
+        "button_q7GbV3": {
+          "type": "button",
+          "settings": {
+            "button_label": "Shop Clear Whey",
+            "button_link": "shopify://collections/clear-whey-isolate"
+          }
+        }
+      },
+      "block_order": [
+        "heading_jE3wpe",
+        "text_64fqh3",
+        "button_q7GbV3"
+      ],
+      "name": "Badge text card",
+      "settings": {
+        "card_max_width": 900,
+        "color_scheme": "scheme-c02b38ee-c791-4d98-b18a-18922b5fe443",
+        "background_color": "",
+        "card_background_color": "#fff9dd",
+        "text_color": "",
+        "badge_background_color": "",
+        "badge_text_color": "",
+        "button_background_color": "#f15524",
+        "button_text_color": "#ffffff",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "custom_class": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "text_image_banner_PXnHby",
+    "badge_text_card_fKVjje",
+    "comparison_table_8gqzEt",
+    "checklist_comparison_6Nzjaw",
+    "icon_feature_grid_H9rzFU",
+    "nutrition_table_mNTDtp",
+    "checklist_comparison_zMRpar",
+    "badge_text_card_44VamJ"
+  ]
+}

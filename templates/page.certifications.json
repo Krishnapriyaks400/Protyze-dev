@@ -1,0 +1,262 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 40,
+        "padding_bottom": 16
+      }
+    },
+     "grid_banner_h87Gwq": {
+      "type": "grid-banner",
+      "blocks": {
+        "text_MRyTt4": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/KOSHER_65018cb5-80f2-4a63-94bb-6b6cdde19680.png",
+            "show_content": false,
+            "block_title": "Title",
+            "enable_title_link": false,
+            "block_sub_title": "Sub title",
+            "block_description": "Short description",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_ciPf6Y": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/GMP_d73569aa-ebb9-4a1b-bf19-8564c51d663b.png",
+            "show_content": false,
+            "block_title": "Title",
+            "enable_title_link": false,
+            "block_sub_title": "Sub title",
+            "block_description": "Short description",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_fcTLPN": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/FSSAI_2_79352ac3-afe3-4144-b7b5-6e89a82837dc.png",
+            "show_content": false,
+            "block_title": "Title",
+            "enable_title_link": false,
+            "block_sub_title": "Sub title",
+            "block_description": "Short description",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_aQUdHB": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/ISO.png",
+            "show_content": false,
+            "block_title": "Title",
+            "enable_title_link": false,
+            "block_sub_title": "Sub title",
+            "block_description": "Short description",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_EeFDRi": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/HACCP_e3e116f7-ad04-4437-b35a-41b2b999678c.png",
+            "show_content": false,
+            "block_title": "Title",
+            "enable_title_link": false,
+            "block_sub_title": "Sub title",
+            "block_description": "Short description",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        },
+        "text_dzbbjX": {
+          "type": "text",
+          "settings": {
+            "block_image": "shopify://shop_images/MAKE_IN_INDIA_dafc6d27-b692-442b-903d-0b3b4af9c0cf.png",
+            "show_content": false,
+            "block_title": "Title",
+            "enable_title_link": false,
+            "block_sub_title": "Sub title",
+            "block_description": "Short description",
+            "block_button_text": "",
+            "block_button_link": "",
+            "button_bg": "#973fea",
+            "button_bg_color": "#ffffff",
+            "button_button_bglink_hover": "#973fea",
+            "button_button_bglink_hover_color": "#ffffff",
+            "desktop_content_alignment": "center",
+            "desktop_content_position": "middle-center",
+            "reverse_column": false
+          }
+        }
+      },
+      "block_order": [
+        "text_MRyTt4",
+        "text_ciPf6Y",
+        "text_fcTLPN",
+        "text_aQUdHB",
+        "text_EeFDRi",
+        "text_dzbbjX"
+      ],
+      "disabled": true,
+      "settings": {
+        "title": "Certifications",
+        "heading_size": "h1",
+        "span_text": "",
+        "image_width": "full",
+        "button_label": "",
+        "button_link": "",
+        "column_alignment": "center",
+        "background_style": "none",
+        "grid-column": "3",
+        "column_gap": "30",
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "custom_class": "certificate-page",
+        "swiper_enable": false,
+        "desktop_column": 4,
+        "laptop_column": 4,
+        "tablet_column": 3,
+        "mobile_column": 1,
+        "centered_slide": false,
+        "swiper_pagination": false,
+        "swiper_navigation": false
+      }
+    },
+    "image_view_section_UYUBRy": {
+      "type": "image-view-section",
+      "blocks": {
+        "item_xfAKea": {
+          "type": "item",
+          "settings": {
+            "top_image": "shopify://shop_images/ISO.png",
+            "popup_image": "shopify://shop_images/ISO_Alpha_page-0001.jpg",
+            "title": "",
+            "description": "",
+            "button_text": "View"
+          }
+        },
+        "item_agNkdq": {
+          "type": "item",
+          "settings": {
+            "top_image": "shopify://shop_images/GMP_d73569aa-ebb9-4a1b-bf19-8564c51d663b.png",
+            "popup_image": "shopify://shop_images/GMP_page-0001.jpg",
+            "title": "",
+            "description": "",
+            "button_text": "View"
+          }
+        },
+        "item_3CCKhM": {
+          "type": "item",
+          "settings": {
+            "top_image": "shopify://shop_images/HACCP_e3e116f7-ad04-4437-b35a-41b2b999678c.png",
+            "popup_image": "shopify://shop_images/HACCP_page-0001.jpg",
+            "title": "",
+            "description": "",
+            "button_text": "View"
+          }
+        },
+        "item_WjRLHR": {
+          "type": "item",
+          "settings": {
+            "top_image": "shopify://shop_images/KOSHER_65018cb5-80f2-4a63-94bb-6b6cdde19680.png",
+            "title": "",
+            "description": "",
+            "button_text": ""
+          }
+        },
+        "item_E4PJg6": {
+          "type": "item",
+          "settings": {
+            "top_image": "shopify://shop_images/FSSAI_2_79352ac3-afe3-4144-b7b5-6e89a82837dc.png",
+            "title": "",
+            "description": "",
+            "button_text": ""
+          }
+        },
+        "item_FCjcrY": {
+          "type": "item",
+          "settings": {
+            "top_image": "shopify://shop_images/MAKE_IN_INDIA_dafc6d27-b692-442b-903d-0b3b4af9c0cf.png",
+            "title": "",
+            "description": "",
+            "button_text": ""
+          }
+        }
+      },
+      "block_order": [
+        "item_xfAKea",
+        "item_agNkdq",
+        "item_3CCKhM",
+        "item_WjRLHR",
+        "item_E4PJg6",
+        "item_FCjcrY"
+      ],
+      "name": "Image View Section",
+      "settings": {
+        "section_title": "Certifications",
+        "columns": 3,
+        "padding_top": 8,
+        "padding_bottom": 8,
+        "custom_class": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+     "grid_banner_h87Gwq",
+    "image_view_section_UYUBRy"
+  ]
+}

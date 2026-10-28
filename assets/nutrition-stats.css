@@ -1,0 +1,110 @@
+.nutrition-stats {
+  max-width: 120rem;
+  margin: 0 auto;
+}
+
+.nutrition-stats__header {
+  text-align: center;
+  margin-bottom: 3.2rem;
+}
+
+.nutrition-stats__caption {
+  font-family: var(--font-body-family);
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #e91e63;
+  margin: 0 0 0.8rem;
+}
+
+.nutrition-stats__heading {
+  font-family: var(--font-heading-family);
+  font-weight: var(--font-heading-weight);
+  margin: 0;
+  color: rgb(var(--color-foreground));
+}
+
+.nutrition-stats__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.6rem;
+}
+
+.nutrition-stats__card {
+  background: var(--card-bg, #fdd7e4);
+  border-radius: 3px;
+  padding: 3rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.4rem;
+  min-height: 14rem;
+}
+
+.nutrition-stats__value {
+  font-family: var(--font-custom-family, var(--font-heading-family));
+  font-weight: 700;
+  font-size: 4.8rem;
+  line-height: 1.1;
+  color: var(--value-color, #e91e63);
+}
+
+.nutrition-stats__unit {
+  font-size: 0.7em;
+  font-weight: 700;
+}
+
+.nutrition-stats__label {
+  font-family: var(--font-body-family);
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: rgba(var(--color-foreground), 0.85);
+  line-height: 1.3;
+}
+
+@media screen and (max-width: 749px) {
+  .nutrition-stats__header {
+    margin-bottom: 2rem;
+  }
+
+  .nutrition-stats__caption {
+    font-size: 1rem;
+  }
+
+  .nutrition-stats__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+  }
+
+  .nutrition-stats__card {
+    border-radius: 3px;
+    padding: 2.4rem 1.2rem;
+    min-height: 12rem;
+  }
+
+  .nutrition-stats__value {
+    font-size: 3.6rem;
+  }
+
+  .nutrition-stats__label {
+    font-size: 1.4rem;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .nutrition-stats__value {
+    font-size: 3rem;
+  }
+
+  .nutrition-stats__card {
+    padding: 2rem 1rem;
+    min-height: 10rem;
+  }
+
+  .nutrition-stats__label {
+    font-size: 1.3rem;
+  }
+}

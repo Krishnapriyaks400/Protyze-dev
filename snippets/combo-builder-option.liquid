@@ -1,0 +1,24 @@
+{%- comment -%}
+  One flavour pill in the combo builder.
+  Accepts: group, prop (line item property name), name, color, product_form_id, index
+{%- endcomment -%}
+{%- assign o_id = 'cb-' | append: group | append: '-' | append: index -%}
+<input
+  class="cb__radio"
+  type="radio"
+  id="{{ o_id }}"
+  name="{{ prop }}"
+  value="{{ name | escape }}"
+  form="{{ product_form_id }}"
+  required
+>
+<label
+  class="cb__pill"
+  for="{{ o_id }}"
+  {% if color != blank %}
+    style="--cb-dot: {{ color }};"
+  {% endif %}
+>
+  <span class="cb__dot" aria-hidden="true"></span>
+  {{- name | escape -}}
+</label>

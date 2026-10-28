@@ -1,0 +1,201 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "image_banner_DKCCyf": {
+      "type": "image-banner",
+      "name": "t:sections.image-banner.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/blog_banner_image.webp",
+        "mobile_image": "shopify://shop_images/blog_banner_image.webp",
+        "image_overlay_opacity": 0,
+        "image_height": "adapt",
+        "image_behavior": "none",
+        "desktop_content_position": "middle-center",
+        "desktop_content_alignment": "center",
+        "show_text_box": true,
+        "color_scheme": "",
+        "stack_images_on_mobile": true,
+        "mobile_content_alignment": "center",
+        "show_text_below": true,
+        "custom_class": ""
+      }
+    },
+    "simple_tab_section_Y4Tqpb": {
+      "type": "simple-tab-section",
+      "blocks": {
+        "heading_jpYjrG": {
+          "type": "heading",
+          "disabled": true,
+          "settings": {
+            "title": "Supplements"
+          }
+        },
+        "heading_W63nKi": {
+          "type": "heading",
+          "disabled": true,
+          "settings": {
+            "title": "Workout and Training"
+          }
+        },
+        "heading_kxf4hQ": {
+          "type": "heading",
+          "disabled": true,
+          "settings": {
+            "title": "Tips and Tricks"
+          }
+        },
+        "heading_jb7CHR": {
+          "type": "heading",
+          "disabled": true,
+          "settings": {
+            "title": "Women Fitness"
+          }
+        },
+        "heading_mLMa8B": {
+          "type": "heading",
+          "disabled": true,
+          "settings": {
+            "title": "Healthy Lifestyle"
+          }
+        }
+      },
+      "block_order": [
+        "heading_jpYjrG",
+        "heading_W63nKi",
+        "heading_kxf4hQ",
+        "heading_jb7CHR",
+        "heading_mLMa8B"
+      ],
+      "disabled": true,
+      "name": "t:sections.simpletab.presets.name",
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "featured_blog_hGgnyL": {
+      "type": "featured-blog",
+      "disabled": true,
+      "name": "t:sections.featured-blog.presets.name",
+      "settings": {
+        "heading": "Supplements",
+        "heading_size": "h1",
+        "blog": "clear-whey-protein-isolate",
+        "post_limit": 6,
+        "columns_desktop": 3,
+        "color_scheme": "",
+        "show_image": true,
+        "show_date": true,
+        "show_author": false,
+        "show_view_all": true,
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "custom_class": "Supplements"
+      }
+    },
+    "featured_blog_7Ahx4Q": {
+      "type": "featured-blog",
+      "name": "t:sections.featured-blog.presets.name",
+      "settings": {
+        "heading": "Muscle Building",
+        "heading_size": "h1",
+        "blog": "muscle-building",
+        "post_limit": 6,
+        "columns_desktop": 3,
+        "color_scheme": "",
+        "show_image": true,
+        "show_date": true,
+        "show_author": false,
+        "show_view_all": true,
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "custom_class": "Workout and Training"
+      }
+    },
+    "featured_blog_zbdCTB": {
+      "type": "featured-blog",
+      "disabled": true,
+      "name": "t:sections.featured-blog.presets.name",
+      "settings": {
+        "heading": "Tips and Tricks",
+        "heading_size": "h1",
+        "blog": "tips-and-tricks",
+        "post_limit": 6,
+        "columns_desktop": 3,
+        "color_scheme": "scheme-2",
+        "show_image": true,
+        "show_date": true,
+        "show_author": false,
+        "show_view_all": true,
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "custom_class": "Tips and Tricks"
+      }
+    },
+    "featured_blog_fcee87": {
+      "type": "featured-blog",
+      "disabled": true,
+      "name": "t:sections.featured-blog.presets.name",
+      "settings": {
+        "heading": "Women Fitness",
+        "heading_size": "h1",
+        "blog": "women-fitness",
+        "post_limit": 6,
+        "columns_desktop": 3,
+        "color_scheme": "",
+        "show_image": true,
+        "show_date": true,
+        "show_author": false,
+        "show_view_all": true,
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "custom_class": "Women Fitness"
+      }
+    },
+    "featured_blog_ba6dFg": {
+      "type": "featured-blog",
+      "name": "t:sections.featured-blog.presets.name",
+      "settings": {
+        "heading": "Gut Health",
+        "heading_size": "h1",
+        "blog": "gut-health",
+        "post_limit": 6,
+        "columns_desktop": 3,
+        "color_scheme": "scheme-2",
+        "show_image": true,
+        "show_date": true,
+        "show_author": false,
+        "show_view_all": true,
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "custom_class": "Healthy Lifestyle"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "image_banner_DKCCyf",
+    "simple_tab_section_Y4Tqpb",
+    "featured_blog_hGgnyL",
+    "featured_blog_7Ahx4Q",
+    "featured_blog_zbdCTB",
+    "featured_blog_fcee87",
+    "featured_blog_ba6dFg"
+  ]
+}
